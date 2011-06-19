@@ -25,6 +25,13 @@ of tech) and second, it's always wise to pull from multiple sources. Either
 way, I ended up pulling this off pretty quickly, so it is a bit rough but it
 works (as long as Google Translate works...) 
 
+* [libdaemon](https://github.com/kisom/libdaemon): libdaemon is a lightweight 
+daemon framework for OpenBSD. It provides facili- ties for logging and a signal 
+handler to enable graceful shutdown, as well as file locking to ensure that 
+only a single copy of a given daemon is running at a time. Currently, libdaemon 
+is not threaded. Ports to other POSIX-based operating systems may occur in the 
+future, depending on whether I need a daemon framework on that platform.
+
 * [irssi scripts](https://github.com/kisom/irssi-scripts): scripts for irssi. 
 This includes a couple of scripts that I find useful: *xosd*, an XOSD-based
 notification script and *geojoin*, a GeoIP lookup script for IRC joins.
