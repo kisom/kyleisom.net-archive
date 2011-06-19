@@ -6,6 +6,8 @@ Kyle Isom
 
 <div class="image">
 <p><a href="https://github.com/kisom" target="_BLANK">My GitHub Profile</a></p>
+<p><a href="http://coderwall.com/kisom" target="_BLANK">Coderwall Profile</a>
+</p>
 </div>
 
 I am a software engineer in the United States, and I deal mostly with
