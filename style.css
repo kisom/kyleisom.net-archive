@@ -4,6 +4,8 @@
  *
  * designed for a page with a static header and footer with a body generated via
  * markdown. i am not a webdeveloper. this probably sucks. 
+ *
+ * uses the 'solarized' colour scheme: http://ethanschoonover.com/solarized
  */
 
 /* baseline body settings */
@@ -13,7 +15,8 @@ body {
 	color: #111;
 	text-align: center;
 	margin-top: 1.0em;
-	color: ffffd7;
+	background-color: #fdf6e3;
+	color: #657b83;
 }
 
 h1 {
@@ -31,6 +34,7 @@ h2 {
 	margin: auto;
 	width: 600px;
 	text-align: left;
+	color: #657b83;
 }
 
 .image {
@@ -39,6 +43,7 @@ h2 {
 
 a { 
 	color: #336699; 
+	color: #93a1a1;
 	text-decoration: none; 
 }
 
