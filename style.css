@@ -6,3 +6,14 @@
  * markdown. i am not a webdeveloper. this probably sucks. 
  */
 
+/* baseline body settings */
+body {
+	font-family: Cufon, Georgia, "Times New Roman", Times, serif;
+	font-size: 14px;
+	color: #111;
+	text-align: center;
+}
+
+h1 {
+	font-family: Cufon;
+}
