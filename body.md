@@ -109,3 +109,19 @@ Both keys are available from the [MIT PGP Public Key Server](http://pgp.mit.edu)
 
 (I've omitted the uid display to prevent my email addresseses from being
 harvested for spam). 
+
+End notes:
+----------
+
+The colour scheme is the [Solarized](http://ethanschoonover.com/solarized) 
+theme by Ethan Schoover. I also use this theme in 
+[all](https://code.google.com/p/macvim/) 
+[my](http://aquamacs.org/) 
+[text](http://www.barebones.com/products/textwrangler/index.shtml) 
+[editors](http://www.activestate.com/komodo-edit), 
+as well
+as in [iTerm2](http://www.iterm2.com/).
+
+Markdown parsing is provided by [smu](http://s01.de/~tox/index.cgi/proj_smu),
+which I find superior to every other markdown parser I've seen.
+
