@@ -1,11 +1,13 @@
-<h1>Kyle Isom</h1>
-<img src=”github_photo.jpg” width=”400” />
+Kyle Isom
+==========
+![kisom’s mug](github_photo.jpg)    
 
 I am a software engineer in the United States. This is a quick tour of my
 computer interests and GitHub repositories. 
 
 <h3>Some of the projects that I have actually finished are:</h3>     
 <hr width=”600” />
+
 * [ctrans](https://www.github.com/kisom/ctrans): the code comment translator.
 This takes C-style and perl-style comments in source code and translates them.
 It is based on the Google translate API, which is apparently deprecated. This
@@ -13,7 +15,7 @@ taught me some valuable lessons: first, **never** trust a single vendor to have
 a locked in API (funny that this should have to be remembered given the history
 of tech) and second, it's always wise to pull from multiple sources. Either
 way, I ended up pulling this off pretty quickly, so it is a bit rough but it
-works (as long as Google Translate works...)     
+works (as long as Google Translate works...) 
 
 * [irssi scripts](https://github.com/kisom/irssi-scripts): scripts for irssi. 
 This includes a couple of scripts that I find useful: *xosd*, an XOSD-based
