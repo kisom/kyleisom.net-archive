@@ -20,13 +20,14 @@ body {
 }
 
 h1 {
-	font-family: Cufon;
+	/* font-family: Cufon; */
+        font-family: Cochin, Arial, Georgia, Helvetica, serif;
 	font-size: 36px;
 	text-align: center;
 }
 
 h2 {
-	font-family: Cufon;
+        font-family: Cochin, Arial, Georgia, Helvetica, serif;
 	font-size: 20px;
 }
 
