@@ -3,8 +3,92 @@
 <link rel=”stylesheet” type=”text/css” href=”style.css” />
 </head>
 <body>
-	<h1>CODING AS A WAY OF LIFE</h1>
-	<p>this is a test of the emergency broadcast system</p>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+     <script src="http://static.tumblr.com/q9z1v7k/dgEkijh8r/cufon-yui.js" type="text/javascript"></script>
+     <script src="http://static.tumblr.com/f1whv92/fgIl65bo1/cufon_300.font.js" type="text/javascript"></script>
+
+     <script type="text/javascript">
+        Cufon.replace('h1',{ fontFamily: "Cufon" });
+        Cufon.replace('h2',{ fontFamily: "Cufon" });
+        Cufon.replace('h3',{ fontFamily: "Cufon" });
+        Cufon.replace('#mainNav',{ fontFamily: "Cufon" });
+        Cufon.replace('#siteDescription',{ fontFamily: "Cufon" });
+     </script>
+
+	<div class=”main”>
+	
+<h1>Kyle Isom</h1>
+<img src=”github_photo.jpg” width=400/>
+
+I am a software engineer in the United States. This is a quick tour of my
+computer interests and GitHub repositories. <p>
+Some of the projects that I have actually finished are: <br />  
+<hr />
+
+<a href="https://www.github.com/kisom/ctrans">ctrans</a>: the code comment translator.
+This takes C-style and perl-style comments in source code and translates them.
+It is based on the Google translate API, which is apparently deprecated. This
+taught me some valuable lessons: first, <strong>never</strong> trust a single vendor to have
+a locked in API (funny that this should have to be remembered given the history
+of tech) and second, it’s always wise to pull from multiple sources. Either
+way, I ended up pulling this off pretty quickly, so it is a bit rough but it
+works (as long as Google Translate works...) <br />  
+<a href="https://github.com/kisom/irssi-scripts">irssi scripts</a>: scripts for irssi. 
+This includes a couple of scripts that I find useful: <em>xosd</em>, an XOSD-based
+notification script and <em>geojoin</em>, a GeoIP lookup script for IRC joins.  <br />  
+<a href="https://github.com/kisom/timecard">timecard</a>: a simple timecard / clocking 
+program. It features project-based time tracking and a conky mode.  <br />  
+<a href="https://github.com/kisom/py-rouletted">rouletted</a>: randomly kill users! This
+is a python-based script that runs on a server and randomly kills logged in 
+users. This is an integral part of a modern BOFH’s toolkit and will instill
+respect in your users.
+<a href="https://github.com/kisom/rawk">rawk</a>: rage against web frameworks - posix 
+shell static site generator. I use this a lot for a couple of my sites:
+<a href="http://www.kyleisom.net">my personal site</a>, 
+<a href="http://coder.kyleisom.net">my coder’s site</a>, 
+<a href="http://kisom.devio.us">my devio.us page</a>, and last but not least,
+<a href="http://rawk.brokenlcd.net">the rawk documentation site</a>. <br />  
+<a href="https://github.com/kisom/APOD_py">APOD</a>: python script to pull down the APOD 
+and, in OS X, GNOME, and fluxbox, set the desktop background. I’ve had this
+running on one of my desktops since November 2010 without a glitch.  <br />  </p>
+<p>
+I like to write documentation so I don’t have to repeat the learning process 
+in the future. Here’s the documentation I’ve put on GitHub:  <br />  
+<hr />
+
+<a href="https://github.com/kisom/crypto_intro">Intro to Cryptography With PyCrypto </a>: 
+It is aimed at introducing basic cryptography topics to programmers who are 
+unfamiliar with cryptography and the PyCrypto library. I ended up writing this
+after the combination of having to use the library heavily for work (and 
+thereby gaining a high level of proficiency with the library) and having some
+friends who wanted to do some cryptography work without understanding the
+basics of cryptography and what it provides.
+<a href="https://github.com/kisom/openssl_guide">Introduction to Using OpenSSL in C</a>: 
+a very much <strong>unfinished</strong> project to write documentation I could use as a 
+quick reference when writing SSL code in C. The project that I was working on
+requiring C SSL code was nixed, and I ended up not getting anywhere with the
+documentation.</p>
+<p>
+Some projects I\’m working on that I think are interesting:
+<hr />
+
+<a href="https://github.com/kisom/newsread">newsread</a>: too many sources in my news 
+feeds have far too much noise and it makes getting useful information take up
+more of my time than it should. That’s the motivation for this project. Along
+the way, I expect to learn some natural language processing, datamining, and
+fun math to help filter everything out.  <br />  
+<a href="https://github.com/kisom/pymods">pymods</a>: a collection of python modules I 
+wrote. These include a mail module, a supervisor module (for fault-tolerance),
+some NLP code, and a timer module.   <br />  
+<a href="https://github.com/kisom/woofs">woofs</a>: woofs allows you to quickly offer a 
+file for download on your machine. It behaves the same as the <code>woof</code> script 
+written by Simon Budig but providing SSL encryption.  <br />  
+<a href="https://github.com/kisom/Login-Fuzzer">Login-Fuzzer</a>: fuzzing authentication 
+code in python. The story is, I locked myself out of my guru plug while setting 
+it up in a hurry. I know what password I intended to use when setting the root 
+password, but apparently I typo'd it <em>twice</em>. This is my attempt at regaining 
+access without having to spend $50 for a JTAG adapter.   <br />  </p>
+	</div>
+
 </body>
 </html>
-
