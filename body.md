@@ -26,7 +26,7 @@ way, I ended up pulling this off pretty quickly, so it is a bit rough but it
 works (as long as Google Translate works...) 
 
 * [irssi scripts](https://github.com/kisom/irssi-scripts): scripts for irssi. 
-This includes a couple of scripts that I find useful: *xosd*, an XOSD- based
+This includes a couple of scripts that I find useful: *xosd*, an XOSD-based
 notification script and *geojoin*, a GeoIP lookup script for IRC joins.
 
 * [timecard](https://github.com/kisom/timecard): a simple timecard / clocking 
@@ -112,6 +112,7 @@ harvested for spam).
 
 End notes:
 ----------
+- - -
 
 The colour scheme is the [Solarized](http://ethanschoonover.com/solarized) 
 theme by Ethan Schoover. I also use this theme in 
