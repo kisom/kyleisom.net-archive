@@ -108,11 +108,11 @@ Contact information:
 --------------------
 - - -
 
-I have a [development GnuPG key](files/coder.asc):
+I have a [development GnuPG key](keys/coder.asc):
    pub   4096R/B7B720D6 2010-10-30 [expires: 2015-10-29]
      Key fingerprint = 9C2B BF53 FB89 50D4 554F  1708 35C8 B8B3 B7B7 20D6
 
-I also have [a PGP key](files/kyle.asc) with current contact information:
+I also have [a PGP key](keys/kyle.asc) with current contact information:
    pub   4096R/63AD01BF 2011-06-18 [expires: 2014-01-02]
       Key fingerprint = BDAD 4068 EF75 0A49 49CC  82A0 8705 DF24 63AD 01BF
 
