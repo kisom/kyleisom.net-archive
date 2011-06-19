@@ -105,5 +105,7 @@ I also have a PGP key with current contact information:
    pub   4096R/63AD01BF 2011-06-18 [expires: 2014-01-02]
       Key fingerprint = BDAD 4068 EF75 0A49 49CC  82A0 8705 DF24 63AD 01BF
 
+Both keys are available from the [MIT PGP Public Key Server](http://pgp.mit.edu).
+
 (I've omitted the uid display to prevent my email addresseses from being
 harvested for spam). 
