@@ -1,36 +1,40 @@
-Kyle Isom
-=========
-<img src=”github_photo.jpg” width=400/>
+<h1>Kyle Isom</h1>
+<img src=”github_photo.jpg” width=”400” />
 
 I am a software engineer in the United States. This is a quick tour of my
 computer interests and GitHub repositories. 
 
-Some of the projects that I have actually finished are:   
-- - -
-[ctrans](https://www.github.com/kisom/ctrans): the code comment translator.
+<h3>Some of the projects that I have actually finished are:</h3>     
+<hr width=”600” />
+* [ctrans](https://www.github.com/kisom/ctrans): the code comment translator.
 This takes C-style and perl-style comments in source code and translates them.
 It is based on the Google translate API, which is apparently deprecated. This
 taught me some valuable lessons: first, **never** trust a single vendor to have
 a locked in API (funny that this should have to be remembered given the history
 of tech) and second, it's always wise to pull from multiple sources. Either
 way, I ended up pulling this off pretty quickly, so it is a bit rough but it
-works (as long as Google Translate works...)       
-[irssi scripts](https://github.com/kisom/irssi-scripts): scripts for irssi. 
+works (as long as Google Translate works...)     
+
+* [irssi scripts](https://github.com/kisom/irssi-scripts): scripts for irssi. 
 This includes a couple of scripts that I find useful: *xosd*, an XOSD-based
-notification script and *geojoin*, a GeoIP lookup script for IRC joins.         
-[timecard](https://github.com/kisom/timecard): a simple timecard / clocking 
-program. It features project-based time tracking and a conky mode.     
-[rouletted](https://github.com/kisom/py-rouletted): randomly kill users! This
+notification script and *geojoin*, a GeoIP lookup script for IRC joins.
+
+* [timecard](https://github.com/kisom/timecard): a simple timecard / clocking 
+program. It features project-based time tracking and a conky mode.
+
+* [rouletted](https://github.com/kisom/py-rouletted): randomly kill users! This
 is a python-based script that runs on a server and randomly kills logged in 
 users. This is an integral part of a modern BOFH's toolkit and will instill
-respect in your users.      
-[rawk](https://github.com/kisom/rawk): rage against web frameworks - posix 
+respect in your users.
+
+* [rawk](https://github.com/kisom/rawk): rage against web frameworks - posix 
 shell static site generator. I use this a lot for a couple of my sites:
 [my personal site](http://www.kyleisom.net), 
 [my coder's site](http://coder.kyleisom.net), 
 [my devio.us page](http://kisom.devio.us), and last but not least,
-[the rawk documentation site](http://rawk.brokenlcd.net).   
-[APOD](https://github.com/kisom/APOD_py): python script to pull down the APOD 
+[the rawk documentation site](http://rawk.brokenlcd.net).
+
+* [APOD](https://github.com/kisom/APOD_py): python script to pull down the APOD 
 and, in OS X, GNOME, and fluxbox, set the desktop background. I've had this
 running on one of my desktops since November 2010 without a glitch.    
 

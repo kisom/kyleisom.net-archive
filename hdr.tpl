@@ -13,9 +13,9 @@
         Cufon.replace('h1',{ fontFamily: "Cufon" });
         Cufon.replace('h2',{ fontFamily: "Cufon" });
         Cufon.replace('h3',{ fontFamily: "Cufon" });
-        Cufon.replace('#mainNav',{ fontFamily: "Cufon" });
-        Cufon.replace('#siteDescription',{ fontFamily: "Cufon" });
+        Cufon.replace('#main',{ fontFamily: "Cufon" });
+        Cufon.replace('body',{ fontFamily: "Cufon" });
      </script>
 
-	<div class="main">
+	<div id="main">
 	
