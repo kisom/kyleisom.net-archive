@@ -35,3 +35,12 @@ h2 {
 .image {
 	text-align: center;
 }
+
+a { 
+	color: #336699; 
+	text-decoration: none; 
+}
+
+a:hover { 
+	text-decoration: underline; 
+}
