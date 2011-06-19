@@ -12,7 +12,7 @@ This takes C-style and perl-style comments in source code and translates them.
 It is based on the Google translate API, which is apparently deprecated. This
 taught me some valuable lessons: first, **never** trust a single vendor to have
 a locked in API (funny that this should have to be remembered given the history
-of tech) and second, it’s always wise to pull from multiple sources. Either
+of tech) and second, it's always wise to pull from multiple sources. Either
 way, I ended up pulling this off pretty quickly, so it is a bit rough but it
 works (as long as Google Translate works...)       
 [irssi scripts](https://github.com/kisom/irssi-scripts): scripts for irssi. 
@@ -22,21 +22,21 @@ notification script and *geojoin*, a GeoIP lookup script for IRC joins.
 program. It features project-based time tracking and a conky mode.     
 [rouletted](https://github.com/kisom/py-rouletted): randomly kill users! This
 is a python-based script that runs on a server and randomly kills logged in 
-users. This is an integral part of a modern BOFH’s toolkit and will instill
+users. This is an integral part of a modern BOFH's toolkit and will instill
 respect in your users.      
 [rawk](https://github.com/kisom/rawk): rage against web frameworks - posix 
 shell static site generator. I use this a lot for a couple of my sites:
 [my personal site](http://www.kyleisom.net), 
-[my coder’s site](http://coder.kyleisom.net), 
+[my coder's site](http://coder.kyleisom.net), 
 [my devio.us page](http://kisom.devio.us), and last but not least,
 [the rawk documentation site](http://rawk.brokenlcd.net).   
 [APOD](https://github.com/kisom/APOD_py): python script to pull down the APOD 
-and, in OS X, GNOME, and fluxbox, set the desktop background. I’ve had this
+and, in OS X, GNOME, and fluxbox, set the desktop background. I've had this
 running on one of my desktops since November 2010 without a glitch.    
 
 
-I like to write documentation so I don’t have to repeat the learning process 
-in the future. Here’s the documentation I’ve put on GitHub:    
+I like to write documentation so I don't have to repeat the learning process 
+in the future. Here's the documentation I've put on GitHub:    
 - - -
 [Intro to Cryptography With PyCrypto ](https://github.com/kisom/crypto_intro): 
 It is aimed at introducing basic cryptography topics to programmers who are 
@@ -52,11 +52,11 @@ requiring C SSL code was nixed, and I ended up not getting anywhere with the
 documentation.
 
 
-Some projects I’m working on that I think are interesting:
+Some projects I'm working on that I think are interesting:
 - - -
 [newsread](https://github.com/kisom/newsread): too many sources in my news 
 feeds have far too much noise and it makes getting useful information take up
-more of my time than it should. That’s the motivation for this project. Along
+more of my time than it should. That's the motivation for this project. Along
 the way, I expect to learn some natural language processing, datamining, and
 fun math to help filter everything out.    
 [pymods](https://github.com/kisom/pymods): a collection of python modules I 
