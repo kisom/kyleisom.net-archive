@@ -1,12 +1,19 @@
 Kyle Isom
 ==========
-![kisom’s mug](github_photo.jpg)    
+<div class="image">
+<img src="github_photo.jpg" />
+</div><br />    
 
 I am a software engineer in the United States. This is a quick tour of my
-computer interests and GitHub repositories. 
+computer interests and GitHub repositories. I am very interested in 
+information security, data mining, and natural language processing (although
+just getting started with the latter two). Unless explicitly stated otherwise,
+all of my code is released under a dual ISC / public domain license, and it's
+up to the user which to follow.
 
-<h3>Some of the projects that I have actually finished are:</h3>     
-<hr width=”600” />
+Some of the projects that I have actually finished are:
+-------------------------------------------------------
+- - -
 
 * [ctrans](https://www.github.com/kisom/ctrans): the code comment translator.
 This takes C-style and perl-style comments in source code and translates them.
@@ -18,7 +25,7 @@ way, I ended up pulling this off pretty quickly, so it is a bit rough but it
 works (as long as Google Translate works...) 
 
 * [irssi scripts](https://github.com/kisom/irssi-scripts): scripts for irssi. 
-This includes a couple of scripts that I find useful: *xosd*, an XOSD-based
+This includes a couple of scripts that I find useful: *xosd*, an XOSD- based
 notification script and *geojoin*, a GeoIP lookup script for IRC joins.
 
 * [timecard](https://github.com/kisom/timecard): a simple timecard / clocking 
@@ -41,17 +48,21 @@ and, in OS X, GNOME, and fluxbox, set the desktop background. I've had this
 running on one of my desktops since November 2010 without a glitch.    
 
 
-I like to write documentation so I don't have to repeat the learning process 
-in the future. Here's the documentation I've put on GitHub:    
+Some documentation I've written:
+--------------------------------
 - - -
-[Intro to Cryptography With PyCrypto ](https://github.com/kisom/crypto_intro): 
+I like to write documentation so I don't have to repeat the learning process 
+in the future.
+
+* [Intro to Cryptography With PyCrypto ](https://github.com/kisom/crypto_intro): 
 It is aimed at introducing basic cryptography topics to programmers who are 
 unfamiliar with cryptography and the PyCrypto library. I ended up writing this
 after the combination of having to use the library heavily for work (and 
 thereby gaining a high level of proficiency with the library) and having some
 friends who wanted to do some cryptography work without understanding the
-basics of cryptography and what it provides.     
-[Introduction to Using OpenSSL in C](https://github.com/kisom/openssl_guide): 
+basics of cryptography and what it provides.
+
+* [Introduction to Using OpenSSL in C](https://github.com/kisom/openssl_guide): 
 a very much **unfinished** project to write documentation I could use as a 
 quick reference when writing SSL code in C. The project that I was working on
 requiring C SSL code was nixed, and I ended up not getting anywhere with the
@@ -59,6 +70,7 @@ documentation.
 
 
 Some projects I'm working on that I think are interesting:
+----------------------------------------------------------
 - - -
 [newsread](https://github.com/kisom/newsread): too many sources in my news 
 feeds have far too much noise and it makes getting useful information take up

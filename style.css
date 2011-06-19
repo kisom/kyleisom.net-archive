@@ -8,18 +8,29 @@
 
 /* baseline body settings */
 body {
-/*	font-family: Cufon, Georgia, "Times New Roman", Times, serif; */
-	font-family: Cufon;
+	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 14px;
 	color: #111;
 	text-align: center;
+	margin-top: 1.0em;
 }
 
-h1, h2, h3 {
+h1 {
 	font-family: Cufon;
+	font-size: 36px;
+}
+
+h2 {
+	font-family: Cufon;
+	font-size: 20px;
 }
 
 #main {
 	margin: auto;
 	width: 600px;
+	text-align: left;
+}
+
+.image {
+	text-align: center;
 }
