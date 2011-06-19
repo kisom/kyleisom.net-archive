@@ -2,7 +2,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" type="text/css" href="style.css" />
-  <title>ocean-faring snakes abound!</title>
+  <title>kyle isom v. ocean-faring snakes</title>
 </head>
 <body>
      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
