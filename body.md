@@ -106,4 +106,4 @@ I also have a PGP key with current contact information:
       Key fingerprint = BDAD 4068 EF75 0A49 49CC  82A0 8705 DF24 63AD 01BF
 
 (I've omitted the uid display to prevent my email addresseses from being
-harvested for spam).
+harvested for spam). 
