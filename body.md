@@ -4,7 +4,9 @@ Kyle Isom
 <img src="github_photo.jpg" />
 </div><br />    
 
-[My GitHub Profile](https://github.com/kisom/)    
+<div class="image">
+<p><a href="https://github.com/kisom" target="_BLANK">My GitHub Profile</a></p>
+</div>
 
 I am a software engineer in the United States, and I deal mostly with
 ocean-faring snakes (C and python). This is a quick tour of my
