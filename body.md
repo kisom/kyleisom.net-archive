@@ -23,8 +23,9 @@ Some of the projects that I have actually finished are:
 - - -
 
 * [woofs](https://github.com/kisom/woofs): woofs allows you to quickly offer a 
-file for download on your machine. It behaves the same as the `woof` script 
-written by Simon Budig but providing SSL encryption. 
+file for download on your machine. It behaves the same as 
+[the `woof` script written by Simon Budig](http://www.home.unix-ag.org/simon/woof.html) 
+but providing SSL encryption. 
 
 * [ctrans](https://www.github.com/kisom/ctrans): the code comment translator.
 This takes C-style and perl-style comments in source code and translates them.
