@@ -11,12 +11,11 @@ Kyle Isom
 </div>
 
 I am a software engineer in the United States, and I deal mostly with
-ocean-faring snakes (C and python). This is a quick tour of my
-computer interests and GitHub repositories. I am very interested in 
-information security, data mining, and natural language processing (although
-just getting started with the latter two). Unless explicitly stated otherwise,
-all of my code is released under a dual ISC / public domain license, and it's
-up to the user which to follow.
+C and python. This is a quick tour of my GitHub repositories. I am very 
+interested in information security, data mining, and natural language 
+processing (although just getting started with the latter two). Unless 
+explicitly stated otherwise, all of my code is released under a dual ISC / 
+public domain license, and it's up to the user which to follow.
 
 Some of the projects that I have actually finished are:
 -------------------------------------------------------
