@@ -10,16 +10,15 @@
 
 /* baseline body settings */
 body {
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Cochin, Arial, Georgia, Helvetica, serif;
 	font-size: 14px;
-	color: #111;
 	text-align: center;
 	margin-top: 1.0em;
-	background-color: #fdf6e3;	/* light */
-	color: #657b83;				/* light */
+	background-color: #fdf6e3;	        /* light: base3 */
+	color: #657b83;				/* light: base00 */
 	
-	background-color: #002b36;	/* dark  */
-	color: #839496;				/* dark  */
+	background-color: #002b36;	        /* dark: base03 */
+	color: #839496;				/* dark: base0 */
 }
 
 h1 {
@@ -39,8 +38,8 @@ h2 {
 	margin: auto;
 	width: 600px;
 	text-align: left;
-	color: #657b83;				/* light */
-	color: #839496;				/* dark  */
+	color: #657b83;				/* light: base 00 */
+	color: #839496;				/* dark: base0 */
 }
 
 .image {
@@ -48,8 +47,9 @@ h2 {
 }
 
 a { 
-	color: #B58900;				/* light */
-	color: #586e75;				/* dark  */
+	color: #B58900;				/* light: yellow */
+        color: #93a1a1;                         /* dark: base1 */
+        font-weight: bold;
 	text-decoration: none; 
 }
 
