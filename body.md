@@ -22,6 +22,10 @@ Some of the projects that I have actually finished are:
 -------------------------------------------------------
 - - -
 
+* [woofs](https://github.com/kisom/woofs): woofs allows you to quickly offer a 
+file for download on your machine. It behaves the same as the `woof` script 
+written by Simon Budig but providing SSL encryption. 
+
 * [ctrans](https://www.github.com/kisom/ctrans): the code comment translator.
 This takes C-style and perl-style comments in source code and translates them.
 It is based on the Google translate API, which is apparently deprecated. This
@@ -96,9 +100,6 @@ fun math to help filter everything out.
 * [pymods](https://github.com/kisom/pymods): a collection of python modules I 
 wrote. These include a mail module, a supervisor module (for fault-tolerance),
 some NLP code, and a timer module. 
-* [woofs](https://github.com/kisom/woofs): woofs allows you to quickly offer a 
-file for download on your machine. It behaves the same as the `woof` script 
-written by Simon Budig but providing SSL encryption. 
 
 * [Login-Fuzzer](https://github.com/kisom/Login-Fuzzer): fuzzing authentication 
 code in python. The story is, I locked myself out of my guru plug while setting 
