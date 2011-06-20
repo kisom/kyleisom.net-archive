@@ -15,8 +15,11 @@ body {
 	color: #111;
 	text-align: center;
 	margin-top: 1.0em;
-	background-color: #fdf6e3;
-	color: #657b83;
+	background-color: #fdf6e3;	/* light */
+	color: #657b83;				/* light */
+	
+	background-color: #002b36;	/* dark  */
+	color: #839496;				/* dark  */
 }
 
 h1 {
@@ -35,7 +38,8 @@ h2 {
 	margin: auto;
 	width: 600px;
 	text-align: left;
-	color: #657b83;
+	color: #657b83;				/* light */
+	color: #839496;				/* dark  */
 }
 
 .image {
@@ -43,8 +47,8 @@ h2 {
 }
 
 a { 
-	color: #336699; 
-	color: #B58900;
+	color: #B58900;				/* light */
+	color: #859900;				/* dark  */
 	text-decoration: none; 
 }
 
