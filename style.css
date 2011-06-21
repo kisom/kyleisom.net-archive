@@ -11,14 +11,14 @@
 /* baseline body settings */
 body {
 	font-family: Cochin, Arial, Georgia, Helvetica, serif;
-	font-size: 14px;
+	font-size: 18px;
 	text-align: center;
 	margin-top: 1.0em;
 	background-color: #fdf6e3;	        /* light: base3 */
-	color: #657b83;				/* light: base00 */
+	color: #657b83;						/* light: base00 */
 	
 	background-color: #002b36;	        /* dark: base03 */
-	color: #839496;				/* dark: base0 */
+	color: #839496;						/* dark: base0 */
 }
 
 h1 {
@@ -48,7 +48,7 @@ h2 {
 
 a { 
 	color: #B58900;				/* light: yellow */
-        color: #93a1a1;                         /* dark: base1 */
+        color: #93a1a1;         /* dark: base1 */
         font-weight: bold;
 	text-decoration: none; 
 }
