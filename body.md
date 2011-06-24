@@ -28,12 +28,8 @@ but providing SSL encryption.
 
 * [ctrans](https://www.github.com/kisom/ctrans): the code comment translator.
 This takes C-style and perl-style comments in source code and translates them.
-It is based on the Google translate API, which is apparently deprecated. This
-taught me some valuable lessons: first, **never** trust a single vendor to have
-a locked in API (funny that this should have to be remembered given the history
-of tech) and second, it's always wise to pull from multiple sources. Either
-way, I ended up pulling this off pretty quickly, so it is a bit rough but it
-works (as long as Google Translate works...) 
+It is based on the Google translate API, which is apparently deprecated. This 
+probably doesn't work anymore...
 
 * [libdaemon](https://github.com/kisom/libdaemon): libdaemon is a lightweight 
 daemon framework for OpenBSD. It provides facilities for logging and a signal 
