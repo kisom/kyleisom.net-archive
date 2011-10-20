@@ -9,9 +9,10 @@ Kyle Isom
 <br />
 <a href="https://bitbucket.org/kisom" target="_BLANK">My Bitbucket Profile</a>
 <br />
-<a href="http://coderwall.com/kisom" target="_BLANK">Coderwall Profile</a> </p>
+<a href="http://coderwall.com/kisom" target="_BLANK">Coderwall Profile</a>
+<a href="http://www.kyleisom.net/blog" target="_BLANK">Blog</a>
 <a href="files/kyle.vcf">Contact Card</a></p>
-</div>
+</p></div>
 
 I am a software engineer in the United States, and I deal mostly with
 C and python. This is a quick tour of my GitHub repositories. I am very 
