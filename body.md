@@ -10,7 +10,9 @@ Kyle Isom
 <a href="https://bitbucket.org/kisom" target="_BLANK">My Bitbucket Profile</a>
 <br />
 <a href="http://coderwall.com/kisom" target="_BLANK">Coderwall Profile</a>
+<br />
 <a href="http://www.kyleisom.net/blog" target="_BLANK">Blog</a>
+<br />
 <a href="files/kyle.vcf">Contact Card</a></p>
 </p></div>
 
