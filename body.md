@@ -5,13 +5,13 @@ Kyle Isom
 </div><br />    
 
 <div class="image">
-<p><a href="https://github.com/kisom" target="_BLANK">My GitHub Profile</a>
+<p><a href="https://github.com/kisom">My GitHub Profile</a>
 <br />
-<a href="https://bitbucket.org/kisom" target="_BLANK">My Bitbucket Profile</a>
+<a href="https://bitbucket.org/kisom">My Bitbucket Profile</a>
 <br />
-<a href="http://coderwall.com/kisom" target="_BLANK">Coderwall Profile</a>
+<a href="http://coderwall.com/kisom">Coderwall Profile</a>
 <br />
-<a href="http://www.kyleisom.net/blog" target="_BLANK">Blog</a>
+<a href="http://www.kyleisom.net/blog">Blog</a>
 <br />
 <a href="files/kyle.vcf">Contact Card</a></p>
 </p></div>

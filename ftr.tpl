@@ -1,4 +1,3 @@
-        <div id="coderwall_badges">
             <script
                 type="text/javascript"
                 src="http://coderwall-widget.appspot.com/coderwallbadges.js/kisom">
@@ -11,7 +10,6 @@
                 'height':80
                 });
             </script>
-            </div>
             </div>
 
 </body>
