@@ -7,9 +7,14 @@ Kyle Isom
 <div class="image">
 <p><a href="https://github.com/kisom" target="_BLANK">My GitHub Profile</a>
 <br />
-<a href="http://coderwall.com/kisom" target="_BLANK">Coderwall Profile</a> </p>
+<a href="https://bitbucket.org/kisom" target="_BLANK">My Bitbucket Profile</a>
+<br />
+<a href="http://coderwall.com/kisom" target="_BLANK">Coderwall Profile</a>
+<br />
+<a href="http://www.kyleisom.net/blog" target="_BLANK">Blog</a>
+<br />
 <a href="files/kyle.vcf">Contact Card</a></p>
-</div>
+</p></div>
 
 I am a software engineer in the United States, and I deal mostly with
 C and python. This is a quick tour of my GitHub repositories. I am very 
@@ -33,11 +38,7 @@ It is based on the Google translate API, which is apparently deprecated. This
 probably doesn't work anymore...
 
 * [libdaemon](https://github.com/kisom/libdaemon): libdaemon is a lightweight 
-daemon framework for OpenBSD. It provides facilities for logging and a signal 
-handler to enable graceful shutdown, as well as file locking to ensure that 
-only a single copy of a given daemon is running at a time. Currently, libdaemon 
-is not threaded. Ports to other POSIX-based operating systems may occur in the 
-future, depending on whether I need a daemon framework on that platform.
+daemonisation platform that runs on OpenBSD and Linux. 
 
 * [irssi scripts](https://github.com/kisom/irssi-scripts): scripts for irssi. 
 This includes a couple of scripts that I find useful: `xosd`, an XOSD-based
