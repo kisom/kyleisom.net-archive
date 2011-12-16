@@ -1,4 +1,3 @@
-	</div>
         <div id="coderwall_badges">
             <script
                 type="text/javascript"
@@ -11,8 +10,9 @@
                 'width':245,
                 'height':80
                 });
-</script>
-</div>
+            </script>
+            </div>
+            </div>
 
 </body>
 </html>
