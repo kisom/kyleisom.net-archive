@@ -2,7 +2,8 @@ Kyle Isom
 =========
 <div class="image">
 <img src="github_photo.jpg" />
-</div><br />    
+</div>
+<br />
 
 <div class="image">
 <p><a href="https://github.com/kisom">My GitHub Profile</a>
