@@ -14,7 +14,6 @@ Kyle Isom
 <br />
 <a href="http://www.kyleisom.net/blog">Blog</a>
 <br />
-<a href="http://coderwall.com/kisom" target="_BLANK">Coderwall Profile</a> </p>
 <a href="files/kyle.vcf">Contact Card</a></p>
 </div>
 
