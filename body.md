@@ -13,10 +13,7 @@ Kyle Isom
 <br />
 <a href="http://www.kyleisom.net/blog">Blog</a>
 <br />
-<<<<<<< HEAD
-=======
 <a href="http://coderwall.com/kisom" target="_BLANK">Coderwall Profile</a> </p>
->>>>>>> parent of a613bf9... update to add blog to top links
 <a href="files/kyle.vcf">Contact Card</a></p>
 </div>
 
