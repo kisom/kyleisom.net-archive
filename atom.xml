@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-21T22:35:54+03:00</updated>
+  <updated>2012-01-21T22:41:02+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -118,7 +118,7 @@ mostly by actually reading a bit more of the <a href="http://www.sbcl.org">sbcl<
 <a href="http://www.sbcl.org/manual/">user manual</a> (from which I learned some
 useful things such as <code>sb-ext:*posix-argv*</code> and <code>sb-ext:save-lisp-and-die</code>)
 and by the immensely useful site
-[Rosetta Code[(http://rosettacode.org/wiki/Rosetta_Code), from which I
+<a href="http://rosettacode.org/wiki/Rosetta_Code">Rosetta Code</a>, from which I
 learned about the <a href="http://www.weitz.de/drakma/">DRAKMA</a> HTTP client
 library. I&#8217;ve also been aided quite a bit by
 <a href="http://xach.com">Zach Beane&#8217;s</a> (quicklisp)[http://www.quicklisp.org/];
@@ -200,7 +200,7 @@ while I was working on getting a web development test VM / environment working. 
 goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 
 <p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#99;&#x6f;&#x64;&#x65;&#114;&#64;&#x6b;&#121;&#x6c;&#x65;&#105;&#x73;&#111;&#109;&#x2e;&#110;&#101;&#x74;">&#x63;&#x6f;&#100;&#x65;&#x72;&#x40;&#x6b;&#x79;&#x6c;&#101;&#105;&#x73;&#x6f;&#109;&#46;&#110;&#101;&#116;</a>
+   Author: Kyle Isom <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#99;&#111;&#x64;&#x65;&#114;&#64;&#x6b;&#121;&#x6c;&#x65;&#x69;&#115;&#x6f;&#x6d;&#x2e;&#x6e;&#101;&#116;">&#x63;&#x6f;&#100;&#x65;&#114;&#x40;&#x6b;&#121;&#x6c;&#101;&#x69;&#115;&#111;&#109;&#46;&#110;&#x65;&#116;</a>
    Date:   Sat Dec 3 00:24:34 2011 +0300</p>
 
 <pre><code>   suddenly enlightenment
