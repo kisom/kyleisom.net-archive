@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>add .emacs.d/init.el - (cons 'hack *life*)</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="In the spirit of many of my online profiles which proudly declare &#8220;my
+commit log is my blog,&#8221; I&#8217;ve decided to start using that in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/2011/11/28/add-emacsd">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="(cons 'hack *life*)" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">(cons 'hack *life*)</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Add .emacs.d/init.el</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-28T00:00:00+03:00" pubdate data-updated="true">Nov 28<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In the spirit of many of my online profiles which proudly declare &#8220;my
+commit log is my blog,&#8221; I&#8217;ve decided to start using that in my posts.
+Here is the first such attempt.</p>
+
+<pre><code> commit 40bbc533313a43192506b682fe546304d8603d11 
+ Author: Kyle Isom &lt;coder@kyleisom.net&gt;
+ Date:   Mon Nov 28 17:34:30 2011 +0300
+
+    add .emacs.d/init.el
+</code></pre>
+
+<p>I&#8217;ve started using emacs, which is an act of such great blasphemy for
+a red-blooded stalwart vim-wielding hacker such as myself that I find
+it difficult to come to grips with sometimes. But there is a method to
+my madness, and it isn&#8217;t just that my morals are so comprised right
+now in this nadir of my life that I&#8217;ve even started learning
+javascript (a running joke).</p>
+
+<p>Due to my current work situation, and the prospect of traveling to and
+spending several months in a region with little to no network
+connectivity, I&#8217;ve purchased a new 11&#8221; Macbook Air. I chose the 11&#8221;
+model solely for price reasons; I would much prefer a larger
+laptop. I&#8217;ve previously owned two EeePCs (the 7&#8221;
+<a href="http://en.wikipedia.org/wiki/ASUS_Eee_PC#Eee_700_series">Eee PC 701</a>
+and the 11&#8221;
+<a href="http://en.wikipedia.org/wiki/ASUS_Eee_PC#Specifications">Eee PC 1101HAB</a>),
+so I&#8217;m familiar with the smaller form-factor, and not a huge fan to be
+honest.</p>
+
+<p>Enter emacs - I can do all my work on emacs, with an integrated python
+development environment incorporating a shell, pdb (with a pane that
+shows the current line of the file being executed as you&#8217;re stepping
+through code). I&#8217;ll still have the OS X desktop,
+<a href="http://www.iterm2.com/">iterm2</a>,
+<a href="http://tmux.sourceforge.net/">tmux</a>, and
+<a href="http://code.google.com/p/macvim/">macvim</a>. But for getting things
+done, I think that emacs is going to help out a lot.</p>
+
+<p>Plus it&#8217;s backed by a Lisp flavour.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-28T00:00:00+03:00" pubdate data-updated="true">Nov 28<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/commitlog/'>commitlog</a>, <a class='category' href='/blog/categories/productivity/'>productivity</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2011/11/28/add-emacsd/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2011/11/28/add-emacsd/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/10/29/on-the-police-response-to-the-occupy-movement/" title="Previous Post: on the police response to the occupy movement">&laquo; on the police response to the occupy movement</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/12/03/suddenly-enlightenment/" title="next Post: suddenly enlightenment">suddenly enlightenment &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/01/19/testing-out-octopress/">Testing Out Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/18/on-sopa-and-pipa/">on SOPA and PIPA</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/02/back-to-lisp/">back to lisp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/31/my-docs-got-dropped/">my docs got dropped</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/03/suddenly-enlightenment/">suddenly enlightenment</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'conshacklife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kisom.github.com/blog/2011/11/28/add-emacsd/';
+        var disqus_url = 'http://kisom.github.com/blog/2011/11/28/add-emacsd/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

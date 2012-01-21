@@ -1,143 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>(cons 'hack *life*)</title>
-  <meta name="author" content="Kyle Isom">
-
-  
-  <meta name="description" content="I&#8217;ve seen a lot of people using Octopress, so I&#8217;m giving it a shot.
-It does do some cool stuff (like integrating with github and twitter &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><![CDATA[(cons 'hack *life*)]]></title>
+  <link href="http://kisom.github.com/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-01-21T21:23:08+03:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-  <link rel="canonical" href="http://kisom.github.com">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="(cons 'hack *life*)" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">(cons 'hack *life*)</a></h1>
-  
-    <h2>my commit log as a blog</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:kisom.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/19/testing-out-octopress/">Testing Out Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-19T21:01:00+03:00" pubdate data-updated="true">Jan 19<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/19/testing-out-octopress/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve seen a lot of people using Octopress, so I&#8217;m giving it a shot.
+  <entry>
+    <title type="html"><![CDATA[Testing Out Octopress]]></title>
+    <link href="http://kisom.github.com/blog/2012/01/19/testing-out-octopress/"/>
+    <updated>2012-01-19T21:01:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2012/01/19/testing-out-octopress</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve seen a lot of people using Octopress, so I&#8217;m giving it a shot.
 It does do some cool stuff (like integrating with github and twitter and
 disqus) but I have no plans to move <a href="http://www.kyleisom.net/blog">my blog</a>
 anytime soon&#8230;</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/18/on-sopa-and-pipa/">On SOPA and PIPA</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-18T00:00:00+03:00" pubdate data-updated="true">Jan 18<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/18/on-sopa-and-pipa/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Imagine you are the owner of a small restaurant. The neighbourhood is of mixed
+  <entry>
+    <title type="html"><![CDATA[on SOPA and PIPA]]></title>
+    <link href="http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa/"/>
+    <updated>2012-01-18T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa</id>
+    <content type="html"><![CDATA[<p>Imagine you are the owner of a small restaurant. The neighbourhood is of mixed
 quality, but this is where you live so you try to make do anyways. One day,
 new laws are passed such that if anyone in your restaurant conducts any sort of
 illegal activity (like a drug deal), the police blockade your restaurant and force
@@ -192,44 +85,15 @@ powers.
 <a href="https://twitter.com/#!/Slaughterhut">Jason Barbier</a>,
 <a href="http://twitter.com/qb1t">Aaron Bieber</a>,
 and <a href="http://twitter.com/imwally">Wally Jones</a> for reviewing this.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/02/back-to-lisp/">Back to Lisp</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-02T00:00:00+03:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/02/back-to-lisp/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
+  <entry>
+    <title type="html"><![CDATA[back to lisp]]></title>
+    <link href="http://kisom.github.com/blog/2012/01/02/back-to-lisp/"/>
+    <updated>2012-01-02T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2012/01/02/back-to-lisp</id>
+    <content type="html"><![CDATA[
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -275,44 +139,15 @@ is spot on.</p>
 
 <p>I anticipate this to be the year of Lisp for me, as I delve into
 Common Lisp, Scheme, and Clojure.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/12/31/my-docs-got-dropped/">My Docs Got Dropped</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-12-31T00:00:00+03:00" pubdate data-updated="true">Dec 31<span>st</span>, 2011</time>
-        
-         | <a href="/blog/2011/12/31/my-docs-got-dropped/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>My docs are in the stratfor leak.</p>
+  <entry>
+    <title type="html"><![CDATA[my docs got dropped]]></title>
+    <link href="http://kisom.github.com/blog/2011/12/31/my-docs-got-dropped/"/>
+    <updated>2011-12-31T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/12/31/my-docs-got-dropped</id>
+    <content type="html"><![CDATA[<p>My docs are in the stratfor leak.</p>
 
 <p>I&#8217;m not too worried though; everything in there is either out of date
 (i.e. that credit card already expired and I have a new one now), my
@@ -348,44 +183,15 @@ LulzSec-type script kiddies to five-year-olds, I don&#8217;t mean to create
 the impression that they shouldn&#8217;t be held legally liable. I do fear,
 however, that focusing on legal actions against those responsible will
 cause us to lose focus on the bigger problem.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/12/03/suddenly-enlightenment/">Suddenly Enlightenment</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-12-03T00:00:00+03:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2011</time>
-        
-         | <a href="/blog/2011/12/03/suddenly-enlightenment/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>It&#8217;s been almost 28 hours since I last slept, so I apologise if this
+  <entry>
+    <title type="html"><![CDATA[suddenly enlightenment]]></title>
+    <link href="http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment/"/>
+    <updated>2011-12-03T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment</id>
+    <content type="html"><![CDATA[<p>It&#8217;s been almost 28 hours since I last slept, so I apologise if this
 post contains a few spelling or grammatical errors. As soon as I
 become aware of them, rest assured I will quickly put them to right.</p>
 
@@ -522,44 +328,15 @@ use a shebang for.</li>
 <p>Git hooks are a powerful tool and can greatly boost your productivity,
 automatically deploy code, and help us fight SkyNet. You should
 consider using them in your next project.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/11/28/add-emacsd/">Add .emacs.d/init.el</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-11-28T00:00:00+03:00" pubdate data-updated="true">Nov 28<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/11/28/add-emacsd/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In the spirit of many of my online profiles which proudly declare &#8220;my
+  <entry>
+    <title type="html"><![CDATA[add .emacs.d/init.el]]></title>
+    <link href="http://kisom.github.com/blog/2011/11/28/add-emacsd/"/>
+    <updated>2011-11-28T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/11/28/add-emacsd</id>
+    <content type="html"><![CDATA[<p>In the spirit of many of my online profiles which proudly declare &#8220;my
 commit log is my blog,&#8221; I&#8217;ve decided to start using that in my posts.
 Here is the first such attempt.</p>
 
@@ -598,44 +375,15 @@ through code). I&#8217;ll still have the OS X desktop,
 done, I think that emacs is going to help out a lot.</p>
 
 <p>Plus it&#8217;s backed by a Lisp flavour.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/29/on-the-police-response-to-the-occupy-movement/">On the Police Response to the Occupy Movement</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-29T00:00:00+03:00" pubdate data-updated="true">Oct 29<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/10/29/on-the-police-response-to-the-occupy-movement/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>(Originally written on 2011-10-29 and an unusual departure from the usual technical content.)</p>
+  <entry>
+    <title type="html"><![CDATA[on the police response to the occupy movement]]></title>
+    <link href="http://kisom.github.com/blog/2011/10/29/on-the-police-response-to-the-occupy-movement/"/>
+    <updated>2011-10-29T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/10/29/on-the-police-response-to-the-occupy-movement</id>
+    <content type="html"><![CDATA[<p>(Originally written on 2011-10-29 and an unusual departure from the usual technical content.)</p>
 
 <p>TL;DR One more combat veteran is disgusted and appalled by the actions of a few police officers during the course of the Occupy movement.</p>
 
@@ -650,44 +398,15 @@ done, I think that emacs is going to help out a lot.</p>
 <p>I don&#8217;t want to rant, I don&#8217;t want to say anything stupid, and I don&#8217;t want to end up resorting to ad-hominem attacks. Suffice it to say that many of us in the military, regardless of our agreement (or lack thereof) with the protesters&#8217; cause, stood up and defended the right of those protesters to have their voice heard. It is a sad day when the populace needs protection from the very police officers whose job is allegedly to protect that self-same populace. Let us not forget who pays the salary of those police officers.</p>
 
 <p>For those police officers who maintain their calm and professional bearing, I applaud you. I understand the desire to smash stupid people in the face for saying and thinking stupid things. Unfortunately, as a police officer, you are bound to protect those people. I have been in similar situations in the military, and I understand the frustration. If you feel so strongly about it, do it the old-fashioned way - go on your own, out of uniform, and throw down. If it&#8217;s a departmental policy to carry out those types of actions, then the government no longer serves its people and no longer upholds the Constitution, and it&#8217;s time for you to be replaced.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/09/28/generating-patchfiles-with-git-and-hg/">Generating Patchfiles With Git and Hg</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-09-28T00:00:00+03:00" pubdate data-updated="true">Sep 28<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/09/28/generating-patchfiles-with-git-and-hg/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>UPDATE: originally this post was only about doing this in git. Since I use
+  <entry>
+    <title type="html"><![CDATA[generating patchfiles with git and hg]]></title>
+    <link href="http://kisom.github.com/blog/2011/09/28/generating-patchfiles-with-git-and-hg/"/>
+    <updated>2011-09-28T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/09/28/generating-patchfiles-with-git-and-hg</id>
+    <content type="html"><![CDATA[<p>UPDATE: originally this post was only about doing this in git. Since I use
 mercurial almost as much as I use git, I decided to look into how to do it
 with mercurial too.</p>
 
@@ -738,44 +457,15 @@ against:</p></li>
 
 <p>I did say it was a very easy task&#8230; You&#8217;ll notice mercurial makes this easier
 (or at least I think so) than git.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/09/10/coders-should-do-much-more-than-code/">Coders (Should) Do Much More Than Code</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-09-10T00:00:00+03:00" pubdate data-updated="true">Sep 10<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/09/10/coders-should-do-much-more-than-code/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I recently was explaining to someone that as a coder, I do (or should do)
+  <entry>
+    <title type="html"><![CDATA[coders (should) do much more than code]]></title>
+    <link href="http://kisom.github.com/blog/2011/09/10/coders-should-do-much-more-than-code/"/>
+    <updated>2011-09-10T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/09/10/coders-should-do-much-more-than-code</id>
+    <content type="html"><![CDATA[<p>I recently was explaining to someone that as a coder, I do (or should do)
 a lot more than just code. I figured since I hadn&#8217;t written anything here in
 a while, I&#8217;d put my thoughts down here.</p>
 
@@ -921,44 +611,15 @@ There&#8217;s the administrative side (i.e. the build system, feature request an
 tracking) and the human side (i.e. documentation and responding to support
 requests). While it may not be as much fun as the actual coding, it is still
 integral to the development process.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/07/04/rgtdd/">RGTDD</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-07-04T00:00:00+03:00" pubdate data-updated="true">Jul 4<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/07/04/rgtdd/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>One of the most important parts of becoming a useful developer is to find a
+  <entry>
+    <title type="html"><![CDATA[RGTDD]]></title>
+    <link href="http://kisom.github.com/blog/2011/07/04/rgtdd/"/>
+    <updated>2011-07-04T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/07/04/rgtdd</id>
+    <content type="html"><![CDATA[<p>One of the most important parts of becoming a useful developer is to find a
 workflow that maximises productivty. There are plenty of methodologies and tools
 people have come up with just for this - Agile, XP, BDD, TDD, RDD, and many
 others. Of course, most everyone has their own unique flavour, and of course
@@ -1011,153 +672,67 @@ release. (I&#8217;ll write a post later on about what I&#8217;m doing for releas
 cover some specific tools to help out with various languages, my version
 control and release methods, things I wasn&#8217;t taught in school, and what I&#8217;ve
 found to help me keep my life organised.</p>
-</div>
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[starting ocaml]]></title>
+    <link href="http://kisom.github.com/blog/2011/05/29/starting-ocaml/"/>
+    <updated>2011-05-29T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/05/29/starting-ocaml</id>
+    <content type="html"><![CDATA[<p>i recently started learning
+<a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be
+better documented than say standard ML, i&#8217;ve still had a few difficulties
+getting started. i&#8217;ll be keeping notes here, and my github account will
+probably document quite a number of lessons learned.</p>
+
+<p>one of the most difficult parts about starting development in ocaml is
+that the best development environment i&#8217;ve found so far is emacs with
+tuareg-mode. i personally hate emacs (being a vim or straight vi/nvi type of
+character) but tuareg-mode is extremely useful. (using emacs also has the
+side-effect of starting me on org-mode). getting started on ubuntu was fairly
+easy:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>apt-get install ocaml emacs23 tuareg-mode ocaml-findlib
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>as well as a number of the ocaml libraries (which i recommend using aptitude
+to look through and install). i ended up installing the Jane Street core and
+the netclient libraries right off that bat.</p>
+
+<p>on OS X using macports, i just had to</p>
+
+<pre><code>    `port install ocaml caml-findlib tuareg-mode.el`
+</code></pre>
+
+<p>there are a couple other libraries you can install (like netclient) as well.</p>
+
+<h2>build notes:    </h2>
+
+<ul>
+<li>when building new module interfaces (*.cmi), make sure to do</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ocamlc -o <span class="k">$(</span>LIBDIR<span class="k">)</span>/<span class="nv">$*</span>.cmi -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.mli<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>building %.cmx (i.e. *.ml files):</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">$(</span>FIND<span class="k">)</span> <span class="k">$(</span>NATIVE<span class="k">)</span> -o <span class="nv">$@</span> -I <span class="k">$(</span>LIBDIR<span class="k">)</span> <span class="k">$(</span>INCDIRS<span class="k">)</span> -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.ml<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/01/19/testing-out-octopress/">Testing Out Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/18/on-sopa-and-pipa/">on SOPA and PIPA</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/02/back-to-lisp/">back to lisp</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/12/31/my-docs-got-dropped/">my docs got dropped</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/12/03/suddenly-enlightenment/">suddenly enlightenment</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>Github Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/kisom">@kisom</a> on Github
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'kisom',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("kyleisom", 4, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
-  
-</section>
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Kyle Isom -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-<script type="text/javascript">
-      var disqus_shortname = 'conshacklife';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>

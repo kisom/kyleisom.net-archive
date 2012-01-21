@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: commitlog | (cons 'hack *life*)]]></title>
+  <link href="http://kisom.github.com/blog/categories/commitlog/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-01-21T21:23:08+03:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[back to lisp]]></title>
+    <link href="http://kisom.github.com/blog/2012/01/02/back-to-lisp/"/>
+    <updated>2012-01-02T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2012/01/02/back-to-lisp</id>
+    <content type="html"><![CDATA[<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>commit e358120dd3760e64436f5652895c751b39148ebd
+</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#99;&#111;&#100;&#101;&#114;&#64;&#x6b;&#x79;&#108;&#101;&#x69;&#115;&#111;&#x6d;&#46;&#x6e;&#101;&#x74;">&#99;&#111;&#x64;&#x65;&#x72;&#x40;&#x6b;&#121;&#x6c;&#x65;&#x69;&#x73;&#x6f;&#x6d;&#x2e;&#x6e;&#x65;&#116;&lt;/a>
+</span><span class='line'>   Date:   Wed Dec 28 19:22:59 2011 +0300&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>initial commit
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div>
+A brief stint playing with clojure made miss common lisp, so I'm working
+through <a href="http://www.paulgraham.com">Paul Graham's</a>
+<a href="http://paulgraham.com/acl.html">ANSI Common Lisp</a> with a copy of
+<a href="http://paulgraham.com/onlisp.html">On Lisp</a>. My last foray, I learned
+from [David Touretzky's[(http://www.cs.cmu.edu/~dst/)
+<a href="http://www.cs.cmu.edu/~dst/LispBook/index.html">A Gentle Introduction to Symbolic Computation</a>,
+so this time I'm trying PG's book. So far I've done more useful things,
+mostly by actually reading a bit more of the <a href="http://www.sbcl.org">sbcl</a>
+<a href="http://www.sbcl.org/manual/">user manual</a> (from which I learned some
+useful things such as <code>sb-ext:*posix-argv*</code> and <code>sb-ext:save-lisp-and-die</code>)
+and by the immensely useful site
+[Rosetta Code[(http://rosettacode.org/wiki/Rosetta_Code), from which I
+learned about the <a href="http://www.weitz.de/drakma/">DRAKMA</a> HTTP client
+library. I've also been aided quite a bit by
+<a href="http://xach.com">Zach Beane's</a> (quicklisp)[http://www.quicklisp.org/];
+in fact, one of the things I've done is to write a short
+<a href="https://gist.github.com/1548276">script</a> to build an sbcl image with
+quicklisp and my most commonly used libraries built-in.</p>
+
+<script src="https://gist.github.com/1548276.js?file=build-image.lisp"></script>
+
+
+<p>One of the things I love about functional programming is the idea that
+instead of relying on a lot of variables, you use functions as sort of
+"organic variables" that provide immutable data based on some input. The
+ability to build what feels more organic, less static. I think
+<a href="https://en.wikipedia.org/wiki/Steve_Yegge">Steve Yegge's</a>
+blog post <a href="http://steve-yegge.blogspot.com/2006/03/execution-in-kingdom-of-nouns.html">Execution in the Kingdom of Nouns</a>
+is spot on.</p>
+
+<p>I anticipate this to be the year of Lisp for me, as I delve into
+Common Lisp, Scheme, and Clojure.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[suddenly enlightenment]]></title>
+    <link href="http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment/"/>
+    <updated>2011-12-03T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment</id>
+    <content type="html"><![CDATA[<p>It's been almost 28 hours since I last slept, so I apologise if this
+post contains a few spelling or grammatical errors. As soon as I
+become aware of them, rest assured I will quickly put them to right.</p>
+
+<p><a href="http://www.kyleisom.net/blog/2011/11/35-dot_emacs">Today's git commit</a> occurred
+while I was working on getting a web development test VM / environment working. The
+goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
+
+<p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
+   Author: Kyle Isom <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x63;&#111;&#x64;&#x65;&#x72;&#64;&#x6b;&#x79;&#x6c;&#101;&#105;&#115;&#x6f;&#109;&#46;&#110;&#x65;&#x74;">&#x63;&#111;&#100;&#101;&#114;&#64;&#x6b;&#121;&#108;&#101;&#x69;&#x73;&#x6f;&#x6d;&#x2e;&#110;&#101;&#116;</a>
+   Date:   Sat Dec 3 00:24:34 2011 +0300</p>
+
+<pre><code>   suddenly enlightenment
+</code></pre>
+
+<p>It took a while for me to grok what was happening with the hook, but finally it clicked.
+I did a lot of reading online, and was greatly helped by the <a href="https://www.ora.com">O'Reilly</a>
+book <a href="https://shop.oreilly.com/product/9780596620137.do">Version Control with Git</a>
+and the <code>githooks(5)</code> man page.</p>
+
+<p>My remote repository was a bare git repo (one initialised with <code>git init --bare</code> that I
+pushed my local changes to. I created a staging directory (<code>${HOME}/stage/cgitest</code>)
+and created the following hook:</p>
+
+<pre><code>kyle@www-dev:~/code/cgitest/hooks$ cat post-update
+#!/bin/sh
+export GIT_DIR=/home/kyle/code/zipcgi
+export GIT_WORK_TREE=/home/kyle/stage/zipcgi
+git reset --hard
+git checkout -f
+cp ${GIT_WORK_TREE}/zipcgi.py ~/bin/cgi/
+</code></pre>
+
+<p>As a side note, make sure the script is <code>chmod +x</code>'d.</p>
+
+<p>The reason why we have to specify the git dir is that by default,
+because this is in the bare repository, git will assume the git
+directory is the repository directory. The problem is, that directory
+doesn't have a working tree. A working tree is required to checkout
+the repository - i.e. so we have a named file to work with. To work
+around this, I explicitly specify a working tree . Then I copy the CGI
+script to my CGI directory.</p>
+
+<p>Why not just symlink the file? Well, symlinks work on inodes. This
+allows multiple names to refer to the same file, but it does mean that
+even though the file is in the same directory and shares the same
+name, it is not guaranteed the same inode number. The git checkout
+can, in essence, unlink the old file and create a completely new
+file. The end result is that your symlink will likely be broken,
+pointing to a now non-existent inode. The safest method is just to
+copy the new version on top of the old one.</p>
+
+<p>Why do we have to manipulate the environment variables
+<code>GIT_DIR</code> (which points to the directory containing the actual git
+repository, more on that in a second) and <code>GIT_WORK_TREE</code>, which
+represents the working tree. To really understand this, you need to
+understand the difference between the working tree and the
+repository. You could take the long route and read the excellent book
+I mentioned above and wade through man pages (which are pretty well
+written, but there is a lot of information to keep track of). An
+alternative is to buckle in and keep reading for my crash course.</p>
+
+<p>Still here? Buckled in? Let's do this. A git repository is basically a
+filesystem-based database that uses hashes for identification and
+great success. If you poke around in your git repository (which in a
+standard local repository is in <code>${PROJECT}/.git</code>), particularly under
+objects, you will see what I mean. Everything is stored as a hash
+object. Git uses <a href="https://en.wikipedia.org/wiki/SHA-1">SHA-1</a>, and
+under <code>.git/objects</code> you will see a list of subdirectorys. These
+subdirectories (with the exception of <code>pack</code> and <code>info</code>) named after
+the first byte of the SHA-1 hash (which is two bytes when stored as a
+semi-human readable hex digest). Under these subdirectories, git
+stores the objects as the remaining 19 bytes (again, 38 bytes when
+stored as a hex digest) of the hash. The file is
+zlib-compressed. Don't believe me? If you clone my
+<a href="https://github.com/kisom/woofs">woofs project</a> and look up</p>
+
+<p><code>.git/objects/bf/2f7383ca7343f85f1308fc6dc3c34dbd047d90</code>.</p>
+
+<p>Try the following python code:</p>
+
+<pre><code>import zlib
+print zlib.decompress(open('2f7383ca7343f85f1308fc6dc3c34dbd047d90').read())
+</code></pre>
+
+<p>You should see a working version of the script (and the latest version
+as of this writing). This is how git sees everything. (If you want to
+see what git sees a file as, use <code>git hash-object &lt;FILE&gt;</code>.)</p>
+
+<p>The working directory is where you, the developer or end user,
+interact with the contents of the database. This is where things can
+be staged to be committed, and in a bare repo (typically found
+on remote repos), there won't be a working directory because you
+aren't working directly on that copy of the repo. Try this:</p>
+
+<pre><code>mkdir -p ~/tmp/stage/woofs_working
+export GIT_DIR=~/Code/woofs/.git 
+export GIT_WORK_TREE=~/tmp/stage/woofs_working
+cd ~
+git reset --hard
+ls ~/tmp/stage/woofs_working
+</code></pre>
+
+<p>Voilà! You should see the contents of the repo there. (I'd recommend
+either closing out that terminal session or running</p>
+
+<pre><code>unset GIT_DIR GIT_WORK_TREE
+</code></pre>
+
+<p>to prevent problems later on. Also, while I'm using a repo I chose at
+random from my <code>~/Code</code> directory, you could (and should) be trying
+with a repo of your own.</p>
+
+<p>It should be clear now why I had to explicitly specify the two. The
+next two commands just reset the working directory to the lastest
+commit (i.e. the one that was just pushed) and check out a fresh copy,
+to make sure everything that should be present is present.</p>
+
+<p>This turned out to be a longer post than I had expected, but my hope
+is that it helps other people quickly get their hooks operational. The
+cool thing about hooks is they are just executable shells scripts,
+which means:</p>
+
+<ol>
+<li>the script's <code>${PWD}</code> is the hooks directory in the git repo.</li>
+<li>the <code>${GIT_DIR}</code> is by default '.' and is the repo directory. for
+example, if we had a bare woofs repo, it would be something like
+<code>/home/kyle/code/woofs</code>, while in a local repo it would be
+<code>/home/kyle/code/woofs/.git</code>.</li>
+<li>because it's just a shell script, you can use any language you can
+use a shebang for.</li>
+</ol>
+
+
+<p>Git hooks are a powerful tool and can greatly boost your productivity,
+automatically deploy code, and help us fight SkyNet. You should
+consider using them in your next project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[add .emacs.d/init.el]]></title>
+    <link href="http://kisom.github.com/blog/2011/11/28/add-emacsd/"/>
+    <updated>2011-11-28T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/11/28/add-emacsd</id>
+    <content type="html"><![CDATA[<p>In the spirit of many of my online profiles which proudly declare "my
+commit log is my blog," I've decided to start using that in my posts.
+Here is the first such attempt.</p>
+
+<pre><code> commit 40bbc533313a43192506b682fe546304d8603d11 
+ Author: Kyle Isom &lt;coder@kyleisom.net&gt;
+ Date:   Mon Nov 28 17:34:30 2011 +0300
+
+    add .emacs.d/init.el
+</code></pre>
+
+<p>I've started using emacs, which is an act of such great blasphemy for
+a red-blooded stalwart vim-wielding hacker such as myself that I find
+it difficult to come to grips with sometimes. But there is a method to
+my madness, and it isn't just that my morals are so comprised right
+now in this nadir of my life that I've even started learning
+javascript (a running joke).</p>
+
+<p>Due to my current work situation, and the prospect of traveling to and
+spending several months in a region with little to no network
+connectivity, I've purchased a new 11" Macbook Air. I chose the 11"
+model solely for price reasons; I would much prefer a larger
+laptop. I've previously owned two EeePCs (the 7"
+<a href="http://en.wikipedia.org/wiki/ASUS_Eee_PC#Eee_700_series">Eee PC 701</a>
+and the 11"
+<a href="http://en.wikipedia.org/wiki/ASUS_Eee_PC#Specifications">Eee PC 1101HAB</a>),
+so I'm familiar with the smaller form-factor, and not a huge fan to be
+honest.</p>
+
+<p>Enter emacs - I can do all my work on emacs, with an integrated python
+development environment incorporating a shell, pdb (with a pane that
+shows the current line of the file being executed as you're stepping
+through code). I'll still have the OS X desktop,
+<a href="http://www.iterm2.com/">iterm2</a>,
+<a href="http://tmux.sourceforge.net/">tmux</a>, and
+<a href="http://code.google.com/p/macvim/">macvim</a>. But for getting things
+done, I think that emacs is going to help out a lot.</p>
+
+<p>Plus it's backed by a Lisp flavour.</p>
+]]></content>
+  </entry>
+  
+</feed>

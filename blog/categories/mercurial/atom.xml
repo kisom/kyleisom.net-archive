@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mercurial | (cons 'hack *life*)]]></title>
+  <link href="http://kisom.github.com/blog/categories/mercurial/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-01-21T21:23:08+03:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[generating patchfiles with git and hg]]></title>
+    <link href="http://kisom.github.com/blog/2011/09/28/generating-patchfiles-with-git-and-hg/"/>
+    <updated>2011-09-28T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/09/28/generating-patchfiles-with-git-and-hg</id>
+    <content type="html"><![CDATA[<p>UPDATE: originally this post was only about doing this in git. Since I use
+mercurial almost as much as I use git, I decided to look into how to do it
+with mercurial too.</p>
+
+<p>I recently was explaining to someone that as a coder, I do (or should do)
+a lot more than just code. I figured since I hadn't written anything here in
+a while, I'd put my thoughts down here.</p>
+
+<p>i found myself needing to generate a patchfile today from a git repo. it turns
+out to be a very easy task.</p>
+
+<ul>
+<li><p>first, commit to a clean working directory. i'll asume you are on the
+'master' (git) or 'tip' (hg) branch, but s/master/$branch/ as appropriate.</p></li>
+<li><p>if you have only one commit between you and the commit you need to diff
+against:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git format-patch master^ --stdout &gt; my.patch<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+or
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>hg <span class="nb">export </span>tip &gt; my.patch  &lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+<li><p>otherwise, substitute in the appropriate commit</p></li>
+<li><p>to apply the patch, it's
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git apply --stat my.patch
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+or
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>hg patch my.patch
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+</ul>
+
+
+<p>I did say it was a very easy task... You'll notice mercurial makes this easier
+(or at least I think so) than git.</p>
+]]></content>
+  </entry>
+  
+</feed>
