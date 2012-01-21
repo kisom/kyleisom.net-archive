@@ -4,7 +4,7 @@
   <title><![CDATA[Category: lisp | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/lisp/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-21T22:41:02+03:00</updated>
+  <updated>2012-01-21T22:42:05+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -27,7 +27,7 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>commit e358120dd3760e64436f5652895c751b39148ebd
-</span><span class='line'>   Author: Kyle Isom &lt;a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#58;&#x63;&#x6f;&#100;&#x65;&#114;&#64;&#x6b;&#x79;&#108;&#101;&#105;&#115;&#111;&#x6d;&#46;&#110;&#x65;&#x74;">&#99;&#x6f;&#100;&#101;&#114;&#64;&#x6b;&#121;&#x6c;&#101;&#x69;&#x73;&#111;&#109;&#46;&#x6e;&#x65;&#116;&lt;/a>
+</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#111;&#100;&#101;&#114;&#64;&#x6b;&#x79;&#108;&#101;&#x69;&#115;&#x6f;&#x6d;&#x2e;&#x6e;&#101;&#116;">&#99;&#111;&#x64;&#101;&#x72;&#x40;&#107;&#x79;&#108;&#x65;&#x69;&#115;&#111;&#109;&#x2e;&#110;&#101;&#x74;&lt;/a>
 </span><span class='line'>   Date:   Wed Dec 28 19:22:59 2011 +0300&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;pre>&lt;code>initial commit
@@ -38,7 +38,7 @@ A brief stint playing with clojure made miss common lisp, so I'm working
 through <a href="http://www.paulgraham.com">Paul Graham's</a>
 <a href="http://paulgraham.com/acl.html">ANSI Common Lisp</a> with a copy of
 <a href="http://paulgraham.com/onlisp.html">On Lisp</a>. My last foray, I learned
-from [David Touretzky's[(http://www.cs.cmu.edu/~dst/)
+from <a href="http://www.cs.cmu.edu/~dst/">David Touretzky's</a>
 <a href="http://www.cs.cmu.edu/~dst/LispBook/index.html">A Gentle Introduction to Symbolic Computation</a>,
 so this time I'm trying PG's book. So far I've done more useful things,
 mostly by actually reading a bit more of the <a href="http://www.sbcl.org">sbcl</a>
@@ -48,7 +48,7 @@ and by the immensely useful site
 <a href="http://rosettacode.org/wiki/Rosetta_Code">Rosetta Code</a>, from which I
 learned about the <a href="http://www.weitz.de/drakma/">DRAKMA</a> HTTP client
 library. I've also been aided quite a bit by
-<a href="http://xach.com">Zach Beane's</a> (quicklisp)[http://www.quicklisp.org/];
+<a href="http://xach.com">Zach Beane's</a> <a href="http://www.quicklisp.org/">quicklisp</a>;
 in fact, one of the things I've done is to write a short
 <a href="https://gist.github.com/1548276">script</a> to build an sbcl image with
 quicklisp and my most commonly used libraries built-in.</p>
