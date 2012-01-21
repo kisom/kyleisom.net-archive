@@ -23,7 +23,7 @@ mostly by actually reading a bit more of the [sbcl](http://www.sbcl.org)
 [user manual](http://www.sbcl.org/manual/) (from which I learned some 
 useful things such as `sb-ext:*posix-argv*` and `sb-ext:save-lisp-and-die`)
 and by the immensely useful site 
-[Rosetta Code[(http://rosettacode.org/wiki/Rosetta_Code), from which I
+[Rosetta Code](http://rosettacode.org/wiki/Rosetta_Code), from which I
 learned about the [DRAKMA](http://www.weitz.de/drakma/) HTTP client
 library. I've also been aided quite a bit by
 [Zach Beane's](http://xach.com) (quicklisp)[http://www.quicklisp.org/];
