@@ -105,7 +105,7 @@ while I was working on getting a web development test VM / environment working. 
 goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 
 <p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x63;&#111;&#x64;&#x65;&#114;&#x40;&#107;&#121;&#x6c;&#x65;&#x69;&#x73;&#111;&#109;&#46;&#x6e;&#x65;&#116;">&#99;&#x6f;&#x64;&#x65;&#114;&#64;&#x6b;&#121;&#108;&#101;&#x69;&#x73;&#x6f;&#109;&#x2e;&#110;&#101;&#116;</a>
+   Author: Kyle Isom <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#x63;&#111;&#100;&#x65;&#114;&#x40;&#107;&#x79;&#108;&#x65;&#x69;&#115;&#111;&#109;&#46;&#x6e;&#101;&#x74;">&#x63;&#111;&#100;&#101;&#x72;&#64;&#x6b;&#121;&#108;&#x65;&#105;&#115;&#111;&#109;&#46;&#x6e;&#x65;&#116;</a>
    Date:   Sat Dec 3 00:24:34 2011 +0300</p>
 
 <pre><code>   suddenly enlightenment
@@ -325,31 +325,7 @@ consider using them in your next project.</p>
     
   </ul>
 </section>
-<!-- 
-    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
-    tweaked by kisom
--->
-
-<section>
-<h1>Coderwall</h1>
-  <p>
-  <script type="text/javascript">
-    function display_coderwall(args) {
-        var badges = args["data"]["badges"];
-        for ( var i = 0; i < badges.length; i++ ) {
-            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
-            var img = '<img src="' + badges[i]["badge"] + '"';
-            img = img + ' width="48" height="48" title="' + alt + '" />';
-            document.write(img);
-        }
-    }
-  </script>
-  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
-  </p>
-  <p style="text-align: right;"><a href="http://coderwall.com/kisom">Powered by coderwall.com</a></p>
-</section>
-
-
+Included file 'custom/asides/coderwall.html' not found in _includes directory
 <section>
   <h1>Github Repos</h1>
   <ul id="gh_repos">
@@ -415,6 +391,51 @@ consider using them in your next project.</p>
   })();
 </script>
 
+
+<section class="lastfm">
+<h1>Recently Scrobbled</h1>
+<style type="text/css">
+  #lastfmList li{ text-align: left; }
+</style>
+<ul id="lastfmList">
+  <li class="loading">Updating tracks...</li>
+</ul>
+
+<script type="text/javascript">
+  $.domReady(function(){
+    getLastfmFeed("brokenlcd", 10, "263f6cbb10c41a73ea3d3fb3fb2f942e");
+  });
+</script>
+
+<script lang="Javascript">
+function getLastfmFeed(user,count,api_key) {
+  count = parseInt(count, 10);
+  $.ajax({
+      url: "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=" + user + "&limit=" + count + "&api_key=" + api_key
+    , type: 'xml'
+    , error: function (err) { $('#lastfmList li.loading').addClass('error').text("Last.fm's busted"); }
+    , success: function(data) { showLastfmFeed(data); }
+  });
+}
+
+function showLastfmFeed(xml){
+  var tracklist = document.getElementById('lastfmList'),
+      content = '',
+      i=0;
+  
+  $(xml.responseXML).find("recenttracks").children().each(function(){
+    var artist = $(this).find('artist').text(),
+        name = $(this).find('name').text(),
+        date = $(this).find('date').text(),
+        url = $(this).find('url').text();
+    content += '<li id="lastfmItem_'+i+'"><a href="'+ url + '">' + name +'</a> by '+ artist + '<span class="date"> ' + prettyDate(date) + ' ago</span></li>';
+    i+=1;
+  });
+
+  tracklist.innerHTML = content;
+}
+</script>
+</section>
 
   
 </aside>

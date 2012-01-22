@@ -249,31 +249,7 @@ Jan 02 2012 posted in commitlog, hacking, lisp 2011 my docs got &hellip;">
     
   </ul>
 </section>
-<!-- 
-    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
-    tweaked by kisom
--->
-
-<section>
-<h1>Coderwall</h1>
-  <p>
-  <script type="text/javascript">
-    function display_coderwall(args) {
-        var badges = args["data"]["badges"];
-        for ( var i = 0; i < badges.length; i++ ) {
-            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
-            var img = '<img src="' + badges[i]["badge"] + '"';
-            img = img + ' width="48" height="48" title="' + alt + '" />';
-            document.write(img);
-        }
-    }
-  </script>
-  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
-  </p>
-  <p style="text-align: right;"><a href="http://coderwall.com/kisom">Powered by coderwall.com</a></p>
-</section>
-
-
+Included file 'custom/asides/coderwall.html' not found in _includes directory
 <section>
   <h1>Github Repos</h1>
   <ul id="gh_repos">
@@ -339,6 +315,51 @@ Jan 02 2012 posted in commitlog, hacking, lisp 2011 my docs got &hellip;">
   })();
 </script>
 
+
+<section class="lastfm">
+<h1>Recently Scrobbled</h1>
+<style type="text/css">
+  #lastfmList li{ text-align: left; }
+</style>
+<ul id="lastfmList">
+  <li class="loading">Updating tracks...</li>
+</ul>
+
+<script type="text/javascript">
+  $.domReady(function(){
+    getLastfmFeed("brokenlcd", 10, "263f6cbb10c41a73ea3d3fb3fb2f942e");
+  });
+</script>
+
+<script lang="Javascript">
+function getLastfmFeed(user,count,api_key) {
+  count = parseInt(count, 10);
+  $.ajax({
+      url: "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=" + user + "&limit=" + count + "&api_key=" + api_key
+    , type: 'xml'
+    , error: function (err) { $('#lastfmList li.loading').addClass('error').text("Last.fm's busted"); }
+    , success: function(data) { showLastfmFeed(data); }
+  });
+}
+
+function showLastfmFeed(xml){
+  var tracklist = document.getElementById('lastfmList'),
+      content = '',
+      i=0;
+  
+  $(xml.responseXML).find("recenttracks").children().each(function(){
+    var artist = $(this).find('artist').text(),
+        name = $(this).find('name').text(),
+        date = $(this).find('date').text(),
+        url = $(this).find('url').text();
+    content += '<li id="lastfmItem_'+i+'"><a href="'+ url + '">' + name +'</a> by '+ artist + '<span class="date"> ' + prettyDate(date) + ' ago</span></li>';
+    i+=1;
+  });
+
+  tracklist.innerHTML = content;
+}
+</script>
+</section>
 
   
 </aside>
