@@ -9,8 +9,8 @@
   <meta name="author" content="Kyle Isom">
 
   
-  <meta name="description" content="I&#8217;ve seen a lot of people using Octopress, so I&#8217;m giving it a shot.
-It does do some cool stuff (like integrating with github and twitter &hellip;">
+  <meta name="description" content="Imagine you are the owner of a small restaurant. The neighbourhood is of mixed
+quality, but this is where you live so you try to make do anyways. One &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,47 +67,6 @@ It does do some cool stuff (like integrating with github and twitter &hellip;">
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/19/testing-out-octopress/">Testing Out Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-19T21:01:00+03:00" pubdate data-updated="true">Jan 19<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/01/19/testing-out-octopress/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve seen a lot of people using Octopress, so I&#8217;m giving it a shot.
-It does do some cool stuff (like integrating with github and twitter and
-disqus) but I have no plans to move <a href="http://www.kyleisom.net/blog">my blog</a>
-anytime soon&#8230;</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -396,7 +355,7 @@ while I was working on getting a web development test VM / environment working. 
 goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 
 <p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#99;&#x6f;&#x64;&#101;&#x72;&#x40;&#x6b;&#x79;&#108;&#101;&#x69;&#x73;&#111;&#x6d;&#46;&#110;&#x65;&#x74;">&#99;&#111;&#x64;&#x65;&#114;&#x40;&#107;&#x79;&#108;&#x65;&#x69;&#x73;&#x6f;&#x6d;&#46;&#x6e;&#101;&#116;</a>
+   Author: Kyle Isom <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x63;&#111;&#100;&#x65;&#114;&#64;&#107;&#x79;&#x6c;&#101;&#x69;&#115;&#111;&#x6d;&#x2e;&#110;&#x65;&#x74;">&#x63;&#111;&#x64;&#x65;&#x72;&#64;&#107;&#121;&#x6c;&#101;&#x69;&#x73;&#111;&#109;&#x2e;&#110;&#101;&#x74;</a>
    Date:   Sat Dec 3 00:24:34 2011 +0300</p>
 
 <pre><code>   suddenly enlightenment
@@ -1020,9 +979,96 @@ found to help me keep my life organised.</p>
 
     </article>
   
-  <div class="pagination">
+  
+    <article>
+      
+  <header>
     
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+      <h1 class="entry-title"><a href="/blog/2011/05/29/starting-ocaml/">Starting Ocaml</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-29T00:00:00+03:00" pubdate data-updated="true">May 29<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/05/29/starting-ocaml/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>i recently started learning
+<a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be
+better documented than say standard ML, i&#8217;ve still had a few difficulties
+getting started. i&#8217;ll be keeping notes here, and my github account will
+probably document quite a number of lessons learned.</p>
+
+<p>one of the most difficult parts about starting development in ocaml is
+that the best development environment i&#8217;ve found so far is emacs with
+tuareg-mode. i personally hate emacs (being a vim or straight vi/nvi type of
+character) but tuareg-mode is extremely useful. (using emacs also has the
+side-effect of starting me on org-mode). getting started on ubuntu was fairly
+easy:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>apt-get install ocaml emacs23 tuareg-mode ocaml-findlib
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>as well as a number of the ocaml libraries (which i recommend using aptitude
+to look through and install). i ended up installing the Jane Street core and
+the netclient libraries right off that bat.</p>
+
+<p>on OS X using macports, i just had to</p>
+
+<pre><code>    `port install ocaml caml-findlib tuareg-mode.el`
+</code></pre>
+
+<p>there are a couple other libraries you can install (like netclient) as well.</p>
+
+<h2>build notes:    </h2>
+
+<ul>
+<li>when building new module interfaces (*.cmi), make sure to do</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ocamlc -o <span class="k">$(</span>LIBDIR<span class="k">)</span>/<span class="nv">$*</span>.cmi -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.mli<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>building %.cmx (i.e. *.ml files):</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">$(</span>FIND<span class="k">)</span> <span class="k">$(</span>NATIVE<span class="k">)</span> -o <span class="nv">$@</span> -I <span class="k">$(</span>LIBDIR<span class="k">)</span> <span class="k">$(</span>INCDIRS<span class="k">)</span> -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.ml<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -1033,10 +1079,6 @@ found to help me keep my life organised.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/01/19/testing-out-octopress/">Testing Out Octopress</a>
-      </li>
     
       <li class="post">
         <a href="/blog/2012/01/18/on-sopa-and-pipa/">on SOPA and PIPA</a>
@@ -1054,10 +1096,15 @@ found to help me keep my life organised.</p>
         <a href="/blog/2011/12/03/suddenly-enlightenment/">suddenly enlightenment</a>
       </li>
     
+      <li class="post">
+        <a href="/blog/2011/11/28/add-emacsd/">add .emacs.d/init.el</a>
+      </li>
+    
   </ul>
 </section>
 <!-- 
     from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
 -->
 
 <section>
@@ -1067,7 +1114,10 @@ found to help me keep my life organised.</p>
     function display_coderwall(args) {
         var badges = args["data"]["badges"];
         for ( var i = 0; i < badges.length; i++ ) {
-            document.write('<img src="'+ badges[i]["badge"] + '" width="48" height="48" />');
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
         }
     }
   </script>

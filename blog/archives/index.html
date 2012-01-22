@@ -9,10 +9,9 @@
   <meta name="author" content="Kyle Isom">
 
   
-  <meta name="description" content="Blog Archive 2012 Testing Out Octopress
-Jan 19 2012 posted in admin on SOPA and PIPA
+  <meta name="description" content="Blog Archive 2012 on SOPA and PIPA
 Jan 18 2012 posted in musings back to lisp
-Jan 02 2012 posted &hellip;">
+Jan 02 2012 posted in commitlog, hacking, lisp 2011 my docs got &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,20 +80,6 @@ Jan 02 2012 posted &hellip;">
 
   
   <h2>2012</h2>
-
-<article>
-  
-<h1><a href="/blog/2012/01/19/testing-out-octopress/">Testing Out Octopress</a></h1>
-<time datetime="2012-01-19T21:01:00+03:00" pubdate><span class='month'>Jan</span> <span class='day'>19</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/admin/'>admin</a></span>
-</footer>
-
-
-</article>
-
-
 
 <article>
   
@@ -243,10 +228,6 @@ Jan 02 2012 posted &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/01/19/testing-out-octopress/">Testing Out Octopress</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2012/01/18/on-sopa-and-pipa/">on SOPA and PIPA</a>
       </li>
     
@@ -262,10 +243,15 @@ Jan 02 2012 posted &hellip;">
         <a href="/blog/2011/12/03/suddenly-enlightenment/">suddenly enlightenment</a>
       </li>
     
+      <li class="post">
+        <a href="/blog/2011/11/28/add-emacsd/">add .emacs.d/init.el</a>
+      </li>
+    
   </ul>
 </section>
 <!-- 
     from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
 -->
 
 <section>
@@ -275,7 +261,10 @@ Jan 02 2012 posted &hellip;">
     function display_coderwall(args) {
         var badges = args["data"]["badges"];
         for ( var i = 0; i < badges.length; i++ ) {
-            document.write('<img src="'+ badges[i]["badge"] + '" width="48" height="48" />');
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
         }
     }
   </script>

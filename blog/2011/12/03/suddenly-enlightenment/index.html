@@ -105,7 +105,7 @@ while I was working on getting a web development test VM / environment working. 
 goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 
 <p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#99;&#x6f;&#x64;&#101;&#x72;&#x40;&#x6b;&#x79;&#108;&#101;&#x69;&#x73;&#111;&#x6d;&#46;&#110;&#x65;&#x74;">&#99;&#111;&#x64;&#x65;&#114;&#x40;&#107;&#x79;&#108;&#x65;&#x69;&#x73;&#x6f;&#x6d;&#46;&#x6e;&#101;&#116;</a>
+   Author: Kyle Isom <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x63;&#111;&#100;&#x65;&#114;&#64;&#107;&#x79;&#x6c;&#101;&#x69;&#115;&#111;&#x6d;&#x2e;&#110;&#x65;&#x74;">&#x63;&#111;&#x64;&#x65;&#x72;&#64;&#107;&#121;&#x6c;&#101;&#x69;&#x73;&#111;&#109;&#x2e;&#110;&#101;&#x74;</a>
    Date:   Sat Dec 3 00:24:34 2011 +0300</p>
 
 <pre><code>   suddenly enlightenment
@@ -304,10 +304,6 @@ consider using them in your next project.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/01/19/testing-out-octopress/">Testing Out Octopress</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2012/01/18/on-sopa-and-pipa/">on SOPA and PIPA</a>
       </li>
     
@@ -323,10 +319,15 @@ consider using them in your next project.</p>
         <a href="/blog/2011/12/03/suddenly-enlightenment/">suddenly enlightenment</a>
       </li>
     
+      <li class="post">
+        <a href="/blog/2011/11/28/add-emacsd/">add .emacs.d/init.el</a>
+      </li>
+    
   </ul>
 </section>
 <!-- 
     from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
 -->
 
 <section>
@@ -336,7 +337,10 @@ consider using them in your next project.</p>
     function display_coderwall(args) {
         var badges = args["data"]["badges"];
         for ( var i = 0; i < badges.length; i++ ) {
-            document.write('<img src="'+ badges[i]["badge"] + '" width="48" height="48" />');
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
         }
     }
   </script>

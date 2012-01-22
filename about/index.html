@@ -263,10 +263,6 @@ harvested for spam).</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/01/19/testing-out-octopress/">Testing Out Octopress</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2012/01/18/on-sopa-and-pipa/">on SOPA and PIPA</a>
       </li>
     
@@ -282,10 +278,15 @@ harvested for spam).</p>
         <a href="/blog/2011/12/03/suddenly-enlightenment/">suddenly enlightenment</a>
       </li>
     
+      <li class="post">
+        <a href="/blog/2011/11/28/add-emacsd/">add .emacs.d/init.el</a>
+      </li>
+    
   </ul>
 </section>
 <!-- 
     from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
 -->
 
 <section>
@@ -295,7 +296,10 @@ harvested for spam).</p>
     function display_coderwall(args) {
         var badges = args["data"]["badges"];
         for ( var i = 0; i < badges.length; i++ ) {
-            document.write('<img src="'+ badges[i]["badge"] + '" width="48" height="48" />');
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
         }
     }
   </script>
