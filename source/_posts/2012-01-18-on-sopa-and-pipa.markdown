@@ -9,8 +9,8 @@ categories: musings
 Imagine you are the owner of a small restaurant. The neighbourhood is of mixed 
 quality, but this is where you live so you try to make do anyways. One day, 
 new laws are passed such that if anyone in your restaurant conducts any sort of 
-illegal activity (like a drug deal), the police blockade your restaurant and force 
-everyone out. Furthermore, this new law isn't clear about how to get your 
+illegal activity (like a drug deal), the police blockade your restaurant and 
+force everyone out. Furthermore, this new law isn't clear about how to get your 
 restaurant back. The politicans who made this law have absolutely no experience 
 in the restaurant industry, but still expect you to continually monitor all your 
 patrons and do the work of the police and law enforcement for them. At any time, 
@@ -44,15 +44,17 @@ US market)? [Ars Technica](http://www.arstechnica.com) has a
 on how SOPA/PIPA affect foreign users.
 
 So what could the government do instead?
-* work on improving the technical skills of their workforce (not driving away the people with these skills with the government's current overwhelming ineptitude would be a good start)
+
+* work on improving the technical skills of their workforce (not driving away the people with these skills with the government's current overwhelming ineptitude would be a good start)   
 * being far more transparent about the process of taking down a site
 
 Unfortunately, I don't have enough money to pay the government to listen to me.
 
-Further reading:<br>
+Further reading:
+
 0. The EFF has a good [Takedown Wall of Shame](https://www.eff.org/takedowns) 
-if you don't believe the government would possibly abuse or misuse their takedown
-powers.
+if you don't believe the government would possibly abuse or misuse their 
+takedown powers.
 0. The EFF also has a [good writeup](https://www.eff.org/deeplinks/2012/01/how-pipa-and-sopa-violate-white-house-principles-supporting-free-speech) on SOPA.
 0. [Stop American Censorship](http://americancensorship.org/)
 0. Fight For the Future has a [good video](http://fightforthefuture.org/pipa)
