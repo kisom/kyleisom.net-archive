@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-22T14:47:38+03:00</updated>
+  <updated>2012-01-22T14:48:57+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -57,24 +57,21 @@ on how SOPA/PIPA affect foreign users.</p>
 
 <p>So what could the government do instead?</p>
 
-<pre><code>* work on improving the technical skills of their workforce (not driving away the people with these skills with the government's current overwhelming ineptitude would be a good start)   
-* being far more transparent about the process of taking down a site
-</code></pre>
+<ul>
+<li>work on improving the technical skills of their workforce (not driving away the people with these skills with the government&#8217;s current overwhelming ineptitude would be a good start)</li>
+<li>being far more transparent about the process of taking down a site</li>
+</ul>
+
 
 <p>Unfortunately, I don&#8217;t have enough money to pay the government to listen to me.</p>
 
 <p>Further reading:</p>
 
-<pre><code>0. The EFF has a good [Takedown Wall of Shame](https://www.eff.org/takedowns) 
-</code></pre>
-
-<p>if you don&#8217;t believe the government would possibly abuse or misuse their
-takedown powers.</p>
-
-<pre><code>0. The EFF also has a [good writeup](https://www.eff.org/deeplinks/2012/01/how-pipa-and-sopa-violate-white-house-principles-supporting-free-speech) on SOPA.
-</code></pre>
-
 <ol>
+<li>The EFF has a good <a href="https://www.eff.org/takedowns">Takedown Wall of Shame</a>
+if you don&#8217;t believe the government would possibly abuse or misuse their
+takedown powers.</li>
+<li>The EFF also has a <a href="https://www.eff.org/deeplinks/2012/01/how-pipa-and-sopa-violate-white-house-principles-supporting-free-speech">good writeup</a> on SOPA.</li>
 <li><a href="http://americancensorship.org/">Stop American Censorship</a></li>
 <li>Fight For the Future has a <a href="http://fightforthefuture.org/pipa">good video</a></li>
 </ol>
@@ -199,7 +196,7 @@ while I was working on getting a web development test VM / environment working. 
 goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 
 <p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#99;&#111;&#100;&#x65;&#114;&#64;&#107;&#121;&#108;&#x65;&#x69;&#x73;&#111;&#x6d;&#x2e;&#x6e;&#x65;&#116;">&#99;&#111;&#100;&#x65;&#114;&#64;&#x6b;&#x79;&#108;&#101;&#x69;&#x73;&#x6f;&#x6d;&#46;&#x6e;&#101;&#116;</a>
+   Author: Kyle Isom <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x63;&#111;&#x64;&#x65;&#114;&#x40;&#107;&#121;&#x6c;&#x65;&#x69;&#x73;&#111;&#109;&#46;&#x6e;&#x65;&#116;">&#99;&#x6f;&#x64;&#x65;&#114;&#64;&#x6b;&#121;&#108;&#101;&#x69;&#x73;&#x6f;&#109;&#x2e;&#110;&#101;&#116;</a>
    Date:   Sat Dec 3 00:24:34 2011 +0300</p>
 
 <pre><code>   suddenly enlightenment
