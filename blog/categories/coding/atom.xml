@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coding | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-22T22:01:38+03:00</updated>
+  <updated>2012-01-22T22:03:07+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -24,16 +24,24 @@ become aware of them, rest assured I will quickly put them to right.</p>
 
 <p><a href="http://www.kyleisom.net/blog/2011/11/35-dot_emacs">Today's git commit</a> occurred
 while I was working on getting a web development test VM / environment working. The
-goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
-
-<p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#99;&#111;&#x64;&#x65;&#x72;&#x40;&#x6b;&#121;&#108;&#x65;&#x69;&#115;&#x6f;&#x6d;&#46;&#110;&#x65;&#116;">&#99;&#111;&#x64;&#x65;&#114;&#x40;&#107;&#121;&#x6c;&#x65;&#105;&#115;&#x6f;&#109;&#46;&#110;&#x65;&#x74;</a>
-   Date:   Sat Dec 3 00:24:34 2011 +0300</p>
-
-<pre><code>   suddenly enlightenment
-</code></pre>
-
-<p>It took a while for me to grok what was happening with the hook, but finally it clicked.
+goal was to update a CGI script when I pushed to the dev vm. The commit log:
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
+</span><span class='line'>   Author: Kyle Isom &lt;a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x63;&#111;&#100;&#x65;&#114;&#x40;&#x6b;&#x79;&#x6c;&#x65;&#x69;&#x73;&#111;&#x6d;&#46;&#x6e;&#x65;&#116;">&#x63;&#x6f;&#100;&#101;&#114;&#64;&#x6b;&#x79;&#x6c;&#x65;&#105;&#115;&#x6f;&#x6d;&#46;&#110;&#101;&#x74;&lt;/a>
+</span><span class='line'>   Date:   Sat Dec 3 00:24:34 2011 +0300&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>   suddenly enlightenment
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div>
+It took a while for me to grok what was happening with the hook, but finally it clicked.
 I did a lot of reading online, and was greatly helped by the <a href="https://www.ora.com">O'Reilly</a>
 book <a href="https://shop.oreilly.com/product/9780596620137.do">Version Control with Git</a>
 and the <code>githooks(5)</code> man page.</p>
