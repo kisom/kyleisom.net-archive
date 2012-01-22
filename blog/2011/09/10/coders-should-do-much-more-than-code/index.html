@@ -333,7 +333,31 @@ integral to the development process.</p>
     
   </ul>
 </section>
-Included file 'custom/asides/coderwall.html' not found in _includes directory
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall</h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+  <p style="text-align: right;"><a href="http://coderwall.com/kisom">Powered by coderwall.com</a></p>
+</section>
+
+
 <section>
   <h1>Github Repos</h1>
   <ul id="gh_repos">
