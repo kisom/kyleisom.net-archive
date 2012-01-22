@@ -380,7 +380,7 @@ function showLastfmFeed(xml){
         url = $(this).find('url').text(),
         img = $(this).find('image').text(),
         artist_url = url.replace(/_\/[\w\+]+\/?$/, '');
-        content += '<li id="lastfmItem_'+i+'"><img src="' + img + '" width="24" height="24" border="0" box-shadow="none"> <a href="'+ url + '">' + name +'</a> by <a href="' + artist_url + '">' + artist + '</a><span class="date"> ' + prettyDate(date) + ' ago</span></li>';
+        content += '<li id="lastfmItem_'+i+'"><img src="' + img + '" width="24" height="24"> <a href="'+ url + '">' + name +'</a> by <a href="' + artist_url + '">' + artist + '</a><span class="date"> ' + prettyDate(date) + ' ago</span></li>';
     i+=1;
   });
 

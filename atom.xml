@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-22T20:53:13+03:00</updated>
+  <updated>2012-01-22T22:01:38+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -159,10 +159,10 @@ there was no fallout), I can talk about what I think of the spate of
 LulzSec-style attacks this year. And that is - getting mad at Anonymous,
 LulzSec, AntiSec, or whatever the nom du jour is, is an exercise in futility
 and ignorance. It&#8217;s like getting mad at your five year old for getting into
-the cookie jar you left on the kitchen table. Your antiquate and ineffective
-security mechanism (the kid couldn&#8217;t <em>possibly</em> get on the table) should
-have been replaced by something more effective (maybe locking it in the
-pantry, overkill for a cookie jar though).</p>
+the cookie jar you left on the kitchen table. Your antiquated and
+ineffective security mechanism (the kid couldn&#8217;t <em>possibly</em> get on the
+table) should have been replaced by something more effective (maybe locking
+it in the pantry, overkill for a cookie jar though).</p>
 
 <p>The issue is it&#8217;s 2011 (almost 2012) and we&#8217;ve been doing this for a while
 now. The rampant incompetence of people setting up these sites should be
@@ -196,7 +196,7 @@ while I was working on getting a web development test VM / environment working. 
 goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 
 <p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x63;&#111;&#x64;&#x65;&#x72;&#x40;&#x6b;&#x79;&#x6c;&#x65;&#105;&#115;&#111;&#109;&#x2e;&#110;&#101;&#x74;">&#99;&#111;&#x64;&#x65;&#114;&#64;&#x6b;&#121;&#x6c;&#x65;&#x69;&#115;&#x6f;&#109;&#46;&#x6e;&#101;&#116;</a>
+   Author: Kyle Isom <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x63;&#x6f;&#100;&#x65;&#x72;&#x40;&#x6b;&#x79;&#x6c;&#101;&#105;&#x73;&#111;&#109;&#46;&#x6e;&#101;&#x74;">&#99;&#111;&#x64;&#101;&#114;&#64;&#107;&#121;&#108;&#x65;&#x69;&#x73;&#111;&#109;&#x2e;&#110;&#x65;&#116;</a>
    Date:   Sat Dec 3 00:24:34 2011 +0300</p>
 
 <pre><code>   suddenly enlightenment

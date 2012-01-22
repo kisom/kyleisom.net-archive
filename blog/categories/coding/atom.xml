@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coding | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-22T20:53:13+03:00</updated>
+  <updated>2012-01-22T22:01:38+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -27,7 +27,7 @@ while I was working on getting a web development test VM / environment working. 
 goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 
 <p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#99;&#111;&#100;&#101;&#114;&#64;&#x6b;&#x79;&#108;&#101;&#x69;&#x73;&#x6f;&#109;&#x2e;&#x6e;&#101;&#x74;">&#x63;&#111;&#100;&#101;&#x72;&#x40;&#x6b;&#x79;&#x6c;&#101;&#x69;&#x73;&#111;&#109;&#x2e;&#110;&#101;&#116;</a>
+   Author: Kyle Isom <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#99;&#111;&#x64;&#x65;&#x72;&#x40;&#x6b;&#121;&#108;&#x65;&#x69;&#115;&#x6f;&#x6d;&#46;&#110;&#x65;&#116;">&#99;&#111;&#x64;&#x65;&#114;&#x40;&#107;&#121;&#x6c;&#x65;&#105;&#115;&#x6f;&#109;&#46;&#110;&#x65;&#x74;</a>
    Date:   Sat Dec 3 00:24:34 2011 +0300</p>
 
 <pre><code>   suddenly enlightenment

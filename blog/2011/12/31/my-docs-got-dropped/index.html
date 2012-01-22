@@ -113,10 +113,10 @@ there was no fallout), I can talk about what I think of the spate of
 LulzSec-style attacks this year. And that is - getting mad at Anonymous,
 LulzSec, AntiSec, or whatever the nom du jour is, is an exercise in futility
 and ignorance. It&#8217;s like getting mad at your five year old for getting into
-the cookie jar you left on the kitchen table. Your antiquate and ineffective
-security mechanism (the kid couldn&#8217;t <em>possibly</em> get on the table) should
-have been replaced by something more effective (maybe locking it in the
-pantry, overkill for a cookie jar though).</p>
+the cookie jar you left on the kitchen table. Your antiquated and
+ineffective security mechanism (the kid couldn&#8217;t <em>possibly</em> get on the
+table) should have been replaced by something more effective (maybe locking
+it in the pantry, overkill for a cookie jar though).</p>
 
 <p>The issue is it&#8217;s 2011 (almost 2012) and we&#8217;ve been doing this for a while
 now. The rampant incompetence of people setting up these sites should be
@@ -354,7 +354,7 @@ function showLastfmFeed(xml){
         url = $(this).find('url').text(),
         img = $(this).find('image').text(),
         artist_url = url.replace(/_\/[\w\+]+\/?$/, '');
-        content += '<li id="lastfmItem_'+i+'"><img src="' + img + '" width="24" height="24" border="0" box-shadow="none"> <a href="'+ url + '">' + name +'</a> by <a href="' + artist_url + '">' + artist + '</a><span class="date"> ' + prettyDate(date) + ' ago</span></li>';
+        content += '<li id="lastfmItem_'+i+'"><img src="' + img + '" width="24" height="24"> <a href="'+ url + '">' + name +'</a> by <a href="' + artist_url + '">' + artist + '</a><span class="date"> ' + prettyDate(date) + ' ago</span></li>';
     i+=1;
   });
 
