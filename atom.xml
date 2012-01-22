@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-22T14:42:27+03:00</updated>
+  <updated>2012-01-22T14:45:32+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -21,8 +21,8 @@
     <content type="html"><![CDATA[<p>Imagine you are the owner of a small restaurant. The neighbourhood is of mixed
 quality, but this is where you live so you try to make do anyways. One day,
 new laws are passed such that if anyone in your restaurant conducts any sort of
-illegal activity (like a drug deal), the police blockade your restaurant and force
-everyone out. Furthermore, this new law isn&#8217;t clear about how to get your
+illegal activity (like a drug deal), the police blockade your restaurant and
+force everyone out. Furthermore, this new law isn&#8217;t clear about how to get your
 restaurant back. The politicans who made this law have absolutely no experience
 in the restaurant industry, but still expect you to continually monitor all your
 patrons and do the work of the police and law enforcement for them. At any time,
@@ -55,7 +55,7 @@ US market)? <a href="http://www.arstechnica.com">Ars Technica</a> has a
 <a href="http://arstechnica.com/tech-policy/news/2012/01/what-does-sopa-mean-for-us-foreigners.ars">good writeup</a>
 on how SOPA/PIPA affect foreign users.</p>
 
-<p>So what could the government do instead?
+<p>So what could the government do instead?  <br/>
 * work on improving the technical skills of their workforce (not driving away the people with these skills with the government&#8217;s current overwhelming ineptitude would be a good start)
 * being far more transparent about the process of taking down a site</p>
 
@@ -188,7 +188,7 @@ while I was working on getting a web development test VM / environment working. 
 goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 
 <p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x63;&#111;&#100;&#x65;&#114;&#64;&#107;&#x79;&#x6c;&#101;&#x69;&#115;&#111;&#x6d;&#x2e;&#110;&#x65;&#x74;">&#x63;&#111;&#x64;&#x65;&#x72;&#64;&#107;&#121;&#x6c;&#101;&#x69;&#x73;&#111;&#109;&#x2e;&#110;&#101;&#x74;</a>
+   Author: Kyle Isom <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x63;&#x6f;&#x64;&#x65;&#114;&#64;&#107;&#121;&#108;&#101;&#x69;&#x73;&#x6f;&#109;&#46;&#110;&#101;&#x74;">&#99;&#x6f;&#100;&#x65;&#x72;&#x40;&#x6b;&#121;&#x6c;&#101;&#x69;&#115;&#x6f;&#109;&#x2e;&#110;&#x65;&#x74;</a>
    Date:   Sat Dec 3 00:24:34 2011 +0300</p>
 
 <pre><code>   suddenly enlightenment
