@@ -310,8 +310,10 @@ function showLastfmFeed(xml){
     var artist = $(this).find('artist').text(),
         name = $(this).find('name').text(),
         date = $(this).find('date').text(),
-        url = $(this).find('url').text();
-    content += '<li id="lastfmItem_'+i+'"><a href="'+ url + '">' + name +'</a> by '+ artist + '<span class="date"> ' + prettyDate(date) + ' ago</span></li>';
+        url = $(this).find('url').text(),
+        img = $(this).find('image').text(),
+        artist_url = url.replace(/_\/[\w\+]+\/?$/, '');
+        content += '<li id="lastfmItem_'+i+'"><img src="' + img + '" width="24" height="24" border="0" box-shadow="none"> <a href="'+ url + '">' + name +'</a> by <a href="' + artist_url + '">' + artist + '</a><span class="date"> ' + prettyDate(date) + ' ago</span></li>';
     i+=1;
   });
 
@@ -319,6 +321,7 @@ function showLastfmFeed(xml){
 }
 </script>
 </section>
+
 
   
 </aside>
