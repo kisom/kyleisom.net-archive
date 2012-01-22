@@ -16,7 +16,7 @@ A brief stint playing with clojure made miss common lisp, so I'm working
 through [Paul Graham's](http://www.paulgraham.com)
 [ANSI Common Lisp](http://paulgraham.com/acl.html) with a copy of
 [On Lisp](http://paulgraham.com/onlisp.html). My last foray, I learned 
-from [David Touretzky's[(http://www.cs.cmu.edu/~dst/)
+from [David Touretzky's](http://www.cs.cmu.edu/~dst/)
 [A Gentle Introduction to Symbolic Computation](http://www.cs.cmu.edu/~dst/LispBook/index.html),
 so this time I'm trying PG's book. So far I've done more useful things,
 mostly by actually reading a bit more of the [sbcl](http://www.sbcl.org)
@@ -26,7 +26,7 @@ and by the immensely useful site
 [Rosetta Code](http://rosettacode.org/wiki/Rosetta_Code), from which I
 learned about the [DRAKMA](http://www.weitz.de/drakma/) HTTP client
 library. I've also been aided quite a bit by
-[Zach Beane's](http://xach.com) (quicklisp)[http://www.quicklisp.org/];
+[Zach Beane's](http://xach.com) [quicklisp](http://www.quicklisp.org/);
 in fact, one of the things I've done is to write a short 
 [script](https://gist.github.com/1548276) to build an sbcl image with
 quicklisp and my most commonly used libraries built-in.
