@@ -105,7 +105,7 @@ while I was working on getting a web development test VM / environment working. 
 goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 
 <p>   commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-   Author: Kyle Isom <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#99;&#111;&#x64;&#x65;&#x72;&#64;&#107;&#x79;&#108;&#x65;&#x69;&#x73;&#x6f;&#109;&#46;&#110;&#101;&#116;">&#x63;&#111;&#x64;&#x65;&#x72;&#x40;&#x6b;&#121;&#108;&#101;&#x69;&#x73;&#111;&#109;&#46;&#x6e;&#x65;&#x74;</a>
+   Author: Kyle Isom <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#x6f;&#x64;&#x65;&#x72;&#x40;&#107;&#x79;&#108;&#101;&#105;&#115;&#x6f;&#x6d;&#x2e;&#110;&#x65;&#116;">&#99;&#111;&#100;&#x65;&#114;&#x40;&#107;&#x79;&#108;&#101;&#105;&#115;&#x6f;&#x6d;&#x2e;&#110;&#101;&#116;</a>
    Date:   Sat Dec 3 00:24:34 2011 +0300</p>
 
 <pre><code>   suddenly enlightenment
@@ -392,6 +392,24 @@ consider using them in your next project.</p>
   
 </section>
 
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
 
 
 
