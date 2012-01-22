@@ -22,10 +22,10 @@ there was no fallout), I can talk about what I think of the spate of
 LulzSec-style attacks this year. And that is - getting mad at Anonymous,
 LulzSec, AntiSec, or whatever the nom du jour is, is an exercise in futility
 and ignorance. It's like getting mad at your five year old for getting into
-the cookie jar you left on the kitchen table. Your antiquate and ineffective
-security mechanism (the kid couldn't *possibly* get on the table) should
-have been replaced by something more effective (maybe locking it in the 
-pantry, overkill for a cookie jar though).
+the cookie jar you left on the kitchen table. Your antiquated and 
+ineffective security mechanism (the kid couldn't *possibly* get on the 
+table) should have been replaced by something more effective (maybe locking 
+it in the pantry, overkill for a cookie jar though).
 
 The issue is it's 2011 (almost 2012) and we've been doing this for a while
 now. The rampant incompetence of people setting up these sites should be 
