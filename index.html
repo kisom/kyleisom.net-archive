@@ -282,42 +282,12 @@ quicklisp and my most commonly used libraries built-in.</p>
 
   <div class="entry-content"><p>My docs are in the stratfor leak.</p>
 
-<p>I&#8217;m not too worried though; everything in there is either out of date
-(i.e. that credit card already expired and I have a new one now), my
-password was used only on that site (but was a 22 character phrase with
-punctuation), and that email address was only used for stratfor. My
-address was also already published due to my domain names (most of which
-are now privately registered, but I couldn&#8217;t always afford that).</p>
-
-<p>Now that I have a doc drop that actually affects me (the mtgox break-in
-gathered a similarly difficult and unique password, and besides some spamming
-from idiots trying to exploit the situation with new bitcoin services
-there was no fallout), I can talk about what I think of the spate of
-LulzSec-style attacks this year. And that is - getting mad at Anonymous,
-LulzSec, AntiSec, or whatever the nom du jour is, is an exercise in futility
-and ignorance. It&#8217;s like getting mad at your five year old for getting into
-the cookie jar you left on the kitchen table. Your antiquated and
-ineffective security mechanism (the kid couldn&#8217;t <em>possibly</em> get on the
-table) should have been replaced by something more effective (maybe locking
-it in the pantry, overkill for a cookie jar though).</p>
-
-<p>The issue is it&#8217;s 2011 (almost 2012) and we&#8217;ve been doing this for a while
-now. The rampant incompetence of people setting up these sites should be
-made a crime. That would be a far better use of legislative effort than the
-brain dead attempts at anti-piracy we&#8217;re seeing now. The script kiddies
-aren&#8217;t exhibiting any serious talent, the security (I use the term loosely
-here) people are setting up is juvenile.</p>
-
-<p><strong> Afterthoughts: </strong></p>
-
-<p>As <a href="http://hackerne.ws/user?id=gyardley">gyardley</a> pointed out on
-<a href="http://hackerne.ws/item?id=3411236">hackerne.ws</a>, when I compare the
-LulzSec-type script kiddies to five-year-olds, I don&#8217;t mean to create
-the impression that they shouldn&#8217;t be held legally liable. I do fear,
-however, that focusing on legal actions against those responsible will
-cause us to lose focus on the bigger problem.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/12/31/my-docs-got-dropped/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -373,130 +343,14 @@ goal was to update a CGI script when I pushed to the dev vm. The commit log:</p>
 </span><span class='line'>       suddenly enlightenment</span></code></pre></td></tr></table></div></figure>
 
 
-<p>It took a while for me to grok what was happening with the hook, but finally it clicked.
-I did a lot of reading online, and was greatly helped by the <a href="https://www.ora.com">O&#8217;Reilly</a>
-book <a href="https://shop.oreilly.com/product/9780596620137.do">Version Control with Git</a>
-and the <code>githooks(5)</code> man page.</p>
-
-<p>My remote repository was a bare git repo (one initialised with <code>git init --bare</code> that I
-pushed my local changes to. I created a staging directory (<code>${HOME}/stage/cgitest</code>)
-and created the following hook:</p>
-
-<pre><code>kyle@www-dev:~/code/cgitest/hooks$ cat post-update
-#!/bin/sh
-export GIT_DIR=/home/kyle/code/zipcgi
-export GIT_WORK_TREE=/home/kyle/stage/zipcgi
-git reset --hard
-git checkout -f
-cp ${GIT_WORK_TREE}/zipcgi.py ~/bin/cgi/
-</code></pre>
-
-<p>As a side note, make sure the script is <code>chmod +x</code>&#8216;d.</p>
-
-<p>The reason why we have to specify the git dir is that by default,
-because this is in the bare repository, git will assume the git
-directory is the repository directory. The problem is, that directory
-doesn&#8217;t have a working tree. A working tree is required to checkout
-the repository - i.e. so we have a named file to work with. To work
-around this, I explicitly specify a working tree . Then I copy the CGI
-script to my CGI directory.</p>
-
-<p>Why not just symlink the file? Well, symlinks work on inodes. This
-allows multiple names to refer to the same file, but it does mean that
-even though the file is in the same directory and shares the same
-name, it is not guaranteed the same inode number. The git checkout
-can, in essence, unlink the old file and create a completely new
-file. The end result is that your symlink will likely be broken,
-pointing to a now non-existent inode. The safest method is just to
-copy the new version on top of the old one.</p>
-
-<p>Why do we have to manipulate the environment variables
-<code>GIT_DIR</code> (which points to the directory containing the actual git
-repository, more on that in a second) and <code>GIT_WORK_TREE</code>, which
-represents the working tree. To really understand this, you need to
-understand the difference between the working tree and the
-repository. You could take the long route and read the excellent book
-I mentioned above and wade through man pages (which are pretty well
-written, but there is a lot of information to keep track of). An
-alternative is to buckle in and keep reading for my crash course.</p>
-
-<p>Still here? Buckled in? Let&#8217;s do this. A git repository is basically a
-filesystem-based database that uses hashes for identification and
-great success. If you poke around in your git repository (which in a
-standard local repository is in <code>${PROJECT}/.git</code>), particularly under
-objects, you will see what I mean. Everything is stored as a hash
-object. Git uses <a href="https://en.wikipedia.org/wiki/SHA-1">SHA-1</a>, and
-under <code>.git/objects</code> you will see a list of subdirectorys. These
-subdirectories (with the exception of <code>pack</code> and <code>info</code>) named after
-the first byte of the SHA-1 hash (which is two bytes when stored as a
-semi-human readable hex digest). Under these subdirectories, git
-stores the objects as the remaining 19 bytes (again, 38 bytes when
-stored as a hex digest) of the hash. The file is
-zlib-compressed. Don&#8217;t believe me? If you clone my
-<a href="https://github.com/kisom/woofs">woofs project</a> and look up</p>
-
-<p><code>.git/objects/bf/2f7383ca7343f85f1308fc6dc3c34dbd047d90</code>.</p>
-
-<p>Try the following python code:</p>
-
-<pre><code>import zlib
-print zlib.decompress(open('2f7383ca7343f85f1308fc6dc3c34dbd047d90').read())
-</code></pre>
-
-<p>You should see a working version of the script (and the latest version
-as of this writing). This is how git sees everything. (If you want to
-see what git sees a file as, use <code>git hash-object &lt;FILE&gt;</code>.)</p>
-
-<p>The working directory is where you, the developer or end user,
-interact with the contents of the database. This is where things can
-be staged to be committed, and in a bare repo (typically found
-on remote repos), there won&#8217;t be a working directory because you
-aren&#8217;t working directly on that copy of the repo. Try this:</p>
-
-<pre><code>mkdir -p ~/tmp/stage/woofs_working
-export GIT_DIR=~/Code/woofs/.git 
-export GIT_WORK_TREE=~/tmp/stage/woofs_working
-cd ~
-git reset --hard
-ls ~/tmp/stage/woofs_working
-</code></pre>
-
-<p>Voilà! You should see the contents of the repo there. (I&#8217;d recommend
-either closing out that terminal session or running</p>
-
-<pre><code>unset GIT_DIR GIT_WORK_TREE
-</code></pre>
-
-<p>to prevent problems later on. Also, while I&#8217;m using a repo I chose at
-random from my <code>~/Code</code> directory, you could (and should) be trying
-with a repo of your own.</p>
-
-<p>It should be clear now why I had to explicitly specify the two. The
-next two commands just reset the working directory to the lastest
-commit (i.e. the one that was just pushed) and check out a fresh copy,
-to make sure everything that should be present is present.</p>
-
-<p>This turned out to be a longer post than I had expected, but my hope
-is that it helps other people quickly get their hooks operational. The
-cool thing about hooks is they are just executable shells scripts,
-which means:</p>
-
-<ol>
-<li>the script&#8217;s <code>${PWD}</code> is the hooks directory in the git repo.</li>
-<li>the <code>${GIT_DIR}</code> is by default &#8216;.&#8217; and is the repo directory. for
-example, if we had a bare woofs repo, it would be something like
-<code>/home/kyle/code/woofs</code>, while in a local repo it would be
-<code>/home/kyle/code/woofs/.git</code>.</li>
-<li>because it&#8217;s just a shell script, you can use any language you can
-use a shebang for.</li>
-</ol>
 
 
-<p>Git hooks are a powerful tool and can greatly boost your productivity,
-automatically deploy code, and help us fight SkyNet. You should
-consider using them in your next project.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/12/03/suddenly-enlightenment/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -550,29 +404,12 @@ my madness, and it isn&#8217;t just that my morals are so comprised right
 now in this nadir of my life that I&#8217;ve even started learning
 javascript (a running joke).</p>
 
-<p>Due to my current work situation, and the prospect of traveling to and
-spending several months in a region with little to no network
-connectivity, I&#8217;ve purchased a new 11&#8221; Macbook Air. I chose the 11&#8221;
-model solely for price reasons; I would much prefer a larger
-laptop. I&#8217;ve previously owned two EeePCs (the 7&#8221;
-<a href="http://en.wikipedia.org/wiki/ASUS_Eee_PC#Eee_700_series">Eee PC 701</a>
-and the 11&#8221;
-<a href="http://en.wikipedia.org/wiki/ASUS_Eee_PC#Specifications">Eee PC 1101HAB</a>),
-so I&#8217;m familiar with the smaller form-factor, and not a huge fan to be
-honest.</p>
-
-<p>Enter emacs - I can do all my work on emacs, with an integrated python
-development environment incorporating a shell, pdb (with a pane that
-shows the current line of the file being executed as you&#8217;re stepping
-through code). I&#8217;ll still have the OS X desktop,
-<a href="http://www.iterm2.com/">iterm2</a>,
-<a href="http://tmux.sourceforge.net/">tmux</a>, and
-<a href="http://code.google.com/p/macvim/">macvim</a>. But for getting things
-done, I think that emacs is going to help out a lot.</p>
-
-<p>Plus it&#8217;s backed by a Lisp flavour.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/11/28/add-emacsd/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -612,19 +449,12 @@ done, I think that emacs is going to help out a lot.</p>
 
 <p>TL;DR One more combat veteran is disgusted and appalled by the actions of a few police officers during the course of the Occupy movement.</p>
 
-<p>I just got done watching <a href="http://www.youtube.com/watch?v=WmEHcOc0Sys">this video</a>, and the outrage I feel towards those peace officers who disrespect the freedoms that I, and many better man than I, have ostensibly fought to protect, welled up in my chest like a Midwest thunderstorm. While we were told that our actions in Iraq were in the name of freedom, while many people back home who supported us with letters and care packages were told we were defending freedom, the basic rights of <strong>American citizens</strong> are being trampled on by a few officers and police departments.</p>
-
-<p>Right up front: I don&#8217;t have anything against police officers. Yes, they do unpopular things. I understand that. When I came home, there were times when anti-war protesters took their protests to a personal level. As a 19 or 20 year old to return home from war, having seen friends and brothers killed, having experienced the trauma of being having your vehicle hit by an IED, and having had to make decision whether to take another man&#8217;s life or not (despite not being considered old enough to be responsible enough to consume alcohol), to have people tell you that you are a baby killer is a fairly difficult and emotionally trying experience. I took several of my best years out of my life to serve my country and gave up quite a number of opportunities in order to do so. I understand many of the feelings that I am sure many police officers feel when ordinary citizens harass and rail on them for actions they take that are unpopular. I get it. I know that as despicable as resorting to violence is, the fact of the matter is that humanity forces the need. Would that we were all enlightened, instead of being little more than clever apes with Facebook, but I understand that is not the case. Trust me.</p>
-
-<p>But as a fighting man in an actual war zone - and despite the so-called &#8220;threat of terror&#8221; that supposedly &#8220;looms&#8221; here, America is not a war zone - had I fired even non-lethal rounds at unarmed civilians unprovoked because I felt scared due to the loud noises they were making, I would have faced military punishments. Many soldiers were punished for less. As a professional soldier, I am trained and expected to make reliable snap shoot/no-shoot judgements. During the surge in Iraq, when I was in a very kinetic (military word for an area of active fighting) environment, we still were held accountable for our actions. If use of force was justified (and it was on many occasions), there is no issue.</p>
-
-<p>So to see American police officers engaging American citizens who are not wielding weapons is aggravating in no small way. As I mentioned in the opening paragraph, rage is a much better term for the emotion. It isn&#8217;t all the police officers, but just as a few soldiers cast shame over the entire US military, a few idiot police officers are casting shame over their departments and the governments they represent. If those officers were in my platoon, in addition to military judgement they would be taken out back and beaten.</p>
-
-<p>I don&#8217;t want to rant, I don&#8217;t want to say anything stupid, and I don&#8217;t want to end up resorting to ad-hominem attacks. Suffice it to say that many of us in the military, regardless of our agreement (or lack thereof) with the protesters&#8217; cause, stood up and defended the right of those protesters to have their voice heard. It is a sad day when the populace needs protection from the very police officers whose job is allegedly to protect that self-same populace. Let us not forget who pays the salary of those police officers.</p>
-
-<p>For those police officers who maintain their calm and professional bearing, I applaud you. I understand the desire to smash stupid people in the face for saying and thinking stupid things. Unfortunately, as a police officer, you are bound to protect those people. I have been in similar situations in the military, and I understand the frustration. If you feel so strongly about it, do it the old-fashioned way - go on your own, out of uniform, and throw down. If it&#8217;s a departmental policy to carry out those types of actions, then the government no longer serves its people and no longer upholds the Constitution, and it&#8217;s time for you to be replaced.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/10/29/on-the-police-response-to-the-occupy-movement/">Read on &rarr;</a>
+    </footer>
   
 
 
