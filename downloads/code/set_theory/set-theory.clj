@@ -34,24 +34,24 @@
 
 ; intersection illustration
 (println "intersection illustration (books in both mobile formats)")
-(def both_formats (clojure.set/intersection mobi epub))
-(doseq [book both_formats] 
+(def both-formats (clojure.set/intersection mobi epub))
+(doseq [book both-formats] 
     (println "\t" book))
 
 
 (println "books only in mobi format:")
-(def only_mobi (clojure.set/difference mobi epub))
-(doseq [book only_mobi]
+(def only-mobi (clojure.set/difference mobi epub))
+(doseq [book only-mobi]
     (println "\t" book))
 
 (println "books only in epub format:")
-(def only_epub (clojure.set/difference epub mobi))
-(doseq [book only_epub]
+(def only-epub (clojure.set/difference epub mobi))
+(doseq [book only-epub]
     (println "\t" book))
 
 ; complement illustration
 (println "books not in mobi format, using the library superset:")
-(def not_mobi (clojure.set/difference library mobi))
-(doseq [book not_mobi]
+(def not-mobi (clojure.set/difference library mobi))
+(doseq [book not-mobi]
     (println "\t" book))
 

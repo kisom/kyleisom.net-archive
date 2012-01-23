@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-24T00:08:41+03:00</updated>
+  <updated>2012-01-24T00:10:27+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -717,25 +717,25 @@ name the file, obviously).</p>
 </span><span class='line'>
 </span><span class='line'><span class="c1">; intersection illustration</span>
 </span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;intersection illustration (books in both mobile formats)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">both_formats</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/intersection</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">both_formats</span><span class="p">]</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">both-formats</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/intersection</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">both-formats</span><span class="p">]</span>
 </span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
 </span><span class='line'>
 </span><span class='line'>
 </span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in mobi format:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only_mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only_mobi</span><span class="p">]</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only-mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-mobi</span><span class="p">]</span>
 </span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
 </span><span class='line'>
 </span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in epub format:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only_epub</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">epub</span> <span class="nv">mobi</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only_epub</span><span class="p">]</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only-epub</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">epub</span> <span class="nv">mobi</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-epub</span><span class="p">]</span>
 </span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">; complement illustration</span>
 </span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books not in mobi format, using the library superset:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">not_mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">library</span> <span class="nv">mobi</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">not_mobi</span><span class="p">]</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">not-mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">library</span> <span class="nv">mobi</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">not-mobi</span><span class="p">]</span>
 </span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
