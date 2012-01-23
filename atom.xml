@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-23T22:49:25+03:00</updated>
+  <updated>2012-01-23T22:51:01+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -1305,6 +1305,9 @@ but I have enjoyed success with this at work.</p>
 <p>RGTDD has made a difference in how I develop code and stay productive;
 furthermore, above just using a specific development methodology, I&#8217;ve found
 certain tools to assist me in being productive.</p>
+
+<!-- more -->
+
 
 <p>So, RGTDD. It stands for README-generated Test-Driven Development. I took Tom
 Preston-Werner&#8217;s <a href="http://tom.preston-werner.com/2010/08/23/readme-driven-development.html">README-driven development</a>
