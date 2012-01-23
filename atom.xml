@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-23T22:41:39+03:00</updated>
+  <updated>2012-01-23T22:44:42+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -681,6 +681,9 @@ in your business anyhow); CCTV and other technical measures have too long of a
 delay (or require you to suspect something happened so you can check the tapes).
 Really, the only thing you can do is to move out of town.</p>
 
+<!-- more -->
+
+
 <p>Of course I&#8217;m talking about <a href="http://www.govtrack.us/congress/bill.xpd?bill=s112-968">PIPA</a>
 and <a href="http://www.govtrack.us/congress/bill.xpd?bill=h112-3261">SOPA</a>. The story I
 told isn&#8217;t entirely <a href="http://en.wikipedia.org/wiki/G%C3%B6del%2C_Escher%2C_Bach">isomorphic</a>
@@ -767,6 +770,9 @@ library. I&#8217;ve also been aided quite a bit by
 in fact, one of the things I&#8217;ve done is to write a short
 <a href="https://gist.github.com/1548276">script</a> to build an sbcl image with
 quicklisp and my most commonly used libraries built-in.</p>
+
+<!-- more -->
+
 
 <script src="https://gist.github.com/1548276.js?file=build-image.lisp"></script>
 
