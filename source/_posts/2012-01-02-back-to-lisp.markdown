@@ -12,7 +12,7 @@ categories: [lisp, hacking, commitlog]
    
     initial commit
 {% endcodeblock %}
-A brief stint playing with clojure made miss common lisp, so I'm working
+A brief stint playing with clojure made me miss common lisp, so I'm working
 through [Paul Graham's](http://www.paulgraham.com)
 [ANSI Common Lisp](http://paulgraham.com/acl.html) with a copy of
 [On Lisp](http://paulgraham.com/onlisp.html). My last foray, I learned 

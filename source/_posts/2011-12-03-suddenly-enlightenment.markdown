@@ -13,13 +13,13 @@ become aware of them, rest assured I will quickly put them to right.
 [Today's git commit](http://www.kyleisom.net/blog/2011/11/35-dot_emacs) occurred
 while I was working on getting a web development test VM / environment working. The
 goal was to update a CGI script when I pushed to the dev vm. The commit log:
-
+{% codeblock %}
    commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
    Author: Kyle Isom <coder@kyleisom.net>
    Date:   Sat Dec 3 00:24:34 2011 +0300
    
        suddenly enlightenment
-
+{% endcodeblock %}
 It took a while for me to grok what was happening with the hook, but finally it clicked.
 I did a lot of reading online, and was greatly helped by the [O'Reilly](https://www.ora.com)
 book [Version Control with Git](https://shop.oreilly.com/product/9780596620137.do)
