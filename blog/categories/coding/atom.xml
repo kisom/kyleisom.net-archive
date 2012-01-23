@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coding | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-23T22:20:31+03:00</updated>
+  <updated>2012-01-23T22:27:43+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -197,8 +197,9 @@ format.</li>
 
 <h3>Union</h3>
 
-<p>A union is the set of members that appear in either set. So we could define a
-subset of L that contains all the books I have in a mobile format, which for
+<p>A union is the set of members that appear in either set - if it's in at least
+one of the sets, it will appear in a union of the two sets. So we could define
+a subset of L that contains all the books I have in a mobile format, which for
 our purposes means copies exist in epub or mobi format. In Python, you can
 use the <code>set.union</code> method, and in Clojure you can use the functions in the
 <code>clojure.set</code> namespace.</p>
@@ -249,9 +250,9 @@ library in a mobile format.</p>
 
 <h3>Intersection</h3>
 
-<p>The intersection of two sets is a list of all the members that appear in both
-sets. In the library example, taking the intersection of the mobi and epub sets
-gives me a set of my books that I have in both epub and mobi format. The
+<p>The intersection of two sets is a list of all the members that only appear in
+both sets. In the library example, taking the intersection of the mobi and epub
+sets gives me a set of my books that I have in both epub and mobi format. The
 <code>intersection</code> function gives me this result.</p>
 
 <p>The Python example:
@@ -492,6 +493,7 @@ We'll develop the library idea a bit more.</p>
 <li><a href="https://saolsen.github.com/">Stephen Olsen</a></li>
 <li><a href="https://www.twitter.com/qb1t">Aaron Bieber</a></li>
 <li><a href="https://twitter.com/#!/Slaughterhut">Jason Barbier</a></li>
+<li><a href="http://shawnmeier.com/">Shawn Meier</a></li>
 <li>Matt Sowers</li>
 </ul>
 
@@ -763,7 +765,7 @@ goal was to update a CGI script when I pushed to the dev vm. The commit log:
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#x63;&#111;&#x64;&#101;&#114;&#x40;&#107;&#x79;&#x6c;&#101;&#x69;&#x73;&#111;&#x6d;&#46;&#110;&#101;&#116;">&#99;&#111;&#100;&#x65;&#x72;&#64;&#x6b;&#121;&#108;&#x65;&#105;&#115;&#x6f;&#109;&#x2e;&#x6e;&#101;&#x74;&lt;/a>
+</span><span class='line'>   Author: Kyle Isom &lt;a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#99;&#x6f;&#100;&#101;&#114;&#64;&#107;&#x79;&#108;&#101;&#105;&#115;&#111;&#x6d;&#x2e;&#x6e;&#x65;&#x74;">&#x63;&#111;&#100;&#x65;&#x72;&#x40;&#107;&#x79;&#108;&#x65;&#105;&#115;&#x6f;&#x6d;&#x2e;&#x6e;&#x65;&#x74;&lt;/a>
 </span><span class='line'>   Date:   Sat Dec 3 00:24:34 2011 +0300&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;pre>&lt;code>   suddenly enlightenment

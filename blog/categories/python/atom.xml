@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-23T22:20:31+03:00</updated>
+  <updated>2012-01-23T22:27:43+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -197,8 +197,9 @@ format.</li>
 
 <h3>Union</h3>
 
-<p>A union is the set of members that appear in either set. So we could define a
-subset of L that contains all the books I have in a mobile format, which for
+<p>A union is the set of members that appear in either set - if it's in at least
+one of the sets, it will appear in a union of the two sets. So we could define
+a subset of L that contains all the books I have in a mobile format, which for
 our purposes means copies exist in epub or mobi format. In Python, you can
 use the <code>set.union</code> method, and in Clojure you can use the functions in the
 <code>clojure.set</code> namespace.</p>
@@ -249,9 +250,9 @@ library in a mobile format.</p>
 
 <h3>Intersection</h3>
 
-<p>The intersection of two sets is a list of all the members that appear in both
-sets. In the library example, taking the intersection of the mobi and epub sets
-gives me a set of my books that I have in both epub and mobi format. The
+<p>The intersection of two sets is a list of all the members that only appear in
+both sets. In the library example, taking the intersection of the mobi and epub
+sets gives me a set of my books that I have in both epub and mobi format. The
 <code>intersection</code> function gives me this result.</p>
 
 <p>The Python example:
@@ -492,6 +493,7 @@ We'll develop the library idea a bit more.</p>
 <li><a href="https://saolsen.github.com/">Stephen Olsen</a></li>
 <li><a href="https://www.twitter.com/qb1t">Aaron Bieber</a></li>
 <li><a href="https://twitter.com/#!/Slaughterhut">Jason Barbier</a></li>
+<li><a href="http://shawnmeier.com/">Shawn Meier</a></li>
 <li>Matt Sowers</li>
 </ul>
 
