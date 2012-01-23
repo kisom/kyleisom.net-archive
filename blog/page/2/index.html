@@ -5,12 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>on SOPA and PIPA - (cons 'hack *life*)</title>
+  <title>(cons 'hack *life*)</title>
   <meta name="author" content="Kyle Isom">
 
   
-  <meta name="description" content="Imagine you are the owner of a small restaurant. The neighbourhood is of mixed
-quality, but this is where you live so you try to make do anyways. One &hellip;">
+  <meta name="description" content="i recently started learning
+objective caml. while it may be
+better documented than say standard ML, i&#8217;ve still had a few difficulties
+getting &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +21,7 @@ quality, but this is where you live so you try to make do anyways. One &hellip;"
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa">
+  <link rel="canonical" href="http://kisom.github.com/blog/page/2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -67,12 +69,15 @@ quality, but this is where you live so you try to make do anyways. One &hellip;"
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">On SOPA and PIPA</h1>
+      <h1 class="entry-title"><a href="/blog/2011/05/29/starting-ocaml/">Starting Ocaml</a></h1>
     
     
       <p class="meta">
@@ -88,142 +93,82 @@ quality, but this is where you live so you try to make do anyways. One &hellip;"
   
 
 
-<time datetime="2012-01-18T00:00:00+03:00" pubdate data-updated="true">Jan 18<span>th</span>, 2012</time>
+<time datetime="2011-05-29T00:00:00+03:00" pubdate data-updated="true">May 29<span>th</span>, 2011</time>
         
-         | <a href="#disqus_thread">Comments</a>
+         | <a href="/blog/2011/05/29/starting-ocaml/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Imagine you are the owner of a small restaurant. The neighbourhood is of mixed
-quality, but this is where you live so you try to make do anyways. One day,
-new laws are passed such that if anyone in your restaurant conducts any sort of
-illegal activity (like a drug deal), the police blockade your restaurant and
-force everyone out. Furthermore, this new law isn&#8217;t clear about how to get your
-restaurant back. The politicans who made this law have absolutely no experience
-in the restaurant industry, but still expect you to continually monitor all your
-patrons and do the work of the police and law enforcement for them. At any time,
-one of your patrons can call the police and claim something happened in your
-restaurant and you get shutdown. On top of all this, there are people actively
-looking for anything untoward happening so as to shut you down. What do you
-do? You can&#8217;t really afford to hire more waiters and waitresses or security
-personnel to monitor (and don&#8217;t really want to establish that kind of atmosphere
-in your business anyhow); CCTV and other technical measures have too long of a
-delay (or require you to suspect something happened so you can check the tapes).
-Really, the only thing you can do is to move out of town.</p>
+  <div class="entry-content"><p>i recently started learning
+<a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be
+better documented than say standard ML, i&#8217;ve still had a few difficulties
+getting started. i&#8217;ll be keeping notes here, and my github account will
+probably document quite a number of lessons learned.</p>
 
-<p>Of course I&#8217;m talking about <a href="http://www.govtrack.us/congress/bill.xpd?bill=s112-968">PIPA</a>
-and <a href="http://www.govtrack.us/congress/bill.xpd?bill=h112-3261">SOPA</a>. The story I
-told isn&#8217;t entirely <a href="http://en.wikipedia.org/wiki/G%C3%B6del%2C_Escher%2C_Bach">isomorphic</a>
-to the current situation, but it gets the idea across. The
-politicians enacting this legislation have admittedly no technical knowledge, despite the
-fact that the vast majority of the people working in the tech industry have decried this
-as a universally uneducated and ineffective decision that will do more to hurt the innocent
-than to accomplish its stated objectives.</p>
+<p>one of the most difficult parts about starting development in ocaml is
+that the best development environment i&#8217;ve found so far is emacs with
+tuareg-mode. i personally hate emacs (being a vim or straight vi/nvi type of
+character) but tuareg-mode is extremely useful. (using emacs also has the
+side-effect of starting me on org-mode). getting started on ubuntu was fairly
+easy:</p>
 
-<p>This is the exact reason why I would not start a tech business in the US anymore.
-Starting a business is hard enough with everything else; worrying about the legal
-environment is too much and there are plenty of places where law enforcement does
-its job instead of placing the burden on you.</p>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>apt-get install ocaml emacs23 tuareg-mode ocaml-findlib
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Unfortunately, just leaving the country isn&#8217;t going to let me just dodge the
-effects. What happens when you lose a large part of your market share (i.e. the
-US market)? <a href="http://www.arstechnica.com">Ars Technica</a> has a
-<a href="http://arstechnica.com/tech-policy/news/2012/01/what-does-sopa-mean-for-us-foreigners.ars">good writeup</a>
-on how SOPA/PIPA affect foreign users.</p>
 
-<p>So what could the government do instead?</p>
+<p>as well as a number of the ocaml libraries (which i recommend using aptitude
+to look through and install). i ended up installing the Jane Street core and
+the netclient libraries right off that bat.</p>
+
+<p>on OS X using macports, i just had to</p>
+
+<pre><code>    `port install ocaml caml-findlib tuareg-mode.el`
+</code></pre>
+
+<p>there are a couple other libraries you can install (like netclient) as well.</p>
+
+<h2>build notes:    </h2>
 
 <ul>
-<li>work on improving the technical skills of their workforce (not driving away the people with these skills with the government&#8217;s current overwhelming ineptitude would be a good start)</li>
-<li>being far more transparent about the process of taking down a site</li>
+<li>when building new module interfaces (*.cmi), make sure to do</li>
 </ul>
 
 
-<p>Unfortunately, I don&#8217;t have enough money to pay the government to listen to me.</p>
-
-<p>Further reading:</p>
-
-<ol>
-<li>The EFF has a good <a href="https://www.eff.org/takedowns">Takedown Wall of Shame</a>
-if you don&#8217;t believe the government would possibly abuse or misuse their
-takedown powers.</li>
-<li>The EFF also has a <a href="https://www.eff.org/deeplinks/2012/01/how-pipa-and-sopa-violate-white-house-principles-supporting-free-speech">good writeup</a> on SOPA.</li>
-<li><a href="http://americancensorship.org/">Stop American Censorship</a></li>
-<li>Fight For the Future has a <a href="http://fightforthefuture.org/pipa">good video</a></li>
-</ol>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ocamlc -o <span class="k">$(</span>LIBDIR<span class="k">)</span>/<span class="nv">$*</span>.cmi -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.mli<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Thanks to <a href="http://samuelgoodwin.tumblr.com">Samuel Goodwin</a>, Beau Holton,
-<a href="https://twitter.com/#!/Slaughterhut">Jason Barbier</a>,
-<a href="http://twitter.com/qb1t">Aaron Bieber</a>,
-and <a href="http://twitter.com/imwally">Wally Jones</a> for reviewing this.</p>
+<ul>
+<li>building %.cmx (i.e. *.ml files):</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">$(</span>FIND<span class="k">)</span> <span class="k">$(</span>NATIVE<span class="k">)</span> -o <span class="nv">$@</span> -I <span class="k">$(</span>LIBDIR<span class="k">)</span> <span class="k">$(</span>INCDIRS<span class="k">)</span> -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.ml<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
-
-      
-
-
-
-
-
-
-
-
   
 
 
-<time datetime="2012-01-18T00:00:00+03:00" pubdate data-updated="true">Jan 18<span>th</span>, 2012</time>
-      
-
-<span class="categories">
+    </article>
   
-    <a class='category' href='/blog/categories/musings/'>musings</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/01/02/back-to-lisp/" title="Previous Post: back to lisp">&laquo; back to lisp</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2012/01/23/basic-set-theory/" title="next Post: Basic Set Theory">Basic Set Theory &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -280,7 +225,7 @@ and <a href="http://twitter.com/imwally">Wally Jones</a> for reviewing this.</p>
 <section>
   <h1>Github Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kisom">@kisom</a> on Github
@@ -310,7 +255,7 @@ and <a href="http://twitter.com/imwally">Wally Jones</a> for reviewing this.</p>
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -326,7 +271,7 @@ and <a href="http://twitter.com/imwally">Wally Jones</a> for reviewing this.</p>
 
 <section>
   <h1>My Pinboard</h1>
-  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <ul id="pinboard_linkroll">Fetching linkroll&#8230;</ul>
   <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
 </section>
 <script type="text/javascript">
@@ -349,7 +294,7 @@ and <a href="http://twitter.com/imwally">Wally Jones</a> for reviewing this.</p>
   #lastfmList li{ text-align: left; }
 </style>
 <ul id="lastfmList">
-  <li class="loading">Updating tracks...</li>
+  <li class="loading">Updating tracks&#8230;</li>
 </ul>
 
 <script type="text/javascript">
@@ -394,7 +339,6 @@ function showLastfmFeed(xml){
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -409,10 +353,7 @@ function showLastfmFeed(xml){
       var disqus_shortname = 'conshacklife';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa/';
-        var disqus_url = 'http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

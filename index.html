@@ -9,8 +9,8 @@
   <meta name="author" content="Kyle Isom">
 
   
-  <meta name="description" content="Imagine you are the owner of a small restaurant. The neighbourhood is of mixed
-quality, but this is where you live so you try to make do anyways. One &hellip;">
+  <meta name="description" content="Currently under review This article isn&#8217;t quite ready for publishing yet, but it&#8217;s online as my
+reviewers take a look at it and let me &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +69,53 @@ quality, but this is where you live so you try to make do anyways. One &hellip;"
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/23/basic-set-theory/">Basic Set Theory</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-23T17:44:00+03:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2012</time>
+        
+         | <a href="/blog/2012/01/23/basic-set-theory/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong><em> Currently under review </em></strong></p>
+
+<p>This article isn&#8217;t quite ready for publishing yet, but it&#8217;s online as my
+reviewers take a look at it and let me know their thoughts, suggest corrections,
+or tell me I&#8217;m an idiot. :)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/01/23/basic-set-theory/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -994,96 +1041,9 @@ found to help me keep my life organised.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/05/29/starting-ocaml/">Starting Ocaml</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-05-29T00:00:00+03:00" pubdate data-updated="true">May 29<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/05/29/starting-ocaml/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>i recently started learning
-<a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be
-better documented than say standard ML, i&#8217;ve still had a few difficulties
-getting started. i&#8217;ll be keeping notes here, and my github account will
-probably document quite a number of lessons learned.</p>
-
-<p>one of the most difficult parts about starting development in ocaml is
-that the best development environment i&#8217;ve found so far is emacs with
-tuareg-mode. i personally hate emacs (being a vim or straight vi/nvi type of
-character) but tuareg-mode is extremely useful. (using emacs also has the
-side-effect of starting me on org-mode). getting started on ubuntu was fairly
-easy:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>apt-get install ocaml emacs23 tuareg-mode ocaml-findlib
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>as well as a number of the ocaml libraries (which i recommend using aptitude
-to look through and install). i ended up installing the Jane Street core and
-the netclient libraries right off that bat.</p>
-
-<p>on OS X using macports, i just had to</p>
-
-<pre><code>    `port install ocaml caml-findlib tuareg-mode.el`
-</code></pre>
-
-<p>there are a couple other libraries you can install (like netclient) as well.</p>
-
-<h2>build notes:    </h2>
-
-<ul>
-<li>when building new module interfaces (*.cmi), make sure to do</li>
-</ul>
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ocamlc -o <span class="k">$(</span>LIBDIR<span class="k">)</span>/<span class="nv">$*</span>.cmi -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.mli<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>building %.cmx (i.e. *.ml files):</li>
-</ul>
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">$(</span>FIND<span class="k">)</span> <span class="k">$(</span>NATIVE<span class="k">)</span> -o <span class="nv">$@</span> -I <span class="k">$(</span>LIBDIR<span class="k">)</span> <span class="k">$(</span>INCDIRS<span class="k">)</span> -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.ml<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -1094,6 +1054,10 @@ the netclient libraries right off that bat.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/01/23/basic-set-theory/">Basic Set Theory</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/01/18/on-sopa-and-pipa/">on SOPA and PIPA</a>
@@ -1109,10 +1073,6 @@ the netclient libraries right off that bat.</p>
     
       <li class="post">
         <a href="/blog/2011/12/03/suddenly-enlightenment/">suddenly enlightenment</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/11/28/add-emacsd/">add .emacs.d/init.el</a>
       </li>
     
   </ul>
