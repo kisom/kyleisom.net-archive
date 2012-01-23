@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: development | (cons 'hack *life*)]]></title>
+  <link href="http://kisom.github.com/blog/categories/development/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-01-23T22:41:39+03:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[starting ocaml]]></title>
+    <link href="http://kisom.github.com/blog/2011/05/29/starting-ocaml/"/>
+    <updated>2011-05-29T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/05/29/starting-ocaml</id>
+    <content type="html"><![CDATA[<p>i recently started learning
+<a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be
+better documented than say standard ML, i've still had a few difficulties
+getting started. i'll be keeping notes here, and my github account will
+probably document quite a number of lessons learned.</p>
+
+<p>one of the most difficult parts about starting development in ocaml is
+that the best development environment i've found so far is emacs with
+tuareg-mode. i personally hate emacs (being a vim or straight vi/nvi type of
+character) but tuareg-mode is extremely useful. (using emacs also has the
+side-effect of starting me on org-mode). getting started on ubuntu was fairly
+easy:   <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>apt-get install ocaml emacs23 tuareg-mode ocaml-findlib
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>as well as a number of the ocaml libraries (which i recommend using aptitude
+to look through and install). i ended up installing the Jane Street core and
+the netclient libraries right off that bat.</p>
+
+<p>on OS X using macports, i just had to</p>
+
+<pre><code>    `port install ocaml caml-findlib tuareg-mode.el`
+</code></pre>
+
+<p>there are a couple other libraries you can install (like netclient) as well.</p>
+
+<h2>build notes:    </h2>
+
+<ul>
+<li>when building new module interfaces (<em>.cmi), make sure to do   <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ocamlc -o <span class="k">$(</span>LIBDIR<span class="k">)</span>/<span class="nv">$&lt;</span>/em&gt;.cmi -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.mli<span class="sb">`</span>   &lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>building %.cmx (i.e. <em>.ml files):   <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">$(</span>FIND<span class="k">)</span> <span class="k">$(</span>NATIVE<span class="k">)</span> -o <span class="nv">$@</span> -I <span class="k">$(</span>LIBDIR<span class="k">)</span> <span class="k">$(</span>INCDIRS<span class="k">)</span> -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$&lt;</span>/em&gt;.ml<span class="sb">`</span>  &lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Introducing ctrans]]></title>
+    <link href="http://kisom.github.com/blog/2011/05/13/presenting-ctrans/"/>
+    <updated>2011-05-13T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/05/13/presenting-ctrans</id>
+    <content type="html"><![CDATA[<h2>intro</h2>
+
+<p>i just finished getting <strong><a href="https://www.github.com/kisom/ctrans">ctrans</a></strong> into
+a workable state. what is <strong>ctrans</strong>? in short, it translates comments in a
+foreign-language (i.e. russian) to english using google translate and some
+regex magic.</p>
+
+<p>the project started when one of my buddies and i started looking at the zeus
+source code. <a href="https://www.github.com/clarke187/">zenmower</a> got the first peek
+and mentioned all the comments being in russian; i started poking around looking
+for something to translate the comments. after ten minutes i couldn't find
+anything, so as they say, if you want something done do it yourself. i snagged
+<a href="http://www.halotis.com/2009/09/15/google-translate-api-python-script/">a python snippet to run google translate</a>
+on text passed in. it seemed to work pretty well and handled breaking the text
+up into chunks, so i cleaned it up a bit to fit my coding standards and started
+writing code to plug into that.</p>
+
+<p>i slapped together some regexes to scan for c-style comments and later
+scripting-language (i.e. python, perl, ruby) style '#' comments. a couple of
+iterations later, i had some mostly-working code that featured
+* file extension-based comment scanning (i.e. look for c-style comments in
+.cpp files, script-style comments in .pl files)
+* a directory scanning mode and a single-file mode
+* multiprocess directory scanning: the script builds a list of files that should
+be scanned (based solely on file extensions) and maps a pool of workers to scan
+through that list of files. i'll talk more on the multiprocessing design later.</p>
+
+<h2>unicode notes</h2>
+
+<p>this code worked pretty well on the test files i generated, but choked on the
+zeus source, throwing the dreaded
+<a href="http://wiki.python.org/moin/UnicodeDecodeError"><code>UnicodeDecodeError</code></a> and
+<a href="http://wiki.python.org/moin/UnicodeEncodeError"><code>UnicodeEncodeError</code></a>. after
+digging around and finding <a href="http://effbot.org/zone/unicode-objects.htm">some</a>
+<a href="http://stackoverflow.com/questions/3588083/unicodeencodeerror-ascii-codec-cant-encode-character-u-xa3">excellent</a>
+<a href="http://farmdev.com/talks/unicode/">resources</a> on
+<a href="http://www.joelonsoftware.com/articles/Unicode.html">unicode</a> that helped jog
+my memory and clarify a few things i wasn't thinking about. i came up with a
+few notes for dealing with different file encodings:</p>
+
+<ol>
+<li>you decode a stream of bytes being read into the program from whatever
+encoding the file came in (i.e. utf-8) to a unicode string.</li>
+<li>you encode a unicode string to whatever file encoding you want it output as;
+for most files, you will likely want utf-8. if you want to print the string, it
+needs to be the same encoding as your terminal (i.e.
+<code>sys.getdefaultencoding()</code>).</li>
+<li>it matters what encoding the file you are reading is. this was a problem for
+me, since the zeus source files were often not in utf-8 or ascii.</li>
+<li>file encoding detection if you really don't know what format the file is in
+is extremely difficult and programatically doing this is akin to black magic.
+the <a href="http://chardet.feedparser.org/">chardet module</a> is very useful but not
+always correct. case in point - the two test source files that ship with ctrans
+are saved as utf-8, but watch what happens when we try to guess the encoding on
+the python test file:</li>
+</ol>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>In [6]: ctrans.guess_encoding('./test.py')
+</span><span class='line'>[+] attemtping to autodetect coding for ./test.py
+</span><span class='line'>[+] detected coding ISO-8859-2 for file ./test.py (confidence: 0.90)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>that's a 90% confidence that the file uses a different encoding than it actually
+does. automagic should be used sparingly and with supervision.</p>
+
+<h2>concurrency notes</h2>
+
+<p>one design issue that came up is that of concurrency. i had to decide whether to
+launch new processes for each network connection (i.e. chunk of text being
+translated) or per-file (resulting in several network connections in sequence
+per process). the network connections were definitely the bottleneck, but i had
+to make sure the text would be returned in the proper sequence (order is <em>sort
+of</em> important in source files). in this case, the simplest answer to ensure
+the correctness of information, and given that files are the smallest <em>atomic</em>
+units, is to launch a new process to translate a file. given a list of the files
+that need to be translated, python's multiprocessing.Pool.map() makes it
+incredibly easy to set up a worker pool.</p>
+
+<p>concurrency also factored into how the file encoding guessing would work -
+my original idea was to modify the global variable <code>decodeas</code> and set this based
+on whatever encoding the file was guessed to be. however, proper concurrency
+requires locking and ensuring the consistency of that variable's state. it
+requires far less work to return the encoding as a string and set a local
+variable in the <code>scan_file()</code> function - the encoding string takes a minimal
+amount of memory and avoids the variable getting into an inconsistent state.</p>
+
+<h2>end notes</h2>
+
+<p>ctrans is still in a fairly rough state, but i think given the original goals -
+giving zenmower and me fast english translations (as best as could be done) of
+the comments in the source - the program does this fairly well. of course,
+it stills requires verification to ensure that the proper encodings are being
+used but it does work fairly quickly, the biggest slowdown typically being the
+network speed.</p>
+
+<p>the first commit was 2011-05-11 in the afternoon and the latest commit with
+what i consider revison 1.0 was committed 2011-05-13 - two days of coding,
+mostly hampered by network issues at home, to get working code.</p>
+
+<p>the source code is available at the github repo linked at the beginning. one
+planned improvement is to guess file encodings based on the average encoding
+detected in a directory (i.e. to compensate for possible variations in detected
+encoding and baesd on the assumption that encoding doesn't vary over a
+directory). the code also could be cleaned up quite a bit.</p>
+
+<p>the important thing is that i have working code to show...</p>
+]]></content>
+  </entry>
+  
+</feed>

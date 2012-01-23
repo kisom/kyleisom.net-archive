@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ocaml | (cons 'hack *life*)]]></title>
+  <link href="http://kisom.github.com/blog/categories/ocaml/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-01-23T22:41:39+03:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[starting ocaml]]></title>
+    <link href="http://kisom.github.com/blog/2011/05/29/starting-ocaml/"/>
+    <updated>2011-05-29T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/05/29/starting-ocaml</id>
+    <content type="html"><![CDATA[<p>i recently started learning
+<a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be
+better documented than say standard ML, i've still had a few difficulties
+getting started. i'll be keeping notes here, and my github account will
+probably document quite a number of lessons learned.</p>
+
+<p>one of the most difficult parts about starting development in ocaml is
+that the best development environment i've found so far is emacs with
+tuareg-mode. i personally hate emacs (being a vim or straight vi/nvi type of
+character) but tuareg-mode is extremely useful. (using emacs also has the
+side-effect of starting me on org-mode). getting started on ubuntu was fairly
+easy:   <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>apt-get install ocaml emacs23 tuareg-mode ocaml-findlib
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>as well as a number of the ocaml libraries (which i recommend using aptitude
+to look through and install). i ended up installing the Jane Street core and
+the netclient libraries right off that bat.</p>
+
+<p>on OS X using macports, i just had to</p>
+
+<pre><code>    `port install ocaml caml-findlib tuareg-mode.el`
+</code></pre>
+
+<p>there are a couple other libraries you can install (like netclient) as well.</p>
+
+<h2>build notes:    </h2>
+
+<ul>
+<li>when building new module interfaces (<em>.cmi), make sure to do   <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ocamlc -o <span class="k">$(</span>LIBDIR<span class="k">)</span>/<span class="nv">$&lt;</span>/em&gt;.cmi -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.mli<span class="sb">`</span>   &lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>building %.cmx (i.e. <em>.ml files):   <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">$(</span>FIND<span class="k">)</span> <span class="k">$(</span>NATIVE<span class="k">)</span> -o <span class="nv">$@</span> -I <span class="k">$(</span>LIBDIR<span class="k">)</span> <span class="k">$(</span>INCDIRS<span class="k">)</span> -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$&lt;</span>/em&gt;.ml<span class="sb">`</span>  &lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

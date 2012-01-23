@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: musings | (cons 'hack *life*)]]></title>
-  <link href="http://kisom.github.com/blog/categories/musings/atom.xml" rel="self"/>
+  <title><![CDATA[Category: political | (cons 'hack *life*)]]></title>
+  <link href="http://kisom.github.com/blog/categories/political/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
   <updated>2012-01-23T22:41:39+03:00</updated>
   <id>http://kisom.github.com/</id>
