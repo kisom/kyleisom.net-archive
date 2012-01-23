@@ -4,7 +4,7 @@
   <title><![CDATA[Category: math | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/math/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-24T00:00:33+03:00</updated>
+  <updated>2012-01-24T00:04:13+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -109,15 +109,15 @@ can be turned into a set with <code>(set coll)</code>:
 <span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">library</span> <span class="o">#</span><span class="p">{</span> <span class="s">&quot;Natural Language Processing with Python&quot;</span><span class="o">,</span><span class="nv">&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>            <span class="s">&quot;Learning OpenCV&#39;,</span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Code</span> <span class="nv">Complete</span><span class="s">&quot;, </span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Mastering</span> <span class="nv">Algorithms</span> <span class="nv">with</span> <span class="nv">C</span><span class="s">&quot;, </span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">The</span> <span class="nv">Joy</span> <span class="nv">of</span> <span class="nv">Clojure</span><span class="s">&quot;, </span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Mining</span> <span class="nv">the</span> <span class="nv">Social</span> <span class="nv">Web</span><span class="s">&quot;, </span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Algorithms</span> <span class="nv">In</span> <span class="nv">A</span> <span class="nv">Nutshell</span><span class="s">&quot;,</span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Introduction</span> <span class="nv">to</span> <span class="nv">Information</span> <span class="nv">Retrieval</span><span class="s">&quot;,</span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Network</span> <span class="nv">Security</span> <span class="nv">With</span> <span class="nv">OpenSSL</span><span class="s">&quot;,</span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">RADIUS</span><span class="err">&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>            <span class="s">&quot;Learning OpenCV&quot;</span><span class="o">,</span>
+</span><span class='line'>            <span class="s">&quot;Code Complete&quot;</span><span class="o">,</span>
+</span><span class='line'>            <span class="s">&quot;Mastering Algorithms with C&quot;</span><span class="o">,</span>
+</span><span class='line'>            <span class="s">&quot;The Joy of Clojure&quot;</span><span class="o">,</span>
+</span><span class='line'>            <span class="s">&quot;Mining the Social Web&quot;</span><span class="o">,</span>
+</span><span class='line'>            <span class="s">&quot;Algorithms In A Nutshell&quot;</span><span class="o">,</span>
+</span><span class='line'>            <span class="s">&quot;Introduction to Information Retrieval&quot;</span><span class="o">,</span>
+</span><span class='line'>            <span class="s">&quot;Network Security With OpenSSL&quot;</span><span class="o">,</span>
+</span><span class='line'>            <span class="s">&quot;RADIUS&quot;</span><span class="p">})</span>
 </span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="nv">&lt;p&gt;</span>
