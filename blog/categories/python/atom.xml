@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-23T22:51:01+03:00</updated>
+  <updated>2012-01-24T00:00:33+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -53,16 +53,18 @@ set 'L' (for Library). Part of the set might look like:</p>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
+<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>L = { 'Natural Language Processing with Python', 'Learning OpenCV',&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;pre>&lt;code>  'Code Complete', 'Mastering Algorithms with C', 
 </span><span class='line'>  'The Joy of Clojure', 'Mining the Social Web', 
-</span><span class='line'>  'Algorithms In A Nutshell', 'Introduction to Information Retrieval', ... }
+</span><span class='line'>  'Algorithms In A Nutshell', 'Introduction to Information Retrieval', 
+</span><span class='line'>  ... }
 </span><span class='line'>&lt;/code>&lt;/pre>
 </span><span class='line'>
 </span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>We use '{}' to denote the members of a set. The order of books in the library
+<p>We use <code>'{}'</code> to denote the members of a set. The order of books in the library
 doesn't matter here, and it doesn't make sense to have more than one entry for
 a book in the library.</p>
 
@@ -739,7 +741,7 @@ name the file, obviously).</p>
 
 <p>You'll want to run this with <code>clj set-theory.py</code> - I've deliberately chosen
 not to make this a lein project in order to make it easier to share, but I did
-<a href="http://kisom.github.com/downloads/set_theory.tar.gz">upload a lein project</a>.
+<a href="/downloads/set_theory.tar.gz">upload a lein project</a>.
 You should be able to just run <code>lein deps, test, run</code>.</p>
 ]]></content>
   </entry>
