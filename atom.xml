@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-23T19:27:50+03:00</updated>
+  <updated>2012-01-23T20:13:46+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -107,10 +107,10 @@ can be turned into a set with <code>(set coll)</code>:</p>
 
 <p>So now we need to build some subsets.</p>
 
-<blockquote><p>definition: subset
+<blockquote><p>definition: subset<br>
 A subset is some part of a set.</p>
 
-<p>definition: proper subset
+<p>definition: proper subset<br>
 A proper subset is some part of a set, but is not the whole set.</p></blockquote>
 
 <p>For example, we&#8217;ll create a subset of books P that are on or in Python. We&#8217;ll also create a subset of books E that are in the English language. For my library,
@@ -375,6 +375,11 @@ worth spending some time to get to know.</p>
 <li>There is, of course, a good <a href="https://en.wikipedia.org/wiki/Set_(mathematics">wikipedia article</a>)</li>
 </ul>
 
+
+<h2>Reviewers</h2>
+
+<p>I&#8217;d like to thank the following people for reviewing this:
+<a href="https://www.twitter.com/imwally">Wally Jones</a></p>
 
 <h2>Code Samples</h2>
 
