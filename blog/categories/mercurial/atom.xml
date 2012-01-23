@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mercurial | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/mercurial/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-23T22:47:01+03:00</updated>
+  <updated>2012-01-23T22:49:25+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -28,6 +28,9 @@ a while, I'd put my thoughts down here.</p>
 
 <p>i found myself needing to generate a patchfile today from a git repo. it turns
 out to be a very easy task.</p>
+
+<!-- more -->
+
 
 <ul>
 <li><p>first, commit to a clean working directory. i'll asume you are on the

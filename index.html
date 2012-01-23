@@ -501,48 +501,12 @@ a while, I&#8217;d put my thoughts down here.</p>
 <p>i found myself needing to generate a patchfile today from a git repo. it turns
 out to be a very easy task.</p>
 
-<ul>
-<li><p>first, commit to a clean working directory. i&#8217;ll asume you are on the
-&#8216;master&#8217; (git) or &#8216;tip&#8217; (hg) branch, but s/master/$branch/ as appropriate.</p></li>
-<li><p>if you have only one commit between you and the commit you need to diff
-against:</p></li>
-</ul>
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git format-patch master^ --stdout &gt; my.patch<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>or</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>hg <span class="nb">export </span>tip &gt; my.patch
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><p>otherwise, substitute in the appropriate commit</p></li>
-<li><p>to apply the patch, it&#8217;s</p></li>
-</ul>
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git apply --stat my.patch
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>or</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>hg patch my.patch
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I did say it was a very easy task&#8230; You&#8217;ll notice mercurial makes this easier
-(or at least I think so) than git.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/09/28/generating-patchfiles-with-git-and-hg/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -603,129 +567,12 @@ other people. You still need to make sure you have a reasonable portable
 an easily accessible online place for people to get your code, and proper
 follow-through. Let&#8217;s talk through these bits.</p>
 
-<h2>the build system</h2>
-
-<p>No matter how wizard your code is, if it&#8217;s more work for other people to build
-it than it&#8217;s worth, it won&#8217;t be used. That&#8217;s a simple fact. By now, users have
-come to expect the proverbial <code>./configure &amp;&amp; make &amp;&amp; make install</code> (or
-perhaps <code>scons</code> or <code>waf</code> or <code>jam</code> or one of the other solutions). Regardless,
-the build process should not require much work for end users, except in cases
-where the code is a very purposeful bit of code that requires careful
-configuration. I personally have begun making use of the <code>autotools</code> suite
-(my personal stance on the GPL notwithstanding, a rant for another day but
-the curious can take a look at the license for most of my code on my
-<a href="https://github.com/kisom/">github page</a>). This comprises
-<a href="http://www.gnu.org/software/autoconf/">autoconf</a> and
-<a href="http://www.gnu.org/software/automake/">automake</a> primarily. You will easily
-spend many hours just writing out the configuration files on your end to
-properly support and build the software, determining what needs to be checked
-on the user&#8217;s system so that they can be sure the code will run on their node.
-Once this is set up and functioning, for the most part and in theory, users
-will be able to just do the typical configure-and-make pattern they have come
-to know and love. The autotools are really designed for C and C++. For python,
-there&#8217;s always the <a href="http://pypi.python.org/pypi/setuptools">Python setuptools</a>,
-and of course for Perl there&#8217;s <a href="http://www.cpan.org/">CPAN</a>.</p>
-
-<p>Of course, these tools are quite often in a different language than your code
-is. For example, the autotools use POSIX shell, M4, and POSIX Makefiles to
-generate the configure script and Makefiles for distribution. This takes time
-to learn, especially given some of the nuances involved. There is of course
-some debate (see &#8220;Stop the autoconf insanity! Why we need a new build system&#8221;[http://freshmeat.net/articles/stop-the-autoconf-insanity-why-we-need-a-new-build-system])
-as to how useful these are, but for the most part the reward is worth the work.
-For the autotools suite, take a look at the No Starch Press book
-<a href="http://nostarch.com/autotools.htm">Autotools:A Practitioner&#8217;s Guide to GNU Autoconf, Automake, and Libtool</a>.
-I found this book indispensable in learning the tool suite.</p>
-
-<h2>documentation</h2>
-
-<p>Documentation extends much further (or should) than the typical README and
-INSTALL files found in many distributions. Many developers learn the basics
-of TeX or LaTeX typesetting to produce aesthetically pleasing manuals; Texinfo
-is also quite common. Markdown is becoming popular as well and with the advent
-of tools like <a href="http://johnmacfarlane.net/pandoc/">pandoc</a>, even easier to
-convert from Markdown to other formats (pandoc supports html and LaTeX). Besides
-just the technical side of writing documentation and learning the typesetting
-language used, there&#8217;s the art of technical writing as well. Many companies
-have full-time technical writers whose sole purpose is writing documentation.
-This is because of another simple fact: your software is of no use if the users
-can&#8217;t figure out how to use it. While many users may be technically saavy
-enough to read the code to figure out how to use it, for your code to be truly
-useful, they should not have to resort to this. This is what I see as the Apple
-factor: many developers use Apple&#8217;s hardware and operating system because not
-only do things Just Work, but there is also excellent documentation available.
-Another operating system leading the way in documentation is my beloved
-<a href="http://www.openbsd.org">OpenBSD</a>. Users should have a clear set of instructions
-of not only how to use the software, but ways to extend it, what things it
-can do that they may not realise, and how to solve problems that may crop up.
-So a truly good coder is both at least a proficient typesetter but also a
-proficient writer of whatever human language the software is in (or aimed at).</p>
-
-<p>Some projects go further and include a full copy of the license the software
-is released under (which you should do for the safety / peace of mind /
-convenience of your users - it took <a href="http://lteo.devio.us/">lteo</a> constantly
-reminding me of this for many of my projects before I started doing it out
-of habit) which is most often in a file called LICENSE or COPYING; a copy of
-the ChangeLog, which could also be gotten from source control such as
-<code>git log</code>; an AUTHORS file to list contributors; a README and INSTALL file to
-give a quick usage and overview as well as installation instructions; and
-perhaps a HACKING document to explain how to modify the code to be useful.</p>
-
-<p>The README file is still rather useful; in fact, many times I will
-<a href="http://kyleisom.net/blog/2011/07/31-rgtdd">write the README first</a> as part
-of my development process.</p>
-
-<p>No matter how you approach it or what you use to write and format your user
-manuals, you should still have them included.</p>
-
-<h2>distribution</h2>
-
-<p>Today, distribution is one of the easiest aspects of coding. Numerous websites
-exist for the sole purpose of distributing your software, such as
-<a href="https://github.com">github</a>, <a href="https://www.bitbucket.org">bitbucket</a>,
-<a href="https://www.sourceforge.net">sourceforge</a>,
-<a href="https://www.freshmeat.net">freshmeat</a>, among others. Typically, such sites
-will also host a remote version of your version control system (you <em>are</em>
-version controlling, <em>right</em>?) in addition to supporting release downloads. A
-well-setup build system offers the ability to build a distribution release,
-often in tarball or tarred bzip2 format as well. Some sites still offer just
-a release tarball (for a while, this is how I released my
-<a href="https://github.com/kisom/libdaemon">libdaemon</a> project, via my
-<a href="http://kisom.devio.us/src.html">devio.us homepage</a>. In fact, this is rapidly
-becoming one of the easiest pieces of the project lifecycle. If you haven&#8217;t
-already, take a look at one of the sites that works as a remote repo for
-whatever source control you are using. You will probably see that besides
-distribution, these sites are extremely useful for the last important additional
-part of coding I want to talk about.</p>
-
-<h2>support and maintenance</h2>
-
-<p>Once the user has a copy of your software and knows how to use it, they will
-inevitably encounter bugs or find that while they would really like to see
-a feature in the software, they don&#8217;t have the technical skills to implement
-it themselves (or perhaps the courage to look through your code&#8230;) Still other
-users might fix the bugs or add new features themselves, and would like to
-offer you those changes so you can incorporate them into the software. So the
-last important additional part of being a coder is support and maintenance.</p>
-
-<p>Many of the sites that offer to host releases of your code provide additional
-tools, like wikis, bug reporting (aka trouble tickets), and feature requests.
-Users may also provide patchfiles or a git pull request to give you their
-contribition (and accordingly, you credit them in the documentation as well).
-A good coder needs to be able to support and maintain the software - users are
-more apt to use software if it gets patched or updated with new features (or
-if it just works and they don&#8217;t need new features or bugs patched, which is
-less likely but still possible).</p>
-
-<h2>conclusion</h2>
-
-<p>As I&#8217;ve explained, being a good coder and providing useful software encompasses
-so much more than just good technical skills or great development processes.
-There&#8217;s the administrative side (i.e. the build system, feature request and bug
-tracking) and the human side (i.e. documentation and responding to support
-requests). While it may not be as much fun as the actual coding, it is still
-integral to the development process.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/09/10/coders-should-do-much-more-than-code/">Read on &rarr;</a>
+    </footer>
   
 
 
