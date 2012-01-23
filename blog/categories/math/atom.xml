@@ -4,7 +4,7 @@
   <title><![CDATA[Category: math | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/math/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-24T00:04:13+03:00</updated>
+  <updated>2012-01-24T00:08:41+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -277,8 +277,8 @@ sets gives me a set of my books that I have in both epub and mobi format. The
 <p>And in Clojure:
 <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">both_formats</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/intersection</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">both_formats</span><span class="p">]</span> <span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="nv">book</span><span class="p">)))</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">both-formats</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/intersection</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">both-formats</span><span class="p">]</span> <span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="nv">book</span><span class="p">)))</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>For either example, the output should be just one book, given the sample sets:
@@ -296,8 +296,8 @@ first two; the first two operations are
 but the result of a difference is dependent on the order of the sets. I'll
 illustrate this with some code examples:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Python illustration  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>In Python:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -329,8 +329,8 @@ illustrate this with some code examples:</p>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Clojure illustration  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>In Clojure:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -346,15 +346,15 @@ illustrate this with some code examples:</p>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in mobi format:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only_mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only_mobi</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only-mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-mobi</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
 </span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in epub format:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only_epub</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">epub</span> <span class="nv">mobi</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only_epub</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only-epub</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">epub</span> <span class="nv">mobi</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-epub</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
 </span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
@@ -431,8 +431,8 @@ difference of mobi from library:</p>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">println </span><span class="ss">&#39;books</span> <span class="nv">not</span> <span class="nv">in</span> <span class="nv">mobi</span> <span class="nv">format,</span> <span class="nv">using</span> <span class="nv">the</span> <span class="nv">library</span> <span class="nv">superset:</span><span class="o">&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">not_mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">library</span> <span class="nv">mobi</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">not_mobi</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">not-mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">library</span> <span class="nv">mobi</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">not-mobi</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
 </span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
