@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-23T20:16:48+03:00</updated>
+  <updated>2012-01-23T20:32:06+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -36,8 +36,8 @@ project I&#8217;m currently working on, which is a web front end to my ebook lib
 <p>The first thing we have to do is to explain what is meant by a <em>set</em> -</p>
 
 <blockquote><p>definition: set<br>
-A set is any sequence of items where each item is unique and the order of
-items in the sequence is not important.</p></blockquote>
+A set is any collection of items where each item is unique and the order of
+items in the collection is not important.</p></blockquote>
 
 <p>The uniqueness property is very important to sets: there are no duplicates in
 a set.</p>
@@ -379,7 +379,10 @@ worth spending some time to get to know.</p>
 <h2>Reviewers</h2>
 
 <p>I&#8217;d like to thank the following people for reviewing this:
-<a href="https://www.twitter.com/imwally">Wally Jones</a></p>
+* <a href="https://www.twitter.com/imwally">Wally Jones</a>
+* <a href="https://www.github.com/saolsen">Stephen Olsen</a>
+* <a href="https://www.twitter.com/qb1t">Aaron Bieber</a>
+* <a href="https://twitter.com/#!/Slaughterhut">Jason Barbier</a></p>
 
 <h2>Code Samples</h2>
 
