@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-23T20:44:41+03:00</updated>
+  <updated>2012-01-23T21:38:14+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -12,709 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Basic Set Theory]]></title>
-    <link href="http://kisom.github.com/blog/2012/01/23/basic-set-theory/"/>
-    <updated>2012-01-23T17:44:00+03:00</updated>
-    <id>http://kisom.github.com/blog/2012/01/23/basic-set-theory</id>
-    <content type="html"><![CDATA[<p>Recently, I was explaining to someone the basics of set theory and how the
-various basic operations translate to the real world. I used the example of the
-project I'm currently working on, which is a web front end to my ebook library.
-This is a very quick introduction aimed at people with a programming background
-but who don't have a strong math background; the goal is to help you to learn
-to use them without having to delve deep into the math behind them.</p>
-
-<!-- more -->
-
-
-<h2>Basic Properties of Sets</h2>
-
-<p>The first thing we have to do is to explain what is meant by a <em>set</em> -</p>
-
-<blockquote><p>definition: set<br>
-A set is any collection of items where each item is unique and the order of
-items in the collection is not important.</p></blockquote>
-
-<p>The uniqueness property is very important to sets: there are no duplicates in
-a set.</p>
-
-<p>So what does a set look like? In my database, I have a list of all the books
-I have electronic copies of. Each book comes in at least one of three formats:
-PDF, epub, or mobi. We'll call the <em>superset</em> (the universal set of all the items
-under consideration) the list of all the books in the library. We'll call this
-set 'L' (for Library). Part of the set might look like:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>L = { 'Natural Language Processing with Python', 'Learning OpenCV',&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>  'Code Complete', 'Mastering Algorithms with C', 
-</span><span class='line'>  'The Joy of Clojure', 'Mining the Social Web', 
-</span><span class='line'>  'Algorithms In A Nutshell', 'Introduction to Information Retrieval', ... }
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>We use '{}' to denote the members of a set. The order of books in the library
-doesn't matter here, and it doesn't make sense to have more than one entry for
-a book in the library.</p>
-
-<p>Building a set in Python is very easy:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">library</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Learning OpenCV&#39;</span><span class="p">,</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>           <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span> <span class="s">&#39;Mastering Algorithms with C&#39;</span><span class="p">,</span>
-</span><span class='line'>           <span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
-</span><span class='line'>           <span class="s">&#39;Algorithms In A Nutshell&#39;</span><span class="p">,</span>
-</span><span class='line'>           <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">,</span>
-</span><span class='line'>           <span class="s">&#39;Network Security With OpenSSL&#39;</span><span class="p">,</span> <span class="s">&#39;RADIUS&#39;</span><span class="p">])</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Clojure has set notation built in using the <code>#{ }</code> syntax, and any collection
-can be turned into a set with <code>(set coll)</code>:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">library</span> <span class="o">#</span><span class="p">{</span> <span class="s">&quot;Natural Language Processing with Python&quot;</span><span class="o">,</span><span class="nv">&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>            <span class="s">&quot;Learning OpenCV&#39;,</span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Code</span> <span class="nv">Complete</span><span class="s">&quot;, </span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Mastering</span> <span class="nv">Algorithms</span> <span class="nv">with</span> <span class="nv">C</span><span class="s">&quot;, </span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">The</span> <span class="nv">Joy</span> <span class="nv">of</span> <span class="nv">Clojure</span><span class="s">&quot;, </span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Mining</span> <span class="nv">the</span> <span class="nv">Social</span> <span class="nv">Web</span><span class="s">&quot;, </span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Algorithms</span> <span class="nv">In</span> <span class="nv">A</span> <span class="nv">Nutshell</span><span class="s">&quot;,</span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Introduction</span> <span class="nv">to</span> <span class="nv">Information</span> <span class="nv">Retrieval</span><span class="s">&quot;,</span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">Network</span> <span class="nv">Security</span> <span class="nv">With</span> <span class="nv">OpenSSL</span><span class="s">&quot;,</span>
-</span><span class='line'><span class="s">            &quot;</span><span class="nv">RADIUS</span><span class="err">&quot;</span><span class="p">})</span>
-</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;p&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>So now we need to build some subsets.</p>
-
-<blockquote><p>definition: subset<br>
-A subset is some part of a set.</p>
-
-<p>definition: proper subset<br>
-A proper subset is some part of a set, but is not the whole set.</p></blockquote>
-
-<p>For example, we'll create a subset of books P that are on or in Python. We'll also create a subset of books E that are in the English language. For my library,
-because not all of my books are in or about Python, the number of members of P
-is smaller than the number of elements in L. However, all of my books are in
-English, so the number of elements in E is the same as the number of elements in
-L. Therefore P is a proper subset, while E is not.</p>
-
-<h2>The Basic Set Operations</h2>
-
-<p>Now let's consider two proper subsets of the library to explain some of the basic
-set operations: M is the subset of ebooks that I have in mobi format, and we'll
-redefine E to be the list of ebooks in epub format. For the sake of the rest of
-this article, let's note the following:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>M = { 'Natural Language Processing with Python', 'Code Complete',&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>  'Introduction to Information Retrieval' }
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>E = { 'The Joy of Clojure', 'Mining the Social Web', 'Code Complete' }</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>In practical terms, this means in my library I have copies of:</p>
-
-<ul>
-<li>"Natural Language Processing with Python," "Introduction to Information
-Retrieval," and "Code Complete" in mobi format</li>
-<li>"The Joy of Clojure," "Mining the Social Web," and "Code Complete" in epub
-format.</li>
-</ul>
-
-
-<p>In Python:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">mobi</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>       <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">])</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">epub</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span> <span class="s">&#39;Code Complete&#39;</span><span class="p">])</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>In Clojure:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobi</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;Natural Language Processing with Python&quot;</span><span class="o">,</span> <span class="s">&quot;Code Complete&quot;</span><span class="o">,</span><span class="nv">&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>       <span class="s">&quot;Introduction to Information Retrieval&quot;</span><span class="p">})</span>
-</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">epub</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;The Joy of Clojure&quot;</span><span class="o">,</span> <span class="s">&quot;Mining the Social Web&quot;</span><span class="o">,</span> <span class="s">&quot;Code Complete&quot;</span><span class="p">})</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>Union</h3>
-
-<p>A union is the set of members that appear in either set. So we could define a
-subset of L that contains all the books I have in a mobile format, which for
-our purposes means copies exist in epub or mobi format. In Python, you can
-use the <code>set.union</code> method, and in Clojure you can use the functions in the
-<code>clojure.set</code> namespace.</p>
-
-<p>In Python:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">mobile</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">mobi</span><span class="p">,</span> <span class="n">epub</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">mobile</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">print</span> <span class="n">book</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>which yields the output:
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Natural Language Processing in Python
-</span><span class='line'>Code Complete
-</span><span class='line'>Introduction to Information Retrieval
-</span><span class='line'>The Joy of Clojure
-</span><span class='line'>Mining the Social Web</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Remember that one of the properties of sets is that order is irrelevant, so you
-might get the books in a different order (this applies to Clojure as well).</p>
-
-<p>The same thing, in Clojure:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobile</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/union</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">mobile</span><span class="p">]</span> <span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="nv">book</span><span class="p">)))</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>You would see a similar output to the Python example.</p>
-
-<p>Again, the practical result of this is a set of all the books I have in my
-library in a mobile format.</p>
-
-<h3>Intersection</h3>
-
-<p>The intersection of two sets is a list of all the members that appear in both
-sets. In the library example, taking the intersection of the mobi and epub sets
-gives me a set of my books that I have in both epub and mobi format. The
-<code>intersection</code> function gives me this result.</p>
-
-<p>The Python example:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">both_formats</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">mobi</span><span class="p">,</span> <span class="n">epub</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">both_formats</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">print</span> <span class="n">book</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>And in Clojure:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">both_formats</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/intersection</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">both_formats</span><span class="p">]</span> <span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="nv">book</span><span class="p">)))</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>For either example, the output should be just one book, given the sample sets:
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Code Complete</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I could use this result to know which books I can use on any mobile device.</p>
-
-<h3>Difference</h3>
-
-<p>The difference of one set from another is a list of all the members in the first
-set that are not in the second set. This operation is a bit different from the
-first two; the first two operations are
-<a href="http://en.wikipedia.org/wiki/Commutative_property">commutative</a>,
-but the result of a difference is dependent on the order of the sets. I'll
-illustrate this with some code examples:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Python illustration  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">only_mobi</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">mobi</span><span class="p">,</span> <span class="n">epub</span><span class="p">)</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;books only in mobi format:&#39;</span>
-</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">only_mobi</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">only_epub</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">epub</span><span class="p">,</span> <span class="n">mobi</span><span class="p">)</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;books only in epub format:&#39;</span>
-</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">only_epub</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Clojure illustration  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in mobi format:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only_mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only_mobi</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
-</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in epub format:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only_epub</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">epub</span> <span class="nv">mobi</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only_epub</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
-</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;p&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>As the output messages show, this gives us the set of books that are only
-in mobi and the set of books that are only in epub. The output should look
-something like:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>books only in mobi format:&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Introduction to Information Retrieval
-</span><span class='line'>Natural Language Processing with Python
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>books only in epub format:&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>The Joy of Clojure
-</span><span class='line'>Mining the Social Web
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>Complements</h3>
-
-<p>When discussing complements, we do so when considering a subset and it's
-superset. The complement of a subset is the difference of subset from the
-superset; i.e., the set of all members in the superset that are not in the
-subset. For example, if I wanted to check my library for all ebooks I have
-that are not in mobi format, I would use the superset <code>library</code> and take the
-difference of mobi from library:</p>
-
-<p>In Python:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">not_mobi</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">library</span><span class="p">,</span> <span class="n">mobi</span><span class="p">)</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;books not in mobi format, using the library superset:&#39;</span>
-</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">not_mobi</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>and in Clojure:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nb">println </span><span class="ss">&#39;books</span> <span class="nv">not</span> <span class="nv">in</span> <span class="nv">mobi</span> <span class="nv">format,</span> <span class="nv">using</span> <span class="nv">the</span> <span class="nv">library</span> <span class="nv">superset:</span><span class="o">&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">not_mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">library</span> <span class="nv">mobi</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">not_mobi</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
-</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">&lt;p&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Conclusion</h2>
-
-<p>This has been a very basic look at set theory and what it means in practise.
-There is a lot more to set theory (see the references) but this should help
-get you started. There are a lot of applications for set theory, such as in
-data mining and natural language processing; it is a powerful tool that is
-worth spending some time to get to know.</p>
-
-<p>Stay tuned for the next post, which will be on how to use sets in your code.
-We'll develop the library idea a bit more.</p>
-
-<h2>References</h2>
-
-<ul>
-<li>I've been reading <a href="https://en.wikipedia.org/wiki/Alfred_Aho">Alfred Aho's</a> <a href="https://en.wikipedia.org/wiki/Special:BookSources/0139145567"><underline>The Theory of Parsing, Translating, and Compiling (Volume I: Parsing)</underline></a>
-(<a href="http://www.amazon.com/dp/0139145567/">Amazon link</a>)</li>
-<li>There is, of course, a good <a href="https://en.wikipedia.org/wiki/Set_(mathematics">wikipedia article</a>)</li>
-</ul>
-
-
-<h2>Reviewers</h2>
-
-<p>I'd like to thank the following people for reviewing this:</p>
-
-<ul>
-<li><a href="https://www.twitter.com/imwally">Wally Jones</a></li>
-<li><a href="https://saolsen.github.com/">Stephen Olsen</a></li>
-<li><a href="https://www.twitter.com/qb1t">Aaron Bieber</a></li>
-<li><a href="https://twitter.com/#!/Slaughterhut">Jason Barbier</a></li>
-<li>Matt Sowers</li>
-</ul>
-
-
-<h2>Code Samples</h2>
-
-<p>The complete python source code, which you can save to a file and run directly:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (set_theory.py)</span> <a href='/downloads/code/set_theory/set_theory.py'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="c">#!/usr/bin/env python</span>
-</span><span class='line'><span class="c"># -*- coding: utf-8 -*-</span>
-</span><span class='line'><span class="c">#</span>
-</span><span class='line'><span class="c"># author: kyle isom &lt;coder@kyleisom.net&gt;</span>
-</span><span class='line'><span class="c"># date: 2012-01-23</span>
-</span><span class='line'><span class="c"># license: ISC / public domain (brokenlcd.net/license.txt)</span>
-</span><span class='line'><span class="c">#</span>
-</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
-</span><span class='line'><span class="sd">Python illustrations for blog article &quot;Basic Set Theory&quot;</span>
-</span><span class='line'><span class="sd">    (see http://kisom.github.com/blog/2012/01/23/basic-set-theory/)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd">Note that this is slightly tweaked from the examples in the article:</span>
-</span><span class='line'><span class="sd">    1. PEP8 dictates that all globals be in all caps; as all the variables</span>
-</span><span class='line'><span class="sd">    in this illustration are globals, they have been modified to be all caps.</span>
-</span><span class='line'><span class="sd">    2. There is a little extra output to explain what is going on; namely,</span>
-</span><span class='line'><span class="sd">    tabs are added before printing books and there is an output line showing</span>
-</span><span class='line'><span class="sd">    which example the book set is associated with.</span>
-</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># variables are in all caps because they are globals, and PEP8 dictates</span>
-</span><span class='line'><span class="c"># that globals be in caps.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># the superset</span>
-</span><span class='line'><span class="n">LIBRARY</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Learning OpenCV&#39;</span><span class="p">,</span>
-</span><span class='line'>               <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span> <span class="s">&#39;Mastering Algorithms with C&#39;</span><span class="p">,</span>
-</span><span class='line'>               <span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
-</span><span class='line'>               <span class="s">&#39;Algorithms In A Nutshell&#39;</span><span class="p">,</span>
-</span><span class='line'>               <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">,</span>
-</span><span class='line'>               <span class="s">&#39;Network Security With OpenSSL&#39;</span><span class="p">,</span> <span class="s">&#39;RADIUS&#39;</span><span class="p">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># the subsets</span>
-</span><span class='line'><span class="n">MOBI</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span>
-</span><span class='line'>           <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">])</span>
-</span><span class='line'><span class="n">EPUB</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
-</span><span class='line'>            <span class="s">&#39;Code Complete&#39;</span><span class="p">])</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] list all the books in a mobile format (union example):&#39;</span>
-</span><span class='line'><span class="n">MOBILE</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">MOBILE</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] list all the books in both mobile formats (intersection example)&#39;</span>
-</span><span class='line'><span class="n">BOTH_FORMATS</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">BOTH_FORMATS</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">ONLY_MOBI</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] books only in mobi format:&#39;</span>
-</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">ONLY_MOBI</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">ONLY_EPUB</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">EPUB</span><span class="p">,</span> <span class="n">MOBI</span><span class="p">)</span>
-</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] books only in epub format:&#39;</span>
-</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">ONLY_EPUB</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>You'll want to run this with <code>python set_theory.py</code> (or whatever you choose to
-name the file, obviously).</p>
-
-<p>The complete Clojure source code, which you can likewise save and run:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (set-theory.clj)</span> <a href='/downloads/code/set_theory/set-theory.clj'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-</pre></td><td class='code'><pre><code class='clj'><span class='line'><span class="c1">;; set-theory.clj</span>
-</span><span class='line'><span class="c1">;; author: kyle isom &lt;coder@kyleisom.net&gt;</span>
-</span><span class='line'><span class="c1">;; date: 2012-01-23</span>
-</span><span class='line'><span class="c1">;; license: ISC / public domain (brokenlcd.net/license.txt)</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'><span class="c1">;; code examples for blog post &quot;Basic Set Theory&quot;</span>
-</span><span class='line'><span class="c1">;;     http://kisom.github.com/blog/2012/01/23/basic-set-theory/</span>
-</span><span class='line'><span class="c1">;;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">(</span><span class="nf">require</span> <span class="ss">&#39;clojure</span><span class="o">.</span><span class="nv">set</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">; the superset</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">library</span> <span class="o">#</span><span class="p">{</span> <span class="s">&quot;Natural Language Processing with Python&quot;</span><span class="o">,</span>
-</span><span class='line'>                <span class="s">&quot;Learning OpenCV&quot;</span><span class="o">,</span>
-</span><span class='line'>                <span class="s">&quot;Code Complete&quot;</span><span class="o">,</span>
-</span><span class='line'>                <span class="s">&quot;Mastering Algorithms with C&quot;</span><span class="o">,</span>
-</span><span class='line'>                <span class="s">&quot;The Joy of Clojure&quot;</span><span class="o">,</span>
-</span><span class='line'>                <span class="s">&quot;Mining the Social Web&quot;</span><span class="o">,</span>
-</span><span class='line'>                <span class="s">&quot;Algorithms In A Nutshell&quot;</span><span class="o">,</span>
-</span><span class='line'>                <span class="s">&quot;Introduction to Information Retrieval&quot;</span>
-</span><span class='line'>                <span class="s">&quot;Network Security With OpenSSL&quot;</span><span class="o">,</span>
-</span><span class='line'>                <span class="s">&quot;RADIUS&quot;</span> <span class="p">})</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">; the subsets</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobi</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;Natural Language Processing with Python&quot;</span><span class="o">,</span> <span class="s">&quot;Code Complete&quot;</span><span class="o">,</span>
-</span><span class='line'>           <span class="s">&quot;Introduction to Information Retrieval&quot;</span><span class="p">})</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">epub</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;The Joy of Clojure&quot;</span><span class="o">,</span> <span class="s">&quot;Mining the Social Web&quot;</span><span class="o">,</span> <span class="s">&quot;Code Complete&quot;</span><span class="p">})</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">; union illustration</span>
-</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;union illustration (books in either mobile format)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobile</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/union</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">mobile</span><span class="p">]</span>
-</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">; intersection illustration</span>
-</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;intersection illustration (books in both mobile formats)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">both_formats</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/intersection</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">both_formats</span><span class="p">]</span>
-</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in mobi format:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only_mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only_mobi</span><span class="p">]</span>
-</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in epub format:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only_epub</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">epub</span> <span class="nv">mobi</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only_epub</span><span class="p">]</span>
-</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">; complement illustration</span>
-</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books not in mobi format, using the library superset:&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">not_mobi</span> <span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/difference</span> <span class="nv">library</span> <span class="nv">mobi</span><span class="p">))</span>
-</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">not_mobi</span><span class="p">]</span>
-</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>You'll want to run this with <code>clj set-theory.py</code> - I've deliberately chosen
-not to make this a lein project in order to make it easier to share, but I did
-<a href="http://kisom.github.com/downloads/set_theory.tar.gz">upload a lein project</a>.
-You should be able to just run <code>lein deps, test, run</code>.</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[suddenly enlightenment]]></title>
@@ -737,7 +34,7 @@ goal was to update a CGI script when I pushed to the dev vm. The commit log:
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x63;&#111;&#100;&#x65;&#x72;&#64;&#x6b;&#121;&#x6c;&#101;&#x69;&#115;&#111;&#109;&#46;&#x6e;&#101;&#116;">&#x63;&#111;&#100;&#101;&#114;&#x40;&#x6b;&#x79;&#x6c;&#101;&#x69;&#115;&#x6f;&#109;&#46;&#x6e;&#x65;&#x74;&lt;/a>
+</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#99;&#x6f;&#100;&#101;&#x72;&#x40;&#x6b;&#x79;&#x6c;&#101;&#x69;&#115;&#x6f;&#109;&#x2e;&#110;&#101;&#116;">&#x63;&#x6f;&#100;&#101;&#114;&#64;&#x6b;&#121;&#108;&#x65;&#105;&#x73;&#x6f;&#109;&#46;&#x6e;&#101;&#116;&lt;/a>
 </span><span class='line'>   Date:   Sat Dec 3 00:24:34 2011 +0300&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;pre>&lt;code>   suddenly enlightenment
@@ -1112,6 +409,67 @@ There's the administrative side (i.e. the build system, feature request and bug
 tracking) and the human side (i.e. documentation and responding to support
 requests). While it may not be as much fun as the actual coding, it is still
 integral to the development process.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RGTDD]]></title>
+    <link href="http://kisom.github.com/blog/2011/07/04/rgtdd/"/>
+    <updated>2011-07-04T00:00:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2011/07/04/rgtdd</id>
+    <content type="html"><![CDATA[<p>One of the most important parts of becoming a useful developer is to find a
+workflow that maximises productivty. There are plenty of methodologies and tools
+people have come up with just for this - Agile, XP, BDD, TDD, RDD, and many
+others. Of course, most everyone has their own unique flavour, and of course
+I'm going to talk about mine. I've spent a lot of time trying different things
+(and too much time going back to just grinding out code). This is the first post
+of a milti-part series on how I've increased my productivity and what I do to
+get things done. Unfortunately, my personal projects are sort of haphazard still,
+but I have enjoyed success with this at work.</p>
+
+<p>RGTDD has made a difference in how I develop code and stay productive;
+furthermore, above just using a specific development methodology, I've found
+certain tools to assist me in being productive.</p>
+
+<p>So, RGTDD. It stands for README-generated Test-Driven Development. I took Tom
+Preston-Werner's <a href="http://tom.preston-werner.com/2010/08/23/readme-driven-development.html">README-driven development</a>
+and adapted it to my own use. Without rehashing his post, READMEs factor in like
+this: once the project is started, the first task to do is write the README. Once
+the README is written, you lock it in and should not be changed except to fix
+typos and spelling errors. This has several advantages:</p>
+
+<ol>
+<li><p>First, you end up having a single introductory piece of documentation. This
+file contains the justification for you program, a quick introduction to its
+features, and usage information.</p></li>
+<li><p>Second, locking in the README means you prevent feature creep. You contract
+yourself to the end user (yourself, future end users, the client, etc...) to
+implement specifically the features in the README. As a rule of thumb, each
+iteration of the README should have no more than five features - each feature
+should be a concrete task. If the tasks are particularly complex, I generally
+avoid implementing more than three. I have found for myself that trying to
+implement much more than that results in code and projects that stagnate or
+quickly become spaghetti code.</p></li>
+<li><p>Third, you know what you need to code and what the code should specifically
+do. I've found that a lot of times I have an idea for project X, but only have
+a vague of idea of what it will do. It is part of good engineering to have a
+well-laid out design and path for the project to direct development. I have found
+this helps me to keep my code from getting overgrown.</p></li>
+</ol>
+
+
+<p>The README at this point now specifies an interface for users to interact with
+the code. From here, you begin writing tests that cover the features. As you
+begin writing these tests, you will likely figure out other components to the
+code. You start writing tests from these. At this point, using the README as a
+guiding document, I switch to a test-driven mode. Once the tests perform as
+they should (including tests that are expected to fail), I consider this a
+release. (I'll write a post later on about what I'm doing for releases).</p>
+
+<p>That's a quick introduction to the project management methodology I use. I'll
+cover some specific tools to help out with various languages, my version
+control and release methods, things I wasn't taught in school, and what I've
+found to help me keep my life organised.</p>
 ]]></content>
   </entry>
   

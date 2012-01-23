@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>(cons 'hack *life*)</title>
+  <title>A Working Introduction to Crypto with PyCrypto - (cons 'hack *life*)</title>
   <meta name="author" content="Kyle Isom">
 
   
@@ -20,7 +20,7 @@ The documentation is pretty good, but there are a few areas that &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kisom.github.com/blog/page/2">
+  <link rel="canonical" href="http://kisom.github.com/blog/2011/06/17/intro-to-crypto">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -68,15 +68,12 @@ The documentation is pretty good, but there are a few areas that &hellip;">
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/06/17/intro-to-crypto/">A Working Introduction to Crypto With PyCrypto</a></h1>
+      <h1 class="entry-title">A Working Introduction to Crypto With PyCrypto</h1>
     
     
       <p class="meta">
@@ -94,14 +91,14 @@ The documentation is pretty good, but there are a few areas that &hellip;">
 
 <time datetime="2011-06-17T16:15:00+03:00" pubdate data-updated="true">Jun 17<span>th</span>, 2011</time>
         
-         | <a href="/blog/2011/06/17/intro-to-crypto/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>Introduction</h2>
+<div class="entry-content"><h2>Introduction</h2>
 
 <p>Recently at work I have been using the
 <a href="https://www.dlitz.net/software/pycrypto/">PyCrypto</a> libraries quite a bit.
@@ -968,22 +965,16 @@ public key infrastructures.</p>
 
 <p>\end{document}</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/05/29/starting-ocaml/">Starting Ocaml</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
 
 
 
@@ -995,82 +986,48 @@ public key infrastructures.</p>
   
 
 
-<time datetime="2011-05-29T00:00:00+03:00" pubdate data-updated="true">May 29<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/05/29/starting-ocaml/#disqus_thread">Comments</a>
-        
-      </p>
+<time datetime="2011-06-17T16:15:00+03:00" pubdate data-updated="true">Jun 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/cryptography/'>cryptography</a>, <a class='category' href='/blog/categories/introduction/'>introduction</a>, <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2011/06/17/intro-to-crypto/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2011/06/17/intro-to-crypto/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/05/29/starting-ocaml/" title="Previous Post: starting ocaml">&laquo; starting ocaml</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/07/04/rgtdd/" title="next Post: RGTDD">RGTDD &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
 
-  <div class="entry-content"><p>i recently started learning
-<a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be
-better documented than say standard ML, i&#8217;ve still had a few difficulties
-getting started. i&#8217;ll be keeping notes here, and my github account will
-probably document quite a number of lessons learned.</p>
-
-<p>one of the most difficult parts about starting development in ocaml is
-that the best development environment i&#8217;ve found so far is emacs with
-tuareg-mode. i personally hate emacs (being a vim or straight vi/nvi type of
-character) but tuareg-mode is extremely useful. (using emacs also has the
-side-effect of starting me on org-mode). getting started on ubuntu was fairly
-easy:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>apt-get install ocaml emacs23 tuareg-mode ocaml-findlib
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>as well as a number of the ocaml libraries (which i recommend using aptitude
-to look through and install). i ended up installing the Jane Street core and
-the netclient libraries right off that bat.</p>
-
-<p>on OS X using macports, i just had to</p>
-
-<pre><code>    `port install ocaml caml-findlib tuareg-mode.el`
-</code></pre>
-
-<p>there are a couple other libraries you can install (like netclient) as well.</p>
-
-<h2>build notes:    </h2>
-
-<ul>
-<li>when building new module interfaces (*.cmi), make sure to do</li>
-</ul>
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ocamlc -o <span class="k">$(</span>LIBDIR<span class="k">)</span>/<span class="nv">$*</span>.cmi -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.mli<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>building %.cmx (i.e. *.ml files):</li>
-</ul>
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">$(</span>FIND<span class="k">)</span> <span class="k">$(</span>NATIVE<span class="k">)</span> -o <span class="nv">$@</span> -I <span class="k">$(</span>LIBDIR<span class="k">)</span> <span class="k">$(</span>INCDIRS<span class="k">)</span> -c <span class="k">$(</span>SRCDIR<span class="k">)</span>/<span class="nv">$*</span>.ml<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/">Newer &rarr;</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -1127,7 +1084,7 @@ the netclient libraries right off that bat.</p>
 <section>
   <h1>Github Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/kisom">@kisom</a> on Github
@@ -1157,7 +1114,7 @@ the netclient libraries right off that bat.</p>
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -1173,7 +1130,7 @@ the netclient libraries right off that bat.</p>
 
 <section>
   <h1>My Pinboard</h1>
-  <ul id="pinboard_linkroll">Fetching linkroll&#8230;</ul>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
   <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
 </section>
 <script type="text/javascript">
@@ -1196,7 +1153,7 @@ the netclient libraries right off that bat.</p>
   #lastfmList li{ text-align: left; }
 </style>
 <ul id="lastfmList">
-  <li class="loading">Updating tracks&#8230;</li>
+  <li class="loading">Updating tracks...</li>
 </ul>
 
 <script type="text/javascript">
@@ -1241,6 +1198,7 @@ function showLastfmFeed(xml){
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -1255,7 +1213,10 @@ function showLastfmFeed(xml){
       var disqus_shortname = 'conshacklife';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kisom.github.com/blog/2011/06/17/intro-to-crypto/';
+        var disqus_url = 'http://kisom.github.com/blog/2011/06/17/intro-to-crypto/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
