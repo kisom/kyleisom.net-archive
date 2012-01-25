@@ -3,7 +3,7 @@ layout: post
 title: starting ocaml
 date: 2011-05-29 00:00
 comments: true
-categories:
+categories: [ocaml, development]
 ---
 i recently started learning 
 [objective caml](http://caml.inria.fr/index.en.html). while it may be

@@ -7,6 +7,7 @@ categories: personal
 ---
 
 My docs are in the stratfor leak. 
+<!-- more -->
 
 I'm not too worried though; everything in there is either out of date
 (i.e. that credit card already expired and I have a new one now), my 

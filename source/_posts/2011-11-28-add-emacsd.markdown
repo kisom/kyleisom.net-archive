@@ -3,7 +3,7 @@ layout: post
 title: add .emacs.d/init.el
 date: 2011-11-28 00:00
 comments: true
-categories: [coding, productivity, commitlog]
+categories: [coding, productivity, commitlog, emacs]
 ---
 
 In the spirit of many of my online profiles which proudly declare "my
@@ -23,6 +23,7 @@ it difficult to come to grips with sometimes. But there is a method to
 my madness, and it isn't just that my morals are so comprised right
 now in this nadir of my life that I've even started learning
 javascript (a running joke). 
+<!-- more -->
 
 Due to my current work situation, and the prospect of traveling to and
 spending several months in a region with little to no network

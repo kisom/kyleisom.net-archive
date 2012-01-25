@@ -20,6 +20,8 @@ RGTDD has made a difference in how I develop code and stay productive;
 furthermore, above just using a specific development methodology, I've found 
 certain tools to assist me in being productive.
 
+<!-- more -->
+
 So, RGTDD. It stands for README-generated Test-Driven Development. I took Tom
 Preston-Werner's [README-driven development](http://tom.preston-werner.com/2010/08/23/readme-driven-development.html)
 and adapted it to my own use. Without rehashing his post, READMEs factor in like

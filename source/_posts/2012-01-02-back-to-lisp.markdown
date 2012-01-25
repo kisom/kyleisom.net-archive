@@ -30,6 +30,7 @@ library. I've also been aided quite a bit by
 in fact, one of the things I've done is to write a short 
 [script](https://gist.github.com/1548276) to build an sbcl image with
 quicklisp and my most commonly used libraries built-in.
+<!-- more -->
 <script src="https://gist.github.com/1548276.js?file=build-image.lisp"></script>
 
 One of the things I love about functional programming is the idea that

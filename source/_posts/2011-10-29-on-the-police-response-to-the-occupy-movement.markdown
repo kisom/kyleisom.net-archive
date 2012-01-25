@@ -3,12 +3,13 @@ layout: post
 title: on the police response to the occupy movement
 date: 2011-10-29 00:00
 comments: true
-categories:
+categories: [musings, political]
 ---
 
 (Originally written on 2011-10-29 and an unusual departure from the usual technical content.)
 
 TL;DR One more combat veteran is disgusted and appalled by the actions of a few police officers during the course of the Occupy movement.
+<!-- more -->
 
 I just got done watching [this video](http://www.youtube.com/watch?v=WmEHcOc0Sys), and the outrage I feel towards those peace officers who disrespect the freedoms that I, and many better man than I, have ostensibly fought to protect, welled up in my chest like a Midwest thunderstorm. While we were told that our actions in Iraq were in the name of freedom, while many people back home who supported us with letters and care packages were told we were defending freedom, the basic rights of **American citizens** are being trampled on by a few officers and police departments.
 

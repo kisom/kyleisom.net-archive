@@ -15,6 +15,7 @@ a while, I'd put my thoughts down here.
 
 i found myself needing to generate a patchfile today from a git repo. it turns
 out to be a very easy task.
+<!-- more -->
 
 * first, commit to a clean working directory. i'll asume you are on the 
 'master' (git) or 'tip' (hg) branch, but s/master/$branch/ as appropriate.

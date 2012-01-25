@@ -20,6 +20,7 @@ goal was to update a CGI script when I pushed to the dev vm. The commit log:
    
        suddenly enlightenment
 {% endcodeblock %}
+<!-- more -->
 It took a while for me to grok what was happening with the hook, but finally it clicked.
 I did a lot of reading online, and was greatly helped by the [O'Reilly](https://www.ora.com)
 book [Version Control with Git](https://shop.oreilly.com/product/9780596620137.do)

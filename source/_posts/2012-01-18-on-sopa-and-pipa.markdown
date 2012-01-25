@@ -3,7 +3,7 @@ layout: post
 title: on SOPA and PIPA
 date: 2012-01-18 00:00
 comments: true
-categories: musings
+categories: [musings, political, censorship]
 ---
 
 Imagine you are the owner of a small restaurant. The neighbourhood is of mixed 
@@ -22,6 +22,7 @@ personnel to monitor (and don't really want to establish that kind of atmosphere
 in your business anyhow); CCTV and other technical measures have too long of a 
 delay (or require you to suspect something happened so you can check the tapes). 
 Really, the only thing you can do is to move out of town.
+<!-- more -->
 
 Of course I'm talking about [PIPA](http://www.govtrack.us/congress/bill.xpd?bill=s112-968) 
 and [SOPA](http://www.govtrack.us/congress/bill.xpd?bill=h112-3261). The story I 

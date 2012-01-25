@@ -34,10 +34,11 @@ set 'L' (for Library). Part of the set might look like:
 L = { 'Natural Language Processing with Python', 'Learning OpenCV', 
       'Code Complete', 'Mastering Algorithms with C', 
       'The Joy of Clojure', 'Mining the Social Web', 
-      'Algorithms In A Nutshell', 'Introduction to Information Retrieval', ... }
+      'Algorithms In A Nutshell', 'Introduction to Information Retrieval', 
+      ... }
 {% endcodeblock %}
 
-We use '{}' to denote the members of a set. The order of books in the library
+We use `'{}'` to denote the members of a set. The order of books in the library
 doesn't matter here, and it doesn't make sense to have more than one entry for
 a book in the library. 
 
@@ -55,7 +56,7 @@ Clojure has set notation built in using the `#{ }` syntax, and any collection
 can be turned into a set with `(set coll)`:
 {% codeblock lang:clojure %}
 (def library #{ "Natural Language Processing with Python",
-                "Learning OpenCV',
+                "Learning OpenCV",
                 "Code Complete", 
                 "Mastering Algorithms with C", 
                 "The Joy of Clojure", 
@@ -114,8 +115,9 @@ In Clojure:
 {% endcodeblock %}
 
 ### Union
-A union is the set of members that appear in either set. So we could define a
-subset of L that contains all the books I have in a mobile format, which for
+A union is the set of members that appear in either set - if it's in at least
+one of the sets, it will appear in a union of the two sets. So we could define 
+a subset of L that contains all the books I have in a mobile format, which for
 our purposes means copies exist in epub or mobi format. In Python, you can
 use the `set.union` method, and in Clojure you can use the functions in the
 `clojure.set` namespace.
@@ -151,9 +153,9 @@ Again, the practical result of this is a set of all the books I have in my
 library in a mobile format. 
 
 ### Intersection
-The intersection of two sets is a list of all the members that appear in both
-sets. In the library example, taking the intersection of the mobi and epub sets
-gives me a set of my books that I have in both epub and mobi format. The 
+The intersection of two sets is a list of all the members that only appear in 
+both sets. In the library example, taking the intersection of the mobi and epub
+sets gives me a set of my books that I have in both epub and mobi format. The 
 `intersection` function gives me this result.
 
 The Python example:
@@ -165,8 +167,8 @@ for book in both_formats:
 
 And in Clojure:
 {% codeblock lang:clojure %}
-(def both_formats (clojure.set/intersection mobi epub))
-(doseq [book both_formats] (println (str book)))
+(def both-formats (clojure.set/intersection mobi epub))
+(doseq [book both-formats] (println (str book)))
 {% endcodeblock %}
 
 For either example, the output should be just one book, given the sample sets:
@@ -184,7 +186,8 @@ first two; the first two operations are
 but the result of a difference is dependent on the order of the sets. I'll
 illustrate this with some code examples:
 
-{% codeblock Python illustration lang:python %}
+In Python:
+{% codeblock lang:python %}
 only_mobi = set.difference(mobi, epub)
 print 'books only in mobi format:'
 for book in only_mobi:
@@ -196,15 +199,16 @@ for book in only_epub:
     print '\t' + book
 {% endcodeblock %}
 
-{% codeblock Clojure illustration lang:clojure %}
+In Clojure:
+{% codeblock lang:clojure %}
 (println "books only in mobi format:")
-(def only_mobi (clojure.set/difference mobi epub))
-(doseq [book only_mobi]
+(def only-mobi (clojure.set/difference mobi epub))
+(doseq [book only-mobi]
     (println "\t" book))
 
 (println "books only in epub format:")
-(def only_epub (clojure.set/difference epub mobi))
-(doseq [book only_epub]
+(def only-epub (clojure.set/difference epub mobi))
+(doseq [book only-epub]
     (println "\t" book))
 {% endcodeblock %}
 
@@ -240,8 +244,8 @@ for book in not_mobi:
 and in Clojure:
 {% codeblock lang:clojure %}
 (println 'books not in mobi format, using the library superset:')
-(def not_mobi (clojure.set/difference library mobi))
-(doseq [book not_mobi]
+(def not-mobi (clojure.set/difference library mobi))
+(doseq [book not-mobi]
     (println "\t" book))
 {% endcodeblock %}
 
@@ -270,7 +274,7 @@ We'll develop the library idea a bit more.
 ## References
 * I've been reading [Alfred Aho's](https://en.wikipedia.org/wiki/Alfred_Aho) [<underline>The Theory of Parsing, Translating, and Compiling (Volume I: Parsing)</underline>](https://en.wikipedia.org/wiki/Special:BookSources/0139145567) 
 ([Amazon link](http://www.amazon.com/dp/0139145567/))
-* There is, of course, a good [wikipedia article](https://en.wikipedia.org/wiki/Set_(mathematics))
+* There is, of course, a good [wikipedia article](https://en.wikipedia.org/wiki/Set_(mathematics).
 
 ## Reviewers
 I'd like to thank the following people for reviewing this:
@@ -279,6 +283,7 @@ I'd like to thank the following people for reviewing this:
 * [Stephen Olsen](https://saolsen.github.com/)
 * [Aaron Bieber](https://www.twitter.com/qb1t)
 * [Jason Barbier](https://twitter.com/#!/Slaughterhut)
+* [Shawn Meier](http://shawnmeier.com/)
 * Matt Sowers
 
 ## Code Samples
@@ -295,6 +300,6 @@ The complete Clojure source code, which you can likewise save and run:
 
 You'll want to run this with `clj set-theory.py` - I've deliberately chosen
 not to make this a lein project in order to make it easier to share, but I did
-[upload a lein project](http://kisom.github.com/downloads/set_theory.tar.gz).
+[upload a lein project](/downloads/set_theory.tar.gz).
 You should be able to just run `lein deps, test, run`.
 

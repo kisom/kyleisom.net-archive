@@ -4,11 +4,11 @@ require "stringex"
 
 ## -- Rsync Deploy config -- ##
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
-ssh_user       = "user@domain.com"
-ssh_port       = "22"
-document_root  = "~/website.com/"
-rsync_delete   = true
-deploy_default = "push"
+#ssh_user       = "brokenlcd.net"
+#ssh_port       = "22"
+#document_root  = "~/public_html/testblog/"
+#rsync_delete   = true
+#deploy_default = "push"
 
 # This will be configured for you when you run config_deploy
 deploy_branch  = "master"

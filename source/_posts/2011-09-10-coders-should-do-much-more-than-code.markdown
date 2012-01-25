@@ -31,6 +31,8 @@ other people. You still need to make sure you have a reasonable portable
 an easily accessible online place for people to get your code, and proper
 follow-through. Let's talk through these bits.
 
+<!-- more -->
+
 the build system
 ----------------
 No matter how wizard your code is, if it's more work for other people to build
