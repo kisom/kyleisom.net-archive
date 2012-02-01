@@ -1,8 +1,9 @@
 $blockquote: $type-border !default;
-$sans: "PT Sans", "Helvetica Neue", Arial, sans-serif !default;
-$serif: "IM Fell English", "PT Serif", Georgia, Times, "Times New Roman", serif !default;
+// $sans: "Open Sans", "Helvetica Neue", Arial, sans-serif !default;
+$sans: "Open Sans", "Helvetica Neue", Arial, sans-serif !default;
+$serif: "IM Fell English", Georgia, Times, "Times New Roman", serif !default;
 $mono: "Inconsolata", Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace !default;
-$heading-font-family: "IM Fell English", "PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif !default;
+$heading-font-family: "IM Fell English", "Georgia", "Helvetica Neue", Arial, sans-serif !default;
 $header-title-font-family: "Inconsolata", $heading-font-family !default;
 $header-subtitle-font-family: $heading-font-family !default;
 
