@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coding | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-01-24T00:10:27+03:00</updated>
+  <updated>2012-02-01T21:01:24+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -12,6 +12,1229 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using Set Theory]]></title>
+    <link href="http://kisom.github.com/blog/2012/02/01/using-set-theory/"/>
+    <updated>2012-02-01T20:45:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2012/02/01/using-set-theory</id>
+    <content type="html"><![CDATA[<h1>Under Review</h1>
+
+<p>In the <a href="/blog/2012/01/23/basic-set-theory/">last post</a>, we took a look at the
+basics of set theory. Now, I'd like to take a look at how to actually make use
+of it in your code.</p>
+
+<p>One of the issues with practically using the code in the last post is that the
+initial subsets were defined arbitrarily and not derived from the superset. In
+this post, all the examples are derived from the superset. We'll use a couple
+techniques for doing this illustrate some of the various ways to do it.</p>
+
+<p>In Python, we'll use an object-oriented approach, creating a few classes and
+working on Book objects. In Clojure, we'll use records. Though we'll approach
+language a little differently, I  hope they still bring clarity to the subject.</p>
+
+<!-- more -->
+
+
+<h2>Foundation: A Collection of Books</h2>
+
+<p>The first thing we need to do in a useful system is determine what we mean by
+book. The last post represented each book as a string denoting the title; while
+that worked for a brief introduction, in practise it gives us very limited
+options for building subsets. What we need to do is identify more information,
+called attributes or fields, that give us the information we need to build our
+subsets.</p>
+
+<h3>Python</h3>
+
+<p>In Python, we'll approach this using a class. I've saved them in <code>library.py</code>
+in the <a href="/downloads/code/using-set-theory/py_example.tar.gz">Python example code</a></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">used</span> <span class="n">to</span> <span class="n">validate</span> <span class="n">the</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">formats</span> <span class="n">passed</span> <span class="n">to</span> <span class="n">a</span> <span class="n">book</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">SUPPORTED_FORMATS</span> <span class="o">=</span> <span class="p">[</span> <span class="s">&#39;epub&#39;</span><span class="p">,</span> <span class="s">&#39;mobi&#39;</span><span class="p">,</span> <span class="s">&#39;pdf&#39;</span> <span class="p">]</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">class</span> <span class="nc">Book</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="s">Represents a book, with title, author, and summary text fields. A book</span>
+</span><span class='line'><span class="s">should be given a list of formats supported as a dictionary in the form</span>
+</span><span class='line'><span class="s">{fmt: True}, and optionally a list of tags.</span>
+</span><span class='line'><span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="n">title</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="n">author</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="n">summary</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="n">formats</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="n">tags</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">author</span><span class="p">,</span> <span class="n">summary</span><span class="p">,</span> <span class="n">formats</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Initalise a new book. The format shoud be a dictiontary in</span>
+</span><span class='line'><span class="sd">    the form { &#39;epub&#39;: True } where each key is a format that we</span>
+</span><span class='line'><span class="sd">    have the book in.&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">author</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="bp">False</span> <span class="ow">in</span> <span class="p">[</span><span class="n">fmt</span> <span class="ow">in</span> <span class="n">SUPPORTED_FORMATS</span> <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">formats</span><span class="p">])</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">formats</span> <span class="o">=</span> <span class="n">formats</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">    Return string representation of a book.</span>
+</span><span class='line'><span class="sd">    &quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">out</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="se">\n\t</span><span class="s">by </span><span class="si">%s</span><span class="se">\n\t</span><span class="si">%s</span><span class="se">\n\t</span><span class="s">formats: </span><span class="si">%s</span><span class="s">&quot;</span>
+</span><span class='line'>    <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">author</span><span class="p">),</span>
+</span><span class='line'>                 <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="p">,</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formats</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">out</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We'll also want a <code>BookCollection</code> class to store a set of books and provide
+some utility methods for dealing with the collection:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">BookCollection</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="s">&quot;&quot;&quot;Representation of a collection of books. Internally, they are stored</span>
+</span><span class='line'><span class="s">as a set. It&#39;s main utility is in its helper methods that make accessing</span>
+</span><span class='line'><span class="s">the books easier.&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">books</span><span class="p">,</span> <span class="n">book_filter</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Instantiate a collection of books. It expects a collection of</span>
+</span><span class='line'><span class="sd">    books, e.g. a list or set, and optionally takes a filter to</span>
+</span><span class='line'><span class="sd">    only put some of the books into the collection.&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">book_filter</span><span class="p">:</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">books</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">book</span> <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books</span> <span class="k">if</span> <span class="n">book_filter</span><span class="p">(</span><span class="n">book</span><span class="p">)])</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">books</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">books</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">books</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">show_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Print a list of titles in the collection. If the description</span>
+</span><span class='line'><span class="sd">    argument is supplied, it is printed first and all the books are</span>
+</span><span class='line'><span class="sd">    printed with a preceding tab.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">description</span>
+</span><span class='line'>        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s">&#39;</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">books</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">fmt</span> <span class="o">%</span> <span class="p">(</span><span class="n">book</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">get_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return a list of titles in the collection.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">book</span><span class="o">.</span><span class="n">title</span> <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">books</span><span class="p">]</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+These two classes are very short (and we'll extend them later to make them
+more useful) but provide a solid foundation to begin building on. You'll want
+to load the books in the class.</p>
+
+<p>To load an example book, you would do use code similar to this:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">books</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Book</span><span class="p">(</span><span class="s">&quot;Natural Language Processing with Python&quot;</span><span class="p">,</span>
+</span><span class='line'>     <span class="p">[</span><span class="s">&#39;Steven Bird&#39;</span><span class="p">,</span> <span class="s">&#39;Ewan Klein&#39;</span><span class="p">,</span> <span class="s">&#39;Edward Loper&#39;</span><span class="p">],</span>
+</span><span class='line'>     <span class="s">&#39;A highly accessible introduction to natural language processing.&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="p">[</span><span class="s">&#39;mobi&#39;</span><span class="p">,</span> <span class="p">]),</span>
+</span><span class='line'><span class="n">Book</span><span class="p">(</span><span class="s">&#39;Learning OpenCV&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;Gary Bradski&#39;</span><span class="p">,</span> <span class="s">&#39;Adrian Kaehler&#39;</span><span class="p">],</span>
+</span><span class='line'>     <span class="s">&#39;Puts you in the middle of the rapidly expanding field of &#39;</span> <span class="o">+</span>
+</span><span class='line'>     <span class="s">&#39;computer vision.&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="p">[</span><span class="s">&#39;pdf&#39;</span><span class="p">,])</span>
+</span><span class='line'><span class="p">])</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Manually entering all these details is tedious. Fortunately for you, I put up
+with the tedium to create a sample dataset in <code>sample_library.py</code>. You use the
+function <code>get_library()</code> from the file to use it.</p>
+
+<h3>Clojure</h3>
+
+<p>In Clojure, we'll use a record to define a book:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;; define a book record</span>
+</span><span class='line'><span class="p">(</span><span class="nf">defrecord</span> <span class="nv">Book</span>
+</span><span class='line'>  <span class="o">#</span><span class="nv">&lt;sup&gt;</span><span class="p">{</span><span class="nv">&lt;/sup&gt;</span> <span class="nv">:doc</span> <span class="s">&quot;Representation of a book. title is a string, authors a vector,</span>
+</span><span class='line'><span class="s">summary is text, and formats is a vector.&quot;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="p">[</span><span class="nv">title</span> <span class="nv">authors</span> <span class="nv">summary</span> <span class="nv">formats</span><span class="p">])</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We're not using objects, so we don't need a record to store a collection.
+(If we wanted to validate formats, we could do it using a Ref and a
+:validator argument - that's left as an exercise for the reader). I have,
+however, defined a few helper functions.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="k">defn </span><span class="nv">in?</span>
+</span><span class='line'>  <span class="s">&quot;Check whether val is in coll.&quot;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nv">coll</span> <span class="nv">val</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">map? </span><span class="nv">coll</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="nb">val </span><span class="nv">coll</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nb">not= </span><span class="mi">-1</span> <span class="p">(</span><span class="o">.</span><span class="nv">indexOf</span> <span class="nv">coll</span> <span class="nv">val</span><span class="p">))))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="c1">;; format validation</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">valid-format?</span>
+</span><span class='line'>  <span class="s">&quot;Check a record or object with a :formats key to ensure it fits the list</span>
+</span><span class='line'><span class="s">of valid formats.&quot;</span>
+</span><span class='line'>  <span class="o">#</span><span class="p">(</span><span class="nv">or</span> <span class="p">(</span><span class="nf">in?</span> <span class="p">(</span><span class="nf">:formats</span> <span class="nv">%</span><span class="p">)</span> <span class="nv">:epub</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>   <span class="p">(</span><span class="nf">in?</span> <span class="p">(</span><span class="nf">:formats</span> <span class="nv">%</span><span class="p">)</span> <span class="nv">:mobi</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">in?</span> <span class="p">(</span><span class="nf">:formats</span> <span class="nv">%</span><span class="p">)</span> <span class="nv">:pdf</span><span class="p">)))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn </span><span class="nv">list-titles</span>
+</span><span class='line'>  <span class="s">&quot;Print a list of titles of a book.&quot;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nv">books</span> <span class="nv">&amp;amp</span><span class="c1">; description]</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">titles</span>  <span class="p">(</span><span class="nb">map </span><span class="nv">:title</span> <span class="nv">books</span><span class="p">)]</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="k">if </span><span class="nv">description</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">do</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="nv">description</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">title</span> <span class="nv">titles</span><span class="p">]</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">title</span><span class="p">)))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">title</span> <span class="nv">titles</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="nv">title</span><span class="p">)))))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn </span><span class="nv">get-titles</span>
+</span><span class='line'>  <span class="s">&quot;Get a list of titles of a book collection.&quot;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nv">books</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">map </span><span class="nv">:title</span> <span class="nv">books</span><span class="p">))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn </span><span class="nv">book-str</span>
+</span><span class='line'>  <span class="s">&quot;Return a book as a string.&quot;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nv">book</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">format</span> <span class="s">&quot;%s\n(by %s\n\t%s\n\tformats: %s\n&quot;</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>      <span class="p">(</span><span class="nb">str </span><span class="p">(</span><span class="nf">:title</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">join </span><span class="s">&quot;, &quot;</span> <span class="p">(</span><span class="nf">:authors</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">str </span><span class="p">(</span><span class="nf">:summary</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">join </span><span class="s">&quot;, &quot;</span> <span class="p">(</span><span class="nb">map </span><span class="o">#</span><span class="ss">&#39;name</span> <span class="p">(</span><span class="nf">:format</span> <span class="nv">book</span><span class="p">)))))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Adding books is a simple affair:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="nf">set</span>
+</span><span class='line'>   <span class="p">[(</span><span class="nf">Book</span><span class="o">.</span> <span class="s">&quot;Natural Language Processing with Python&quot;</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>       <span class="p">[</span><span class="s">&quot;Steven Bird&quot;</span> <span class="s">&quot;Ewan Klein&quot;</span> <span class="s">&quot;Edward Loper&quot;</span> <span class="p">]</span>
+</span><span class='line'>       <span class="s">&quot;A highly accessible introduction to natural language processing.&quot;</span>
+</span><span class='line'>       <span class="p">[</span> <span class="nv">:mobi</span> <span class="p">])</span>
+</span><span class='line'><span class="p">(</span><span class="nf">Book</span><span class="o">.</span> <span class="s">&quot;Learning OpenCV&quot;</span> <span class="p">[</span><span class="s">&quot;Gary Bradski&quot;</span> <span class="s">&quot;Adrian Kaehler&quot;</span><span class="p">]</span>
+</span><span class='line'>       <span class="p">(</span><span class="nb">str </span><span class="s">&quot;Puts you in the middle of the rapidly expanding field of &quot;</span>
+</span><span class='line'>            <span class="s">&quot;computer vision&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">[</span> <span class="nv">:pdf</span> <span class="p">])])</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>I've loaded a sample dataset into the <code>sample_library.clj</code> source file, available
+from the <a href="/downloads/code/using-set-theory/clj-example.tar.gz">Clojure example code</a>.</p>
+
+<h2>Building Subsets</h2>
+
+<p>Now that we have a way to represent a book (with more useful information than
+simply the title), we can start to build some subsets. Let's start by
+looking at <em>set notation</em> (aka how to write a set both mathematically and
+in code), and then continue on to recreate the two subsets in the previous
+article, <code>epub</code> and <code>mobi</code>.</p>
+
+<h3>Set Notation</h3>
+
+<p>In <a href="https://en.wikipedia.org/wiki/Set_notation">set notation</a>, we denote
+a set by writing:</p>
+
+<blockquote><p>A = { x | x ∈ N, x &lt; 10 }</p></blockquote>
+
+<p>which means the set of numbers that are members of (∈ means <em>'element of'</em>)
+the set of positive integers and are less than 10. You might generalise this
+as such:</p>
+
+<blockquote><p>given the universal set S, which defines all the elements under
+consideration, and some predicate P which is a function that returns either
+true if the element satisfies the predicate (and thus should be included
+in the set):<br>
+{ x | x ∈ S, P(x) }</p></blockquote>
+
+<p>We would express this set as:</p>
+
+<blockquote><p>A = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }</p></blockquote>
+
+<p>In Python, this is easily expressed with a
+<a href="http://www.python.org/dev/peps/pep-0202/">list comprehension</a> (see also
+the <a href="http://docs.python.org/reference/expressions.html#list-displays">Python documentation</a>:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">a</span> <span class="n">Python</span> <span class="nb">list</span> <span class="n">comprehension</span> <span class="n">isn</span><span class="s">&#39;t aware that once N is above 10, it should&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">terminate</span><span class="p">,</span> <span class="n">so</span> <span class="n">we</span> <span class="n">cheat</span> <span class="ow">and</span> <span class="n">create</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">integers</span> <span class="kn">from</span> <span class="err">1 </span><span class="nn">to</span><span class="err"> 100</span><span class="nn">.</span><span class="err">&lt;/</span><span class="nn">h1</span><span class="err">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">define</span> <span class="n">N</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">N</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">build</span> <span class="n">the</span> <span class="nb">set</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">A</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">N</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">10</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>And in Clojure, we could use something similar:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="p">;;</span> <span class="n">define</span> <span class="n">N</span>
+</span><span class='line'><span class="p">(</span><span class="k">def</span> <span class="nf">N</span> <span class="p">(</span><span class="n">iterate</span> <span class="n">inc</span> <span class="mi">0</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="k">def</span> <span class="nf">N</span> <span class="c">#&lt;sup&gt;{:doc&lt;/sup&gt; &quot;Representation of the set of positive integers.&quot;} N)&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">;;</span> <span class="n">build</span> <span class="n">the</span> <span class="nb">set</span>
+</span><span class='line'><span class="p">(</span><span class="nb">filter</span> <span class="c">#(&amp;lt; % 10) N)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Building the Subsets</h3>
+
+<p>As mentioned earlier, I have already built sample datasets for both Python
+and Clojure, so be sure to use those and save yourself from having to build
+your own just yet!</p>
+
+<h4>Python</h4>
+
+<p>In Python, we can use the built-in <code>filter</code> function to build a list. It will
+serve as our predicate function.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">library</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sample_library</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">my_library</span> <span class="ow">is</span> <span class="n">our</span> <span class="n">superset</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">MY_LIBRARY</span> <span class="o">=</span> <span class="n">sample_library</span><span class="o">.</span><span class="n">get_library</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">build</span> <span class="n">our</span> <span class="n">filters</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">IS_EPUB</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">book</span><span class="p">:</span> <span class="s">&#39;epub&#39;</span> <span class="ow">in</span> <span class="n">book</span><span class="o">.</span><span class="n">formats</span>
+</span><span class='line'><span class="n">IS_MOBI</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">book</span><span class="p">:</span> <span class="s">&#39;mobi&#39;</span> <span class="ow">in</span> <span class="n">book</span><span class="o">.</span><span class="n">formats</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">build</span> <span class="n">the</span> <span class="n">subsets</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">EPUB</span> <span class="o">=</span> <span class="n">library</span><span class="o">.</span><span class="n">BookCollection</span><span class="p">(</span><span class="n">MY_LIBRARY</span><span class="o">.</span><span class="n">books</span><span class="p">,</span> <span class="n">IS_EPUB</span><span class="p">)</span>
+</span><span class='line'><span class="n">MOBI</span> <span class="o">=</span> <span class="n">library</span><span class="o">.</span><span class="n">BookCollection</span><span class="p">(</span><span class="n">MY_LIBRARY</span><span class="o">.</span><span class="n">books</span><span class="p">,</span> <span class="n">IS_MOBI</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>This gives me the output:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">formats</span><span class="o">.</span><span class="n">EPUB</span><span class="o">.</span><span class="n">show_titles</span><span class="p">(</span><span class="s">&quot;books in epub format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">books</span> <span class="ow">in</span> <span class="n">epub</span> <span class="n">format</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Code</span> <span class="n">Complete</span>
+</span><span class='line'><span class="n">The</span> <span class="n">Joy</span> <span class="n">of</span> <span class="n">Clojure</span>
+</span><span class='line'><span class="n">Mining</span> <span class="n">the</span> <span class="n">Social</span> <span class="n">Web</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">formats</span><span class="o">.</span><span class="n">MOBI</span><span class="o">.</span><span class="n">show_titles</span><span class="p">(</span><span class="s">&quot;books in mobi format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">books</span> <span class="ow">in</span> <span class="n">mobi</span> <span class="n">format</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Introduction</span> <span class="n">to</span> <span class="n">Information</span> <span class="n">Retrieval</span>
+</span><span class='line'><span class="n">Code</span> <span class="n">Complete</span>
+</span><span class='line'><span class="n">Natural</span> <span class="n">Language</span> <span class="n">Processing</span> <span class="k">with</span> <span class="n">Python</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>If you recall the definition of <code>BookCollection</code>, the filter method is
+called as <code>filter(predicate, collection)</code>. In the case of the <code>mobi</code>
+subset, it filters out anything that fails the test
+<code>'mobi' in book.formats</code>. We might write this as</p>
+
+<blockquote><p>{ book | book ∈ <code>my_library</code>, <code>is_mobi(book)</code> }</p></blockquote>
+
+<p>in set notation. I've predefined some filters in the file <code>formats.py</code>
+which is again in the <a href="/downloads/code/using-set-theory/py_example.tar.gz">example code</a>.</p>
+
+<h4>Clojure</h4>
+
+<p>Likewise, Clojure has a built-in filter function, in the form
+<code>(filter pred coll)</code>. We'll use two
+<a href="http://clojuredocs.org/clojure_core/clojure.core/fn">anonymous functions</a>
+to do our filtering:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">use</span> <span class="ss">&#39;using_set_theory</span><span class="o">.</span><span class="nv">library</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">use</span> <span class="ss">&#39;using_set_theory</span><span class="o">.</span><span class="nv">sample_library</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">epub?</span> <span class="o">#</span><span class="p">(</span><span class="nv">in?</span> <span class="p">(</span><span class="nf">:formats</span> <span class="nv">%</span><span class="p">)</span> <span class="nv">:epub</span><span class="p">))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">mobi?</span> <span class="o">#</span><span class="p">(</span><span class="nv">in?</span> <span class="p">(</span><span class="nf">:formats</span> <span class="nv">%</span><span class="p">)</span> <span class="nv">:mobi</span><span class="p">))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">my-library</span> <span class="p">(</span><span class="nf">get-library</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">epub</span> <span class="p">(</span><span class="nb">filter </span><span class="nv">epub?</span> <span class="nv">my-library</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobi</span> <span class="p">(</span><span class="nb">filter </span><span class="nv">mobi?</span> <span class="nv">my-library</span><span class="p">))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="nf">list-titles</span> <span class="nv">epub</span> <span class="s">&quot;list of books in epub format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">list-titles</span> <span class="nv">mobi</span> <span class="s">&quot;list of books in mobi format:&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>In the repl, this gives me:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="nv">using_set_theory</span><span class="o">.</span><span class="nv">core=&gt;</span> <span class="p">(</span><span class="nf">list-titles</span> <span class="nv">epub</span> <span class="s">&quot;list of books in epub format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nb">list </span><span class="nv">of</span> <span class="nv">books</span> <span class="nv">in</span> <span class="nv">epub</span> <span class="nv">format:</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span> <span class="nv">The</span> <span class="nv">Joy</span> <span class="nv">of</span> <span class="nv">Clojure</span>
+</span><span class='line'> <span class="nv">Mining</span> <span class="nv">the</span> <span class="nv">Social</span> <span class="nv">Web</span>
+</span><span class='line'> <span class="nv">Code</span> <span class="nv">Complete</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;nil</span>
+</span><span class='line'><span class="nv">using_set_theory</span><span class="o">.</span><span class="nv">core=&gt;</span> <span class="p">(</span><span class="nf">list-titles</span> <span class="nv">mobi</span> <span class="s">&quot;list of books in mobi format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nb">list </span><span class="nv">of</span> <span class="nv">books</span> <span class="nv">in</span> <span class="nv">mobi</span> <span class="nv">format:</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span> <span class="nv">Introduction</span> <span class="nv">to</span> <span class="nv">Information</span> <span class="nv">Retrieval</span>
+</span><span class='line'> <span class="nv">Natural</span> <span class="nv">Language</span> <span class="nv">Processing</span> <span class="nv">with</span> <span class="nv">Python</span>
+</span><span class='line'> <span class="nv">Code</span> <span class="nv">Complete</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;nil</span>
+</span><span class='line'><span class="nv">using_set_theory</span><span class="o">.</span><span class="nv">core=&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>I've put these filters in the <code>filters.clj</code> source file, along with definitions
+for <code>epub-books</code> and <code>mobi-books</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">ns</span> <span class="nv">using_set_theory</span><span class="o">.</span><span class="nv">filters</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">:use</span> <span class="p">[</span><span class="nv">using_set_theory</span><span class="o">.</span><span class="nv">library</span><span class="p">]</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>    <span class="p">[</span><span class="nv">using_set_theory</span><span class="o">.</span><span class="nv">sample_library</span><span class="p">]))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">epub?</span>
+</span><span class='line'>  <span class="o">#</span><span class="nv">&lt;sup&gt;</span><span class="p">{</span><span class="nv">:doc&lt;/sup&gt;</span> <span class="s">&quot;Filter a collection of books by those supporting the epub format.&quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">book</span><span class="p">]</span> <span class="p">(</span><span class="nf">in?</span> <span class="p">(</span><span class="nf">:formats</span> <span class="nv">book</span><span class="p">)</span> <span class="nv">:epub</span><span class="p">)))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">mobi?</span>
+</span><span class='line'>  <span class="o">#</span><span class="nv">&lt;sup&gt;</span><span class="p">{</span><span class="nv">:doc&lt;/sup&gt;</span> <span class="s">&quot;Filter a collection of books by those supporting the mobi format.&quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">book</span><span class="p">]</span> <span class="p">(</span><span class="nf">in?</span> <span class="p">(</span><span class="nf">:formats</span> <span class="nv">book</span><span class="p">)</span> <span class="nv">:mobi</span><span class="p">)))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn- </span><span class="nv">get-epub</span>
+</span><span class='line'>  <span class="s">&quot;Takes a collection of books and returns the list of books in epub format.&quot;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nv">books</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">filter </span><span class="nv">epub?</span> <span class="nv">books</span><span class="p">))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn- </span><span class="nv">get-mobi</span>
+</span><span class='line'>  <span class="s">&quot;Takes a collection of books and returns the list of book in mobi format.&quot;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nv">books</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">filter </span><span class="nv">mobi?</span> <span class="nv">books</span><span class="p">))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">epub-books</span> <span class="p">(</span><span class="nb">set </span><span class="p">(</span><span class="nf">get-epub</span> <span class="p">(</span><span class="nf">get-library</span><span class="p">))))</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobi-books</span> <span class="p">(</span><span class="nb">set </span><span class="p">(</span><span class="nf">get-mobi</span> <span class="p">(</span><span class="nf">get-library</span><span class="p">))))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Parallels with SQL</h2>
+
+<p>This introduction of filters might remind you of SQL, and for good reason.
+<a href="https://en.wikipedia.org/wiki/Edgar_F._Codd">Edgar Codd</a> designed SQL with
+set theory in mind. You can think of tables as sets (provided, of course,
+proper data preparation is done to ensure there are no duplicates in the
+database), and operations like <code>SELECT</code> return subsets. For example, if we
+were storing the books in a library, we would write something like</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">books</span> <span class="k">WHERE</span> <span class="n">has_epub</span> <span class="o">=</span> <span class="k">TRUE</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Moving On</h2>
+
+<p>Now that we have a programmatic way to build subsets, we can automate the entire
+set of sequences in the <a href="/blog/2012/01/23/basic-set-theory/">last post</a>:</p>
+
+<h3>Python</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">formats</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">library</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">either_format</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">formats</span><span class="o">.</span><span class="n">EPUB</span><span class="o">.</span><span class="n">books</span><span class="p">,</span> <span class="n">formats</span><span class="o">.</span><span class="n">MOBI</span><span class="o">.</span><span class="n">books</span><span class="p">)</span>
+</span><span class='line'><span class="n">either_format</span> <span class="o">=</span> <span class="n">library</span><span class="o">.</span><span class="n">BookCollection</span><span class="p">(</span><span class="n">either_format</span><span class="p">)</span>
+</span><span class='line'><span class="n">either_format</span><span class="o">.</span><span class="n">show_titles</span><span class="p">(</span><span class="s">&quot;books in either format:&quot;</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">both_formats</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">formats</span><span class="o">.</span><span class="n">EPUB</span><span class="o">.</span><span class="n">books</span><span class="p">,</span> <span class="n">formats</span><span class="o">.</span><span class="n">MOBI</span><span class="o">.</span><span class="n">books</span><span class="p">)</span>
+</span><span class='line'><span class="n">both_formats</span> <span class="o">=</span> <span class="n">library</span><span class="o">.</span><span class="n">BookCollection</span><span class="p">(</span><span class="n">both_formats</span><span class="p">)</span>
+</span><span class='line'><span class="n">both_formats</span><span class="o">.</span><span class="n">show_titles</span><span class="p">(</span><span class="s">&quot;books in both formats:&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>which gives me the results:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">In</span> <span class="p">[</span><span class="mi">31</span><span class="p">]:</span> <span class="n">either_format</span><span class="o">.</span><span class="n">show_titles</span><span class="p">(</span><span class="s">&quot;books in either format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">Out</span><span class="p">[</span><span class="mi">31</span><span class="p">]:</span>
+</span><span class='line'><span class="n">books</span> <span class="ow">in</span> <span class="n">either</span> <span class="n">format</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Code</span> <span class="n">Complete</span>
+</span><span class='line'><span class="n">Mining</span> <span class="n">the</span> <span class="n">Social</span> <span class="n">Web</span>
+</span><span class='line'><span class="n">Natural</span> <span class="n">Language</span> <span class="n">Processing</span> <span class="k">with</span> <span class="n">Python</span>
+</span><span class='line'><span class="n">Introduction</span> <span class="n">to</span> <span class="n">Information</span> <span class="n">Retrieval</span>
+</span><span class='line'><span class="n">The</span> <span class="n">Joy</span> <span class="n">of</span> <span class="n">Clojure</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">In</span> <span class="p">[</span><span class="mi">32</span><span class="p">]:</span> <span class="n">both_formats</span><span class="o">.</span><span class="n">show_titles</span><span class="p">(</span><span class="s">&quot;books in both formats:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">Out</span><span class="p">[</span><span class="mi">32</span><span class="p">]:</span>
+</span><span class='line'><span class="n">books</span> <span class="ow">in</span> <span class="n">both</span> <span class="n">formats</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="n">Code</span> <span class="n">Complete</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Clojure</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">require</span> <span class="ss">&#39;clojure</span><span class="o">.</span><span class="nv">set</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">use</span> <span class="ss">&#39;using_set_theory</span><span class="o">.</span><span class="nv">filters</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">use</span> <span class="ss">&#39;using_set_theory</span><span class="o">.</span><span class="nv">library</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">either-format&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/union</span> <span class="nv">epub-books</span> <span class="nv">mobi-books</span><span class="p">))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">both-formats&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span><span class="p">(</span><span class="nf">clojure</span><span class="o">.</span><span class="nv">set/intersection</span> <span class="nv">epub-books</span> <span class="nv">mobi-books</span><span class="p">))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="nf">show-titles</span> <span class="nv">either-format</span> <span class="s">&quot;books in either format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">show-titles</span> <span class="nv">both-formats</span> <span class="s">&quot;books in both formats:&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>In the Clojure REPL, I get the following output:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="nv">using_set_theory</span><span class="o">.</span><span class="nv">core=&gt;</span> <span class="p">(</span><span class="nf">show-titles</span> <span class="nv">either-format</span> <span class="s">&quot;books in either format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">books</span> <span class="nv">in</span> <span class="nv">either</span> <span class="nv">format:</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span> <span class="nv">Introduction</span> <span class="nv">to</span> <span class="nv">Information</span> <span class="nv">Retrieval</span>
+</span><span class='line'> <span class="nv">The</span> <span class="nv">Joy</span> <span class="nv">of</span> <span class="nv">Clojure</span>
+</span><span class='line'> <span class="nv">Natural</span> <span class="nv">Language</span> <span class="nv">Processing</span> <span class="nv">with</span> <span class="nv">Python</span>
+</span><span class='line'> <span class="nv">Code</span> <span class="nv">Complete</span>
+</span><span class='line'> <span class="nv">Mining</span> <span class="nv">the</span> <span class="nv">Social</span> <span class="nv">Web</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;nil</span>
+</span><span class='line'><span class="nv">using_set_theory</span><span class="o">.</span><span class="nv">core=&gt;</span> <span class="p">(</span><span class="nf">show-titles</span> <span class="nv">both-formats</span> <span class="s">&quot;books in both formats:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">books</span> <span class="nv">in</span> <span class="nv">both</span> <span class="nv">formats:</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>    <span class="nv">Code</span> <span class="nv">Complete</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;nil</span>
+</span><span class='line'><span class="nv">using_set_theory</span><span class="o">.</span><span class="nv">core=&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Sets v. Lists</h2>
+
+<p>Remember that one of the key attributes of a set is that each member is distinct.
+Let's compare a set with a list; we'll do this with an intersection.</p>
+
+<h3>Python</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">library</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">formats</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">sample_library</span> <span class="kn">import</span> <span class="n">get_library</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">epub_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">book</span> <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">get_library</span><span class="p">()</span><span class="o">.</span><span class="n">books</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>         <span class="k">if</span> <span class="s">&#39;epub&#39;</span> <span class="ow">in</span> <span class="n">book</span><span class="o">.</span><span class="n">formats</span><span class="p">]</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">mobi_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">book</span> <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">get_library</span><span class="p">()</span><span class="o">.</span><span class="n">books</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>         <span class="k">if</span> <span class="s">&#39;mobi&#39;</span> <span class="ow">in</span> <span class="n">book</span><span class="o">.</span><span class="n">formats</span><span class="p">]</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">both_formats</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="n">both_formats</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">epub_list</span><span class="p">))</span>
+</span><span class='line'><span class="n">both_formats</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mobi_list</span><span class="p">))</span>
+</span><span class='line'><span class="k">print</span> <span class="s">&#39;books in both formats:&#39;</span>
+</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">both_formats</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">book</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The result:
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>books in both formats:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>Mining the Social Web
+</span><span class='line'>Code Complete
+</span><span class='line'>The Joy of Clojure
+</span><span class='line'>Code Complete
+</span><span class='line'>Natural Language Processing with Python
+</span><span class='line'>Introduction to Information Retrieval
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Clojure</h3>
+
+<p>In Clojure, we'll use the vector type, which is like a list but the first
+element isn't evaluated:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">use</span> <span class="ss">&#39;using_set_theory</span><span class="o">.</span><span class="nv">library</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">use</span> <span class="ss">&#39;using_set_theory</span><span class="o">.</span><span class="nv">sample_library</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">use</span> <span class="ss">&#39;using_set_theory</span><span class="o">.</span><span class="nv">filters</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">use</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">clojure</span><span class="o">.</span><span class="nv">contrib</span><span class="o">.</span><span class="nv">seq-utils</span> <span class="nv">:only</span> <span class="p">[</span><span class="nv">includes?</span><span class="p">]])</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">def </span><span class="nv">epub-list</span> <span class="p">(</span><span class="nf">vec</span> <span class="p">(</span><span class="nb">map </span><span class="nv">:title</span> <span class="nv">epub-books</span><span class="p">)))</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobi-list</span> <span class="p">(</span><span class="nf">vec</span> <span class="p">(</span><span class="nb">map </span><span class="nv">:title</span> <span class="nv">mobi-books</span><span class="p">)))</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">both-list</span> <span class="p">(</span><span class="nb">concat </span><span class="nv">epub-list</span> <span class="nv">mobi-list</span><span class="p">))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Which yields:
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>clojure.core=> (doseq [title (union epub-list mobi-list)] (println title))
+</span><span class='line'>The Joy of Clojure
+</span><span class='line'>Code Complete
+</span><span class='line'>Mining the Social Web
+</span><span class='line'>Introduction to Information Retrieval
+</span><span class='line'>Natural Language Processing with Python
+</span><span class='line'>nil
+</span><span class='line'>clojure.core=></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>So what?</h3>
+
+<p>You'll notice "Code Complete" shows up twice in the list. The advantage of sets
+here is that only unique items are returned. A union is actually the list of
+elements in both sets, <em>minus</em> the list of items that are in both
+sets.</p>
+
+<h3>A Second Stab: Python</h3>
+
+<p>Implementing the set operations:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">in_both</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a</span> <span class="ow">and</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">b</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">intersect</span><span class="p">(</span><span class="n">seta</span><span class="p">,</span> <span class="n">setb</span><span class="p">):</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">both_list</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="n">both_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">seta</span><span class="p">)</span>
+</span><span class='line'><span class="n">both_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">setb</span><span class="p">)</span>
+</span><span class='line'><span class="n">intersect_list</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="n">temp_list</span> <span class="o">=</span> <span class="n">both_list</span><span class="p">[:]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="ow">not</span> <span class="n">temp_list</span> <span class="o">==</span> <span class="p">[]:</span>
+</span><span class='line'>    <span class="n">element</span> <span class="o">=</span> <span class="n">temp_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">intersect_list</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">in_both</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">seta</span><span class="p">,</span> <span class="n">setb</span><span class="p">):</span>
+</span><span class='line'>            <span class="n">intersect_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">intersect_list</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="n">seta</span><span class="p">,</span> <span class="n">setb</span><span class="p">):</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">both_list</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="n">both_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">seta</span><span class="p">)</span>
+</span><span class='line'><span class="n">both_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">setb</span><span class="p">)</span>
+</span><span class='line'><span class="n">intersect_list</span> <span class="o">=</span> <span class="n">intersect</span><span class="p">(</span><span class="n">seta</span><span class="p">,</span> <span class="n">setb</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="ow">not</span> <span class="n">intersect_list</span> <span class="o">==</span> <span class="p">[]:</span>
+</span><span class='line'>    <span class="n">element</span> <span class="o">=</span> <span class="n">intersect_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">while</span> <span class="n">both_list</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">both_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="n">both_list</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Applying this to our lists:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">In</span> <span class="p">[</span><span class="mi">30</span><span class="p">]:</span> <span class="n">union</span><span class="p">(</span><span class="n">epub_list</span><span class="p">,</span> <span class="n">mobi_list</span><span class="p">)</span>
+</span><span class='line'><span class="n">Out</span><span class="p">[</span><span class="mi">30</span><span class="p">]:</span>
+</span><span class='line'><span class="p">[</span><span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
+</span><span class='line'> <span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span>
+</span><span class='line'> <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span>
+</span><span class='line'> <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">,</span>
+</span><span class='line'> <span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">]</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">In</span> <span class="p">[</span><span class="mi">31</span><span class="p">]:</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>A Second Stab: Clojure</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="p">(</span><span class="nf">ns</span> <span class="nv">myset</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">:use</span> <span class="p">[</span><span class="nv">clojure</span><span class="o">.</span><span class="nv">contrib</span><span class="o">.</span><span class="nv">seq-utils</span> <span class="nv">:only</span> <span class="p">[</span><span class="nv">includes?</span><span class="p">]]))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn </span><span class="nv">unique?</span> <span class="p">[</span><span class="nv">el</span> <span class="nv">ulst</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nb">= </span><span class="mi">0</span> <span class="p">(</span><span class="nb">count </span><span class="p">(</span><span class="nb">filter </span><span class="o">#</span><span class="p">(</span><span class="nv">=</span> <span class="nv">%</span> <span class="nv">el</span><span class="p">)</span> <span class="nv">ulst</span><span class="p">))))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn </span><span class="nv">get-intersect</span> <span class="p">[</span><span class="nv">ilist</span> <span class="nv">seta</span> <span class="nv">setb</span> <span class="nv">both-list</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty?</span> <span class="nv">both-list</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;ilist</span>
+</span><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">element</span> <span class="p">(</span><span class="nb">first </span><span class="nv">both-list</span><span class="p">)]</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">and </span><span class="p">(</span><span class="nf">includes?</span> <span class="nv">seta</span> <span class="nv">element</span><span class="p">)</span>
+</span><span class='line'>           <span class="p">(</span><span class="nf">includes?</span> <span class="nv">setb</span> <span class="nv">element</span><span class="p">)</span>
+</span><span class='line'>           <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nf">includes?</span> <span class="nv">ilist</span> <span class="nv">element</span><span class="p">)))</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">get-intersect</span> <span class="p">(</span><span class="nb">conj </span><span class="nv">ilist</span> <span class="nv">element</span><span class="p">)</span> <span class="nv">seta</span> <span class="nv">setb</span> <span class="p">(</span><span class="nb">rest </span><span class="nv">both-list</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">get-intersect</span> <span class="nv">ilist</span> <span class="nv">seta</span> <span class="nv">setb</span> <span class="p">(</span><span class="nb">rest </span><span class="nv">both-list</span><span class="p">))))))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn </span><span class="nv">check-unique</span> <span class="p">[</span><span class="nv">ilist</span> <span class="nv">both</span> <span class="nv">ulist</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty?</span> <span class="nv">ilist</span><span class="p">)</span>
+</span><span class='line'>   <span class="nv">ulist</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">element</span> <span class="p">(</span><span class="nb">first </span><span class="nv">ilist</span><span class="p">)]</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">includes?</span> <span class="nv">ulist</span> <span class="nv">element</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">check-unique</span> <span class="p">(</span><span class="nb">rest </span><span class="nv">ilist</span><span class="p">)</span> <span class="nv">both</span> <span class="nv">ulist</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">check-unique</span> <span class="p">(</span><span class="nb">rest </span><span class="nv">ilist</span><span class="p">)</span> <span class="nv">both</span> <span class="p">(</span><span class="nb">conj </span><span class="nv">ulist</span> <span class="nv">element</span><span class="p">))))))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn </span><span class="nv">intersect</span> <span class="p">[</span><span class="nv">seta</span> <span class="nv">setb</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">get-intersect</span> <span class="p">[]</span> <span class="nv">seta</span> <span class="nv">setb</span> <span class="p">(</span><span class="nb">concat </span><span class="nv">seta</span> <span class="nv">setb</span><span class="p">)))</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="k">defn </span><span class="nv">union</span> <span class="p">[</span><span class="nv">seta</span> <span class="nv">setb</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">both-sets</span> <span class="p">(</span><span class="nb">concat </span><span class="nv">seta</span> <span class="nv">setb</span><span class="p">)</span><span class="nv">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>    <span class="nv">intersection</span> <span class="p">(</span><span class="nf">intersect</span> <span class="nv">seta</span> <span class="nv">setb</span><span class="p">)]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">unique-element</span> <span class="nv">intersection</span> <span class="nv">both-sets</span><span class="p">)))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Applying this:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="nv">clojure</span><span class="o">.</span><span class="nv">core=&gt;</span> <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">title</span> <span class="p">(</span><span class="nb">union </span><span class="nv">epub-list</span> <span class="nv">mobi-list</span><span class="p">)]</span> <span class="p">(</span><span class="nb">println </span><span class="nv">title</span><span class="p">))</span>
+</span><span class='line'><span class="nv">The</span> <span class="nv">Joy</span> <span class="nv">of</span> <span class="nv">Clojure</span>
+</span><span class='line'><span class="nv">Code</span> <span class="nv">Complete</span>
+</span><span class='line'><span class="nv">Mining</span> <span class="nv">the</span> <span class="nv">Social</span> <span class="nv">Web</span>
+</span><span class='line'><span class="nv">Introduction</span> <span class="nv">to</span> <span class="nv">Information</span> <span class="nv">Retrieval</span>
+</span><span class='line'><span class="nv">Natural</span> <span class="nv">Language</span> <span class="nv">Processing</span> <span class="nv">with</span> <span class="nv">Python</span>
+</span><span class='line'><span class="nv">nil</span>
+</span><span class='line'><span class="nv">clojure</span><span class="o">.</span><span class="nv">core=&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Applications</h2>
+
+<p>This has been just a quick introduction to the topic, but hopefully you
+can see the relevance to areas like data mining. Coincidentally, datasets
+tend to conform to the mathematical idea of sets, and typically with some
+data massaging (i.e. to filter out duplicates), those that don't can
+be made more like mathemtical sets. Once appropriately represented in the
+computer, they can be acted upon with the basic set operations.</p>
+
+<p>I've created an additional example: a web service providing a rest API to
+the book collection. As with the code in this post, there is an example in
+<a href="https://bitbucket.org/kisom/py_web_service/get/release-1.0.2.tar.gz">Python</a>
+and in
+<a href="https://github.com/kisom/clj_web_service/tarball/release-1.0.2">Clojure</a>. The
+README in either example explains what dependencies are required. You can also
+view the <a href="https://bitbucket.org/kisom/py_web_service/">Bitbucket repo</a> for the
+Python example, or the <a href="https://github.com/kisom/clj_web_service">GitHub repo</a>
+for the Clojure example.</p>
+
+<h2>Acknowledgements</h2>
+
+<p><a href="https://www.github.com/saolsen">Stephen Olsen</a> reviewed many iterations of this
+article and helped me to properly articulate the important points (like illustrating
+that unions require the subtraction of the intersection). I originally wrote
+the bulk of this article on the 25th, but it took me until the 28th to finish
+writing the API example code, until the 31st to add in the additional union
+explanation, and until the 1st to polish it up.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Basic Set Theory]]></title>
@@ -482,7 +1705,7 @@ We'll develop the library idea a bit more.</p>
 <ul>
 <li>I've been reading <a href="https://en.wikipedia.org/wiki/Alfred_Aho">Alfred Aho's</a> <a href="https://en.wikipedia.org/wiki/Special:BookSources/0139145567"><underline>The Theory of Parsing, Translating, and Compiling (Volume I: Parsing)</underline></a>
 (<a href="http://www.amazon.com/dp/0139145567/">Amazon link</a>)</li>
-<li>There is, of course, a good <a href="https://en.wikipedia.org/wiki/Set_(mathematics">wikipedia article</a>)</li>
+<li>There is, of course, a good <a href="https://en.wikipedia.org/wiki/Set_(mathematics">wikipedia article</a>.</li>
 </ul>
 
 
@@ -767,7 +1990,7 @@ goal was to update a CGI script when I pushed to the dev vm. The commit log:
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x63;&#x6f;&#x64;&#101;&#114;&#64;&#107;&#121;&#108;&#x65;&#x69;&#115;&#x6f;&#109;&#46;&#x6e;&#x65;&#116;">&#x63;&#111;&#x64;&#x65;&#114;&#64;&#x6b;&#121;&#108;&#101;&#105;&#x73;&#x6f;&#x6d;&#46;&#110;&#101;&#x74;&lt;/a>
+</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x63;&#x6f;&#x64;&#101;&#114;&#x40;&#x6b;&#x79;&#108;&#x65;&#105;&#x73;&#x6f;&#x6d;&#46;&#x6e;&#101;&#x74;">&#x63;&#111;&#100;&#101;&#114;&#x40;&#x6b;&#121;&#108;&#101;&#x69;&#115;&#111;&#109;&#x2e;&#110;&#101;&#x74;&lt;/a>
 </span><span class='line'>   Date:   Sat Dec 3 00:24:34 2011 +0300&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;pre>&lt;code>   suddenly enlightenment
@@ -998,163 +2221,6 @@ or
 
 <p>I did say it was a very easy task... You'll notice mercurial makes this easier
 (or at least I think so) than git.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[coders (should) do much more than code]]></title>
-    <link href="http://kisom.github.com/blog/2011/09/10/coders-should-do-much-more-than-code/"/>
-    <updated>2011-09-10T00:00:00+03:00</updated>
-    <id>http://kisom.github.com/blog/2011/09/10/coders-should-do-much-more-than-code</id>
-    <content type="html"><![CDATA[<p>I recently was explaining to someone that as a coder, I do (or should do)
-a lot more than just code. I figured since I hadn't written anything here in
-a while, I'd put my thoughts down here.</p>
-
-<h2>the tl;dr</h2>
-
-<p>Coders code. That much is obvious from the title, but there is much more that
-can and should be involved for anyone writing real code, at least for UNIX
-coders.</p>
-
-<h2>intro</h2>
-
-<p>So you've spent the last couple weeks / months / years writing some really
-brilliant bit of software that you think would benefit a lot of people. Or
-maybe, just a few, but you still are of the mindset that since you did the
-work to solve this problem, other people might have the same problem and if
-they had the solution, they could concentrate on other problems. Regardless
-of the quality of code and the development process you followed, which endless
-books have been written on the subject, there is still a <strong>lot</strong> more work to
-be done if you intend to make your software both useful and accessible to
-other people. You still need to make sure you have a reasonable portable
-(for the scope of the usefulness of your code) build system, good documentation,
-an easily accessible online place for people to get your code, and proper
-follow-through. Let's talk through these bits.</p>
-
-<!-- more -->
-
-
-<h2>the build system</h2>
-
-<p>No matter how wizard your code is, if it's more work for other people to build
-it than it's worth, it won't be used. That's a simple fact. By now, users have
-come to expect the proverbial <code>./configure &amp;&amp; make &amp;&amp; make install</code> (or
-perhaps <code>scons</code> or <code>waf</code> or <code>jam</code> or one of the other solutions). Regardless,
-the build process should not require much work for end users, except in cases
-where the code is a very purposeful bit of code that requires careful
-configuration. I personally have begun making use of the <code>autotools</code> suite
-(my personal stance on the GPL notwithstanding, a rant for another day but
-the curious can take a look at the license for most of my code on my
-<a href="https://github.com/kisom/">github page</a>). This comprises
-<a href="http://www.gnu.org/software/autoconf/">autoconf</a> and
-<a href="http://www.gnu.org/software/automake/">automake</a> primarily. You will easily
-spend many hours just writing out the configuration files on your end to
-properly support and build the software, determining what needs to be checked
-on the user's system so that they can be sure the code will run on their node.
-Once this is set up and functioning, for the most part and in theory, users
-will be able to just do the typical configure-and-make pattern they have come
-to know and love. The autotools are really designed for C and C++. For python,
-there's always the <a href="http://pypi.python.org/pypi/setuptools">Python setuptools</a>,
-and of course for Perl there's <a href="http://www.cpan.org/">CPAN</a>.</p>
-
-<p>Of course, these tools are quite often in a different language than your code
-is. For example, the autotools use POSIX shell, M4, and POSIX Makefiles to
-generate the configure script and Makefiles for distribution. This takes time
-to learn, especially given some of the nuances involved. There is of course
-some debate (see "Stop the autoconf insanity! Why we need a new build system"[http://freshmeat.net/articles/stop-the-autoconf-insanity-why-we-need-a-new-build-system])
-as to how useful these are, but for the most part the reward is worth the work.
-For the autotools suite, take a look at the No Starch Press book
-<a href="http://nostarch.com/autotools.htm">Autotools:A Practitioner's Guide to GNU Autoconf, Automake, and Libtool</a>.
-I found this book indispensable in learning the tool suite.</p>
-
-<h2>documentation</h2>
-
-<p>Documentation extends much further (or should) than the typical README and
-INSTALL files found in many distributions. Many developers learn the basics
-of TeX or LaTeX typesetting to produce aesthetically pleasing manuals; Texinfo
-is also quite common. Markdown is becoming popular as well and with the advent
-of tools like <a href="http://johnmacfarlane.net/pandoc/">pandoc</a>, even easier to
-convert from Markdown to other formats (pandoc supports html and LaTeX). Besides
-just the technical side of writing documentation and learning the typesetting
-language used, there's the art of technical writing as well. Many companies
-have full-time technical writers whose sole purpose is writing documentation.
-This is because of another simple fact: your software is of no use if the users
-can't figure out how to use it. While many users may be technically saavy
-enough to read the code to figure out how to use it, for your code to be truly
-useful, they should not have to resort to this. This is what I see as the Apple
-factor: many developers use Apple's hardware and operating system because not
-only do things Just Work, but there is also excellent documentation available.
-Another operating system leading the way in documentation is my beloved
-<a href="http://www.openbsd.org">OpenBSD</a>. Users should have a clear set of instructions
-of not only how to use the software, but ways to extend it, what things it
-can do that they may not realise, and how to solve problems that may crop up.
-So a truly good coder is both at least a proficient typesetter but also a
-proficient writer of whatever human language the software is in (or aimed at).</p>
-
-<p>Some projects go further and include a full copy of the license the software
-is released under (which you should do for the safety / peace of mind /
-convenience of your users - it took <a href="http://lteo.devio.us/">lteo</a> constantly
-reminding me of this for many of my projects before I started doing it out
-of habit) which is most often in a file called LICENSE or COPYING; a copy of
-the ChangeLog, which could also be gotten from source control such as
-<code>git log</code>; an AUTHORS file to list contributors; a README and INSTALL file to
-give a quick usage and overview as well as installation instructions; and
-perhaps a HACKING document to explain how to modify the code to be useful.</p>
-
-<p>The README file is still rather useful; in fact, many times I will
-<a href="http://kyleisom.net/blog/2011/07/31-rgtdd">write the README first</a> as part
-of my development process.</p>
-
-<p>No matter how you approach it or what you use to write and format your user
-manuals, you should still have them included.</p>
-
-<h2>distribution</h2>
-
-<p>Today, distribution is one of the easiest aspects of coding. Numerous websites
-exist for the sole purpose of distributing your software, such as
-<a href="https://github.com">github</a>, <a href="https://www.bitbucket.org">bitbucket</a>,
-<a href="https://www.sourceforge.net">sourceforge</a>,
-<a href="https://www.freshmeat.net">freshmeat</a>, among others. Typically, such sites
-will also host a remote version of your version control system (you <em>are</em>
-version controlling, <em>right</em>?) in addition to supporting release downloads. A
-well-setup build system offers the ability to build a distribution release,
-often in tarball or tarred bzip2 format as well. Some sites still offer just
-a release tarball (for a while, this is how I released my
-<a href="https://github.com/kisom/libdaemon">libdaemon</a> project, via my
-<a href="http://kisom.devio.us/src.html">devio.us homepage</a>. In fact, this is rapidly
-becoming one of the easiest pieces of the project lifecycle. If you haven't
-already, take a look at one of the sites that works as a remote repo for
-whatever source control you are using. You will probably see that besides
-distribution, these sites are extremely useful for the last important additional
-part of coding I want to talk about.</p>
-
-<h2>support and maintenance</h2>
-
-<p>Once the user has a copy of your software and knows how to use it, they will
-inevitably encounter bugs or find that while they would really like to see
-a feature in the software, they don't have the technical skills to implement
-it themselves (or perhaps the courage to look through your code...) Still other
-users might fix the bugs or add new features themselves, and would like to
-offer you those changes so you can incorporate them into the software. So the
-last important additional part of being a coder is support and maintenance.</p>
-
-<p>Many of the sites that offer to host releases of your code provide additional
-tools, like wikis, bug reporting (aka trouble tickets), and feature requests.
-Users may also provide patchfiles or a git pull request to give you their
-contribition (and accordingly, you credit them in the documentation as well).
-A good coder needs to be able to support and maintain the software - users are
-more apt to use software if it gets patched or updated with new features (or
-if it just works and they don't need new features or bugs patched, which is
-less likely but still possible).</p>
-
-<h2>conclusion</h2>
-
-<p>As I've explained, being a good coder and providing useful software encompasses
-so much more than just good technical skills or great development processes.
-There's the administrative side (i.e. the build system, feature request and bug
-tracking) and the human side (i.e. documentation and responding to support
-requests). While it may not be as much fun as the actual coding, it is still
-integral to the development process.</p>
 ]]></content>
   </entry>
   

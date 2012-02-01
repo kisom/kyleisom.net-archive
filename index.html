@@ -9,8 +9,9 @@
   <meta name="author" content="Kyle Isom">
 
   
-  <meta name="description" content="Recently, I was explaining to someone the basics of set theory and how the
-various basic operations translate to the real world. I used the example &hellip;">
+  <meta name="description" content="Under Review In the last post, we took a look at the
+basics of set theory. Now, I&#8217;d like to take a look at how to actually make use
+of it in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,7 +29,7 @@ various basic operations translate to the real world. I used the example &hellip
   <link href="/atom.xml" rel="alternate" title="(cons 'hack *life*)" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
 
@@ -61,7 +62,7 @@ various basic operations translate to the real world. I used the example &hellip
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
   <li><a href="/about">About Me</a></li>
-  <li><a href="http://www.coderwall.com/kisom/">Coderwall</a></li>
+  <li><a href="/book/">Book</a></li>
 </ul>
 
 </nav>
@@ -69,6 +70,111 @@ various basic operations translate to the real world. I used the example &hellip
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/01/using-set-theory/">Using Set Theory</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-01T20:45:00+03:00" pubdate data-updated="true">Feb 1<span>st</span>, 2012</time>
+        
+         | <a href="/blog/2012/02/01/using-set-theory/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Under Review</h1>
+
+<p>In the <a href="/blog/2012/01/23/basic-set-theory/">last post</a>, we took a look at the
+basics of set theory. Now, I&#8217;d like to take a look at how to actually make use
+of it in your code.</p>
+
+<p>One of the issues with practically using the code in the last post is that the
+initial subsets were defined arbitrarily and not derived from the superset. In
+this post, all the examples are derived from the superset. We&#8217;ll use a couple
+techniques for doing this illustrate some of the various ways to do it.</p>
+
+<p>In Python, we&#8217;ll use an object-oriented approach, creating a few classes and
+working on Book objects. In Clojure, we&#8217;ll use records. Though we&#8217;ll approach
+language a little differently, I  hope they still bring clarity to the subject.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/02/01/using-set-theory/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/28/noir-v-flask/">Noir v. Flask</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-28T18:49:00+03:00" pubdate data-updated="true">Jan 28<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/01/28/noir-v-flask/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Noir v. Flask: the shootout</p>
+
+<p>I wrote a quick REST API server as an illustration for a blog post, but
+I wrote both a Python and a Clojure version. I wrote a test suite to
+cover the entire API (of course - you <em>do</em> write tests too, right?),
+and I figured while I was at it, I might as well benchmark the two. Here
+are the results of 1,000 runs:</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/01/28/noir-v-flask/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -512,127 +618,6 @@ out to be a very easy task.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/09/10/coders-should-do-much-more-than-code/">Coders (Should) Do Much More Than Code</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-09-10T00:00:00+03:00" pubdate data-updated="true">Sep 10<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/09/10/coders-should-do-much-more-than-code/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I recently was explaining to someone that as a coder, I do (or should do)
-a lot more than just code. I figured since I hadn&#8217;t written anything here in
-a while, I&#8217;d put my thoughts down here.</p>
-
-<h2>the tl;dr</h2>
-
-<p>Coders code. That much is obvious from the title, but there is much more that
-can and should be involved for anyone writing real code, at least for UNIX
-coders.</p>
-
-<h2>intro</h2>
-
-<p>So you&#8217;ve spent the last couple weeks / months / years writing some really
-brilliant bit of software that you think would benefit a lot of people. Or
-maybe, just a few, but you still are of the mindset that since you did the
-work to solve this problem, other people might have the same problem and if
-they had the solution, they could concentrate on other problems. Regardless
-of the quality of code and the development process you followed, which endless
-books have been written on the subject, there is still a <strong>lot</strong> more work to
-be done if you intend to make your software both useful and accessible to
-other people. You still need to make sure you have a reasonable portable
-(for the scope of the usefulness of your code) build system, good documentation,
-an easily accessible online place for people to get your code, and proper
-follow-through. Let&#8217;s talk through these bits.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2011/09/10/coders-should-do-much-more-than-code/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/07/04/rgtdd/">RGTDD</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-07-04T00:00:00+03:00" pubdate data-updated="true">Jul 4<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/07/04/rgtdd/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>One of the most important parts of becoming a useful developer is to find a
-workflow that maximises productivty. There are plenty of methodologies and tools
-people have come up with just for this - Agile, XP, BDD, TDD, RDD, and many
-others. Of course, most everyone has their own unique flavour, and of course
-I&#8217;m going to talk about mine. I&#8217;ve spent a lot of time trying different things
-(and too much time going back to just grinding out code). This is the first post
-of a milti-part series on how I&#8217;ve increased my productivity and what I do to
-get things done. Unfortunately, my personal projects are sort of haphazard still,
-but I have enjoyed success with this at work.</p>
-
-<p>RGTDD has made a difference in how I develop code and stay productive;
-furthermore, above just using a specific development methodology, I&#8217;ve found
-certain tools to assist me in being productive.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2011/07/04/rgtdd/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -648,6 +633,14 @@ certain tools to assist me in being productive.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/02/01/using-set-theory/">Using Set Theory</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/28/noir-v-flask/">Noir v. Flask</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/01/23/basic-set-theory/">Basic Set Theory</a>
       </li>
     
@@ -657,14 +650,6 @@ certain tools to assist me in being productive.</p>
     
       <li class="post">
         <a href="/blog/2012/01/02/back-to-lisp/">back to lisp</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/12/31/my-docs-got-dropped/">my docs got dropped</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/12/03/suddenly-enlightenment/">suddenly enlightenment</a>
       </li>
     
   </ul>

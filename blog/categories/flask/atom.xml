@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Flask | (cons 'hack *life*)]]></title>
+  <link href="http://kisom.github.com/blog/categories/flask/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-02-01T21:01:24+03:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Noir v. Flask]]></title>
+    <link href="http://kisom.github.com/blog/2012/01/28/noir-v-flask/"/>
+    <updated>2012-01-28T18:49:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2012/01/28/noir-v-flask</id>
+    <content type="html"><![CDATA[<p>Noir v. Flask: the shootout</p>
+
+<p>I wrote a quick REST API server as an illustration for a blog post, but
+I wrote both a Python and a Clojure version. I wrote a test suite to
+cover the entire API (of course - you <em>do</em> write tests too, right?),
+and I figured while I was at it, I might as well benchmark the two. Here
+are the results of 1,000 runs:</p>
+
+<!-- more -->
+
+
+<ul>
+<li>noir: average run time: <code>0:00:00.171184</code> (0.171184 seconds)</li>
+<li>flask: average run time: <code>0:00:00.147073</code> (0.147073 seconds)</li>
+</ul>
+
+
+<p>Notes:</p>
+
+<ul>
+<li>the time to start the noir server is much longer, about 5-10 seconds
+on my 2011 Macbook Air (1.6 GHz Intel Core i5 with 4G of RAM and a 64G
+SSD)</li>
+<li>both servers were running on the same machine at the same time,
+obviously just listening on different ports</li>
+<li>I tested this with the Python test suite</li>
+</ul>
+
+
+<p>Source Code:</p>
+
+<ul>
+<li><a href="https://github.com/kisom/clj_web_service">clojure / noir example</a></li>
+<li><a href="https://bitbucket.org/kisom/py_web_service">Python / flask example</a></li>
+</ul>
+
+
+<p>References:</p>
+
+<ul>
+<li><a href="http://www.webnoir.org">Noir</a></li>
+<li><a href="http://flask.pocoo.org/">Flask</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

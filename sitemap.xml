@@ -56,7 +56,15 @@
     </url>
     <url>
         <loc>http://kisom.github.com/blog/2012/01/23/basic-set-theory/</loc>
-        <lastmod>2012-01-24T00:08:32+03:00</lastmod>
+        <lastmod>2012-01-24T22:10:08+03:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kisom.github.com/blog/2012/01/28/noir-v-flask/</loc>
+        <lastmod>2012-01-28T20:23:00+03:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kisom.github.com/blog/2012/02/01/using-set-theory/</loc>
+        <lastmod>2012-02-01T20:47:59+03:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/about/</loc>
@@ -72,10 +80,30 @@
     </url>
     <url>
         <loc>http://kisom.github.com/blog/archives/</loc>
-        <lastmod>2012-01-24T00:08:32+03:00</lastmod>
+        <lastmod>2012-02-01T20:47:59+03:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kisom.github.com/book/acknowledgements/</loc>
+        <lastmod>2012-01-25T07:20:55+03:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kisom.github.com/book/chapter0/</loc>
+        <lastmod>2012-01-25T07:23:30+03:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kisom.github.com/book/</loc>
+        <lastmod>2012-01-25T07:27:42+03:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kisom.github.com/book/introduction/</loc>
+        <lastmod>2012-01-25T07:20:25+03:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kisom.github.com/book/outline/</loc>
+        <lastmod>2012-01-27T07:21:24+03:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/</loc>
-        <lastmod>2012-01-24T00:08:32+03:00</lastmod>
+        <lastmod>2012-02-01T20:47:59+03:00</lastmod>
     </url>
 </urlset>
