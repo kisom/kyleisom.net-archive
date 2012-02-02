@@ -5,11 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Outline - (cons 'hack *life*)</title>
+  <title>Setting Up Aquamacs for Clojure - (cons 'hack *life*)</title>
   <meta name="author" content="Kyle Isom">
 
   
-  <meta name="description" content="Outline Jan 25th, 2012 This is the direction I see the book going. chapter: basic introduction to the goals of information security and why it&#8217 &hellip;">
+  <meta name="description" content="It took me a bit to get my Aquamacs install
+up and ready to do Clojure
+and SLIME, so I figured I&#8217;d jot
+some notes down for future me and anyone &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kisom.github.com/book/outline">
+  <link rel="canonical" href="http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -67,100 +70,15 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Outline</h1>
-    <p class="meta">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-25T07:11:00+03:00" pubdate data-updated="true">Jan 25<span>th</span>, 2012</time></p>
-  </header>
-  
-  <p>This is the direction I see the book going.</p>
-
-<ol>
-<li><p>chapter: basic introduction to the goals of information security and why it&#8217;s important</p>
-
-<ul>
-<li>it&#8217;s not just to make your users angry ;)</li>
-<li>securing information with basic UNIX file permission security</li>
-</ul>
-</li>
-<li><p>chapter: securing information with cryptography</p>
-
-<ul>
-<li>encouraging users to use basic security precautions</li>
-</ul>
-</li>
-<li><p>chapter: practical threat modeling</p></li>
-<li>chapter: cryptography&#8217;s role in the world
-
-<ul>
-<li>information security objectives</li>
-<li>what it doesn&#8217;t do</li>
-</ul>
-</li>
-<li>chapter: the different kinds of crypto - a high level overview, usage scenarios
-
-<ul>
-<li>stream ciphers</li>
-<li>block ciphers</li>
-<li>public key ciphers</li>
-<li>hybrid ciphers</li>
-</ul>
-</li>
-<li>chapter: stream ciphers</li>
-<li>chapter: block ciphers
-
-<ul>
-<li>key entry: password v. random generation</li>
-</ul>
-</li>
-<li>chapter: a rabbit trail into data representation
-
-<ul>
-<li>binary v. base64</li>
-<li>extended formats</li>
-<li>key containers</li>
-</ul>
-</li>
-<li>chapter: a rabbit trail into random numbers
-
-<ul>
-<li>why are random numbers even important?</li>
-<li>rng attacks</li>
-<li>how can we ensure cryptographic randomness</li>
-</ul>
-</li>
-<li>chapter: public key cryptography</li>
-<li>chapter: hybrid ciphers</li>
-<li>chapter: securing logins
-
-<ul>
-<li>hashes and salts</li>
-<li>bcrypt</li>
-</ul>
-</li>
-<li>chapter: real world attacks</li>
-<li>chapter: summary and conclusion</li>
-</ol>
-
-
-  
-    <footer>
+    
+      <h1 class="entry-title">Setting Up Aquamacs for Clojure</h1>
+    
+    
       <p class="meta">
         
-        
 
 
 
@@ -172,13 +90,111 @@
   
 
 
-<time datetime="2012-01-25T07:11:00+03:00" pubdate data-updated="true">Jan 25<span>th</span>, 2012</time>
+<time datetime="2012-02-02T20:03:00+03:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>It took me a bit to get my <a href="http://www.aquamacs.org">Aquamacs</a> install
+up and ready to do <a href="http://www.clojure.org">Clojure</a>
+and <a href="http://common-lisp.net/project/slime/">SLIME</a>, so I figured I&#8217;d jot
+some notes down for future me and anyone who happens to be listening.</p>
+
+<!-- more -->
+
+
+<p>I assume Aquamacs has been downloaded and
+<a href="https://github.com/technomancy/leiningen">leiningen</a> is installed. First,
+in a terminal, you&#8217;ll need to install swank-clojure. As of today, the
+current version is 1.4.0, but I strongly recommend you check the README
+to see if there&#8217;s a new version out. In the shell,
+<code>lein plugin install swank-clojure "1.4.0"</code>.</p>
+
+<p>I use <a href="http://marmalade-repo.org/">Marmalade</a> for package management, so
+the first thing to do is to add Marmalade to Aquamacs. Open up
+<code>"~/Library/Preferences/Aquamacs\ Emacs/Preferences.el"</code> in your editor
+of choice (I used <a href="https://code.google.com/p/macvim/">MacVim</a>), and add
+the folowing:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;; Marmalade</span>
+</span><span class='line'><span class="p">(</span><span class="nf">require</span> <span class="ss">&#39;package</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">add-to-list</span> <span class="ss">&#39;package-archives</span>
+</span><span class='line'>             <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;marmalade&quot;</span> <span class="o">.</span> <span class="s">&quot;http://marmalade-repo.org/packages/&quot;</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">package-initialize</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&#8217;m assuming you don&#8217;t have <code>package.el</code> installed yet, so make sure to
+<code>curl "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el" &gt; ~/Library/Preferences/Aquamacs\ Emacs/package.el</code></p>
+
+<p>Now fire up Aquamacs (or evaluate the additions to <code>Preferences.el</code> with
+<code>C-x C-e</code>. <code>clojure-mode</code> needs to be installed, either via <code>M-x package-list-packages</code>,
+and marking <code>clojure-mode</code> for installation (with <code>i</code>) and installing
+(with <code>x</code>), or with <code>M-x package-refresh-contents</code> followed by
+<code>M-x package-install clojure-mode</code>. I also like <code>paredit</code> but you
+might not, it takes some getting used to.</p>
+
+<p>Now, open up a file in your lein&#8217;d project and use <code>M-x clojure-jack-in</code>.
+You might see some errors pop up in your <code>*Compile-Log*</code> buffer (I saw</p>
+
+<p>Happy hacking!</p>
+
+<h2>References</h2>
+
+<p>I patched together my knowledge from a couple of pages:</p>
+
+<ul>
+<li>Incanter&#8217;s article <a href="http://data-sorcery.org/2009/12/20/getting-started/">Setting up Clojure, Incanter, Emacs, Slime, Swank, and Paredit</a></li>
+<li>The Doctor What&#8217;s article <a href="http://docwhat.org/2011/08/aquamacs-2-3a-and-marmalade/">Aquamacs 2.3a and Marmalade</a></li>
+<li>Phil Hagelberg&#8217;s <a href="https://github.com/technomancy/swank-clojure">swank-clojure</a> <a href="https://github.com/technomancy/swank-clojure/blob/master/README.md">README</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/book/outline/index.html" data-via="kyleisom" data-counturl="http://kisom.github.com/book/outline/index.html" >Tweet</a>
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-02T20:03:00+03:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/clojure-/'>clojure,</a>, <a class='category' href='/blog/categories/development/'>development</a>, <a class='category' href='/blog/categories/emacs-/'>emacs,</a>, <a class='category' href='/blog/categories/mac-/'>mac,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -186,9 +202,14 @@
   
 </div>
 
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left" href="/blog/2012/02/01/using-set-theory/" title="Previous Post: Using Set Theory">&laquo; Using Set Theory</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
   <section>
@@ -385,8 +406,8 @@ function showLastfmFeed(xml){
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://kisom.github.com/book/outline/index.html';
-        var disqus_url = 'http://kisom.github.com/book/outline/index.html';
+        var disqus_identifier = 'http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure/';
+        var disqus_url = 'http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure/';
         var disqus_script = 'embed.js';
       
     (function () {
