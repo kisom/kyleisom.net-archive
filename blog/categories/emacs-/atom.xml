@@ -4,7 +4,7 @@
   <title><![CDATA[Category: emacs, | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/emacs-/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-02T23:27:57+03:00</updated>
+  <updated>2012-02-02T23:34:54+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -58,7 +58,8 @@ the folowing:</p>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>I'm assuming you don't have <code>package.el</code> installed yet, so make sure to
-<code>curl "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el" &gt; ~/Library/Preferences/Aquamacs\ Emacs/package.el</code></p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;code>curl "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el" &gt; ~/Library/Preferences/Aquamacs\ Emacs/package.el&lt;/code></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Now fire up Aquamacs (or evaluate the additions to <code>Preferences.el</code> with
 <code>C-x C-e</code>. <code>clojure-mode</code> needs to be installed, either via <code>M-x package-list-packages</code>,
