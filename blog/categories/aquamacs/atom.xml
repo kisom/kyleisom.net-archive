@@ -4,7 +4,7 @@
   <title><![CDATA[Category: aquamacs | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/aquamacs/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-02T23:34:54+03:00</updated>
+  <updated>2012-02-02T23:40:38+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -69,7 +69,8 @@ and marking <code>clojure-mode</code> for installation (with <code>i</code>) and
 might not, it takes some getting used to.</p>
 
 <p>Now, open up a file in your lein'd project and use <code>M-x clojure-jack-in</code>.
-You might see some errors pop up in your <code>*Compile-Log*</code> buffer (I saw</p>
+You might see some errors pop up in your <code>*Compile-Log*</code> buffer, but you
+should be very shortly greeted with a REPL.</p>
 
 <p>Happy hacking!</p>
 
