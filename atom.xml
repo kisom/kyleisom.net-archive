@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-02T23:40:38+03:00</updated>
+  <updated>2012-02-04T10:37:51+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -70,6 +70,14 @@ You might see some errors pop up in your <code>*Compile-Log*</code> buffer, but 
 should be very shortly greeted with a REPL.</p>
 
 <p>Happy hacking!</p>
+
+<h2>The End Result</h2>
+
+<p>Here&#8217;s a screenshot of how it turned out (click to view it full-size):
+<a href="http://kisom.github.com/images/aquamacs-clojure.png"><img src="http://kisom.github.com/images/aquamacs-clojure.t.png" alt="aquamacs-clojure thumbnail" /></a></p>
+
+<p>I usually run aquamacs full-screen with two panes, left-side for editing
+source code and right-size for SLIME.</p>
 
 <h2>References</h2>
 
