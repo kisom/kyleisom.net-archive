@@ -5,8 +5,6 @@ date: 2012-02-01 20:45
 comments: true
 categories: [math, coding, python, clojure]
 ---
-# Under Review
-
 In the [last post](/blog/2012/01/23/basic-set-theory/), we took a look at the
 basics of set theory. Now, I'd like to take a look at how to actually make use
 of it in your code.
