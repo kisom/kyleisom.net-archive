@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coding | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-05T09:56:41+03:00</updated>
+  <updated>2012-02-05T10:02:18+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -1988,7 +1988,7 @@ goal was to update a CGI script when I pushed to the dev vm. The commit log:
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#97;&#105;&#108;&#116;&#111;&#x3a;&#99;&#x6f;&#x64;&#x65;&#114;&#x40;&#x6b;&#121;&#x6c;&#x65;&#x69;&#x73;&#x6f;&#109;&#46;&#110;&#101;&#116;">&#x63;&#111;&#x64;&#x65;&#114;&#x40;&#x6b;&#x79;&#x6c;&#101;&#x69;&#x73;&#x6f;&#x6d;&#46;&#110;&#x65;&#x74;&lt;/a>
+</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#x63;&#111;&#100;&#101;&#x72;&#64;&#107;&#121;&#108;&#101;&#x69;&#x73;&#111;&#x6d;&#46;&#110;&#101;&#x74;">&#x63;&#111;&#x64;&#x65;&#114;&#64;&#x6b;&#121;&#108;&#101;&#x69;&#x73;&#111;&#109;&#x2e;&#110;&#101;&#116;&lt;/a>
 </span><span class='line'>   Date:   Sat Dec 3 00:24:34 2011 +0300&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;pre>&lt;code>   suddenly enlightenment
