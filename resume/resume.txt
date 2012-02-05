@@ -1,5 +1,5 @@
-Kyle Isom & http://kisom.github.com   
-Software Engineer & kyle@kyleisom.net   
+Kyle Isom                                           http://www.kyleisom.net
+Software Engineer                                         kyle@kyleisom.net
 
 Skills
 - Development: C, Python, Clojure, Objective-C, UNIX / POSIX programming
