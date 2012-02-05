@@ -16,11 +16,8 @@ footer: true
 <br />
 <a href="https://bitbucket.org/kisom">My Bitbucket Profile</a>
 <br />
-<a href="http://coderwall.com/kisom">Coderwall Profile</a>
-<br />
-<a href="http://www.kyleisom.net/blog">Blog</a>
-<br />
-<a href="files/kyle.vcf">Contact Card</a></p>
+<a href="/resume.pdf">My Resumé</a><br />
+<a href="/uses/">My Setup</a><br />
 </div>
 
 I am a software engineer in the United States, and I deal mostly with
@@ -133,6 +130,8 @@ Both keys are available from the [MIT PGP Public Key Server](http://pgp.mit.edu)
 (I've omitted the uid display to prevent my email addresseses from being
 harvested for spam). 
 
-
+I can also be found lurking on freenode in #devious (the channel for the
+[BSD public shell server](http://www.devio.us) I help run) and #clojure.
+I go by vimja, emacsdaddy, or kyle_dev. 
 
 
