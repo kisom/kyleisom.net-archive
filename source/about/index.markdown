@@ -16,7 +16,7 @@ footer: true
 <br />
 <a href="https://bitbucket.org/kisom">My Bitbucket Profile</a>
 <br />
-<a href="/resume.pdf">My Resumé</a><br />
+<a href="/resume/">My Resumé</a><br />
 <a href="/uses/">My Setup</a><br />
 </div>
 
