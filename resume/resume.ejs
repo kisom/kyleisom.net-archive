@@ -1,0 +1,11 @@
+<h1>Kyle Isom's Resume</h1>
+<% if (data.json == null) {
+if (data.doneLoading == true) { %>
+        <em>Error generating resumé. Please ensure you are using a 
+            modern browser and have javascript turned on.</em>
+<%    } else if (data.doneLoading == False) { %>
+        <em>Loading resume...</em>
+<%    }} else { %>
+    <strong>resume goes here</strong>
+<% } %>
+
