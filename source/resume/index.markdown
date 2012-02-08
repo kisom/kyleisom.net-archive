@@ -11,6 +11,6 @@ I have a copy of my resume available in:
 
 * [PDF format](/resume/resume.pdf)
 * <del><strikethrough>[HTML format](/resume/resume.html)</del>
-* <del>[plaintext format](/resume/resume.txt) (UTF-8 encoded)</del>
+* [plaintext format](/resume/resume.txt) (UTF-8 encoded)
 * [JSON format](/resume/resume.json)
 

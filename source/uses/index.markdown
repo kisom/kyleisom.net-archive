@@ -42,6 +42,19 @@ iPad. I use [Google Voice](https://voice.google.com) and
 [Skype](http://www.skype.com) for calls, although I don't particularly 
 care for either.
 
+Having [good music](http://www.last.fm/user/brokenlcd) is absolutely 
+critical for getting into a good coding state. I live off my
+[Beyerdynamic](http://www.beyerdynamic.com/)
+[DT-770 PRO](http://north-america.beyerdynamic.com/shop/hah/headphones-and-headsets/studio-and-stage/studio-headphones/dt-770-pro.html)
+headphones; I have the 250-ohm headphones that work better with my
+[Fiio E7](http://www.fiio.com.cn/product/index.aspx?ID=28&MenuID=020301)
+USB DAC and headphone amplifier.
+
+I keep a small network of [Sheeva plugs](http://www.plugcomputer.org/) 
+running Debian that I use for small tasks. They don't draw too much power 
+and are quite handy to have on hand. Anything that needs to run continually,
+aka any daemons I've got running, run on this network.
+
 ## and what software?
 I use OS X for my primary interaction OS. I spent a while using
 [OpenBSD](http://www.openbsd.org) with 
@@ -80,14 +93,6 @@ to configure web server.
 
 For photo work, I use [aperture](http://www.apple.com/aperture/).
 
-Having [good music](http://www.last.fm/user/brokenlcd) is absolutely 
-critical for getting into a good coding state. I live off my
-[Beyerdynamic](http://www.beyerdynamic.com/)
-[DT-770 PRO](http://north-america.beyerdynamic.com/shop/hah/headphones-and-headsets/studio-and-stage/studio-headphones/dt-770-pro.html)
-headphones; I have the 250-ohm headphones that work better with my
-[Fiio E7](http://www.fiio.com.cn/product/index.aspx?ID=28&MenuID=020301)
-USB DAC and headphone amplifier.
-
 Most days I write in C and [python](http://www.python.org/), though I
 write in a variety of languages including Objective-C, emacs lisp and 
 javascript. These days, most of my personal code is in 
@@ -105,11 +110,6 @@ I really meant every 30 seconds. Only serious.) I make heavy use of
 Github's medium plan (i.e. [my profile](https://github.com/kisom)) and
 [my Bitbucket account](https://bitbucket.org/kisom), although I still
 have a free Bitbucket account because I don't need more than 5 users.
-
-I keep a small network of [Sheeva plugs](http://www.plugcomputer.org/) 
-running Debian that I use for small tasks. They don't draw too much power 
-and are quite handy to have on hand. Anything that needs to run continually,
-aka any daemons I've got running, run on this network.
 
 ## what would be your dream setup?
 Ideally, I would have an iphone-sized computer, with shells to plug it into
