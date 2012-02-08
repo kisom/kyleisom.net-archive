@@ -20,7 +20,7 @@ Work Experience
     - Patch Linux kernel for embedded devices to address site-specific
     security requirements.
     - Write Python code to generate encrypted softtware updates for
-    Linux-based set top boxes. {-2pt}
+    Linux-based set top boxes.
 
 Selected Open Source Projects and Publications
 - Crypto Intro (Python)
@@ -30,8 +30,8 @@ Selected Open Source Projects and Publications
     understanding of not only what cryptography is, but also when to use
     it.
     - Uses Python to clearly introduce how to properly integrate
-    cryptography into projects. {-2pt}
-    - Includes source code examples with tests. {-2pt}
+    cryptography into projects.
+    - Includes source code examples with tests.
 
 - Libdaemon (C)   
     - A lightweight POSIX daemon library.
