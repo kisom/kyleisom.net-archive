@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: clojure, | (cons 'hack *life*)]]></title>
-  <link href="http://kisom.github.com/blog/categories/clojure-/atom.xml" rel="self"/>
+  <title><![CDATA[Category: mac | (cons 'hack *life*)]]></title>
+  <link href="http://kisom.github.com/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-07T17:47:34+03:00</updated>
+  <updated>2012-02-08T09:10:00+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>

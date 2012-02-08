@@ -4,7 +4,7 @@
   <title><![CDATA[Category: emacs | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/emacs/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-07T17:47:34+03:00</updated>
+  <updated>2012-02-08T09:10:00+03:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Setting Up Aquamacs for Clojure]]></title>
+    <link href="http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure/"/>
+    <updated>2012-02-02T20:03:00+03:00</updated>
+    <id>http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure</id>
+    <content type="html"><![CDATA[<p>It took me a bit to get my <a href="http://www.aquamacs.org">Aquamacs</a> install
+up and ready to do <a href="http://www.clojure.org">Clojure</a>
+and <a href="http://common-lisp.net/project/slime/">SLIME</a>, so I figured I'd jot
+some notes down for future me and anyone who happens to be listening.</p>
+
+<!-- more -->
+
+
+<p>I assume Aquamacs has been downloaded and
+<a href="https://github.com/technomancy/leiningen">leiningen</a> is installed. First,
+in a terminal, you'll need to install swank-clojure. As of today, the
+current version is 1.4.0, but I strongly recommend you check the README
+to see if there's a new version out. In the shell,
+<code>lein plugin install swank-clojure "1.4.0"</code>.</p>
+
+<p>I use <a href="http://marmalade-repo.org/">Marmalade</a> for package management, so
+the first thing to do is to add Marmalade to Aquamacs. Open up
+<code>"~/Library/Preferences/Aquamacs\ Emacs/Preferences.el"</code> in your editor
+of choice (I used <a href="https://code.google.com/p/macvim/">MacVim</a>), and add
+the folowing:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;; Marmalade</span>
+</span><span class='line'><span class="p">(</span><span class="nf">require</span> <span class="ss">&#39;package</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">add-to-list</span> <span class="ss">&#39;package-archives&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;pre&gt;&lt;code&gt;</span>         <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;marmalade&quot;</span> <span class="o">.</span> <span class="s">&quot;http://marmalade-repo.org/packages/&quot;</span><span class="p">))</span>
+</span><span class='line'><span class="nv">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">&lt;p&gt;</span><span class="p">(</span><span class="nf">package-initialize</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>I'm assuming you don't have <code>package.el</code> installed yet, so make sure to
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;code>curl "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el" &gt; ~/Library/Preferences/Aquamacs\ Emacs/package.el&lt;/code></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now fire up Aquamacs (or evaluate the additions to <code>Preferences.el</code> with
+<code>C-x C-e</code>. <code>clojure-mode</code> needs to be installed, either via <code>M-x package-list-packages</code>,
+and marking <code>clojure-mode</code> for installation (with <code>i</code>) and installing
+(with <code>x</code>), or with <code>M-x package-refresh-contents</code> followed by
+<code>M-x package-install clojure-mode</code>. I also like <code>paredit</code> but you
+might not, it takes some getting used to.</p>
+
+<p>Now, open up a file in your lein'd project and use <code>M-x clojure-jack-in</code>.
+You might see some errors pop up in your <code>*Compile-Log*</code> buffer, but you
+should be very shortly greeted with a REPL.</p>
+
+<p>Happy hacking!</p>
+
+<h2>The End Result</h2>
+
+<p>Here's a screenshot of how it turned out (click to view it full-size):
+<a href="/images/aquamacs-clojure.png"><img src="/images/aquamacs-clojure.t.png" alt="aquamacs-clojure thumbnail" /></a></p>
+
+<p>I usually run aquamacs full-screen with two panes, left-side for editing
+source code and right-size for SLIME.</p>
+
+<h2>References</h2>
+
+<p>I patched together my knowledge from a couple of pages:</p>
+
+<ul>
+<li>Incanter's article <a href="http://data-sorcery.org/2009/12/20/getting-started/">Setting up Clojure, Incanter, Emacs, Slime, Swank, and Paredit</a></li>
+<li>The Doctor What's article <a href="http://docwhat.org/2011/08/aquamacs-2-3a-and-marmalade/">Aquamacs 2.3a and Marmalade</a></li>
+<li>Phil Hagelberg's <a href="https://github.com/technomancy/swank-clojure">swank-clojure</a> <a href="https://github.com/technomancy/swank-clojure/blob/master/README.md">README</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[add .emacs.d/init.el]]></title>
