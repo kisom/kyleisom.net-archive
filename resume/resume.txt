@@ -2,7 +2,8 @@ Kyle Isom                                           http://www.kyleisom.net
 Software Engineer                                         kyle@kyleisom.net
 
 Skills
-- Development: C, Python, Clojure, Objective-C, UNIX / POSIX programming
+- Development: C, Python, Clojure, Objective-C, UNIX / POSIX
+programming, applied cryptography
 - Software Engineering: GNU Autotools suite, LaTeX, Texinfo,
 - Development Tools: Valgrind, lint, rats, vim, emacs
 - I know how to do the other engineering involved with software
