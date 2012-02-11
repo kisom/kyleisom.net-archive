@@ -12,7 +12,8 @@
       "Clojure",
       "Perl",
       "Objective-C",
-      "POSIX programming"
+      "POSIX programming",
+      "applied cryptography"
     ],
     "software engineering": [
       "GNU Autotools",
@@ -28,7 +29,7 @@
     ],
     "comments": [
       "I know how to do the other engineering involved with software projects, such as documentation, build system setup, and developing useful unit tests.",
-      "I have a strong background in computer security, particularly the field of secure programming. Some of my security skills include penetration testing, reverse engineering, and proactive network defense."
+      "I have a strong background in computer security, particularly the field of secure programming. Some of my security skills include penetration testing, reverse engineering, applied cryptography, and proactive network defense."
     ]
   },
   "work experience": {

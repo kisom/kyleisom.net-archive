@@ -11,7 +11,8 @@ convert it by hand to markdown. There are some points where the fact
 that I don't have footnotes in here makes some of the sentences a bit
 awkward; one day I'll clean them up, I promise.
 
-If you want to see the PDF, take a look at the [github repo](https://github.com/kisom/crypto_intro).
+I've put up a [PDF version](/downloads/crypto_intro.pdf) here, and updates 
+are posted at the [github repo](https://github.com/kisom/crypto_intro).
 
 If you see any LaTeX artifacts (or other errors) lurking, feel free to
 let me know!

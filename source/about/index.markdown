@@ -6,19 +6,15 @@ comments: false
 sharing: true
 footer: true
 ---
-<div class="image">
-<img src="github_photo.jpg" />
-</div>
-<br />
 
-<div class="image">
-<p><a href="https://github.com/kisom">My GitHub Profile</a>
-<br />
-<a href="https://bitbucket.org/kisom">My Bitbucket Profile</a>
-<br />
-<a href="/resume/">My Resumé</a><br />
-<a href="/uses/">My Setup</a><br />
-</div>
+![Photo of Kyle](/about/github_photo.jpg)
+
+Links:
+
+* [My GitHub Profile](https://github.com/kisom)
+* [My Bitbucket Profile](https://bitbucket.org/kisom)
+* [My Resumé](/resume/)
+* [My Setup](/uses/)
 
 I am a software engineer in the United States, and I deal mostly with
 C and python. This is a quick tour of my GitHub repositories. I am very 
@@ -27,91 +23,34 @@ processing (although just getting started with the latter two). Unless
 explicitly stated otherwise, all of my code is released under a dual ISC / 
 public domain license, and it's up to the user which to follow.
 
-Some of the projects that I have actually finished are:
--------------------------------------------------------
-- - -
+## Some of my writing
 
-* [woofs](https://github.com/kisom/woofs): woofs allows you to quickly offer a 
-file for download on your machine. It behaves the same as 
-[the `woof` script written by Simon Budig](http://www.home.unix-ag.org/simon/woof.html) 
-but providing SSL encryption. 
-
-* [ctrans](https://www.github.com/kisom/ctrans): the code comment translator.
-This takes C-style and perl-style comments in source code and translates them.
-It is based on the Google translate API, which is apparently deprecated. This 
-probably doesn't work anymore...
-
-* [libdaemon](https://github.com/kisom/libdaemon): libdaemon is a lightweight 
-daemonisation platform that runs on OpenBSD and Linux. 
-
-* [irssi scripts](https://github.com/kisom/irssi-scripts): scripts for irssi. 
-This includes a couple of scripts that I find useful: `xosd`, an XOSD-based
-notification script and `geojoin`, a GeoIP lookup script for IRC joins.
-
-* [timecard](https://github.com/kisom/timecard): a simple timecard / clocking 
-program. It features project-based time tracking and a conky mode.
-
-* [rouletted](https://github.com/kisom/py-rouletted): randomly kill users! This
-is a python-based script that runs on a server and randomly kills logged in 
-users. This is an integral part of a modern BOFH's toolkit and will instill
-respect in your users.
-
-* [rawk](https://github.com/kisom/rawk): rage against web frameworks - posix 
-shell static site generator. I use this a lot for a couple of my sites:
-[my personal site](http://www.kyleisom.net), 
-[my coder's site](http://coder.kyleisom.net), 
-[my devio.us page](http://kisom.devio.us), and last but not least,
-[the rawk documentation site](http://rawk.brokenlcd.net).
-
-* [APOD](https://github.com/kisom/APOD_py): python script to pull down the APOD 
-and, in OS X, GNOME, and fluxbox, set the desktop background. I've had this
-running on one of my desktops since November 2010 without a glitch.    
-
-
-Some documentation I've written:
---------------------------------
-- - -
-I like to write documentation so I don't have to repeat the learning process 
-in the future.
-
-* [Intro to Cryptography With PyCrypto ](https://github.com/kisom/crypto_intro): 
+* [Working Introduction to Cryptography](http://kyleisom.net/blog/2011/06/17/intro-to-crypto/)
+is a quick introduction to the subject, illustrated with Python. 
 It is aimed at introducing basic cryptography topics to programmers who are 
 unfamiliar with cryptography and the PyCrypto library. I ended up writing this
 after the combination of having to use the library heavily for work (and 
-thereby gaining a high level of proficiency with the library) and having some
+thereby gaining a high level of proficiency with it) and having some
 friends who wanted to do some cryptography work without understanding the
 basics of cryptography and what it provides.
 
-* [Introduction to Using OpenSSL in C](https://github.com/kisom/openssl_guide): 
-a very much **unfinished** project to write documentation I could use as a 
-quick reference when writing SSL code in C. The project that I was working on
-requiring C SSL code was nixed, and I ended up not getting anywhere with the
-documentation.
+* [Basic Set Theory](http://kyleisom.net/blog/2012/02/01/using-set-theory/) and
+[Using Set Theory](http://kyleisom.net/blog/2012/02/01/using-set-theory/): a
+coder's introduction to set theory. Illustrated with Python and Clojure.
 
+* [Suddenly Enlightenment](http://kyleisom.net/blog/2011/12/03/suddenly-enlightenment/)
+describes git hooks and how to use them.
 
-Some projects I'm working on that I think are interesting:
-----------------------------------------------------------
-- - -
+* [Coders (Should) Do Much More Than Code](http://kyleisom.net/blog/2011/09/10/coders-should-do-much-more-than-code/)
+talks about some of the other skills that go into being a successful programmer.
 
-* [newsread](https://github.com/kisom/newsread): too many sources in my news 
-feeds have far too much noise and it makes getting useful information take up
-more of my time than it should. That's the motivation for this project. Along
-the way, I expect to learn some natural language processing, datamining, and
-fun math to help filter everything out. 
+* [My Docs Got Dropped](http://kyleisom.net/blog/2011/12/31/my-docs-got-dropped/)
+is a post that made it to the front page of [Hacker News](http://news.ycombinator.com).
+While it made it there because it was New Year's weekend (and therefore a slow night),
+but it happened to be posted in a timely manner (i.e. right after the Stratfor notices
+went out).
 
-* [pymods](https://github.com/kisom/pymods): a collection of python modules I 
-wrote. These include a mail module, a supervisor module (for fault-tolerance),
-some NLP code, and a timer module. 
-
-* [Login-Fuzzer](https://github.com/kisom/Login-Fuzzer): fuzzing authentication 
-code in python. The story is, I locked myself out of my guru plug while setting 
-it up in a hurry. I know what password I intended to use when setting the root 
-password, but apparently I typo'd it *twice*. This is my attempt at regaining 
-access without having to spend $50 for a JTAG adapter.     
-
-Contact information:
---------------------
-- - -
+## Contact information
 
 I have a [development GnuPG key](keys/coder.asc):
 {% codeblock %}
@@ -134,4 +73,4 @@ I can also be found lurking on freenode in #devious (the channel for the
 [BSD public shell server](http://www.devio.us) I help run) and #clojure.
 I go by vimja, emacsdaddy, or kyle_dev. 
 
-
+I also can be contacted via XMPP at kyle [at] dukgo.com.

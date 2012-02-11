@@ -271,6 +271,8 @@ worth spending some time to get to know.
 Stay tuned for the next post, which will be on how to use sets in your code.
 We'll develop the library idea a bit more.
 
+*UPDATE*: The [next post](http://kyleisom.net/blog/2012/02/01/using-set-theory/) is up!
+
 ## References
 * I've been reading [Alfred Aho's](https://en.wikipedia.org/wiki/Alfred_Aho) [<underline>The Theory of Parsing, Translating, and Compiling (Volume I: Parsing)</underline>](https://en.wikipedia.org/wiki/Special:BookSources/0139145567) 
 ([Amazon link](http://www.amazon.com/dp/0139145567/))
