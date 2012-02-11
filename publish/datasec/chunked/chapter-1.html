@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="Kyle Isom" />
+    <meta name="date" content="10/02/2012"/>
+    <meta name="generator" content="easybook 4"/>
+
+    <title>Practical Threat Modeling | Practical Data Security</title>
+
+        <link rel="stylesheet" href="./css/easybook.css" />
+    
+    </head>
+
+<body class="page:chapter"><div id="wrapper">
+
+<h1 id="chapter-1"><span>Chapter 1 </span> Practical Threat Modeling</h1>
+
+<ul id="item_toc">
+            <li>
+            <span></span>
+            <a href="#practical-threat-modeling">Practical Threat Modeling</a>
+        </li>
+    </ul>
+
+<p><strong>Threat modeling</strong> is the art of thinking about what threats your
+application will face. By understanding the threats, you can begin thinking
+about how to mitigate them.</p>
+
+<p>One useful tool when threat modeling is an <strong>attack tree</strong>. In an attack tree,
+you identify what threats you might face, and what those attacks lead to. During
+the initial stages, you don't focus on mitigation (or what you have done so far).
+It's important to consider what sorts of attacks can be made: while you might
+think an attack is mitigated or you may not see it as practical, changes to the
+code can easily change the situation. It's important to regularly review the
+attack tree, updating it as necessary. If you add a feature, consider the 
+potential security impact. The point of the attack tree is just to visualise 
+what could happen; later parts of the security engineering process transform
+this into a practical outlook.</p>
+
+<p>Let's consider a simple web site that allows users to update their information;
+it's backed by a fairly simple database. Some potential attack vectors that 
+come to mind in a quick overview are:</p>
+
+<ol>
+<li>SQL injection on the login form -> privilege escalation</li>
+<li>password interception on the wire -> stealing user's account information</li>
+<li>password brute forcing -> stealing user's account information</li>
+<li>unauthorised access to resources, i.e. user B can read or update user A's
+information without their consent.</li>
+</ol>
+
+<p>It's also helpful to identify vulnerability points with these:</p>
+
+<ol>
+<li>login form (SQL injection, password brute forcing)</li>
+<li>the wire, i.e. the connection between the user and the server (password
+interception)</li>
+<li>whereever user information can be looked up</li>
+</ol>
+
+<p>From here, we can identify mitigation steps fairly easily:</p>
+
+<ol>
+<li>Sanitize all user inputs.</li>
+<li>Secure the connection using SSL.</li>
+<li>Use <a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a> to store passwords.</li>
+<li>Force all sensitive information to be routed through authorisation 
+middleware.</li>
+</ol>
+
+<p>Generally, it's good practise to keep these in separate documents; i.e. an
+attack tree (though often annotated with the vulnerability points), and
+a security plan. This allows you to consider the two separately when needed.
+The security plan should reference the attack tree in considering what 
+attacks are being defended against.</p>
+
+
+<ul id="nav">
+    <li class="previous">
+                    <a href="./chapter-0.html"><span>&larr;</span> Previous</a>
+            </li>
+
+    <li class="index"><a href="./index.html"><span>&uarr;</span> Index</a></li>
+
+    <li class="next">
+                    Next <span>&rarr;</span>
+            </li>
+</ul>
+
+
+</div></body>
+</html>
