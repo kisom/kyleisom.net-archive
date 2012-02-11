@@ -73,7 +73,84 @@ middleware.</li>
 attack tree (though often annotated with the vulnerability points), and
 a security plan. This allows you to consider the two separately when needed.
 The security plan should reference the attack tree in considering what 
-attacks are being defended against.</p>
+attacks are being defended against. These are also living documents; as
+mentioned before, they will need to be reviewed and updated regularly.</p>
+
+<p>## Identifying Attack Vectors
+A good place to check for attack vectors is to consider the generic attack
+points:</p>
+
+<ol>
+<li>Where does data enter the system? Unsanitised data can pose a risk, as can
+data that is not normalised to expected values.</li>
+<li>Where does data leave the system? <strong>Information leakage</strong> is a security
+issue where information that should not leave the system does, or is revealed
+by the system unintentionally (typically without effort on the part of the
+attacker).</li>
+<li>What sensitive data does the system use? Passwords an obvious answer that
+come to find first; also, consider email addresses and other personal details.
+Resources that should not be widely accessible to the public fall under this
+category as well; for example, if you are publishing a paid magazine online,
+you want to consider restricting access to it.</li>
+<li>Where and how is sensitive information stored? For example, when passwords
+aren't being used, how are they being stored? Are you using bcrypt or are they
+being stored in plaintext?</li>
+</ol>
+
+<p>This can be a difficult task. You have to be creative, and you will likely still 
+not consider everything an attacker will. Having several people involved in 
+developing the attack tree is very useful, as they will all have different
+mindsets and backgrounds to contribute. One technique I find useful is to
+visualise your program as a system, diagramming subsystems and information flow.
+Just as physical security engineers will study the physical layout of the area
+they are working to protect and bank robbers will often observe their target
+beforehand, it is another tool useful for visualising where security systems
+fit into the overall architecture.</p>
+
+<p>## Example
+Let's consider an example: I have a website that provides a front end for my
+small team's ebook library. Here is the systems diagram I have for the site:</p>
+
+<p><img src="images/dystopia_system_diagram.png" alt="systems diagram" /></p>
+
+<p>And here is a sample attack tree I've come up with:</p>
+
+<p><img src="images/dystopia_attack_tree.png" alt="attack tree" /></p>
+
+<p>What are the attack vectors? If we organise them by the four generic attack 
+points, we could come up with:</p>
+
+<ol>
+<li>Where does data enter the system?
+
+<ul>
+<li>login form</li>
+<li>user book uploads</li>
+<li>user metadata fields</li>
+<li>book cover images</li>
+<li>user bio</li>
+</ul></li>
+<li>Where does data leave the system?
+
+<ul>
+<li>book download</li>
+<li>user bio display</li>
+<li>displaying catalog information</li>
+<li>book cover display</li>
+</ul></li>
+<li>What sensitive data is present in the system?
+
+<ul>
+<li>passwords</li>
+<li>user catalog</li>
+</ul></li>
+<li>Where and how is sensitive information stored?
+
+<ul>
+<li>passwords: stored in the database as bcrypted hashes</li>
+<li>user catalog: stored in the database and accessed through an access control list (ACL)</li>
+</ul></li>
+</ol>
 
 
 <ul id="nav">
@@ -84,7 +161,7 @@ attacks are being defended against.</p>
     <li class="index"><a href="./index.html"><span>&uarr;</span> Index</a></li>
 
     <li class="next">
-                    Next <span>&rarr;</span>
+                    <a href="./appendix-a.html">Next <span>&rarr;</span></a>
             </li>
 </ul>
 

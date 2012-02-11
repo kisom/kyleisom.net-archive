@@ -1,89 +1,27 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="author" content="Kyle Isom" />
     <meta name="date" content="10/02/2012"/>
     <meta name="generator" content="easybook 4"/>
 
-    <title>Practical Data Security</title>
+    <title>Introduction to Data Security | Practical Data Security</title>
 
         <link rel="stylesheet" href="./css/easybook.css" />
     
     </head>
 
-<body><div id="wrapper">
+<body class="page:chapter"><div id="wrapper">
 
-    <div class="page:cover new-page">
+<h1 id="chapter-0"><span>Chapter 0 </span> Introduction to Data Security</h1>
 
-<h1>Practical Data Security</h1>
-
-<h2>Kyle Isom</h2>
-
-</div>
-    <div class="page:toc new-page">
-
-<h1>Table of contents</h1>
-
-<ul>
-                                
-                                                                <li class="chapter level-1">
-                        <span>Chapter 0 </span> <a href="#introduction-to-data-security">Introduction to Data Security</a>
-                    </li>
-                            
-                            
-                                                                <li class="chapter level-1">
-                        <span>Chapter 1 </span> <a href="#practical-threat-modeling">Practical Threat Modeling</a>
-                    </li>
-                            
-                    </ul>
-
-</div>
-    <div class="page:dedication new-page">
-
-<p>This is a book about how to use data security practically. It’s written
-assuming that you are a coder who’s already writing cool and audacious
-projects, but you don’t have a background in writing secure systems. I also
-assume that you have a passing familiarity with UNIX-based operating
-systems; while I don’t expect you to be a UNIX wizard, I also expect you to
-not be terribly daunted when tinkering about the command line. I try not to
-get in your way and merely to facilitate a discussion in most cases about
-ways we as coders can write better applications for our users.</p>
-
-<p>The news headlines are full of stories about popular online services being
-com-promised. It’s becoming something that we are more used to living
-with. I think that we can do better. My particular interest in this problem
-started with two events that coincided: the first involved writing software
-for work to build encrypted updates for a project I was working on. I was
-doing this in Python, and so became fairly familiar with the 
-<a href="https://www.dlitz.net/software/pycrypto/">PyCrypto library</a>. 
-At the same time, a friend of mine was working on writing
-authentication code, also in Python. He was trying to use the PyCrypto
-library as well, but really didn’t understand how cryptography worked and
-how to apply it in this case. That inspired me to write a ten page
-introduction to cryptography (also illustrated with Python). I’ve been
-mulling over the idea of expanding that into a book on data security, and
-now the time has come to write it.</p>
-
-<p>From my perspective, a lot of the problem stems from a fundamental
-misunderstanding of what security is, and how to integrate it. I will try to
-address that issue here, and hopefully help other developers to understand
-not only why it’s important, but to see that it’s not just snake oil to be
-thrown into the mix so that it "just works."</p>
-
-<p>The book is subtitled Illustrated With Python, which I am slightly worried
-will discourage those not familiar with the Python language. I chose to use
-Python because it is both a language I am well familiar with, and because it
-is a very readable language. Readers should note that the emphasis in the
-book is not on the Python way to do things; readers who are familiar with
-Python will note that I shy away from idiomatic Python that will be
-difficult for those unfamiliar with the language to understand.</p>
-
-
-</div>
-    <div class="page:chapter new-page">
-
-<h1 id="introduction-to-data-security"><span>Chapter 0 </span> Introduction to Data Security</h1>
+<ul id="item_toc">
+            <li>
+            <span></span>
+            <a href="#introduction-to-data-security">Introduction to Data Security</a>
+        </li>
+    </ul>
 
 <p>Data security is one of those things you hear a lot about, but most of us
 are busy getting things done; unfortunately for our users, data security
@@ -123,9 +61,9 @@ those aspects you need to understand as a coder to effectively make use of
 it. Following that, we'll see a few scenarios where your code is
 vulnerable. The rest of this chapter will be a gentle introduction to each
 of those areas, and the rest of the book will flesh it out with code
-examples.</p>
-
-<p>There are four information security principles you should keep in mind when
+examples.
+<br>
+There are four information security principles you should keep in mind when
 writing software:</p>
 
 <ol>
@@ -251,65 +189,18 @@ cryptography effectively. We'll also consider some real world ways in which
 failing to secure your code can lead to an exploit.</p>
 
 
-</div>
-    <div class="page:chapter new-page">
+<ul id="nav">
+    <li class="previous">
+                    <a href="./chapter.html"><span>&larr;</span> Previous</a>
+            </li>
 
-<h1 id="practical-threat-modeling"><span>Chapter 1 </span> Practical Threat Modeling</h1>
+    <li class="index"><a href="./index.html"><span>&uarr;</span> Index</a></li>
 
-<p><strong>Threat modeling</strong> is the art of thinking about what threats your
-application will face. By understanding the threats, you can begin thinking
-about how to mitigate them.</p>
+    <li class="next">
+                    <a href="./chapter-1.html">Next <span>&rarr;</span></a>
+            </li>
+</ul>
 
-<p>One useful tool when threat modeling is an <strong>attack tree</strong>. In an attack tree,
-you identify what threats you might face, and what those attacks lead to. During
-the initial stages, you don't focus on mitigation (or what you have done so far).
-It's important to consider what sorts of attacks can be made: while you might
-think an attack is mitigated or you may not see it as practical, changes to the
-code can easily change the situation. It's important to regularly review the
-attack tree, updating it as necessary. If you add a feature, consider the 
-potential security impact. The point of the attack tree is just to visualise 
-what could happen; later parts of the security engineering process transform
-this into a practical outlook.</p>
-
-<p>Let's consider a simple web site that allows users to update their information;
-it's backed by a fairly simple database. Some potential attack vectors that 
-come to mind in a quick overview are:</p>
-
-<ol>
-<li>SQL injection on the login form -> privilege escalation</li>
-<li>password interception on the wire -> stealing user's account information</li>
-<li>password brute forcing -> stealing user's account information</li>
-<li>unauthorised access to resources, i.e. user B can read or update user A's
-information without their consent.</li>
-</ol>
-
-<p>It's also helpful to identify vulnerability points with these:</p>
-
-<ol>
-<li>login form (SQL injection, password brute forcing)</li>
-<li>the wire, i.e. the connection between the user and the server (password
-interception)</li>
-<li>whereever user information can be looked up</li>
-</ol>
-
-<p>From here, we can identify mitigation steps fairly easily:</p>
-
-<ol>
-<li>Sanitize all user inputs.</li>
-<li>Secure the connection using SSL.</li>
-<li>Use <a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a> to store passwords.</li>
-<li>Force all sensitive information to be routed through authorisation 
-middleware.</li>
-</ol>
-
-<p>Generally, it's good practise to keep these in separate documents; i.e. an
-attack tree (though often annotated with the vulnerability points), and
-a security plan. This allows you to consider the two separately when needed.
-The security plan should reference the attack tree in considering what 
-attacks are being defended against.</p>
-
-
-</div>
 
 </div></body>
 </html>
