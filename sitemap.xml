@@ -56,7 +56,7 @@
     </url>
     <url>
         <loc>http://kisom.github.com/blog/2012/01/23/basic-set-theory/</loc>
-        <lastmod>2012-01-24T22:10:08+03:00</lastmod>
+        <lastmod>2012-02-11T19:42:40+03:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/blog/2012/01/28/noir-v-flask/</loc>
@@ -72,7 +72,7 @@
     </url>
     <url>
         <loc>http://kisom.github.com/about/</loc>
-        <lastmod>2012-02-05T14:56:08+03:00</lastmod>
+        <lastmod>2012-02-11T19:51:54+03:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/about/keys/coder.asc</loc>
@@ -84,7 +84,7 @@
     </url>
     <url>
         <loc>http://kisom.github.com/blog/archives/</loc>
-        <lastmod>2012-02-09T16:26:55+03:00</lastmod>
+        <lastmod>2012-02-11T19:42:40+03:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/book/acknowledgements/</loc>
@@ -115,8 +115,12 @@
         <lastmod>2012-01-27T07:21:24+03:00</lastmod>
     </url>
     <url>
+        <loc>http://kisom.github.com/code/</loc>
+        <lastmod>2012-02-11T19:56:07+03:00</lastmod>
+    </url>
+    <url>
         <loc>http://kisom.github.com/</loc>
-        <lastmod>2012-02-09T16:26:55+03:00</lastmod>
+        <lastmod>2012-02-11T19:42:40+03:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/publish/datasec/</loc>
