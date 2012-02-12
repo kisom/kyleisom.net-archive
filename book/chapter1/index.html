@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Practical Introduction to Cryptography - (cons 'hack *life*)</title>
+  <title>A Gentle Introduction to Data Security - (cons 'hack *life*)</title>
   <meta name="author" content="Kyle Isom">
 
   
-  <meta name="description" content="Practical Introduction to Cryptography Feb 11th, 2012 Introduction This chapter is adapter from my introductory article to cryptography. We&#8217;ll &hellip;">
+  <meta name="description" content="A Gentle Introduction to Data Security Jan 25th, 2012 Data security is one of those things you hear a lot about, but most of us
+are busy getting &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,7 +74,7 @@
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Practical Introduction to Cryptography</h1>
+    <h1 class="entry-title">A Gentle Introduction to Data Security</h1>
     <p class="meta">
 
 
@@ -86,970 +87,174 @@
   
 
 
-<time datetime="2012-02-11T23:07:00+03:00" pubdate data-updated="true">Feb 11<span>th</span>, 2012</time></p>
+<time datetime="2012-01-25T07:11:00+03:00" pubdate data-updated="true">Jan 25<span>th</span>, 2012</time></p>
   </header>
   
-  <h2>Introduction</h2>
-
-<p>This chapter is adapter from my introductory article to cryptography. We&#8217;ll take
-a quick, high-level overview of cryptography. The
-<a href="https://www.dlitz.net/software/pycrypto/">PyCrypto</a> and
-<a href="http://www.mindrot.org/projects/py-bcrypt/">py-bcrypt</a> libraries will be used
-to illustrate some general things to know when writing cryptographic code.
-We&#8217;ll take a look at symmetric, public-key, hybrid, cryptographic hashing,
-password hashing, and message authentication codes.</p>
-
-<p>Some quick terminology: for those unfamiliar, it&#8217;s important to know what these
-mean:</p>
-
-<ul>
-<li><strong>plaintext</strong>: the original message</li>
-<li><strong>ciphertext</strong>: the message after cryptographic transformations are applied
-to obscure the original message.</li>
-<li><strong>encrypt</strong>: producing ciphertext by applying cryptographic transformations
-to plaintext.</li>
-<li><strong>decrypt</strong>: producing plaintext by applying cryptographic transformations to
-ciphertext.</li>
-<li><strong>cipher</strong>: a particular set of cryptographic transformations providing means
-of both encryption and decryption.</li>
-<li><strong>ciphersystem</strong>: a set of cryptographic transformations that take a large input and
-transform it to a unique (typically fixed-size) output. For hashes to be
-cryptographically secure, collisions should be practically nonexistent. It
-should be practically impossible to determine the input from the output.</li>
-</ul>
-
-
-<p>Cryptography is an often misunderstood component of information security. We
-covered some information security principles in the previous chapter; the
-ones that cryptography covers are:</p>
-
-<ul>
-<li><strong>privacy</strong> (aka <strong>confidentiality</strong>).</li>
-<li><strong>data integrity</strong>: the plaintext message arrives unaltered.</li>
-<li><strong>entity authentication</strong>: the identity of the sender is verified. An entity
-may be a person or a machine.</li>
-<li><strong>message authentication</strong>: the message is verified as having been
-unaltered.</li>
-</ul>
-
-
-<p>Note that cryptography is used to obscure the contents of a message and verify
-its contents and source. It will <strong>not</strong> hide the fact that two entities are
-communicating.</p>
-
-<p>There are two basic types of ciphers: symmetric and public-key ciphers. A
-symmetric key cipher employs the use of shared secret keys. They also tend to
-be much faster than public-key ciphers. A public-key cipher is so-called because
-each key consists of a private key which is used to generate a public key. Like
-their names imply, the private key is kept secret while the public key is
-passed around. First, I&#8217;ll take a look at a specific type of symmetric ciphers:
-block ciphers.</p>
-
-<h2>Block Ciphers</h2>
-
-<p>There are two further types of symmetric keys: stream and block ciphers. Stream
-ciphers operate on data streams, i.e. one byte at a time. Block ciphers operate
-on blocks of data, typically 16 bytes at a time. The most common block cipher
-and the standard one you should use unless you have a very good reason to use
-another one is the AES block cipher, documented in
-<a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">FIPS PUB 197</a>.
-AES is a specific subset of the Rijndael cipher. AES uses block size of
-128-bits (16 bytes); data should be padded out to fit the block size - the
-length of the data block must be multiple of the block size. For example,
-given an input of <code>ABCDABCDABCDABCD ABCDABCDABCDABCD</code> no padding would
-need to be done. However, given <code>ABCDABCDABCDABCD ABCDABCDABCD</code> an
-additional 4 bytes of padding would need to be added. A common padding scheme
-is to use <code>0x80</code> as the first byte of padding, with <code>{0x00</code> bytes
-filling out the rest of the padding. With padding, the previous example would
-look like: <code>ABCDABCDABCDABCD ABCDABCDABCD\x80\x00\x00\x00</code>.</p>
-
-<p>Writing a padding function is pretty easy:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">pad_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-</span><span class='line'>    <span class="c"># return data if no padding is required</span>
-</span><span class='line'>  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">data</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c"># subtract one byte that should be the 0x80</span>
-</span><span class='line'>  <span class="c"># if 0 bytes of padding are required, it means only</span>
-</span><span class='line'>  <span class="c"># a single \x80 is required.</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">padding_required</span>     <span class="o">=</span> <span class="mi">15</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="se">\x80</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">data</span>
-</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\x00</span><span class="s">&#39;</span> <span class="o">*</span> <span class="n">padding_required</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">data</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Similarly, removing padding is also easy:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">unpad_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">data</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\x00</span><span class="s">&#39;</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;</span><span class="se">\x80</span><span class="s">&#39;</span><span class="p">:</span>
-</span><span class='line'>          <span class="k">return</span> <span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'>        <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="n">data</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I&#8217;ve included these functions in the
-<a href="http://www.kyleisom.net/publish/datasec/code/chapter2.tar.gz">example code</a>
-for the book.</p>
-
-<p>Encryption with a block cipher requires selecting a
-<a href="http://csrc.nist.gov/groups/ST/toolkit/BCM/index.html">block mode</a>.
-By far the most common mode used is <strong>cipher block chaining</strong> or
-<em>CBC</em> mode. Other modes include <strong>counter (CTR)</strong>,
-<strong>cipher feedback (CFB)</strong>, and the extremely insecure
-<strong>electronic codebook (ECB)</strong>. CBC mode is the standard and is
-well-vetted, so I will stick to that in this tutorial. Cipher block chaining
-works by XORing the previous block of ciphertext with the current block. You
-might recognise that the first block has nothing to be XOR&#8217;d with; enter the
-<em><a href="http://www.cs.ucdavis.edu/~rogaway/papers/nonce.pdf">initialisation vector</a></em>.
-This comprises a number of randomly-generated bytes of data the same
-size as the cipher&#8217;s block size. This initialisation vector should random
-enough that it cannot be recovered; one manner of doing this is to combine a
-standard UNIX timestamp with a block-size group of random data, using a standard
-hashing algorithm such as MD5 to make it unique.</p>
-
-<p>One of the most critical components to encryption is properly generating
-random data. Fortunately, most of this is handled by the PyCrypto library&#8217;s
-<code>Crypto.Random.OSRNG module</code>. You should know that the more entropy sources
-available (such as network traffic and disk activity), the faster the system
-can generate cryptographically-secure random data. I&#8217;ve written a function that
-can generate a <em>cryptographic nonce</em> (an number used only once)
-suitable for use as an initialisation vector. This will work on a UNIX machine;
-the comments note how easy it is to adapt it to a Windows machine. This
-function requires a version of PyCrypto at least 2.1.0 or higher.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">time</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">Crypto.Random.OSRNG.posix</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">generate_nonce</span><span class="p">():</span>
-</span><span class='line'>  <span class="n">rnd</span> <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Random</span><span class="o">.</span><span class="n">OSRNG</span><span class="o">.</span><span class="n">posix</span><span class="o">.</span><span class="n">new</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">BLOCK_SIZE</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">rnd</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rnd</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
-</span><span class='line'>  <span class="n">nonce</span> <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Hash</span><span class="o">.</span><span class="n">MD5</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">rnd</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">nonce</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I will note here that the python <code>random</code> module is completely unsuitable for
-cryptography (as it is completely deterministic). You shouldn&#8217;t use it for
-cryptographic code. If you&#8217;re using another language, you need to be careful
-to select a cryptographically-secure random number generator (RNG).</p>
-
-<p>Symmetric ciphers are so-named because the key is shared across any entities.
-There are three key sizes for AES: 128-bit, 192-bit, and 256-bit, aka 16-byte,
-24-byte, and 32-byte key sizes. If you want to use a passphrase, you
-should use a digest algorithm that produces an appropriately sized digest, and
-hash that passphrase. For example, for AES-256, you would want to use SHA-256.
-Here is a sample function to generate an AES-256 key from a passphrase:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># generate an AES-256 key from a passphrase</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">passphrase</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">readable</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
-</span><span class='line'>  <span class="sd">&quot;&quot;&quot;</span>
-</span><span class='line'><span class="sd"> Converts a passphrase to a format suitable for use as an AES key.</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd"> If readable is set to True, the key is output as a hex digest. This is</span>
-</span><span class='line'><span class="sd"> suitable for sharing with users or printing to screen when debugging</span>
-</span><span class='line'><span class="sd"> code.</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd"> By default readable is set to False, in which case the value it </span>
-</span><span class='line'><span class="sd"> returns is suitable for use directly as an AES-256 key.</span>
-</span><span class='line'><span class="sd"> &quot;&quot;&quot;</span>
-</span><span class='line'>  <span class="n">key</span>     <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Hash</span><span class="o">.</span><span class="n">SHA256</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="n">readable</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
-</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We could include this a set of AES encryption and decryption functions:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">mode</span> <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Cipher</span><span class="o">.</span><span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span>       <span class="c"># shortcut to clean up code</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># AES-256 encryption using a passphrase</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">passphrase_encrypt</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">key</span>     <span class="o">=</span> <span class="n">passphrase</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">data</span>    <span class="o">=</span> <span class="n">pad_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">aes</span>     <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Cipher</span><span class="o">.</span><span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">aes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># AES-256 decryption using a passphrase</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">passphrase_decrypt</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">key</span>     <span class="o">=</span> <span class="n">passphrase</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">aes</span>     <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Cipher</span><span class="o">.</span><span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">data</span>    <span class="o">=</span> <span class="n">aes</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">unpad_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Notice how the data is padded before being encrypted and unpadded after
-decryption - the decryption process will not remove the padding on its own.</p>
-
-<p>Unless you are you doing interactive encryption passphrase encryption won&#8217;t be
-terribly useful. Instead, we just need to generate 32 random bytes (and make
-sure we keep track of it) and use that as the key:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># generate a random AES-256 key</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">generate_aes_key</span><span class="p">():</span>
-</span><span class='line'>  <span class="n">rnd</span>     <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Random</span><span class="o">.</span><span class="n">OSRNG</span><span class="o">.</span><span class="n">posix</span><span class="o">.</span><span class="n">new</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">KEY_SIZE</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">rnd</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can use this key directly in the AES transformations:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">aes</span>     <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Cipher</span><span class="o">.</span><span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">data</span>    <span class="o">=</span> <span class="n">pad_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">aes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">aes</span>     <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Cipher</span><span class="o">.</span><span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">data</span>    <span class="o">=</span> <span class="n">aes</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">unpad_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That should cover the basics of block cipher encryption. We&#8217;ve gone over key
-generation, padding, and encryption / decryption. AES-256 isn&#8217;t the only
-block cipher provided by the PyCrypto package, but again: it is the standard
-and well vetted.</p>
-
-<h2>ASCII-Armouring</h2>
-
-<p>I&#8217;m going to take a quick detour and talk about ASCII armouring. If you&#8217;ve
-played with the crypto functions above, you&#8217;ll notice they produce an annoying
-dump of binary data that can be a hassle to deal with. One common technique for
-making the data a little bit easier to deal with is to encode it with
-base64 (which is defined in <a href="http://tools.ietf.org/html/rfc1521.html">RFC 1521</a>.
-There are a few ways to incorporate this into python:</p>
-
-<h3>Absolute Base64 Encoding</h3>
-
-<p>The easiest way is to just base64 encode everything in the encrypt function.
-Everything that goes into the decrypt function should be in base64 - if it&#8217;s
-not, the <code>base64</code> module will throw an error: you could catch this and
-then try to decode it as binary data.</p>
-
-<h3>A Simple Header</h3>
-
-<p>A slightly more complex option, and the one I adopt in this article, is to use
-a <code>x00</code> as the first byte of the ciphertext for binary data, and to use
-<code>\x41</code> (an ASCII &#8221;<code>A</code>&#8221;) for ASCII encoded data. This will increase
-the complexity of the encryption and decryption functions slightly. We&#8217;ll also
-pack the initialisation vector at the beginning of the file as well. Given now
-that the <code>iv</code> argument might be <code>None</code> in the decrypt function, I
-will have to rearrange the arguments a bit; for consistency, I will move it in
-both functions. I leave adding it into the <code>passphrase_encrypt</code> and
-<code>passphrase_decrypt</code> functions as an exercise for the reader. My modified
-functions look like this now:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">armour</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">aes</span>     <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Cipher</span><span class="o">.</span><span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">data</span>    <span class="o">=</span> <span class="n">pad_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">ct</span>      <span class="o">=</span> <span class="n">aes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>         <span class="c"># ciphertext</span>
-</span><span class='line'>  <span class="n">ct</span>      <span class="o">=</span> <span class="n">iv</span> <span class="o">+</span> <span class="n">ct</span>                   <span class="c"># pack the initialisation vector in</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c"># ascii-armouring</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">armour</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">ct</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x41</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodestring</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">ct</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x00</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">ct</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">ct</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">iv</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
-</span><span class='line'>  <span class="c"># remove ascii-armouring if present</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;</span><span class="se">\x00</span><span class="s">&#39;</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-</span><span class='line'>  <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;</span><span class="se">\x41</span><span class="s">&#39;</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">decodestring</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">iv</span>      <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="mi">16</span><span class="p">]</span>
-</span><span class='line'>  <span class="n">data</span>    <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">16</span><span class="p">:]</span>
-</span><span class='line'>  <span class="n">aes</span>     <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Cipher</span><span class="o">.</span><span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">data</span>    <span class="o">=</span> <span class="n">aes</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">unpad_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>A More Complex Container</h3>
-
-<p>There are more complex ways to do it (and you&#8217;ll see it with the public keys
-in the next section) that involve putting the base64 into a container of sorts
-that contains additional information about the key.</p>
-
-<h2>Public Key Cryptography</h2>
-
-<p>Now it is time to take a look at public-key cryptography. Public-key
-cryptography, or PKC, involves the use of two-part keys. The private key is
-the sensitive key that should be kept private by the owning entity, whereas the
-public key (which is generated from the private key) is meant to be distributed
-to any entities which must communicate securely with the entity owning the
-private key. Confusing? Let&#8217;s look at this using the venerable Alice and Bob,
-patron saints of cryptography.</p>
-
-<p>Alice wants to talk to Bob, but doesn&#8217;t want Eve to know the contents of the
-message. Both Alice and Bob generate a set of private keys. From those private
-keys, they both generate public keys. Let&#8217;s say they post their public keys on
-their websites. Alice wants to send a private message to Bob, so she looks up
-Bob&#8217;s public key from his site. (In fact, there is a way to distribute keys via
-a central site or entity; this is called a public key infrastructure (PKI). The
-public key can be used as the key to encrypt a message with PKC. The resulting
-ciphertext can only be decrypted using Bob&#8217;s private key. Alice sends Bob the
-resulting ciphertext, which Eve cannot decrypt without Bob&#8217;s private key.
-Hopefully this is a little less confusing.</p>
-
-<p>One of the most common PKC systems is RSA (which is an acronym for the last
-names of the designers of the algorithm). Generally, RSA keys are 1024-bit,
-2048-bit, or 4096-bits long. The keys are most often in
-PEM (defined in <a href="https://tools.ietf.org/html/rfc1421">RFCs 1421-1424</a>)
-or
-<a href="http://www.itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf">DER</a>
-format. Generating RSA keys with PyCrypto is extremely easy:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">generate_key</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">PRNG</span>    <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Random</span><span class="o">.</span><span class="n">OSRNG</span><span class="o">.</span><span class="n">posix</span><span class="o">.</span><span class="n">new</span><span class="p">()</span><span class="o">.</span><span class="n">read</span>
-</span><span class='line'>  <span class="n">key</span>     <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">PublicKey</span><span class="o">.</span><span class="n">RSA</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">PRNG</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">key</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>key</code> that is returned isn&#8217;t like the keys we used with the block ciphers:
-it is an RSA object and comes with several useful built-in methods. One of
-these is the <code>size()</code> method, which returns the size of the key in bits minus
-one. For example:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">publickey</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">key</span> <span class="o">=</span> <span class="n">publickey</span><span class="o">.</span><span class="n">generate_key</span><span class="p">(</span> <span class="mi">1024</span> <span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">key</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-</span><span class='line'><span class="mi">1023</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A quick note: I will use 1024-bit keys in this tutorial because they are
-faster to generate, but in practice you should be using at least 2048-bit
-keys. The key also includes encryption and decryption methods in the class:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">publickey</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">base64</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;Test message...&#39;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodestring</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span class='line'><span class="n">gzA9gXfHqnkValdhhYjRVVSxuygx48i66h0vFUnmVu8FZXJtmaACvNDo43D0vjjHzFiblE1eCFiI</span>
-</span><span class='line'><span class="n">xlhVuHxldWXJSnARgWX1bTY7imR9Hve</span><span class="o">+</span><span class="n">WQC8rl</span><span class="o">+</span><span class="n">qB5xpq3xnKH7</span><span class="o">/</span><span class="n">z8</span><span class="o">/</span><span class="mi">5</span><span class="n">YdLvCo</span><span class="o">/</span><span class="n">knXYE1cI</span><span class="o">/</span><span class="n">XYJP</span>
-</span><span class='line'><span class="n">EP1nA6bUZNj6bD1Zx4w</span><span class="o">=</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>None</code> that is passed into the encryption function is part of the
-PyCrypto API for those publickey ciphers requiring an additional random number
-function to be passed in. It returns a tuple containing only the encrypted
-message. In order to pass this to the decryption function, we need to pass only
-the encrypted message as a string:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="bp">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">key</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">)</span>
-</span><span class='line'><span class="s">&#39;Test message...&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>While these are simple enough, we could put them into a pair of functions that
-also include ASCII-armouring:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">armour</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">ciphertext</span>  <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span> <span class="n">message</span><span class="p">,</span> <span class="bp">None</span> <span class="p">)</span>
-</span><span class='line'>  <span class="n">ciphertext</span>  <span class="o">=</span> <span class="n">ciphertext</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="n">armour</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">ciphertext</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x41</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodestring</span><span class="p">(</span> <span class="n">ciphertext</span> <span class="p">)</span>
-</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">ciphertext</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x00</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodestring</span><span class="p">(</span> <span class="n">ciphertext</span> <span class="p">)</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="k">return</span> <span class="n">ciphertext</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">if</span>   <span class="s">&#39;</span><span class="se">\x00</span><span class="s">&#39;</span> <span class="o">==</span> <span class="n">message</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-</span><span class='line'>      <span class="n">message</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-</span><span class='line'>  <span class="k">elif</span> <span class="s">&#39;</span><span class="se">\x41</span><span class="s">&#39;</span> <span class="o">==</span> <span class="n">message</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-</span><span class='line'>      <span class="n">message</span> <span class="o">==</span> <span class="n">base64</span><span class="o">.</span><span class="n">decodestring</span><span class="p">(</span> <span class="n">message</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">plaintext</span>   <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span> <span class="n">message</span> <span class="p">)</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">plaintext</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>These two functions present a common API that will simplify encryption and
-decryption and make it a little easier to read. Assuming we still have the same
-<code>message</code> definition as before:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">publickey</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">publickey</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">)</span>
-</span><span class='line'>  <span class="s">&#39;Test message...&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now, what if we want to export this generated key and read it in later? The key
-comes with the method <code>exportKey()</code>. If the key is a private key, it will
-export the private key; if it is a public key, it will export the public key.
-We can write functions to backup our private key (which <strong>absolutely</strong>
-needs to be kept secure) and a function to export our public key, suitable for
-uploading to our web page or to a PKI keystore:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># backup our key, whether public or private</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">export_key</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">print</span> <span class="n">e</span>
-</span><span class='line'>      <span class="k">raise</span> <span class="n">e</span>
-</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span> <span class="n">key</span><span class="o">.</span><span class="n">exportKey</span><span class="p">()</span> <span class="p">)</span>
-</span><span class='line'>      <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># will only export the public key</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">export_pubkey</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">print</span> <span class="n">e</span>
-</span><span class='line'>      <span class="k">raise</span> <span class="n">e</span>
-</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span> <span class="n">key</span><span class="o">.</span><span class="n">publickey</span><span class="p">()</span><span class="o">.</span><span class="n">exportKey</span><span class="p">()</span> <span class="p">)</span>
-</span><span class='line'>      <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Importing a key is done using the <code>RSA.importKey</code> function:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">load_key</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">print</span> <span class="n">e</span>
-</span><span class='line'>      <span class="k">raise</span>
-</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">key</span> <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">PublicKey</span><span class="o">.</span><span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-</span><span class='line'>      <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">key</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can take a look at the difference between the public and private keys:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">key</span> <span class="o">=</span> <span class="n">publickey</span><span class="o">.</span><span class="n">generate_key</span><span class="p">(</span> <span class="mi">1024</span> <span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">key</span><span class="o">.</span><span class="n">exportKey</span><span class="p">()</span>
-</span><span class='line'><span class="o">-----</span><span class="n">BEGIN</span> <span class="n">RSA</span> <span class="n">PRIVATE</span> <span class="n">KEY</span><span class="o">-----</span>
-</span><span class='line'><span class="n">MIICXAIBAAKBgQCpVA2pqLuS1fmutvx</span><span class="o">/</span><span class="n">lBhlk</span><span class="o">+</span><span class="n">UMXWcZKVzh</span><span class="o">+</span><span class="n">n5D6Hv</span><span class="o">/</span><span class="n">ZWhlzRuC</span>
-</span><span class='line'><span class="n">q408uhVBUD32ylbQ2iFdhA1leq0xWRGQ8Y3LlO6tQZ0gC2oOHetX3YOghO3q4yMe</span>
-</span><span class='line'><span class="n">wvuU</span><span class="o">+</span><span class="n">Wb6bS1aRDc9YV3IMPjQW47MOROUldjMEdJJhfxko5YZuaghhpd56wIDAQAB</span>
-</span><span class='line'><span class="n">AoGAaRznellnT2iLHX00U1IwruXXOwzEUmdN5G4mcathRhLCcueXW095VqhBR5Ez</span>
-</span><span class='line'><span class="n">Vf8XU4EFU1MFKei0mLys3ehFV4aoTfU1xm91jXNZrM</span><span class="o">/</span><span class="n">rIjHQQObx2fcDSgrM9iyd</span>
-</span><span class='line'><span class="n">kcgGrz5nDvsyxAxOwxCh96vNxZZYTWa8Zcqng1XYeW93nFkCQQC8Rqwn9Sa1UjBB</span>
-</span><span class='line'><span class="n">mIepkcdYfflkzmD7IBcgiTmGFQ9NXiehY6MQd0UJoFYGBEknPazzWQbNVpkZO4TR</span>
-</span><span class='line'><span class="n">oPuKNjSNAkEA5jyWJhKyq2BVD6UP77vYTJu48OhLx4J7qb3DKHnk5syOBnbke2Df</span>
-</span><span class='line'><span class="n">KV1VjRsipSjb4EXAWhWaqnTfPPDbvyWWVwJAWUgSP2iLkJSG</span><span class="o">+</span><span class="n">bRBMPJGW</span><span class="o">/</span><span class="n">pxF5Ke</span>
-</span><span class='line'><span class="n">fre6</span><span class="o">/</span><span class="mi">9</span><span class="n">zTAHhgJ0os9OVw4FAO1v</span><span class="o">/</span><span class="n">Hi1bg8dDXgRaImTsloseMtnPmlKYbyQJAbmbr</span>
-</span><span class='line'><span class="n">EQKyTl95KnFaPPj0dXfOrSaW</span><span class="o">/+</span><span class="n">pf5jsqlAQvcUTxbcQhN9Bx8mHhHjK</span><span class="o">+</span><span class="mi">4</span><span class="n">DfBh7</span><span class="o">+</span><span class="n">q</span>
-</span><span class='line'><span class="n">xwfJDKfSTGSq2vPpLQJBAL5irIeHoFESPZZI1NW7OkpKPcO</span><span class="o">/</span><span class="mi">2</span><span class="n">ps9NkhgZJQ7Pc11</span>
-</span><span class='line'><span class="n">lWh6Ch2cnBzZmeh6lN</span><span class="o">/</span><span class="n">zC4l3mLVhdZSXkEKOzeuFpBs</span><span class="o">=</span>
-</span><span class='line'><span class="o">-----</span><span class="n">END</span> <span class="n">RSA</span> <span class="n">PRIVATE</span> <span class="n">KEY</span><span class="o">-----</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">publickey</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">pk</span><span class="o">.</span><span class="n">exportKey</span><span class="p">()</span>
-</span><span class='line'><span class="o">-----</span><span class="n">BEGIN</span> <span class="n">PUBLIC</span> <span class="n">KEY</span><span class="o">-----</span>
-</span><span class='line'><span class="n">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCpVA2pqLuS1fmutvx</span><span class="o">/</span><span class="n">lBhlk</span><span class="o">+</span><span class="n">UM</span>
-</span><span class='line'><span class="n">XWcZKVzh</span><span class="o">+</span><span class="n">n5D6Hv</span><span class="o">/</span><span class="n">ZWhlzRuCq408uhVBUD32ylbQ2iFdhA1leq0xWRGQ8Y3LlO6t</span>
-</span><span class='line'><span class="n">QZ0gC2oOHetX3YOghO3q4yMewvuU</span><span class="o">+</span><span class="n">Wb6bS1aRDc9YV3IMPjQW47MOROUldjMEdJJ</span>
-</span><span class='line'><span class="n">hfxko5YZuaghhpd56wIDAQAB</span>
-</span><span class='line'><span class="o">-----</span><span class="n">END</span> <span class="n">PUBLIC</span> <span class="n">KEY</span><span class="o">-----</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Using the <code>export_pubkey()</code> function, you can pass that file
-around to people to encrypt messages to you. Often, you wil want to generate a
-keypair to give to people. One convention is to name the secret key
-<code>keyname.prv</code> (prv for private, and sometimes <code>keyname.key</code>) and the
-public key <code>keyname.pub</code>. We will
-follow that convention in an <code>export_keypair()</code> function:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">export_keypair</span><span class="p">(</span><span class="n">basename</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">pubkeyfile</span>   <span class="o">=</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;.pub&#39;</span>
-</span><span class='line'>  <span class="n">prvkeyfile</span>   <span class="o">=</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;.prv&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">export_key</span><span class="p">(</span><span class="n">prvkeyfile</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">export_pubkey</span><span class="p">(</span><span class="n">pubkeyfile</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>For example, Bob generates a keypair and emails the public key to Alice:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">key</span> <span class="o">=</span> <span class="n">publickey</span><span class="o">.</span><span class="n">generate_key</span><span class="p">(</span> <span class="mi">1024</span> <span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">key</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-</span><span class='line'><span class="mi">1023</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">key</span><span class="o">.</span><span class="n">has_private</span><span class="p">()</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">publickey</span><span class="o">.</span><span class="n">export_keypair</span><span class="p">(</span><span class="s">&#39;bob.prv&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, Assuming Bob gave Alice <code>bob.pub</code>:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>>>> bob = publickey.load_key('./bob.pub')
-</span><span class='line'>>>> message = 'secret message from Alice to Bob'
-</span><span class='line'>>>> print publickey.encrypt(bob, message)
-</span><span class='line'>AN6RsuXEeKicUZKtZCsDeqGKeB5em+NG/bgoqr9l8ij2o1Gr9sT69tv0zxgmigK/Jt+gPxg/EDu61
-</span><span class='line'>nHmAK0XQV7BvJS5jLuBxdJ0mEpysVClu46XN1KHU2l2DsGht9e8OFvhEfDkI5t/cy/gXr0xz/EUi
-</span><span class='line'>rqo8qLd9Mw6TerM8gs8=</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The ASCII-armoured format makes it convenient for Alice to paste the encrypted
-message to Bob, so she does, and now Bob has it on his computer. To read it, he
-does something similar:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">bob</span> <span class="o">=</span> <span class="n">publickey</span><span class="o">.</span><span class="n">load_key</span><span class="p">(</span><span class="s">&#39;tests/bob.prv&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">publickey</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">bob</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-</span><span class='line'><span class="n">secret</span> <span class="n">message</span> <span class="kn">from</span> <span class="nn">Alice</span><span class="err"> </span><span class="nn">to</span><span class="err"> </span><span class="nn">Bob</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>At this point, Bob can&#8217;t be sure that the message came from Alice but he can
-read the message. We&#8217;ll cover entity authentication in a later section, but
-first, there&#8217;s something else I&#8217;d to point out:</p>
-
-<p>You might have noticed at this point that public key cryptography appears to
-be a lot simpler than symmetric key cryptography. The key distribution problem
-is certainly easier, especially with a proper PKI. Why would anyone choose to
-use symmetric key cryptography over public key cryptography? The answer is
-performance: if you compare the block cipher test code with the public
-key test code, you will notice that the block cipher code is orders of magnitude
-faster - and it generates far more keys than the public key code. There is a
-solution to this problem: hybrid cryptosystems.</p>
-
-<p>Hybrid cryptosystems use public key cryptography to establish a symmetric
-session key. Both <strong>TLS</strong> (Transport Layer Security), and its predecessor
-<strong>SSL</strong> (Secure Sockets Layer), most often used to secure HTTP transactions,
-use a hybrid cryptosystem to speed up establishing a secure session. PGP
-also uses hybrid crypto.</p>
-
-<p>Let&#8217;s say Alice and Bob wish to use hybrid crypto; if Alice initiates the
-session, she should be the one to generate the session key. For example,</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">block</span><span class="o">,</span> <span class="nn">publickey</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">session_key</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">generate_aes_key</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">alice_key</span>   <span class="o">=</span> <span class="n">publickey</span><span class="o">.</span><span class="n">load_key</span><span class="p">(</span><span class="s">&#39;keys/alice.prv&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">bob_key</span>     <span class="o">=</span> <span class="n">publickey</span><span class="o">.</span><span class="n">load_key</span><span class="p">(</span><span class="s">&#39;keys/bob.pub&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">encrypted_session_key</span> <span class="o">=</span> <span class="n">encrypt</span><span class="p">(</span> <span class="n">bob_key</span><span class="p">,</span> <span class="n">session_key</span> <span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>At this point, Alice should send Bob the <code>encrypted_session_key</code>; she
-should retain a copy as well. They can then use this key to communicate using
-the much-faster AES256.</p>
-
-<p>In communicating, it might be wise to create a message format that packs in
-the session key into a header, and encrypts the rest of the body with the
-session key. This is a subject beyond the realm of a quick tutorial - again,
-consult with the people who do this on a regular basis.</p>
-
-<h2>Digital Signatures</h2>
-
-<p>In all of the previous examples, we assumed that the identity of the sender
-wasn&#8217;t a question. For a symmetric key, that&#8217;s less of a stretch - there&#8217;s no
-differentiation between owners. Public keys, however, are supposed to be
-associated with an entity. How can we prove the identity of the user? Without
-delving into too much into social sciences and trust metrics and a huge
-philosophical argument, let&#8217;s look at the basics of signatures.</p>
-
-<p>A signature works similarly to encryption, but it in reverse, and it is slightly
-different: a hash of the message is &#8216;encrypted&#8217; by the private key to the
-public key. The public key is used to &#8216;decrypt&#8217; this ciphertext. Contrast this
-to actual public key encryption: the entire message is encrypted to the private
-key by the public key, and the private key is used to decrypt the ciphertext.
-With signatures, the &#8216;encrypted&#8217; hash of the message is called the signature,
-and the act of &#8216;encryption&#8217; is termed &#8216;signing&#8217;. Similarly, the &#8216;decryption&#8217;
-is known as verification or verifying the signature.</p>
-
-<p>PyCrypto&#8217;s PublicKey implementations already come with signatures and
-verification methods for keys using <code>sign()</code> and <code>verify()</code>. The signature
-is a long in a tuple:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">key</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span> <span class="n">d</span><span class="p">,</span> <span class="bp">None</span> <span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="mi">1738423518152671545669571445860037944518162197656333123466248015147955424248</span>
-</span><span class='line'><span class="mi">876723731383711018550231967374810686606623315483033485630977014574359346192927942</span>
-</span><span class='line'><span class="mi">623807461783144628656796225504478196458051789241311033020911767301220653148276004</span>
-</span><span class='line'><span class="mo">05513575263</span><span class="il">83627059382081878791040169815009051016949220178044764130908L</span><span class="p">,)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can write our own functions to wrap around these two functions and perform
-ASCII-armouring if desired. Our signature function should take a key and a
-message (and optionally a flag to ASCII armour the signature), and sign a
-digest of the message:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">armour</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="o">.</span><span class="n">can_sign</span><span class="p">():</span>
-</span><span class='line'>      <span class="k">return</span> <span class="bp">None</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">digest</span>      <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Hash</span><span class="o">.</span><span class="n">SHA256</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">signature</span>   <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span> <span class="n">digest</span><span class="p">,</span> <span class="bp">None</span> <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="n">armour</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">sig</span>     <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodestring</span><span class="p">(</span> <span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span> <span class="p">)</span>
-</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">sig</span>     <span class="o">=</span> <span class="nb">str</span><span class="p">(</span> <span class="n">signature</span> <span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">sig</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The signature is converted to a string to make it easier to pack it into
-structures and also to give us consistent input to the verify() function.</p>
-
-<p>Verifying the signature requires that we determine if the signature is ASCII-
-armoured or not, then comparing a digest of the message to the signature:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">signature</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">sig</span>     <span class="o">=</span> <span class="nb">long</span><span class="p">(</span> <span class="n">signature</span> <span class="p">)</span>
-</span><span class='line'>  <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span class='line'>      <span class="n">sig</span>     <span class="o">=</span> <span class="nb">long</span><span class="p">(</span> <span class="n">base64</span><span class="o">.</span><span class="n">decodestring</span><span class="p">(</span> <span class="n">signature</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span> <span class="p">),</span> <span class="p">)</span>
-</span><span class='line'>  
-</span><span class='line'>  <span class="n">digest</span>      <span class="o">=</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Hash</span><span class="o">.</span><span class="n">SHA256</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span> <span class="n">digest</span><span class="p">,</span> <span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="p">)</span> <span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>sign()</code> function returns a signature and the <code>verify()</code> function returns a
-boolean. Now, Alice can sign her message to Bob, and Bob knows the key belongs
-to Alice. She sends Bob the signature and the encrypted message. Bob then makes
-sure Alice&#8217;s key properly verifies the signature to the encrypted message.</p>
-
-<h2>Key Exchange</h2>
-
-<p>So how does Bob know the key actually belongs to Alice? There are two main
-schools of thought regarding the authentication of key ownership: centralised
-and decentralised. TLS/SSL follow the centralised school: a root
-certificate (a certificate is a public key encoded with X.509 and which
-can have additional informational attributes attached, such as organisation
-name and country) authority (CA) signs intermediary CA keys, which then sign
-user keys. For example, if Bob runs Foo Widgets, LLC, he can generate an SSL
-keypair. From this, he generates a certificate signing request, and sends this
-to the CA. The CA, usually after taking some money and ostensibly actually
-verifying Bob&#8217;s identity (the extent to which this actually happens
-varies widely based on the different CAs), then signs Bob&#8217;s certificate. Bob
-sets up his webserver to use his SSL certificate for all secure traffic, and
-Alice sees that the CA did in fact sign his certificate. This relies on trusted
-central authorities, like VeriSign (there is some question as to whether
-VeriSign can actually be trusted, but that is another discussion for another
-day&#8230;) Alice&#8217;s web browser would ship with a keystore of select trusted CA
-public keys (like VeriSign&#8217;s) that she could use to verify signatures on the
-certificates from various sites. This system is called a public key
-infrastructure.</p>
-
-<p>The other school of thought is followed by PGP (and GnuPG) - the
-decentralised model. In PGP, this is manifested as the
-<a href="http://www.rubin.ch/pgp/weboftrust.en.html">Web of Trust</a>.
-For example, if Carol now wants to talk to Bob and gives Bob her public key,
-Bob can check to see if Carol&#8217;s key has been signed by anyone else. We&#8217;ll also
-say that Bob knows for a fact that Alice&#8217;s key belongs to Alice, and he trusts
-her&mdash;it is quite often important to distinguish between
-<em>I know this key belongs to that user</em> and <em>I trust that user</em>, which
-is especially important with key signatures - if Bob cannot trust
-Alice to properly check identities, she might sign a key for an identity she hasn&#8217;t
-checked&mdash;and that Alice has signed Carol&#8217;s key. Bob sees Alice&#8217;s signature on
-Carol&#8217;s key and then can be reasonably sure that Carol is who she says it was.
-If we repeat the process with Dave, whose key was signed by Carol (whose key
-was signed by Alice), Bob might be able to be more certain that the key belongs
-to Dave, but maybe he doesn&#8217;t really trust Carol to properly verify identities.
-In PGP, Bob can mark keys as having various trust levels, and from this a web
-of trust emerges: a picture of how well you can trust that a given key belongs
-to a given user.</p>
-
-<p>The key distribution problem is not a quick and easy problem to solve; a lot of
-very smart people have spent a lot of time coming up with solutions to the
-problem. There are key exchange protocols (such as the
-<a href="http://is.gd/Tr0zLP">Diffie-Hellman key exchange</a>
-and IKE (Internet Key Exchange, defined in <a href="http://www.ietf.org/rfc/rfc2409.txt">RFC 2409</a>
-(which uses Diffie-Hellman) that provide alternatives to the web of trust and
-public key infrastructures.</p>
+  <p>Data security is one of those things you hear a lot about, but most of us
+are busy getting things done; unfortunately for our users, data security
+tends to be put on the back-burner, if we remember it at all. Data security
+doesn&#8217;t have to be a burden on the developer, and most importantly, it&#8217;s in
+the best interest of users. One principle I particularly like for software
+engineering is the Principle of Least Astonishment.</p>
+
+<p><strong><em>THE PRINCIPLE OF LEAST ASTONISHMENT:</em></strong><br>
+<em>A program&#8217;s behaviour should not surprise the end user.</em></p>
+
+<p>How does this relate to data security? A user never expects their data to be
+leaked out of the application or their information to be shared with people
+they dont intend for it to. This might be an explicit understanding or an
+implicit one, especially when users don&#8217;t really understand the problem
+domain. If your users are from a wide range of backgrounds, they may not
+have a solid understanding of the basics of how to keep their information
+safe. In fact, they may not even realise what they don&#8217;t know. So, it
+becomes even more important for developers to ensure that, as much as
+possible, their data is safe. What I will discuss in this book are ways to
+do that, while keeping in mind the misconception (not always true) that the
+more secure a system is, the less accessible it is. I&#8217;d like to address that
+misconception, and help you to make your applications as transparently
+secure as possible.</p>
+
+<p>The first thing we&#8217;ll take a look at are some of the objectives of
+information security that are most generally applicable to software,
+i.e. those that we can address. Then we&#8217;ll take a high-level walk through
+some basic UNIX security that&#8217;s applicable (and perhaps on the Windows
+platform as well). Even if your application is a web application, it&#8217;s
+probably running on a UNIX machine of some sort, and that represents an area
+that you should pay attention to as well. If you&#8217;re a Windows developer,
+there will still be some information applicable, but you can probably skim
+through this part. Then we&#8217;ll take a high level look at cryptography; I&#8217;ve
+chosen to stay away from deep mathematical discussions and only discuss
+those aspects you need to understand as a coder to effectively make use of
+it. Following that, we&#8217;ll see a few scenarios where your code is
+vulnerable. The rest of this chapter will be a gentle introduction to each
+of those areas, and the rest of the book will flesh it out with code
+examples.</p>
+
+<p>There are four information security principles you should keep in mind when
+writing software:</p>
+
+<ol>
+<li>Privacy</li>
+<li>Anonymity</li>
+<li>Repudiation</li>
+<li>Integrity</li>
+</ol>
+
+
+<p>Let&#8217;s take a look at these in a little more depth, and see how they apply to the software we&#8217;re writing.</p>
+
+<p>First, we visit the concepts of <strong>authentication</strong> and <strong>authorisation</strong>.
+Authentication is confirming the identity of a user&#8211;most often by way of a
+username (the user&#8217;s identity) and password (the secret used to
+authenticate). Other ways of authentication include using smart cards, where
+the identity is given by the cryptographic key on the card and the
+authentication is done by entering a PIN to unlock the key, or perhaps using
+something like a one-time password token tied to an OpenID. Once the user&#8217;s
+identity has been confirmed (the user is now <strong>authenticated</strong>), their
+access to resources is controlled by <strong>authorisation</strong>. Authorisation is the
+check to see &#8220;is this user allowed to do this?&#8221; If we look at this from the
+perspective of a user&#8217;s ability to access files on a computer, they are
+typically authenticated by their login and password (or, on some laptops,
+via a login and fingerprint). When a user tries to read or write to a file,
+the system checks the access control list (an authorisation scheme) to see
+if the user is authorised to do this. Let&#8217;s look at the Twitter application
+on a mobile as another example: when you try to use the app, you have to
+sign into twitter and authorise access on Twitter&#8217;s website for the
+application. Your username and password authenticate you to Twitter, and
+then you choose to authorise the application&#8217;s access to the site.
+Authentication and authorisation may be done by other means as well for
+entities other than users. We&#8217;ll call any entity a user in this book, but
+that user might be a person, a computer, or something else entirely. With
+that dead horse beaten, we can move on.</p>
+
+<p>The principle of <strong>privacy</strong> states that information may only be viewed by
+those authorised to view it. In terms of UNIX files, a user might be able to
+log into a computer, but does not have access to read another user&#8217;s files.
+On twitter, you can protect your timeline, so that only your friends can
+read your tweet. It&#8217;s not unreasonable for a user to expect they can control
+who else has access to their resources; obviously a user with a public blog
+expects anyone to be able to read their posts, but they may not expect just
+anyone to see other details about that user. When you&#8217;re designing an
+application, it helps to think about which pieces of information a user
+should have control over. Some applications will require fine-grained
+control&#8211;say it&#8217;s designed so user A can choose to share one post only with
+group B and another post only with group C. Others will be
+course-grained&#8211;users in group B will always have access to posts by user A.</p>
+
+<p><strong>Anonymity</strong> is a hot topic these days with the so-called &#8220;nym wars&#8221; on
+Google+ as but one example. This boils down to the idea that, depending on
+your stance, a user should be able to separate their different identities
+from each other. In the Google+ debate, it&#8217;s the idea that users want to be
+able to separate their real-world identity from their electronic identity.
+That is, my identity on Google+ may not be the same identity I want to use
+on my blog. This brings out another point about security: most security
+engineering isn&#8217;t just a technical question; it&#8217;s a social question. Many of
+our applications aren&#8217;t just technical applications, but have social value
+as well; many security decisions are made by weighing social considerations.
+Your decision in regards to anonymity is going to be a social decision, but
+it should be decided while designing the application. Bolt-on security
+(added after the design phase) may be somewhat effective, but it tends to
+cause a lot of problems.</p>
+
+<p><strong>Repudiation</strong> is a fancy word that means the ability to deny ownership of
+information. You&#8217;ll hear this term a lot in discussions about cryptography,
+particularly with digital signatures. If a user&#8217;s data is <strong>repudiable</strong>,
+the user can plausibly deny owning that data (for example, user A might want
+to be able to deny having posted something unpopular about a sensitive
+topic). Conversely, if a user&#8217;s information is <strong>non-repudiable</strong>, she
+cannot plausibly deny owning that information. I&#8217;ll have more to say on this
+in a bit, but for now you know what I&#8217;m talking about when I bandy about the
+term like &#8220;non-repudiable.&#8221;</p>
+
+<p>Users also want some degree of assurance that their data won&#8217;t be changed or
+tampered with. This is the principle of <strong>data integrity</strong>&#8211;information may
+only be changed by people authorised to do so. This isn&#8217;t just a security
+issue; natural disasters and junior sysadmins (some would say naming both is
+a redundancy) have a clever way of accidentally modifying your data without
+the user&#8217;s authorisation. Of course, we expect (and probably constantly
+tell) users to backup their data, but your application may not be easily
+backed up by the user. There&#8217;s also a case to be made for <strong>transparency</strong>
+in both showing users what data you have of theirs on your systems or in
+your application and allowing them to download or backup that information
+easily. Even data like photos, which are easy to back up, may come from a
+disparate number of sources, should be considered. For example, a user might
+upload photos from his phone, his laptop, and his tablet. All these
+different sources may make backing up more difficult, although far from
+impossible, and having one place to back them all up from may be useful.</p>
+
+<p>These basic principles are all properties to consider when designing your
+system; they fit alongside all the other software engineering principles
+like modularity that should be considered. It is far easier to design these
+in at the start than to try to bolt them on later.</p>
+
+<p>Another thing to think about is the use case for your software; namely, you
+might not be able to think of all the ways users will use the system. Of
+course, we&#8217;d like to think of our users as living in an ideal world where
+using real names isn&#8217;t an issue and no one has anything to hide, but this is
+not the world we live in. You should also consider some of the challenges
+faced by users living in non-ideal places. If you&#8217;re allowing people to
+upload data or users must download information to synchronise, consider that
+many users don&#8217;t have high-speed internet or a large bandwidth cap. In many
+countries, power is at a premium, and users shut down their computers when
+they aren&#8217;t using them out of economic necessity, instead of being able to
+leave them on. Users might also be living in restrictive regions where
+posting information critical of other people might be dangerous for them. If
+you have any desire for your software to have a global impact, you should
+consider them. If your application isn&#8217;t region-specific, you should most
+certainly keep this in mind when designing your software.</p>
+
+<p>There are a couple areas you can start to actually design security into your
+code. First, there are the fundamental security mechanisms available on the
+platform you are coding on. There are coding errors that can lead to flaws,
+such as the well-known SQL injections and buffer overflows that are some of
+the mainstays of many successful attacks. There are mechanisms to secure
+data in transit (when the data is being accessed and used) and at rest (when
+the data is not being used). As coding errors have been dealt with quite
+effectively in many other books (see the bibliography for more), we&#8217;ll focus
+on the fundamental security mechanisms and other data security mechanisms,
+and in particular, how we can use basic UNIX security mechanisms and
+cryptography effectively. We&#8217;ll also consider some real world ways in which
+failing to secure your code can lead to an exploit.</p>
 
   
     <footer>
@@ -1067,7 +272,7 @@ public key infrastructures.</p>
   
 
 
-<time datetime="2012-02-11T23:07:00+03:00" pubdate data-updated="true">Feb 11<span>th</span>, 2012</time>
+<time datetime="2012-01-25T07:11:00+03:00" pubdate data-updated="true">Jan 25<span>th</span>, 2012</time>
         
       </p>
       

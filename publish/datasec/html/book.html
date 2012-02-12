@@ -384,18 +384,18 @@ is to use <code>0x80</code> as the first byte of padding, with <code>{0x00</code
 filling out the rest of the padding. With padding, the previous example would 
 look like: <code>ABCDABCDABCDABCD ABCDABCDABCD\x80\x00\x00\x00</code>.</p>
 
-<p>Writing a padding function is pretty easy:<br />
-```
-def pad_data(data):
+<p>Writing a padding function is pretty easy:</p>
+
+<pre><code>def pad_data(data):
     # return data if no padding is required
-    if len(data) % 16 == 0: 
-        return data</p>
+if len(data) % 16 == 0: 
+    return data
 
-<pre><code># subtract one byte that should be the 0x80
-# if 0 bytes of padding are required, it means only
-# a single \x80 is required.
+    # subtract one byte that should be the 0x80
+    # if 0 bytes of padding are required, it means only
+    # a single \x80 is required.
 
-padding_required     = 15 - (len(data) % 16)
+padding_required = 15 - (len(data) % 16)
 
 data = '%s\x80' % data
 data = '%s%s' % (data, '\x00' * padding_required)
@@ -403,22 +403,18 @@ data = '%s%s' % (data, '\x00' * padding_required)
 return data
 </code></pre>
 
-<p>```</p>
+<p>Similarly, removing padding is also easy:</p>
 
-<p>Similarly, removing padding is also easy:
-```
-def unpad_data(data):
-    if not data: 
-        return data</p>
+<pre><code>def unpad_data(data):
+if not data: 
+    return data
 
-<pre><code>data = data.rstrip('\x00')
-    if data[-1] == '\x80':
+data = data.rstrip('\x00')
+if data[-1] == '\x80':
         return data[:-1]
     else:
         return data
 </code></pre>
-
-<p>```</p>
 
 <p>I've included these functions in the 
 <a href="http://www.kyleisom.net/publish/datasec/code/chapter1.tar.gz">example code</a>
@@ -448,20 +444,18 @@ can generate cryptographically-secure random data. I've written a function that
 can generate a <em>cryptographic nonce</em> (an number used only once)
 suitable for use as an initialisation vector. This will work on a UNIX machine; 
 the comments note how easy it is to adapt it to a Windows machine. This 
-function requires a version of PyCrypto at least 2.1.0 or higher.
-```
-import time
-import Crypto.Random.OSRNG.posix</p>
+function requires a version of PyCrypto at least 2.1.0 or higher.</p>
 
-<p>def generate_nonce():
-    rnd = Crypto.Random.OSRNG.posix.new().read(BLOCK_SIZE)
-    rnd = '%s%s' % (rnd, str(time.time()))
-    nonce = Crypto.Hash.MD5.new(data = rnd)</p>
+<pre><code>import time
+import Crypto.Random.OSRNG.posix
 
-<pre><code>return nonce.digest()
+def generate_nonce():
+rnd = Crypto.Random.OSRNG.posix.new().read(BLOCK_SIZE)
+rnd = '%s%s' % (rnd, str(time.time()))
+nonce = Crypto.Hash.MD5.new(data = rnd)
+
+return nonce.digest()
 </code></pre>
-
-<p>```</p>
 
 <p>I will note here that the python <code>random</code> module is completely unsuitable for
 cryptography (as it is completely deterministic). You shouldn't use it for
@@ -473,14 +467,14 @@ There are three key sizes for AES: 128-bit, 192-bit, and 256-bit, aka 16-byte,
 24-byte, and 32-byte key sizes. If you want to use a passphrase, you 
 should use a digest algorithm that produces an appropriately sized digest, and
 hash that passphrase. For example, for AES-256, you would want to use SHA-256.
-Here is a sample function to generate an AES-256 key from a passphrase:
-```
-# generate an AES-256 key from a passphrase
-def passphrase(password, readable = False):
-    """
-    Converts a passphrase to a format suitable for use as an AES key.</p>
+Here is a sample function to generate an AES-256 key from a passphrase:</p>
 
-<pre><code>If readable is set to True, the key is output as a hex digest. This is
+<pre><code># generate an AES-256 key from a passphrase
+def passphrase(password, readable = False):
+"""
+Converts a passphrase to a format suitable for use as an AES key.
+
+If readable is set to True, the key is output as a hex digest. This is
 suitable for sharing with users or printing to screen when debugging
 code.
 
@@ -495,60 +489,53 @@ else:
     return key.digest()
 </code></pre>
 
-<p>```</p>
+<p>We could include this a set of AES encryption and decryption functions:</p>
 
-<p>We could include this a set of AES encryption and decryption functions:
-```
-mode = Crypto.Cipher.AES.MODE_CBC       # shortcut to clean up code</p>
+<pre><code>mode = Crypto.Cipher.AES.MODE_CBC       # shortcut to clean up code
 
-<p># AES-256 encryption using a passphrase
+# AES-256 encryption using a passphrase
 def passphrase_encrypt(password, iv, data):
     key     = passphrase(password)
-    data    = pad_data(data)
-    aes     = Crypto.Cipher.AES.new(key, mode, iv)</p>
+data    = pad_data(data)
+aes     = Crypto.Cipher.AES.new(key, mode, iv)
 
-<pre><code>return aes.encrypt(data)
-</code></pre>
+return aes.encrypt(data)
 
-<p># AES-256 decryption using a passphrase
+# AES-256 decryption using a passphrase
 def passphrase_decrypt(password, iv, data):
     key     = passphrase(password)
-    aes     = Crypto.Cipher.AES.new(key, mode, iv)
-    data    = aes.decrypt(data)</p>
+aes     = Crypto.Cipher.AES.new(key, mode, iv)
+data    = aes.decrypt(data)
 
-<pre><code>return unpad_data(data)
+return unpad_data(data)
 </code></pre>
-
-<p>```</p>
 
 <p>Notice how the data is padded before being encrypted and unpadded after 
 decryption - the decryption process will not remove the padding on its own.</p>
 
 <p>Unless you are you doing interactive encryption passphrase encryption won't be
 terribly useful. Instead, we just need to generate 32 random bytes (and make
-sure we keep track of it) and use that as the key:
-<code># generate a random AES-256 key
+sure we keep track of it) and use that as the key:</p>
+
+<p># generate a random AES-256 key
 def generate_aes_key():
     rnd     = Crypto.Random.OSRNG.posix.new().read(KEY_SIZE)
-    return rnd</code></p>
+    return rnd</p>
 
-<p>We can use this key directly in the AES transformations:
-```
-def encrypt(key, iv, data):
+<p>We can use this key directly in the AES transformations:</p>
+
+<pre><code>def encrypt(key, iv, data):
     aes     = Crypto.Cipher.AES.new(key, mode, iv)
-    data    = pad_data(data)</p>
+data    = pad_data(data)
 
-<pre><code>return aes.encrypt(data)
-</code></pre>
+return aes.encrypt(data)
 
-<p>def decrypt(key, iv, data):
+def decrypt(key, iv, data):
     aes     = Crypto.Cipher.AES.new(key, mode, iv)
-    data    = aes.decrypt(data)</p>
+data    = aes.decrypt(data)
 
-<pre><code>return unpad_data(data)
+return unpad_data(data)
 </code></pre>
-
-<p>```</p>
 
 <p>That should cover the basics of block cipher encryption. We've gone over key
 generation, padding, and encryption / decryption. AES-256 isn't the only 
@@ -582,38 +569,35 @@ that the <code>iv</code> argument might be <code>None</code> in the decrypt func
 will have to rearrange the arguments a bit; for consistency, I will move it in 
 both functions. I leave adding it into the <code>passphrase_encrypt</code> and 
 <code>passphrase_decrypt</code> functions as an exercise for the reader. My modified 
-functions look like this now:
-```
-def encrypt(key, data, iv, armour = False):
-    aes     = Crypto.Cipher.AES.new(key, mode, iv)
-    data    = pad_data(data)
-    ct      = aes.encrypt(data)         # ciphertext
-    ct      = iv + ct                   # pack the initialisation vector in</p>
+functions look like this now:</p>
 
-<pre><code># ascii-armouring
+<pre><code>def encrypt(key, data, iv, armour = False):
+aes     = Crypto.Cipher.AES.new(key, mode, iv)
+data    = pad_data(data)
+ct      = aes.encrypt(data)         # ciphertext
+ct      = iv + ct                   # pack the initialisation vector in
+
+# ascii-armouring
 if armour:
-    ct = '\x41' + base64.encodestring(ct)
+        ct = '\x41' + base64.encodestring(ct)
 else:
-    ct = '\x00' + ct
+        ct = '\x00' + ct
 
 return ct
-</code></pre>
 
-<p>def decrypt(key, data, iv = None):
-    # remove ascii-armouring if present
-    if data[0] == '\x00':
+def decrypt(key, data, iv = None):
+# remove ascii-armouring if present
+if data[0] == '\x00':
         data = data[1:]
-    elif data[0] == '\x41':
-        data = base64.decodestring(data[1:])</p>
+elif data[0] == '\x41':
+    data = base64.decodestring(data[1:])
 
-<pre><code>iv      = data[:16]
+iv      = data[:16]
 data    = data[16:]
 aes     = Crypto.Cipher.AES.new(key, mode, iv)
 data    = aes.decrypt(data)
 return unpad_data(data)
 </code></pre>
-
-<p>```</p>
 
 <h3 id="a-more-complex-container">1.3.3 A More Complex Container</h3>
 
@@ -648,56 +632,40 @@ names of the designers of the algorithm). Generally, RSA keys are 1024-bit,
 PEM (defined in <a href="https://tools.ietf.org/html/rfc1421">RFCs 1421-1424</a>)
 or 
 <a href="http://www.itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf">DER</a>
-format. Generating RSA keys with PyCrypto is extremely easy:
-```
-def generate_key(size):
-    PRNG    = Crypto.Random.OSRNG.posix.new().read
-    key     = Crypto.PublicKey.RSA.generate(size, PRNG)</p>
+format. Generating RSA keys with PyCrypto is extremely easy:</p>
 
-<pre><code>return key
+<pre><code>def generate_key(size):
+PRNG    = Crypto.Random.OSRNG.posix.new().read
+key     = Crypto.PublicKey.RSA.generate(size, PRNG)
+
+return key
 </code></pre>
-
-<p>```</p>
 
 <p>The <code>key</code> that is returned isn't like the keys we used with the block ciphers:
 it is an RSA object and comes with several useful built-in methods. One of 
 these is the <code>size()</code> method, which returns the size of the key in bits minus
-one. For example:
-```</p>
+one. For example:</p>
 
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>import publickey
-      key = publickey.generate_key( 1024 )
-      key.size()
-      1023</p>
-      
-      <p>```</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; import publickey
+&gt;&gt;&gt; key = publickey.generate_key( 1024 )
+&gt;&gt;&gt; key.size()
+1023
+&gt;&gt;&gt;
+</code></pre>
 
 <p>A quick note: I will use 1024-bit keys in this tutorial because they are 
 faster to generate, but in practice you should be using at least 2048-bit 
-keys. The key also includes encryption and decryption methods in the class:
-```</p>
+keys. The key also includes encryption and decryption methods in the class:</p>
 
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>import publickey
-      import base64
-      message = 'Test message...'
-      ciphertext = key.encrypt(message, None)
-      print base64.encodestring(ciphertext[0])
-      gzA9gXfHqnkValdhhYjRVVSxuygx48i66h0vFUnmVu8FZXJtmaACvNDo43D0vjjHzFiblE1eCFiI
-      xlhVuHxldWXJSnARgWX1bTY7imR9Hve+WQC8rl+qB5xpq3xnKH7/z8/5YdLvCo/knXYE1cI/XYJP
-      EP1nA6bUZNj6bD1Zx4w=
-      ```</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; import publickey
+&gt;&gt;&gt; import base64
+&gt;&gt;&gt; message = 'Test message...'
+&gt;&gt;&gt; ciphertext = key.encrypt(message, None)
+&gt;&gt;&gt; print base64.encodestring(ciphertext[0])
+gzA9gXfHqnkValdhhYjRVVSxuygx48i66h0vFUnmVu8FZXJtmaACvNDo43D0vjjHzFiblE1eCFiI
+xlhVuHxldWXJSnARgWX1bTY7imR9Hve+WQC8rl+qB5xpq3xnKH7/z8/5YdLvCo/knXYE1cI/XYJP
+EP1nA6bUZNj6bD1Zx4w=
+</code></pre>
 
 <p>The <code>None</code> that is passed into the encryption function is part of the 
 PyCrypto API for those publickey ciphers requiring an additional random number 
@@ -711,149 +679,131 @@ the encrypted message as a string:
     <blockquote>
       <p>ciphertext = key.encrypt(message, None)[0]
       key.decrypt(ciphertext)
-      'Test message...'
-      ```</p>
+          'Test message...'</p>
     </blockquote>
   </blockquote>
 </blockquote>
 
 <p>While these are simple enough, we could put them into a pair of functions that
-also include ASCII-armouring:
-```
-def encrypt(key, message, armour = True):
-    ciphertext  = key.encrypt( message, None )
-    ciphertext  = ciphertext[0]</p>
+also include ASCII-armouring:</p>
 
-<pre><code>if armour:
-    ciphertext = '\x41' + base64.encodestring( ciphertext )
+<pre><code>def encrypt(key, message, armour = True):
+ciphertext  = key.encrypt( message, None )
+ciphertext  = ciphertext[0]
+
+if armour:
+        ciphertext = '\x41' + base64.encodestring( ciphertext )
 else:
     ciphertext = '\x00' + base64.encodestring( ciphertext )
 
 return ciphertext
-</code></pre>
 
-<p>def decrypt(key, message):
-    if   '\x00' == message[0]:
-        message = message[1:]
-    elif '\x41' == message[0]:
-        message == base64.decodestring( message[1:] )</p>
+def decrypt(key, message):
+if   '\x00' == message[0]:
+    message = message[1:]
+elif '\x41' == message[0]:
+    message == base64.decodestring( message[1:] )
 
-<pre><code>plaintext   = key.decrypt( message )
+plaintext   = key.decrypt( message )
     return plaintext
 </code></pre>
 
-<p>```</p>
-
 <p>These two functions present a common API that will simplify encryption and
 decryption and make it a little easier to read. Assuming we still have the same
-<code>message</code> definition as before:
-```</p>
+<code>message</code> definition as before:</p>
 
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>ciphertext = publickey.encrypt(key, message)
-      publickey.decrypt(key, ciphertext)
-          'Test message...'
-      ```</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; ciphertext = publickey.encrypt(key, message)
+&gt;&gt;&gt; publickey.decrypt(key, ciphertext)
+'Test message...'
+</code></pre>
 
 <p>Now, what if we want to export this generated key and read it in later? The key
 comes with the method <code>exportKey()</code>. If the key is a private key, it will
 export the private key; if it is a public key, it will export the public key.
 We can write functions to backup our private key (which <strong>absolutely</strong>
 needs to be kept secure) and a function to export our public key, suitable for
-uploading to our web page or to a PKI keystore:
-```
-# backup our key, whether public or private
+uploading to our web page or to a PKI keystore:</p>
+
+<pre><code># backup our key, whether public or private
 def export_key(filename, key):
     try:
-        f = open(filename, 'w')
-    except IOError as e:
-        print e
-        raise e
-    else:
-        f.write( key.exportKey() )
-        f.close()</p>
+    f = open(filename, 'w')
+except IOError as e:
+    print e
+    raise e
+else:
+    f.write( key.exportKey() )
+    f.close()
 
-<p># will only export the public key
+# will only export the public key
 def export_pubkey(filename, key):
+try:
+    f = open(filename, 'w')
+except IOError as e:
+    print e
+    raise e
+else:
+    f.write( key.publickey().exportKey() )
+    f.close()
+</code></pre>
+
+<p>Importing a key is done using the <code>RSA.importKey</code> function:</p>
+
+<pre><code>def load_key(filename):
     try:
-        f = open(filename, 'w')
-    except IOError as e:
-        print e
-        raise e
-    else:
-        f.write( key.publickey().exportKey() )
-        f.close()
-```</p>
+    f = open(filename)
+except IOError as e:
+    print e
+    raise
+else:
+    key = Crypto.PublicKey.RSA.importKey(f.read())
+    f.close()
+    return key
+</code></pre>
 
-<p>Importing a key is done using the <code>RSA.importKey</code> function:
-<code>def load_key(filename):
-    try:
-        f = open(filename)
-    except IOError as e:
-        print e
-        raise
-    else:
-        key = Crypto.PublicKey.RSA.importKey(f.read())
-        f.close()
-        return key</code></p>
+<p>We can take a look at the difference between the public and private keys:</p>
 
-<p>We can take a look at the difference between the public and private keys:
-```</p>
-
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>key = publickey.generate_key( 1024 )
-      print key.exportKey()
-      -----BEGIN RSA PRIVATE KEY-----
-      MIICXAIBAAKBgQCpVA2pqLuS1fmutvx/lBhlk+UMXWcZKVzh+n5D6Hv/ZWhlzRuC
-      q408uhVBUD32ylbQ2iFdhA1leq0xWRGQ8Y3LlO6tQZ0gC2oOHetX3YOghO3q4yMe
-      wvuU+Wb6bS1aRDc9YV3IMPjQW47MOROUldjMEdJJhfxko5YZuaghhpd56wIDAQAB
-      AoGAaRznellnT2iLHX00U1IwruXXOwzEUmdN5G4mcathRhLCcueXW095VqhBR5Ez
-      Vf8XU4EFU1MFKei0mLys3ehFV4aoTfU1xm91jXNZrM/rIjHQQObx2fcDSgrM9iyd
-      kcgGrz5nDvsyxAxOwxCh96vNxZZYTWa8Zcqng1XYeW93nFkCQQC8Rqwn9Sa1UjBB
-      mIepkcdYfflkzmD7IBcgiTmGFQ9NXiehY6MQd0UJoFYGBEknPazzWQbNVpkZO4TR
-      oPuKNjSNAkEA5jyWJhKyq2BVD6UP77vYTJu48OhLx4J7qb3DKHnk5syOBnbke2Df
-      KV1VjRsipSjb4EXAWhWaqnTfPPDbvyWWVwJAWUgSP2iLkJSG+bRBMPJGW/pxF5Ke
-      fre6/9zTAHhgJ0os9OVw4FAO1v/Hi1bg8dDXgRaImTsloseMtnPmlKYbyQJAbmbr
-      EQKyTl95KnFaPPj0dXfOrSaW/+pf5jsqlAQvcUTxbcQhN9Bx8mHhHjK+4DfBh7+q
-      xwfJDKfSTGSq2vPpLQJBAL5irIeHoFESPZZI1NW7OkpKPcO/2ps9NkhgZJQ7Pc11
-      lWh6Ch2cnBzZmeh6lN/zC4l3mLVhdZSXkEKOzeuFpBs=
-      -----END RSA PRIVATE KEY-----
-      pk = key.publickey()
-      print pk.exportKey()
-      -----BEGIN PUBLIC KEY-----
-      MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCpVA2pqLuS1fmutvx/lBhlk+UM
-      XWcZKVzh+n5D6Hv/ZWhlzRuCq408uhVBUD32ylbQ2iFdhA1leq0xWRGQ8Y3LlO6t
-      QZ0gC2oOHetX3YOghO3q4yMewvuU+Wb6bS1aRDc9YV3IMPjQW47MOROUldjMEdJJ
-      hfxko5YZuaghhpd56wIDAQAB
-      -----END PUBLIC KEY-----
-      ```</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; key = publickey.generate_key( 1024 )
+&gt;&gt;&gt; print key.exportKey()
+-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQCpVA2pqLuS1fmutvx/lBhlk+UMXWcZKVzh+n5D6Hv/ZWhlzRuC
+q408uhVBUD32ylbQ2iFdhA1leq0xWRGQ8Y3LlO6tQZ0gC2oOHetX3YOghO3q4yMe
+wvuU+Wb6bS1aRDc9YV3IMPjQW47MOROUldjMEdJJhfxko5YZuaghhpd56wIDAQAB
+AoGAaRznellnT2iLHX00U1IwruXXOwzEUmdN5G4mcathRhLCcueXW095VqhBR5Ez
+Vf8XU4EFU1MFKei0mLys3ehFV4aoTfU1xm91jXNZrM/rIjHQQObx2fcDSgrM9iyd
+kcgGrz5nDvsyxAxOwxCh96vNxZZYTWa8Zcqng1XYeW93nFkCQQC8Rqwn9Sa1UjBB
+mIepkcdYfflkzmD7IBcgiTmGFQ9NXiehY6MQd0UJoFYGBEknPazzWQbNVpkZO4TR
+oPuKNjSNAkEA5jyWJhKyq2BVD6UP77vYTJu48OhLx4J7qb3DKHnk5syOBnbke2Df
+KV1VjRsipSjb4EXAWhWaqnTfPPDbvyWWVwJAWUgSP2iLkJSG+bRBMPJGW/pxF5Ke
+fre6/9zTAHhgJ0os9OVw4FAO1v/Hi1bg8dDXgRaImTsloseMtnPmlKYbyQJAbmbr
+EQKyTl95KnFaPPj0dXfOrSaW/+pf5jsqlAQvcUTxbcQhN9Bx8mHhHjK+4DfBh7+q
+xwfJDKfSTGSq2vPpLQJBAL5irIeHoFESPZZI1NW7OkpKPcO/2ps9NkhgZJQ7Pc11
+lWh6Ch2cnBzZmeh6lN/zC4l3mLVhdZSXkEKOzeuFpBs=
+-----END RSA PRIVATE KEY-----
+&gt;&gt;&gt; pk = key.publickey()
+&gt;&gt;&gt; print pk.exportKey()
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCpVA2pqLuS1fmutvx/lBhlk+UM
+XWcZKVzh+n5D6Hv/ZWhlzRuCq408uhVBUD32ylbQ2iFdhA1leq0xWRGQ8Y3LlO6t
+QZ0gC2oOHetX3YOghO3q4yMewvuU+Wb6bS1aRDc9YV3IMPjQW47MOROUldjMEdJJ
+hfxko5YZuaghhpd56wIDAQAB
+-----END PUBLIC KEY-----
+</code></pre>
 
 <p>Using the <code>export_pubkey()</code> function, you can pass that file
 around to people to encrypt messages to you. Often, you wil want to generate a 
 keypair to give to people. One convention is to name the secret key 
 <code>keyname.prv</code> (prv for private, and sometimes <code>keyname.key</code>) and the 
 public key <code>keyname.pub</code>. We will
-follow that convention in an <code>export_keypair()</code> function:
-```
-def export_keypair(basename, key):
-    pubkeyfile   = basename + '.pub'
-    prvkeyfile   = basename + '.prv'</p>
+follow that convention in an <code>export_keypair()</code> function:</p>
 
-<pre><code>export_key(prvkeyfile, key)
+<pre><code>def export_keypair(basename, key):
+    pubkeyfile   = basename + '.pub'
+    prvkeyfile   = basename + '.prv'
+
+    export_key(prvkeyfile, key)
 export_pubkey(pubkeyfile, key)
 </code></pre>
-
-<p>```</p>
 
 <p>For example, Bob generates a keypair and emails the public key to Alice:
 ```</p>
