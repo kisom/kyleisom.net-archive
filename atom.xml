@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-18T23:10:47+01:00</updated>
+  <updated>2012-02-18T23:19:08+01:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -43,11 +43,11 @@ decision also benefits users.</p>
 supreme; while on the desktop, there are more chat protocols than you can
 shake a stick at. Bringing Messages onto the desktop starts to unify the
 two systems. While Jabber and AIM / OSCAR are two very common protocols, it
-would be good to see Twitter, Facebook chat<a href="#footnotes">*</a>, and perhaps even
-IRC. (While I would love to see SILC supported, I don&#8217;t expect to see that
-anytime soon). One other thing missing is OTR support. While the iMessage
-compatibility is interesting, lack of Twitter and OTR support make it not
-compelling enough for me to switch over as my chat client<a href="#footnotes">*</a>.</p>
+would be good to see Twitter and perhaps even IRC. (While I would love to
+see SILC supported, I don&#8217;t expect to see that anytime soon). One other thing
+missing is OTR support. While the iMessage compatibility is interesting, lack
+of Twitter and OTR support make it not compelling enough for me to switch over
+as my chat client<a href="#footnotes">*</a>.</p>
 
 <h3>XCode</h3>
 
@@ -59,18 +59,15 @@ or other package management systems.</p>
 
 <p>We&#8217;re starting to see some of the benefits of tablet revolution folded back
 into the desktop and laptop realm. For normal users, these changes create a
-more streamlined experience. For developers, there are some changes to
-simplify non-iOS / Cocoa developers&#8217; setups. I think this is a step in the
-right direction.</p>
+more streamlined experience and improve the overall security of the system.
+For developers, there are some changes to simplify non-iOS / Cocoa developers&#8217;
+setups. I think this is a step in the right direction.</p>
 
 <p>Except that it&#8217;s called &#8220;Mountain Lion.&#8221;</p>
 
 <h3><a name="footnotes">Footnotes</a></h3>
 
 <ol>
-<li>While I don&#8217;t have a Facebook account, and generally make disparaging comments
-about it, the fact of the matter is that a lot of people use it and find the site
-useful.</li>
 <li>I currently use <a href="http://www.adium.im/">Adium</a> for my chat and twitter client.</li>
 </ol>
 
