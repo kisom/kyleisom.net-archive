@@ -4,7 +4,7 @@
 -->
 {% if site.github_user %}
 <section>
-<h1>Coderwall</h1>
+<h1>Coderwall2</h1>
   <p>
   <script type="text/javascript">
     function display_coderwall(args) {
@@ -19,6 +19,9 @@
   </script>
   <script src="http://coderwall.com/{{ site.github_user}}.json?callback=display_coderwall"></script>
   </p>
+  <p><a href='http://coderwall.com/kisom'> 
+      <img src='http://api.coderwall.com/{{ site.github_user }}/endorsecount.png' /> 
+ </a></p>
   <p style="text-align: right;"><a href="http://coderwall.com/{{site.github_user}}">Powered by coderwall.com</a></p>
 </section>
 {% endif %}

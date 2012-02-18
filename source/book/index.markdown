@@ -22,7 +22,9 @@ I have a [PDF available](/downloads/crypto_intro.pdf).
 0. [Outline](/book/outline/)
 0. [Acknowledgements](/book/acknowledgements/)
 0. [Introduction](/book/introduction/)
-0. [Chapter 0: Introduction to Data Security](/book/chapter0/)
+0. [Chapter 1: Introduction to Data Security](/book/chapter1/)
+0. [Chapter 2: Practical Introduction to Cryptography](/book/chapter2/)
+0. [Chapter 3: Practical Threat Modeling](/book/chapter3/)
 0. [Bibliography](/book/bibliography/)
 
 I've been using [easybook](http://www.easybook-project.org) to build 'publishable'
