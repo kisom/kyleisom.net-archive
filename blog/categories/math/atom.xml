@@ -4,7 +4,7 @@
   <title><![CDATA[Category: math | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/math/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-12T13:26:15+03:00</updated>
+  <updated>2012-02-18T13:22:29+01:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Using Set Theory]]></title>
     <link href="http://kisom.github.com/blog/2012/02/01/using-set-theory/"/>
-    <updated>2012-02-01T20:45:00+03:00</updated>
+    <updated>2012-02-01T20:45:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/02/01/using-set-theory</id>
     <content type="html"><![CDATA[<p>In the <a href="/blog/2012/01/23/basic-set-theory/">last post</a>, we took a look at the
 basics of set theory. Now, I'd like to take a look at how to actually make use
@@ -1237,7 +1237,7 @@ explanation, and until the 1st to polish it up.</p>
   <entry>
     <title type="html"><![CDATA[Basic Set Theory]]></title>
     <link href="http://kisom.github.com/blog/2012/01/23/basic-set-theory/"/>
-    <updated>2012-01-23T17:44:00+03:00</updated>
+    <updated>2012-01-23T17:44:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/01/23/basic-set-theory</id>
     <content type="html"><![CDATA[<p>Recently, I was explaining to someone the basics of set theory and how the
 various basic operations translate to the real world. I used the example of the

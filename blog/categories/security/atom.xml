@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/security/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-12T13:26:15+03:00</updated>
+  <updated>2012-02-18T13:22:29+01:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[woofs released]]></title>
     <link href="http://kisom.github.com/blog/2011/06/20/woofs-released/"/>
-    <updated>2011-06-20T00:00:00+03:00</updated>
+    <updated>2011-06-20T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/06/20/woofs-released</id>
     <content type="html"><![CDATA[<h2>web one-time offer file securely</h2>
 

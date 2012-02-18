@@ -4,7 +4,7 @@
   <title><![CDATA[Category: commitlog | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/commitlog/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-12T13:26:15+03:00</updated>
+  <updated>2012-02-18T13:22:29+01:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[back to lisp]]></title>
     <link href="http://kisom.github.com/blog/2012/01/02/back-to-lisp/"/>
-    <updated>2012-01-02T00:00:00+03:00</updated>
+    <updated>2012-01-02T00:00:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/01/02/back-to-lisp</id>
     <content type="html"><![CDATA[<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -27,7 +27,7 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>commit e358120dd3760e64436f5652895c751b39148ebd
-</span><span class='line'>   Author: Kyle Isom &lt;a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#99;&#x6f;&#x64;&#101;&#x72;&#x40;&#x6b;&#121;&#x6c;&#x65;&#105;&#x73;&#111;&#109;&#x2e;&#110;&#x65;&#x74;">&#x63;&#111;&#100;&#x65;&#x72;&#x40;&#107;&#x79;&#x6c;&#101;&#x69;&#x73;&#111;&#x6d;&#x2e;&#x6e;&#101;&#116;&lt;/a>
+</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#x63;&#x6f;&#x64;&#x65;&#114;&#x40;&#x6b;&#x79;&#x6c;&#x65;&#x69;&#115;&#x6f;&#109;&#x2e;&#110;&#x65;&#x74;">&#99;&#111;&#x64;&#101;&#x72;&#64;&#107;&#x79;&#108;&#x65;&#x69;&#x73;&#111;&#109;&#x2e;&#x6e;&#101;&#x74;&lt;/a>
 </span><span class='line'>   Date:   Wed Dec 28 19:22:59 2011 +0300&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;pre>&lt;code>initial commit
@@ -75,7 +75,7 @@ Common Lisp, Scheme, and Clojure.</p>
   <entry>
     <title type="html"><![CDATA[suddenly enlightenment]]></title>
     <link href="http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment/"/>
-    <updated>2011-12-03T00:00:00+03:00</updated>
+    <updated>2011-12-03T00:00:00+01:00</updated>
     <id>http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment</id>
     <content type="html"><![CDATA[<p>It's been almost 28 hours since I last slept, so I apologise if this
 post contains a few spelling or grammatical errors. As soon as I
@@ -93,7 +93,7 @@ goal was to update a CGI script when I pushed to the dev vm. The commit log:
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>commit 2de6f8444c68b0dd5ad31dd815d71a5590c5120e
-</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#99;&#111;&#100;&#x65;&#x72;&#x40;&#107;&#x79;&#x6c;&#x65;&#x69;&#115;&#111;&#109;&#x2e;&#110;&#x65;&#x74;">&#99;&#x6f;&#100;&#x65;&#x72;&#64;&#x6b;&#121;&#108;&#101;&#x69;&#115;&#111;&#x6d;&#x2e;&#110;&#101;&#116;&lt;/a>
+</span><span class='line'>   Author: Kyle Isom &lt;a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x63;&#x6f;&#x64;&#x65;&#114;&#64;&#107;&#121;&#x6c;&#101;&#105;&#x73;&#x6f;&#x6d;&#46;&#110;&#x65;&#x74;">&#99;&#x6f;&#100;&#x65;&#x72;&#x40;&#x6b;&#121;&#x6c;&#x65;&#x69;&#x73;&#111;&#109;&#46;&#x6e;&#101;&#x74;&lt;/a>
 </span><span class='line'>   Date:   Sat Dec 3 00:24:34 2011 +0300&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;pre>&lt;code>   suddenly enlightenment
@@ -232,7 +232,7 @@ consider using them in your next project.</p>
   <entry>
     <title type="html"><![CDATA[add .emacs.d/init.el]]></title>
     <link href="http://kisom.github.com/blog/2011/11/28/add-emacsd/"/>
-    <updated>2011-11-28T00:00:00+03:00</updated>
+    <updated>2011-11-28T00:00:00+01:00</updated>
     <id>http://kisom.github.com/blog/2011/11/28/add-emacsd</id>
     <content type="html"><![CDATA[<p>In the spirit of many of my online profiles which proudly declare "my
 commit log is my blog," I've decided to start using that in my posts.

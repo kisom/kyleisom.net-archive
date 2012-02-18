@@ -86,7 +86,7 @@
   
 
 
-<time datetime="2012-02-11T23:07:00+03:00" pubdate data-updated="true">Feb 11<span>th</span>, 2012</time></p>
+<time datetime="2012-02-11T23:07:00+01:00" pubdate data-updated="true">Feb 11<span>th</span>, 2012</time></p>
   </header>
   
   <h2>Introduction</h2>
@@ -898,10 +898,37 @@ session, she should be the one to generate the session key. For example,</p>
 should retain a copy as well. They can then use this key to communicate using
 the much-faster AES256.</p>
 
-<p>In communicating, it might be wise to create a message format that packs in
-the session key into a header, and encrypts the rest of the body with the
-session key. This is a subject beyond the realm of a quick tutorial - again,
-consult with the people who do this on a regular basis.</p>
+<h2>Cryptographic Hashing</h2>
+
+<p>I&#8217;ve mentioned hashes before, but now let&#8217;s take a look at what a hash actually is:
+simply put, a hash is a way to take an arbitrary chunk of data (a file or a string,
+for example) and convert that to a smaller, unique, fixed-size bit string. Often,
+this bit string will be represented as the hexadecimal version of the bytes it
+comprises. Hashes provide us with the ability to quickly verify that two blocks of
+data are the same (or not). Because hashes are one-way functions that convert the
+input block of data to a fixed-size bit string, the block of input data cannot be
+easily recovered from the hash. In fact, one of the properties of a cryptographic
+hash is that the only way to identify a hash&#8217;s input data is to have the input data
+and the hash it generates. A <strong>rainbow table</strong> is a set of precomputed hashes and
+the input that generated them. While this makes sense for short input blocks, it
+quickly becomes cost prohibitive in terms of storage and time to compute for blocks
+of significant length. For example, an 8-byte password string contains 64 bits.
+Assuming a password set that could include both uppercase and lowercase letters,
+numbers, special characters, and spaces, the keyspace would be</p>
+
+<pre><code>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%
+^&amp;*()-_+=~`[]{}|\:;"'&lt;&gt;,.? /
+</code></pre>
+
+<p>This is 95 characters, so our keyspace size is <code>95 ^ 8</code>, or
+<code>6,634,204,312,890,625</code> (over six quadrillion possible combinations). This set
+could be reduced to dictionary words with mutations, but that adds more
+computational work for an attacker.</p>
+
+<p>Cryptographic hashes can serve several purposes. First, we can tell whether a
+message has been tampered with (<strong>data integrity</strong>). Second, we can use them
+to securely store information that the user should know, but that other people
+should not (for example, passwords).</p>
 
 <h2>Digital Signatures</h2>
 
@@ -1067,7 +1094,7 @@ public key infrastructures.</p>
   
 
 
-<time datetime="2012-02-11T23:07:00+03:00" pubdate data-updated="true">Feb 11<span>th</span>, 2012</time>
+<time datetime="2012-02-11T23:07:00+01:00" pubdate data-updated="true">Feb 11<span>th</span>, 2012</time>
         
       </p>
       
@@ -1143,6 +1170,9 @@ public key infrastructures.</p>
   </script>
   <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
   </p>
+  <p><a href='http://coderwall.com/kisom'> 
+      <img src='http://api.coderwall.com/kisom/endorsecount.png' /> 
+ </a></p>
   <p style="text-align: right;"><a href="http://coderwall.com/kisom">Powered by coderwall.com</a></p>
 </section>
 

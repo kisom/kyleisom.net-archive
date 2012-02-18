@@ -4,7 +4,7 @@
   <title><![CDATA[(cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-12T13:26:15+03:00</updated>
+  <updated>2012-02-18T13:22:29+01:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Setting Up Aquamacs for Clojure]]></title>
     <link href="http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure/"/>
-    <updated>2012-02-02T20:03:00+03:00</updated>
+    <updated>2012-02-02T20:03:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure</id>
     <content type="html"><![CDATA[<p>It took me a bit to get my <a href="http://www.aquamacs.org">Aquamacs</a> install
 up and ready to do <a href="http://www.clojure.org">Clojure</a>
@@ -95,7 +95,7 @@ source code and right-size for SLIME.</p>
   <entry>
     <title type="html"><![CDATA[Using Set Theory]]></title>
     <link href="http://kisom.github.com/blog/2012/02/01/using-set-theory/"/>
-    <updated>2012-02-01T20:45:00+03:00</updated>
+    <updated>2012-02-01T20:45:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/02/01/using-set-theory</id>
     <content type="html"><![CDATA[<p>In the <a href="http://kisom.github.com/blog/2012/01/23/basic-set-theory/">last post</a>, we took a look at the
 basics of set theory. Now, I&#8217;d like to take a look at how to actually make use
@@ -1166,7 +1166,7 @@ explanation, and until the 1st to polish it up.</p>
   <entry>
     <title type="html"><![CDATA[Noir v. Flask]]></title>
     <link href="http://kisom.github.com/blog/2012/01/28/noir-v-flask/"/>
-    <updated>2012-01-28T18:49:00+03:00</updated>
+    <updated>2012-01-28T18:49:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/01/28/noir-v-flask</id>
     <content type="html"><![CDATA[<p>Noir v. Flask: the shootout</p>
 
@@ -1218,7 +1218,7 @@ obviously just listening on different ports</li>
   <entry>
     <title type="html"><![CDATA[Basic Set Theory]]></title>
     <link href="http://kisom.github.com/blog/2012/01/23/basic-set-theory/"/>
-    <updated>2012-01-23T17:44:00+03:00</updated>
+    <updated>2012-01-23T17:44:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/01/23/basic-set-theory</id>
     <content type="html"><![CDATA[<p>Recently, I was explaining to someone the basics of set theory and how the
 various basic operations translate to the real world. I used the example of the
@@ -1868,7 +1868,7 @@ You should be able to just run <code>lein deps, test, run</code>.</p>
   <entry>
     <title type="html"><![CDATA[on SOPA and PIPA]]></title>
     <link href="http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa/"/>
-    <updated>2012-01-18T00:00:00+03:00</updated>
+    <updated>2012-01-18T00:00:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa</id>
     <content type="html"><![CDATA[<p>Imagine you are the owner of a small restaurant. The neighbourhood is of mixed
 quality, but this is where you live so you try to make do anyways. One day,
@@ -1942,7 +1942,7 @@ and <a href="http://twitter.com/imwally">Wally Jones</a> for reviewing this.</p>
   <entry>
     <title type="html"><![CDATA[back to lisp]]></title>
     <link href="http://kisom.github.com/blog/2012/01/02/back-to-lisp/"/>
-    <updated>2012-01-02T00:00:00+03:00</updated>
+    <updated>2012-01-02T00:00:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/01/02/back-to-lisp</id>
     <content type="html"><![CDATA[
 
@@ -1999,7 +1999,7 @@ Common Lisp, Scheme, and Clojure.</p>
   <entry>
     <title type="html"><![CDATA[my docs got dropped]]></title>
     <link href="http://kisom.github.com/blog/2011/12/31/my-docs-got-dropped/"/>
-    <updated>2011-12-31T00:00:00+03:00</updated>
+    <updated>2011-12-31T00:00:00+01:00</updated>
     <id>http://kisom.github.com/blog/2011/12/31/my-docs-got-dropped</id>
     <content type="html"><![CDATA[<p>My docs are in the stratfor leak.</p>
 
@@ -2046,7 +2046,7 @@ cause us to lose focus on the bigger problem.</p>
   <entry>
     <title type="html"><![CDATA[suddenly enlightenment]]></title>
     <link href="http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment/"/>
-    <updated>2011-12-03T00:00:00+03:00</updated>
+    <updated>2011-12-03T00:00:00+01:00</updated>
     <id>http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment</id>
     <content type="html"><![CDATA[<p>It&#8217;s been almost 28 hours since I last slept, so I apologise if this
 post contains a few spelling or grammatical errors. As soon as I
@@ -2201,7 +2201,7 @@ consider using them in your next project.</p>
   <entry>
     <title type="html"><![CDATA[add .emacs.d/init.el]]></title>
     <link href="http://kisom.github.com/blog/2011/11/28/add-emacsd/"/>
-    <updated>2011-11-28T00:00:00+03:00</updated>
+    <updated>2011-11-28T00:00:00+01:00</updated>
     <id>http://kisom.github.com/blog/2011/11/28/add-emacsd</id>
     <content type="html"><![CDATA[<p>In the spirit of many of my online profiles which proudly declare &#8220;my
 commit log is my blog,&#8221; I&#8217;ve decided to start using that in my posts.
@@ -2251,7 +2251,7 @@ done, I think that emacs is going to help out a lot.</p>
   <entry>
     <title type="html"><![CDATA[on the police response to the occupy movement]]></title>
     <link href="http://kisom.github.com/blog/2011/10/29/on-the-police-response-to-the-occupy-movement/"/>
-    <updated>2011-10-29T00:00:00+03:00</updated>
+    <updated>2011-10-29T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/10/29/on-the-police-response-to-the-occupy-movement</id>
     <content type="html"><![CDATA[<p>(Originally written on 2011-10-29 and an unusual departure from the usual technical content.)</p>
 
@@ -2277,7 +2277,7 @@ done, I think that emacs is going to help out a lot.</p>
   <entry>
     <title type="html"><![CDATA[generating patchfiles with git and hg]]></title>
     <link href="http://kisom.github.com/blog/2011/09/28/generating-patchfiles-with-git-and-hg/"/>
-    <updated>2011-09-28T00:00:00+03:00</updated>
+    <updated>2011-09-28T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/09/28/generating-patchfiles-with-git-and-hg</id>
     <content type="html"><![CDATA[<p>UPDATE: originally this post was only about doing this in git. Since I use
 mercurial almost as much as I use git, I decided to look into how to do it
@@ -2339,7 +2339,7 @@ against:</p></li>
   <entry>
     <title type="html"><![CDATA[coders (should) do much more than code]]></title>
     <link href="http://kisom.github.com/blog/2011/09/10/coders-should-do-much-more-than-code/"/>
-    <updated>2011-09-10T00:00:00+03:00</updated>
+    <updated>2011-09-10T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/09/10/coders-should-do-much-more-than-code</id>
     <content type="html"><![CDATA[<p>I recently was explaining to someone that as a coder, I do (or should do)
 a lot more than just code. I figured since I hadn&#8217;t written anything here in
@@ -2496,7 +2496,7 @@ integral to the development process.</p>
   <entry>
     <title type="html"><![CDATA[RGTDD]]></title>
     <link href="http://kisom.github.com/blog/2011/07/04/rgtdd/"/>
-    <updated>2011-07-04T00:00:00+03:00</updated>
+    <updated>2011-07-04T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/07/04/rgtdd</id>
     <content type="html"><![CDATA[<p>One of the most important parts of becoming a useful developer is to find a
 workflow that maximises productivty. There are plenty of methodologies and tools
@@ -2560,7 +2560,7 @@ found to help me keep my life organised.</p>
   <entry>
     <title type="html"><![CDATA[woofs released]]></title>
     <link href="http://kisom.github.com/blog/2011/06/20/woofs-released/"/>
-    <updated>2011-06-20T00:00:00+03:00</updated>
+    <updated>2011-06-20T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/06/20/woofs-released</id>
     <content type="html"><![CDATA[<h2>web one-time offer file securely</h2>
 
@@ -2586,7 +2586,7 @@ it will be useful to you as well.</p>
   <entry>
     <title type="html"><![CDATA[A Working Introduction to Crypto with PyCrypto]]></title>
     <link href="http://kisom.github.com/blog/2011/06/17/intro-to-crypto/"/>
-    <updated>2011-06-17T16:15:00+03:00</updated>
+    <updated>2011-06-17T16:15:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/06/17/intro-to-crypto</id>
     <content type="html"><![CDATA[<h2>Preface</h2>
 
@@ -3587,7 +3587,7 @@ public key infrastructures.</p>
   <entry>
     <title type="html"><![CDATA[starting ocaml]]></title>
     <link href="http://kisom.github.com/blog/2011/05/29/starting-ocaml/"/>
-    <updated>2011-05-29T00:00:00+03:00</updated>
+    <updated>2011-05-29T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/05/29/starting-ocaml</id>
     <content type="html"><![CDATA[<p>i recently started learning
 <a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be
@@ -3647,7 +3647,7 @@ the netclient libraries right off that bat.</p>
   <entry>
     <title type="html"><![CDATA[Introducing ctrans]]></title>
     <link href="http://kisom.github.com/blog/2011/05/13/presenting-ctrans/"/>
-    <updated>2011-05-13T00:00:00+03:00</updated>
+    <updated>2011-05-13T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/05/13/presenting-ctrans</id>
     <content type="html"><![CDATA[<h2>intro</h2>
 

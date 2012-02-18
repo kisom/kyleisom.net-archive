@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ocaml | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/ocaml/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-12T13:26:15+03:00</updated>
+  <updated>2012-02-18T13:22:29+01:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[starting ocaml]]></title>
     <link href="http://kisom.github.com/blog/2011/05/29/starting-ocaml/"/>
-    <updated>2011-05-29T00:00:00+03:00</updated>
+    <updated>2011-05-29T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/05/29/starting-ocaml</id>
     <content type="html"><![CDATA[<p>i recently started learning
 <a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be

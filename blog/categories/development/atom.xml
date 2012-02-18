@@ -4,7 +4,7 @@
   <title><![CDATA[Category: development | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/development/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-12T13:26:15+03:00</updated>
+  <updated>2012-02-18T13:22:29+01:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Setting Up Aquamacs for Clojure]]></title>
     <link href="http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure/"/>
-    <updated>2012-02-02T20:03:00+03:00</updated>
+    <updated>2012-02-02T20:03:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/02/02/setting-up-aquamacs-for-clojure</id>
     <content type="html"><![CDATA[<p>It took me a bit to get my <a href="http://www.aquamacs.org">Aquamacs</a> install
 up and ready to do <a href="http://www.clojure.org">Clojure</a>
@@ -98,7 +98,7 @@ source code and right-size for SLIME.</p>
   <entry>
     <title type="html"><![CDATA[starting ocaml]]></title>
     <link href="http://kisom.github.com/blog/2011/05/29/starting-ocaml/"/>
-    <updated>2011-05-29T00:00:00+03:00</updated>
+    <updated>2011-05-29T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/05/29/starting-ocaml</id>
     <content type="html"><![CDATA[<p>i recently started learning
 <a href="http://caml.inria.fr/index.en.html">objective caml</a>. while it may be
@@ -146,7 +146,7 @@ the netclient libraries right off that bat.</p>
   <entry>
     <title type="html"><![CDATA[Introducing ctrans]]></title>
     <link href="http://kisom.github.com/blog/2011/05/13/presenting-ctrans/"/>
-    <updated>2011-05-13T00:00:00+03:00</updated>
+    <updated>2011-05-13T00:00:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/05/13/presenting-ctrans</id>
     <content type="html"><![CDATA[<h2>intro</h2>
 

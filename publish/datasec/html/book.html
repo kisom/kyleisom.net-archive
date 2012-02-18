@@ -33,41 +33,41 @@
                             
                             
                                                                 <li class="chapter level-1">
-                        <span>Chapter 0 </span> <a href="#introduction-to-data-security">Introduction to Data Security</a>
+                        <span>Chapter 1 </span> <a href="#introduction-to-data-security">Introduction to Data Security</a>
                     </li>
                             
                             
                                                                 <li class="chapter level-1">
-                        <span>Chapter 1 </span> <a href="#practical-introduction-to-cryptography">Practical Introduction to Cryptography</a>
+                        <span>Chapter 2 </span> <a href="#practical-introduction-to-cryptography">Practical Introduction to Cryptography</a>
                     </li>
                                                                 <li class="chapter level-2">
-                        <span>1.1</span> <a href="#introduction-3">Introduction</a>
+                        <span>2.1</span> <a href="#introduction-3">Introduction</a>
                     </li>
                                                                 <li class="chapter level-2">
-                        <span>1.2</span> <a href="#block-ciphers">Block Ciphers</a>
+                        <span>2.2</span> <a href="#block-ciphers">Block Ciphers</a>
                     </li>
                                                                 <li class="chapter level-2">
-                        <span>1.3</span> <a href="#ascii-armouring">ASCII-Armouring</a>
+                        <span>2.3</span> <a href="#ascii-armouring">ASCII-Armouring</a>
                     </li>
                                                                                                                                                     <li class="chapter level-2">
-                        <span>1.4</span> <a href="#public-key-cryptography">Public Key Cryptography</a>
+                        <span>2.4</span> <a href="#public-key-cryptography">Public Key Cryptography</a>
                     </li>
                                                                 <li class="chapter level-2">
-                        <span>1.5</span> <a href="#digital-signatures">Digital Signatures</a>
+                        <span>2.5</span> <a href="#digital-signatures">Digital Signatures</a>
                     </li>
                                                                 <li class="chapter level-2">
-                        <span>1.6</span> <a href="#key-exchange">Key Exchange</a>
+                        <span>2.6</span> <a href="#key-exchange">Key Exchange</a>
                     </li>
                             
                             
                                                                 <li class="chapter level-1">
-                        <span>Chapter 2 </span> <a href="#practical-threat-modeling">Practical Threat Modeling</a>
+                        <span>Chapter 3 </span> <a href="#practical-threat-modeling">Practical Threat Modeling</a>
                     </li>
                                                                 <li class="chapter level-2">
-                        <span>2.1</span> <a href="#identifying-attack-vectors">Identifying Attack Vectors</a>
+                        <span>3.1</span> <a href="#identifying-attack-vectors">Identifying Attack Vectors</a>
                     </li>
                                                                 <li class="chapter level-2">
-                        <span>2.2</span> <a href="#example">Example</a>
+                        <span>3.2</span> <a href="#example">Example</a>
                     </li>
                             
                             
@@ -139,7 +139,7 @@ difficult for those unfamiliar with the language to understand.</p>
 </div>
     <div class="page:chapter new-page">
 
-<h1 id="introduction-to-data-security"><span>Chapter 0 </span> Introduction to Data Security</h1>
+<h1 id="introduction-to-data-security"><span>Chapter 1 </span> Introduction to Data Security</h1>
 
 <p>Data security is one of those things you hear a lot about, but most of us
 are busy getting things done; unfortunately for our users, data security
@@ -310,11 +310,11 @@ failing to secure your code can lead to an exploit.</p>
 </div>
     <div class="page:chapter new-page">
 
-<h1 id="practical-introduction-to-cryptography"><span>Chapter 1 </span> Practical Introduction to Cryptography</h1>
+<h1 id="practical-introduction-to-cryptography"><span>Chapter 2 </span> Practical Introduction to Cryptography</h1>
 
-<h2 id="introduction-3">1.1 Introduction</h2>
+<h2 id="introduction-3">2.1 Introduction</h2>
 
-<p>This chapter is adapter from my introductory article to cryptography. We'll take
+<p>This chapter is adapted from my introductory article to cryptography. We'll take
 a quick, high-level overview of cryptography. The 
 <a href="https://www.dlitz.net/software/pycrypto/">PyCrypto</a> and
 <a href="http://www.mindrot.org/projects/py-bcrypt/">py-bcrypt</a> libraries will be used
@@ -366,7 +366,7 @@ their names imply, the private key is kept secret while the public key is
 passed around. First, I'll take a look at a specific type of symmetric ciphers:
 block ciphers.</p>
 
-<h2 id="block-ciphers">1.2 Block Ciphers</h2>
+<h2 id="block-ciphers">2.2 Block Ciphers</h2>
 
 <p>There are two further types of symmetric keys: stream and block ciphers. Stream
 ciphers operate on data streams, i.e. one byte at a time. Block ciphers operate
@@ -542,7 +542,7 @@ generation, padding, and encryption / decryption. AES-256 isn't the only
 block cipher provided by the PyCrypto package, but again: it is the standard
 and well vetted.</p>
 
-<h2 id="ascii-armouring">1.3 ASCII-Armouring</h2>
+<h2 id="ascii-armouring">2.3 ASCII-Armouring</h2>
 
 <p>I'm going to take a quick detour and talk about ASCII armouring. If you've 
 played with the crypto functions above, you'll notice they produce an annoying
@@ -551,14 +551,14 @@ making the data a little bit easier to deal with is to encode it with
 base64 (which is defined in <a href="http://tools.ietf.org/html/rfc1521.html">RFC 1521</a>. 
 There are a few ways to incorporate this into python:</p>
 
-<h3 id="absolute-base64-encoding">1.3.1 Absolute Base64 Encoding</h3>
+<h3 id="absolute-base64-encoding">2.3.1 Absolute Base64 Encoding</h3>
 
 <p>The easiest way is to just base64 encode everything in the encrypt function. 
 Everything that goes into the decrypt function should be in base64 - if it's 
 not, the <code>base64</code> module will throw an error: you could catch this and 
 then try to decode it as binary data.</p>
 
-<h3 id="a-simple-header">1.3.2 A Simple Header</h3>
+<h3 id="a-simple-header">2.3.2 A Simple Header</h3>
 
 <p>A slightly more complex option, and the one I adopt in this article, is to use 
 a <code>x00</code> as the first byte of the ciphertext for binary data, and to use 
@@ -572,40 +572,40 @@ both functions. I leave adding it into the <code>passphrase_encrypt</code> and
 functions look like this now:</p>
 
 <pre><code>def encrypt(key, data, iv, armour = False):
-aes     = Crypto.Cipher.AES.new(key, mode, iv)
-data    = pad_data(data)
-ct      = aes.encrypt(data)         # ciphertext
-ct      = iv + ct                   # pack the initialisation vector in
+    aes     = Crypto.Cipher.AES.new(key, mode, iv)
+    data    = pad_data(data)
+    ct      = aes.encrypt(data)         # ciphertext
+    ct      = iv + ct                   # pack the initialisation vector in
 
-# ascii-armouring
-if armour:
+    # ascii-armouring
+    if armour:
         ct = '\x41' + base64.encodestring(ct)
-else:
+    else:
         ct = '\x00' + ct
 
-return ct
+    return ct
 
 def decrypt(key, data, iv = None):
-# remove ascii-armouring if present
-if data[0] == '\x00':
+    # remove ascii-armouring if present
+    if data[0] == '\x00':
         data = data[1:]
-elif data[0] == '\x41':
-    data = base64.decodestring(data[1:])
+    elif data[0] == '\x41':
+        data = base64.decodestring(data[1:])
 
-iv      = data[:16]
-data    = data[16:]
-aes     = Crypto.Cipher.AES.new(key, mode, iv)
-data    = aes.decrypt(data)
-return unpad_data(data)
+    iv      = data[:16]
+    data    = data[16:]
+    aes     = Crypto.Cipher.AES.new(key, mode, iv)
+    data    = aes.decrypt(data)
+    return unpad_data(data)
 </code></pre>
 
-<h3 id="a-more-complex-container">1.3.3 A More Complex Container</h3>
+<h3 id="a-more-complex-container">2.3.3 A More Complex Container</h3>
 
 <p>There are more complex ways to do it (and you'll see it with the public keys 
 in the next section) that involve putting the base64 into a container of sorts
 that contains additional information about the key.</p>
 
-<h2 id="public-key-cryptography">1.4 Public Key Cryptography</h2>
+<h2 id="public-key-cryptography">2.4 Public Key Cryptography</h2>
 
 <p>Now it is time to take a look at public-key cryptography. Public-key 
 cryptography, or PKC, involves the use of two-part keys. The private key is
@@ -635,10 +635,10 @@ or
 format. Generating RSA keys with PyCrypto is extremely easy:</p>
 
 <pre><code>def generate_key(size):
-PRNG    = Crypto.Random.OSRNG.posix.new().read
-key     = Crypto.PublicKey.RSA.generate(size, PRNG)
+    PRNG    = Crypto.Random.OSRNG.posix.new().read
+    key     = Crypto.PublicKey.RSA.generate(size, PRNG)
 
-return key
+    return key
 </code></pre>
 
 <p>The <code>key</code> that is returned isn't like the keys we used with the block ciphers:
@@ -662,49 +662,43 @@ keys. The key also includes encryption and decryption methods in the class:</p>
 &gt;&gt;&gt; message = 'Test message...'
 &gt;&gt;&gt; ciphertext = key.encrypt(message, None)
 &gt;&gt;&gt; print base64.encodestring(ciphertext[0])
-gzA9gXfHqnkValdhhYjRVVSxuygx48i66h0vFUnmVu8FZXJtmaACvNDo43D0vjjHzFiblE1eCFiI
-xlhVuHxldWXJSnARgWX1bTY7imR9Hve+WQC8rl+qB5xpq3xnKH7/z8/5YdLvCo/knXYE1cI/XYJP
-EP1nA6bUZNj6bD1Zx4w=
+gzA9gXfHqnkValdhhYjRVVSxuygx48i66h0vFUnmVu8FZXJtmaACvNDo43D0vjjHzFibl
+E1eCFiIxlhVuHxldWXJSnARgWX1bTY7imR9Hve+WQC8rl+qB5xpq3xnKH7/z8/5YdLvCo
+/knXYE1cI/XYJPEP1nA6bUZNj6bD1Zx4w=
 </code></pre>
 
 <p>The <code>None</code> that is passed into the encryption function is part of the 
 PyCrypto API for those publickey ciphers requiring an additional random number 
 function to be passed in. It returns a tuple containing only the encrypted 
 message. In order to pass this to the decryption function, we need to pass only 
-the encrypted message as a string:
-```</p>
+the encrypted message as a string:</p>
 
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>ciphertext = key.encrypt(message, None)[0]
-      key.decrypt(ciphertext)
-          'Test message...'</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; ciphertext = key.encrypt(message, None)[0]
+&gt;&gt;&gt; key.decrypt(ciphertext)
+'Test message...'
+</code></pre>
 
 <p>While these are simple enough, we could put them into a pair of functions that
 also include ASCII-armouring:</p>
 
 <pre><code>def encrypt(key, message, armour = True):
-ciphertext  = key.encrypt( message, None )
-ciphertext  = ciphertext[0]
+    ciphertext  = key.encrypt( message, None )
+    ciphertext  = ciphertext[0]
 
-if armour:
+    if armour:
         ciphertext = '\x41' + base64.encodestring( ciphertext )
-else:
-    ciphertext = '\x00' + base64.encodestring( ciphertext )
+    else:
+        ciphertext = '\x00' + base64.encodestring( ciphertext )
 
-return ciphertext
+    return ciphertext
 
 def decrypt(key, message):
-if   '\x00' == message[0]:
-    message = message[1:]
-elif '\x41' == message[0]:
-    message == base64.decodestring( message[1:] )
+    if   '\x00' == message[0]:
+        message = message[1:]
+    elif '\x41' == message[0]:
+        message == base64.decodestring( message[1:] )
 
-plaintext   = key.decrypt( message )
+    plaintext   = key.decrypt( message )
     return plaintext
 </code></pre>
 
@@ -737,28 +731,28 @@ else:
 
 # will only export the public key
 def export_pubkey(filename, key):
-try:
-    f = open(filename, 'w')
-except IOError as e:
-    print e
-    raise e
-else:
-    f.write( key.publickey().exportKey() )
-    f.close()
+    try:
+        f = open(filename, 'w')
+    except IOError as e:
+        print e
+        raise e
+    else:
+        f.write( key.publickey().exportKey() )
+        f.close()
 </code></pre>
 
 <p>Importing a key is done using the <code>RSA.importKey</code> function:</p>
 
 <pre><code>def load_key(filename):
     try:
-    f = open(filename)
-except IOError as e:
-    print e
-    raise
-else:
-    key = Crypto.PublicKey.RSA.importKey(f.read())
-    f.close()
-    return key
+        f = open(filename)
+    except IOError as e:
+        print e
+        raise
+    else:
+        key = Crypto.PublicKey.RSA.importKey(f.read())
+        f.close()
+        return key
 </code></pre>
 
 <p>We can take a look at the difference between the public and private keys:</p>
@@ -802,59 +796,38 @@ follow that convention in an <code>export_keypair()</code> function:</p>
     prvkeyfile   = basename + '.prv'
 
     export_key(prvkeyfile, key)
-export_pubkey(pubkeyfile, key)
+    export_pubkey(pubkeyfile, key)
 </code></pre>
 
-<p>For example, Bob generates a keypair and emails the public key to Alice:
-```</p>
+<p>For example, Bob generates a keypair and emails the public key to Alice:</p>
 
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>key = publickey.generate_key( 1024 )
-      key.size()
-      1023
-      key.has_private()
-      True
-      publickey.export_keypair('bob.prv', key)</p>
-      
-      <p>```</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; key = publickey.generate_key( 1024 )
+&gt;&gt;&gt; key.size()
+1023
+&gt;&gt;&gt; key.has_private()
+True
+&gt;&gt;&gt; publickey.export_keypair('bob.prv', key)
+&gt;&gt;&gt; 
+</code></pre>
 
-<p>Then, Assuming Bob gave Alice <code>bob.pub</code>:
-```</p>
+<p>Then, Assuming Bob gave Alice <code>bob.pub</code>:</p>
 
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>bob = publickey.load_key('./bob.pub')
-      message = 'secret message from Alice to Bob'
-      print publickey.encrypt(bob, message)
-      AN6RsuXEeKicUZKtZCsDeqGKeB5em+NG/bgoqr9l8ij2o1Gr9sT69tv0zxgmigK/Jt+gPxg/EDu61
-      nHmAK0XQV7BvJS5jLuBxdJ0mEpysVClu46XN1KHU2l2DsGht9e8OFvhEfDkI5t/cy/gXr0xz/EUi
-      rqo8qLd9Mw6TerM8gs8=
-      ```</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; bob = publickey.load_key('./bob.pub')
+&gt;&gt;&gt; message = 'secret message from Alice to Bob'
+&gt;&gt;&gt; print publickey.encrypt(bob, message)
+AN6RsuXEeKicUZKtZCsDeqGKeB5em+NG/bgoqr9l8ij2o1Gr9sT69tv0zxgmigK/
+Jt+gPxg/EDu61nHmAK0XQV7BvJS5jLuBxdJ0mEpysVClu46XN1KHU2l2DsGht9e8
+OFvhEfDkI5t/cy/gXr0xz/EUirqo8qLd9Mw6TerM8gs8=
+</code></pre>
 
 <p>The ASCII-armoured format makes it convenient for Alice to paste the encrypted
 message to Bob, so she does, and now Bob has it on his computer. To read it, he
-does something similar:
-```</p>
+does something similar:</p>
 
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>bob = publickey.load_key('tests/bob.prv')
-      print publickey.decrypt(bob, message)
-      secret message from Alice to Bob
-      ```</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; bob = publickey.load_key('tests/bob.prv')
+&gt;&gt;&gt; print publickey.decrypt(bob, message)
+secret message from Alice to Bob
+</code></pre>
 
 <p>At this point, Bob can't be sure that the message came from Alice but he can 
 read the message. We'll cover entity authentication in a later section, but
@@ -876,21 +849,14 @@ use a hybrid cryptosystem to speed up establishing a secure session. PGP
 also uses hybrid crypto.</p>
 
 <p>Let's say Alice and Bob wish to use hybrid crypto; if Alice initiates the 
-session, she should be the one to generate the session key. For example,
-```</p>
+session, she should be the one to generate the session key. For example,</p>
 
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>import block, publickey
-      session_key = block.generate_aes_key()
-      alice_key   = publickey.load_key('keys/alice.prv')
-      bob_key     = publickey.load_key('keys/bob.pub')
-      encrypted_session_key = encrypt( bob_key, session_key )
-      ```</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; import block, publickey
+&gt;&gt;&gt; session_key = block.generate_aes_key()
+&gt;&gt;&gt; alice_key   = publickey.load_key('keys/alice.prv')
+&gt;&gt;&gt; bob_key     = publickey.load_key('keys/bob.pub')
+&gt;&gt;&gt; encrypted_session_key = encrypt( bob_key, session_key )
+</code></pre>
 
 <p>At this point, Alice should send Bob the <code>encrypted_session_key</code>; she 
 should retain a copy as well. They can then use this key to communicate using
@@ -901,7 +867,7 @@ the session key into a header, and encrypts the rest of the body with the
 session key. This is a subject beyond the realm of a quick tutorial - again,
 consult with the people who do this on a regular basis.</p>
 
-<h2 id="digital-signatures">1.5 Digital Signatures</h2>
+<h2 id="digital-signatures">2.5 Digital Signatures</h2>
 
 <p>In all of the previous examples, we assumed that the identity of the sender
 wasn't a question. For a symmetric key, that's less of a stretch - there's no 
@@ -921,68 +887,58 @@ is known as verification or verifying the signature.</p>
 
 <p>PyCrypto's PublicKey implementations already come with signatures and 
 verification methods for keys using <code>sign()</code> and <code>verify()</code>. The signature
-is a long in a tuple:
-```</p>
+is a long in a tuple:</p>
 
-<blockquote>
-  <blockquote>
-    <blockquote>
-      <p>key.sign( d, None )
-      (1738423518152671545669571445860037944518162197656333123466248015147955424248
-      876723731383711018550231967374810686606623315483033485630977014574359346192927942
-      623807461783144628656796225504478196458051789241311033020911767301220653148276004
-      0551357526383627059382081878791040169815009051016949220178044764130908L,)
-      ```</p>
-    </blockquote>
-  </blockquote>
-</blockquote>
+<pre><code>&gt;&gt;&gt; key.sign( d, None )
+(173842351815267154566957144586003794451816219765633312346624801
+5147955424248876723731383711018550231967374810686606623315483033
+4856309770145743593461929279426238074617831446286567962255044781
+9645805178924131103302091176730122065314827600405513575263836270
+59382081878791040169815009051016949220178044764130908L,)
+</code></pre>
 
 <p>We can write our own functions to wrap around these two functions and perform 
 ASCII-armouring if desired. Our signature function should take a key and a 
 message (and optionally a flag to ASCII armour the signature), and sign a 
-digest of the message:
-```
-def sign(key, message, armour = True):
+digest of the message:</p>
+
+<pre><code>def sign(key, message, armour = True):
     if not key.can_sign(): 
-        return None</p>
+        return None
 
-<pre><code>digest      = Crypto.Hash.SHA256.new(message).digest()
-signature   = key.sign( digest, None )[0]
+    digest      = Crypto.Hash.SHA256.new(message).digest()
+    signature   = key.sign( digest, None )[0]
 
-if armour:
-    sig     = base64.encodestring( str(signature) )
-else:
-    sig     = str( signature )
+    if armour:
+        sig     = base64.encodestring( str(signature) )
+    else:
+        sig     = str( signature )
 
-return sig.strip()
+    return sig.strip()
 </code></pre>
-
-<p>```</p>
 
 <p>The signature is converted to a string to make it easier to pack it into 
 structures and also to give us consistent input to the verify() function.</p>
 
 <p>Verifying the signature requires that we determine if the signature is ASCII-
-armoured or not, then comparing a digest of the message to the signature:
-```
-def verify(key, message, signature):
+armoured or not, then comparing a digest of the message to the signature:</p>
+
+<pre><code>def verify(key, message, signature):
     try:
         sig     = long( signature )
     except ValueError as e:
-        sig     = long( base64.decodestring( signature.rstrip('\n') ), )</p>
+        sig     = long( base64.decodestring( signature.rstrip('\n') ), )
 
-<pre><code>digest      = Crypto.Hash.SHA256.new(message).digest()
-return key.verify( digest, (sig, ) )
+        digest      = Crypto.Hash.SHA256.new(message).digest()
+    return key.verify( digest, (sig, ) )
 </code></pre>
-
-<p>```</p>
 
 <p>The <code>sign()</code> function returns a signature and the <code>verify()</code> function returns a 
 boolean. Now, Alice can sign her message to Bob, and Bob knows the key belongs
 to Alice. She sends Bob the signature and the encrypted message. Bob then makes
 sure Alice's key properly verifies the signature to the encrypted message.</p>
 
-<h2 id="key-exchange">1.6 Key Exchange</h2>
+<h2 id="key-exchange">2.6 Key Exchange</h2>
 
 <p>So how does Bob know the key actually belongs to Alice? There are two main
 schools of thought regarding the authentication of key ownership: centralised
@@ -1013,15 +969,15 @@ say that Bob knows for a fact that Alice's key belongs to Alice, and he trusts
 her&mdash;it is quite often important to distinguish between 
 <em>I know this key belongs to that user</em> and <em>I trust that user</em>, which
 is especially important with key signatures - if Bob cannot trust
-Alice to properly check identities, she might sign a key for an identity she hasn't
-checked&mdash;and that Alice has signed Carol's key. Bob sees Alice's signature on
-Carol's key and then can be reasonably sure that Carol is who she says it was.
-If we repeat the process with Dave, whose key was signed by Carol (whose key
-was signed by Alice), Bob might be able to be more certain that the key belongs
-to Dave, but maybe he doesn't really trust Carol to properly verify identities.
-In PGP, Bob can mark keys as having various trust levels, and from this a web
-of trust emerges: a picture of how well you can trust that a given key belongs
-to a given user.</p>
+Alice to properly check identities, she might sign a key for an identity she 
+hasn't checked&mdash;and that Alice has signed Carol's key. Bob sees Alice's 
+signature on Carol's key and then can be reasonably sure that Carol is who she 
+says it was. If we repeat the process with Dave, whose key was signed by Carol 
+(whose key was signed by Alice), Bob might be able to be more certain that the 
+key belongs to Dave, but maybe he doesn't really trust Carol to properly verify 
+identities. In PGP, Bob can mark keys as having various trust levels, and from 
+this a web of trust emerges: a picture of how well you can trust that a given 
+key belongs to a given user.</p>
 
 <p>The key distribution problem is not a quick and easy problem to solve; a lot of
 very smart people have spent a lot of time coming up with solutions to the
@@ -1035,7 +991,7 @@ public key infrastructures.</p>
 </div>
     <div class="page:chapter new-page">
 
-<h1 id="practical-threat-modeling"><span>Chapter 2 </span> Practical Threat Modeling</h1>
+<h1 id="practical-threat-modeling"><span>Chapter 3 </span> Practical Threat Modeling</h1>
 
 <p><strong>Threat modeling</strong> is the art of thinking about what threats your
 application will face. By understanding the threats, you can begin thinking
@@ -1090,7 +1046,7 @@ The security plan should reference the attack tree in considering what
 attacks are being defended against. These are also living documents; as
 mentioned before, they will need to be reviewed and updated regularly.</p>
 
-<h2 id="identifying-attack-vectors">2.1 Identifying Attack Vectors</h2>
+<h2 id="identifying-attack-vectors">3.1 Identifying Attack Vectors</h2>
 
 <p>A good place to check for attack vectors is to consider the generic attack
 points:</p>
@@ -1122,7 +1078,7 @@ they are working to protect and bank robbers will often observe their target
 beforehand, it is another tool useful for visualising where security systems
 fit into the overall architecture.</p>
 
-<h2 id="example">2.2 Example</h2>
+<h2 id="example">3.2 Example</h2>
 
 <p>Let's consider an example: I have a website that provides a front end for my
 small team's ebook library. Here is the systems diagram I have for the site:</p>

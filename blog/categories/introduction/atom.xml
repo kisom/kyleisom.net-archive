@@ -4,7 +4,7 @@
   <title><![CDATA[Category: introduction | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/introduction/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-12T13:26:15+03:00</updated>
+  <updated>2012-02-18T13:22:29+01:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Basic Set Theory]]></title>
     <link href="http://kisom.github.com/blog/2012/01/23/basic-set-theory/"/>
-    <updated>2012-01-23T17:44:00+03:00</updated>
+    <updated>2012-01-23T17:44:00+01:00</updated>
     <id>http://kisom.github.com/blog/2012/01/23/basic-set-theory</id>
     <content type="html"><![CDATA[<p>Recently, I was explaining to someone the basics of set theory and how the
 various basic operations translate to the real world. I used the example of the
@@ -751,7 +751,7 @@ You should be able to just run <code>lein deps, test, run</code>.</p>
   <entry>
     <title type="html"><![CDATA[A Working Introduction to Crypto with PyCrypto]]></title>
     <link href="http://kisom.github.com/blog/2011/06/17/intro-to-crypto/"/>
-    <updated>2011-06-17T16:15:00+03:00</updated>
+    <updated>2011-06-17T16:15:00+02:00</updated>
     <id>http://kisom.github.com/blog/2011/06/17/intro-to-crypto</id>
     <content type="html"><![CDATA[<h2>Preface</h2>
 
