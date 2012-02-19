@@ -7,6 +7,10 @@ sharing: true
 footer: true
 ---
 
+## Examples of Coding Style
+* [srm](./srm.c.html) is a simple C utility to remove files securely. I didn't
+have a network connection when I need the capability, so I wrote my own.
+
 ## Finished Projects
 * [woofs](https://github.com/kisom/woofs): woofs allows you to quickly offer a 
 file for download on your machine. It behaves the same as 

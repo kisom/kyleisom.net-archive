@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.23a (Aquamacs 2.4) in css mode. -->
+<html>
+  <head>
+    <title>srm.c</title>
+    <style type="text/css">
+    <!--
+      body,pre {
+        font-family: Inconsolata, monospace;
+        font-size: 10pt;
+        color: #708183;
+        color: #708183;
+        background-color: #042028;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #465a61;
+        color: #465a61;
+        font-style: italic;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #465a61;
+        color: #465a61;
+        font-weight: bold;
+        font-style: italic;
+        font-weight: Inconsolata, monospace;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #259185;
+        color: #259185;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #2075c7;
+        color: #2075c7;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #728a05;
+        color: #728a05;
+      }
+      .preprocessor {
+        /* font-lock-preprocessor-face */
+        color: #bd3612;
+        color: #bd3612;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #259185;
+        color: #259185;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #a57705;
+        color: #a57705;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #2075c7;
+        color: #2075c7;
+      }
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="comment-delimiter">/****************************************************************</span><span class="comment">
+ * srm.c                                                                *
+ * author: kyle isom &lt;<a href="mailto:coder&#64;kyleisom.net">coder&#64;kyleisom.net</a>&gt;                               *
+ * license: isc / public domain dual-licensed                           *
+ * date: 2011-09-03                                                     *
+ *                                                                      *
+ * securely remove a file                                               *
+ * powered by radiohead - ok computer                                   *
+ *                                                                      *
+ * i was bored and needed a secure file removal tool                    *
+ * ergo, i rolled my own                                                *
+ *                                                                      *
+ * TODO: add recursive removal for securely removing a directory        *
+ ***********************************************************************</span><span class="comment-delimiter">*/</span>
+<span class="comment-delimiter">/*</span><span class="comment">
+ * Copyright (c) 2011 Kyle Isom &lt;<a href="mailto:coder&#64;kyleisom.net">coder&#64;kyleisom.net</a>&gt;
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ </span><span class="comment-delimiter">*/</span>
+
+<span class="preprocessor">#include</span> <span class="string">&lt;sys/cdefs.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="string">&lt;sys/file.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="string">&lt;sys/stat.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="string">&lt;sys/types.h&gt;</span>
+
+<span class="preprocessor">#include</span> <span class="string">&lt;libgen.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="string">&lt;limits.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="string">&lt;stdlib.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="string">&lt;string.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="string">&lt;unistd.h&gt;</span>
+
+<span class="preprocessor">#define</span> <span class="variable-name">DEFAULT_PASSES</span>  3
+<span class="preprocessor">#define</span> <span class="variable-name">DEV_RANDOM</span>      <span class="string">"/dev/urandom"</span>
+<span class="preprocessor">#define</span> <span class="variable-name">MAX_CHUNK</span>       4096
+
+<span class="comment-delimiter">/* </span><span class="comment">prototypes </span><span class="comment-delimiter">*/</span>
+<span class="keyword">static</span> <span class="type">int</span>         <span class="function-name">do_wipe</span>(<span class="type">char</span> *, <span class="type">size_t</span>);
+<span class="keyword">static</span> <span class="type">int</span>         <span class="function-name">wipe</span>(<span class="type">char</span> *);
+<span class="preprocessor">#ifdef</span> OPENBSD
+__dead <span class="type">void</span>        <span class="function-name">usage</span>(<span class="type">void</span>);
+<span class="preprocessor">#else</span>
+<span class="keyword">static</span> <span class="type">void</span>        <span class="function-name">usage</span>(<span class="type">void</span>);
+<span class="preprocessor">#endif</span>
+
+<span class="comment-delimiter">/*</span><span class="comment">
+ * secure rm: overwrite a file with one or more passes of random data,
+ * then unlink it.
+ </span><span class="comment-delimiter">*/</span>
+<span class="type">int</span> 
+<span class="function-name">main</span>( <span class="type">int</span> <span class="variable-name">argc</span>, <span class="type">char</span> **<span class="variable-name">argv</span> )
+{
+    <span class="type">size_t</span> <span class="variable-name">passes</span>, <span class="variable-name">tmp_passes</span>, <span class="variable-name">wiped</span>, <span class="variable-name">failed</span>, <span class="variable-name">i</span>;
+    <span class="type">char</span> **<span class="variable-name">wipe_success</span>, **<span class="variable-name">wipe_fail</span>;
+    <span class="type">char</span> **<span class="variable-name">file_ptr</span>;
+    <span class="type">int</span> <span class="variable-name">retval</span>, <span class="variable-name">opt</span>, <span class="variable-name">verbose</span>;
+
+    passes  = DEFAULT_PASSES;
+    retval  = EXIT_FAILURE;
+    wiped   = 0;
+    failed  = 0;
+    verbose = 0;
+
+    <span class="keyword">if</span> (argc == 1)
+        usage();
+
+    <span class="keyword">while</span> (-1 != (opt = getopt(argc, argv, <span class="string">"hn:v"</span>))) {
+        <span class="keyword">switch</span>( opt ) {
+        <span class="keyword">case</span> <span class="string">'h'</span>:
+            usage();
+            <span class="keyword">break</span>;              <span class="comment-delimiter">/* </span><span class="comment">don't technically need it but meh </span><span class="comment-delimiter">*/</span>
+        <span class="keyword">case</span> <span class="string">'n'</span>:
+            tmp_passes = atoi(optarg);
+            passes = tmp_passes &gt; 0 ? tmp_passes : passes;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string">'v'</span>:
+            verbose = 1;
+            <span class="keyword">break</span>;
+        <span class="keyword">default</span>:
+            usage();
+            <span class="comment-delimiter">/* </span><span class="comment">NOTREACHED </span><span class="comment-delimiter">*/</span>
+        }
+    }
+
+    argc -= optind;
+    argv += optind;
+
+    file_ptr = argv;
+    wipe_success = calloc(argc, <span class="keyword">sizeof</span>(<span class="type">char</span> *));
+    wipe_fail    = calloc(argc, <span class="keyword">sizeof</span>(<span class="type">char</span> *));
+    
+
+    <span class="keyword">while</span> (<span class="constant">NULL</span> != *file_ptr) {
+        printf(<span class="string">"%s: "</span>, *file_ptr);
+        fflush(stdout);
+
+        <span class="keyword">if</span> (EXIT_FAILURE == do_wipe(*file_ptr, passes)) {
+            wipe_fail[failed] = strdup(*file_ptr);
+            failed++;
+        } <span class="keyword">else</span> {
+            wipe_success[wiped] = strdup(*file_ptr);
+            wiped++;
+            printf(<span class="string">" OK!"</span>);
+        }
+        file_ptr++;
+        printf(<span class="string">"\n"</span>);
+    }
+
+    <span class="keyword">if</span> (1 == verbose) {
+        <span class="keyword">if</span> (0 &lt; wiped) {
+            printf(<span class="string">"success: "</span>);
+            <span class="keyword">for</span>( i = 0; i &lt; wiped; ++i ) {
+                printf(<span class="string">"%s "</span>, wipe_success[i]);
+            }
+            printf(<span class="string">"\n"</span>);
+        }
+
+        <span class="keyword">if</span> (0 &lt; failed) {
+            printf(<span class="string">"failures: "</span>);
+            <span class="keyword">for</span>( i = 0; i &lt; failed; ++i ) {
+                printf(<span class="string">"%s "</span>, wipe_fail[i]);
+            }
+            printf(<span class="string">"\n"</span>);
+        }
+    }
+
+    <span class="comment-delimiter">/* </span><span class="comment">free allocated memory </span><span class="comment-delimiter">*/</span>
+    <span class="keyword">for</span> (i = 0; i &lt; failed; ++i) {
+        free(wipe_fail[i]);
+        wipe_fail[i] = <span class="constant">NULL</span>;
+    }
+    free(wipe_fail);
+    wipe_fail = <span class="constant">NULL</span>;
+
+    <span class="keyword">for</span> (i = 0; i &lt; wiped; ++i) {
+        free(wipe_success[i]);
+        wipe_success[i] = <span class="constant">NULL</span>;
+    }
+    free(wipe_success);
+    wipe_success = <span class="constant">NULL</span>;
+
+    <span class="keyword">return</span> retval;
+}
+
+<span class="comment-delimiter">/*</span><span class="comment">
+ * int do_wipe(char *, size_t)
+ *  takes a filename and the number of passes to wipe the file
+ *  returns EXIT_SUCCESS || EXIT_FAILURE
+ </span><span class="comment-delimiter">*/</span>
+<span class="type">int</span>
+<span class="function-name">do_wipe</span>(<span class="type">char</span> *<span class="variable-name">filename</span>, <span class="type">size_t</span> <span class="variable-name">passes</span>)
+{
+    <span class="keyword">struct</span> <span class="type">stat</span> <span class="variable-name">sb</span>;
+    <span class="type">size_t</span> <span class="variable-name">filesize</span>, <span class="variable-name">i</span>;
+    <span class="type">int</span> <span class="variable-name">retval</span>;
+
+    retval = EXIT_FAILURE;
+    <span class="keyword">if</span> (-1 == stat(filename, &amp;sb)) {
+        fprintf(stderr, <span class="string">"error opening file!"</span>);
+        <span class="keyword">return</span> retval;
+    }
+    filesize = sb.st_size;
+
+    <span class="keyword">for</span> (i = 0; i &lt; passes; ++i) {
+        <span class="keyword">if</span> (EXIT_FAILURE == wipe(filename)) {
+            printf(<span class="string">"!"</span>);
+            <span class="keyword">return</span> retval;
+        } <span class="keyword">else</span> <span class="keyword">if</span> (-1 == stat(filename, &amp;sb)) {
+            printf(<span class="string">"!"</span>);
+            <span class="keyword">return</span> retval;
+        } <span class="keyword">else</span> <span class="keyword">if</span> (filesize != sb.st_size) {
+            printf(<span class="string">"!"</span>);
+            <span class="keyword">return</span> retval;
+        }
+        printf(<span class="string">"."</span>);
+        fflush(stdout);
+    }
+
+    <span class="keyword">if</span> (-1 == unlink(filename)) {
+        fprintf(stderr, <span class="string">"unlink error!"</span>);
+    } <span class="keyword">else</span> {
+        retval = EXIT_SUCCESS;
+    }
+
+    <span class="keyword">return</span> retval;
+}
+
+<span class="comment-delimiter">/*</span><span class="comment">
+ * int wipe(char *)
+ *  takes a filename and attempts to overwrite it with random data
+ *  returns EXIT_SUCCESS || EXIT_FAILURE
+ </span><span class="comment-delimiter">*/</span>
+<span class="type">int</span>
+<span class="function-name">wipe</span>(<span class="type">char</span> *<span class="variable-name">filename</span>)
+{
+    <span class="keyword">struct</span> <span class="type">stat</span> <span class="variable-name">sb</span>;
+
+    <span class="type">size_t</span> <span class="variable-name">chunk</span>, <span class="variable-name">filesize</span>, <span class="variable-name">rdsz</span>, <span class="variable-name">wiped</span>, <span class="variable-name">wrsz</span>;
+    <span class="type">FILE</span> *<span class="variable-name">devrandom</span>, *<span class="variable-name">target</span>;
+    <span class="type">int</span> <span class="variable-name">retval</span>, <span class="variable-name">targetfd</span>;
+    <span class="type">char</span> *<span class="variable-name">rdata</span>;
+
+    retval = EXIT_FAILURE;
+    wiped  = 0;
+
+    <span class="keyword">if</span> (-1 == stat(filename, &amp;sb))
+        <span class="keyword">return</span> retval;
+
+    filesize = sb.st_size;
+
+    <span class="comment-delimiter">/* </span><span class="comment">
+     * open devrandom first: if this fails, we don't want to touch the target
+     * file. 
+     </span><span class="comment-delimiter">*/</span>
+    devrandom = fopen(DEV_RANDOM, <span class="string">"r"</span>);
+    <span class="keyword">if</span> (<span class="constant">NULL</span> == devrandom) {
+        printf(<span class="string">"failed to open PRNG %s!"</span>, DEV_RANDOM);
+        <span class="keyword">return</span> retval;
+    } <span class="keyword">else</span> <span class="keyword">if</span> (-1 == ferror(devrandom)) {
+        printf(<span class="string">"error opening %s!"</span>, DEV_RANDOM);
+        <span class="keyword">return</span> retval;
+    }
+
+    <span class="comment-delimiter">/*</span><span class="comment">
+     * for security purposes, we want to make sure to actually overwrite the
+     * the file. r+ gives us read/write but more importantly, sets the write
+     * stream at the beginning of the file. a side note is that when overwriting
+     * a file, it's size will never seem to change.
+     </span><span class="comment-delimiter">*/</span>
+    target   = fopen(filename, <span class="string">"r+"</span>);
+    <span class="keyword">if</span> (<span class="constant">NULL</span> == target) {
+        fprintf(stderr, <span class="string">"failed to open file"</span>);
+        fclose(devrandom);
+        <span class="keyword">return</span> retval;
+    } <span class="keyword">else</span> <span class="keyword">if</span> (-1 == ferror(target)) {
+        fprintf(stderr, <span class="string">"error opening file!"</span>);
+        fclose(devrandom);
+        <span class="keyword">return</span> retval;
+    }
+    rewind(target);
+    targetfd = fileno(target);
+    <span class="keyword">if</span> (-1 == flock(targetfd, LOCK_EX)) {
+        fprintf(stderr, <span class="string">"error locking file"</span>);
+        fclose(devrandom);
+        fclose(target);
+    }
+
+    <span class="comment-delimiter">/* </span><span class="comment">wait to calloc until we really need the data - makes cleaning up less
+     * tricky.
+     </span><span class="comment-delimiter">*/</span>
+    rdata = calloc(MAX_CHUNK, <span class="keyword">sizeof</span>(<span class="type">char</span>));
+    <span class="keyword">if</span> (<span class="constant">NULL</span> == rdata) {
+        fprintf(stderr, <span class="string">"could not allocate random data memory"</span>);
+
+        <span class="comment-delimiter">/* </span><span class="comment">where's my cleanup code? </span><span class="comment-delimiter">*/</span>
+        <span class="keyword">return</span> retval;
+    }
+
+    <span class="keyword">while</span> (wiped &lt; filesize) {
+        chunk = filesize - wiped;
+        chunk = chunk &gt; MAX_CHUNK ? MAX_CHUNK : chunk;
+
+        rdsz  =  fread( rdata, <span class="keyword">sizeof</span>(<span class="type">char</span>), chunk, devrandom );
+        wrsz  = fwrite( rdata, <span class="keyword">sizeof</span>(<span class="type">char</span>), chunk, target );
+
+        <span class="keyword">if</span> (-1 == stat(filename, &amp;sb)) {
+            fprintf(stderr, <span class="string">" stat() error !"</span>);
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">if</span> ((rdsz != wrsz) || (filesize != (<span class="type">unsigned</span> <span class="type">int</span>)sb.st_size)) {
+            fprintf(stderr, <span class="string">"invalid read/write size"</span>);
+            <span class="keyword">break</span>;
+        }
+
+        wiped += chunk;
+    }
+    
+    <span class="comment-delimiter">/* </span><span class="comment">release lock </span><span class="comment-delimiter">*/</span>
+    <span class="keyword">if</span> (-1 == flock(targetfd, LOCK_UN))
+        fprintf(stderr, <span class="string">"error releasing lock"</span>);
+
+    <span class="comment-delimiter">/* </span><span class="comment">for cleanup, report close errors and free mem </span><span class="comment-delimiter">*/</span>
+    <span class="keyword">if</span> ((0 != fclose(devrandom)) || (0 != fclose(target)))
+        fprintf(stderr, <span class="string">"error closing file"</span>);
+    <span class="keyword">else</span>
+        retval = EXIT_SUCCESS;
+
+    free(rdata);
+    rdata = <span class="constant">NULL</span>;
+
+    <span class="keyword">return</span> retval;
+}
+
+<span class="comment-delimiter">/*</span><span class="comment">
+ * usage: print a quick usage message 
+ </span><span class="comment-delimiter">*/</span>
+<span class="type">void</span> 
+<span class="function-name">usage</span>(<span class="type">void</span>)
+{
+    <span class="keyword">extern</span> <span class="type">char</span> *<span class="variable-name">__progname</span>;
+
+    printf(<span class="string">"usage: %s [-v] [-n number] file list\n"</span>, __progname);
+    printf(<span class="string">"\noptions:\n"</span>);
+    printf(<span class="string">"\t-v: verbose mode. display list of failures and wiped files "</span>);
+    printf(<span class="string">"after wiping\n"</span>);
+    printf(<span class="string">"\t-n &lt;number of passes&gt;: specify number of passes\n"</span>);
+    printf(<span class="string">"\t\t(default is %d passes)\n"</span>, DEFAULT_PASSES);
+
+    printf(<span class="string">"\n"</span>);
+    exit(EXIT_FAILURE);
+}
+
+
+</pre>
+ </body>
+</html><p style='font-size: 8pt; font-family: monospace;'>Generated by Kyle Isom using <a href='http://p.hagelb.org'>scpaste</a> at Wed Feb  8 08:01:14 2012. EAT. (<a href='srm.c'>original</a>)</p>
