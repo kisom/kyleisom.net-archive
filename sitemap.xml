@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://kisom.github.com/blog/2010/06/22/tmux-as-an-IDE/</loc>
+        <lastmod>2012-02-21T12:09:07+01:00</lastmod>
+    </url>
+    <url>
         <loc>http://kisom.github.com/blog/2011/05/13/presenting-ctrans/</loc>
         <lastmod>2012-01-23T20:37:22+01:00</lastmod>
     </url>
@@ -76,7 +80,7 @@
     </url>
     <url>
         <loc>http://kisom.github.com/about/</loc>
-        <lastmod>2012-02-11T17:57:19+01:00</lastmod>
+        <lastmod>2012-02-20T00:42:28+01:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/about/keys/coder.asc</loc>
@@ -88,7 +92,7 @@
     </url>
     <url>
         <loc>http://kisom.github.com/blog/archives/</loc>
-        <lastmod>2012-02-18T23:19:02+01:00</lastmod>
+        <lastmod>2012-02-21T12:09:07+01:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/book/acknowledgements/</loc>
@@ -128,7 +132,7 @@
     </url>
     <url>
         <loc>http://kisom.github.com/</loc>
-        <lastmod>2012-02-18T23:19:02+01:00</lastmod>
+        <lastmod>2012-02-21T12:09:07+01:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/publish/datasec/</loc>

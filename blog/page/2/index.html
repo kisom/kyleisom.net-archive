@@ -663,6 +663,61 @@ directory). the code also could be cleaned up quite a bit.</p>
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/06/22/tmux-as-an-IDE/">Tmux as an IDE</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-22T11:59:00+02:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2010</time>
+        
+         | <a href="/blog/2010/06/22/tmux-as-an-IDE/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It may not sound feasible, but I currently use tmux as my IDE. Getting it
+running under Fedora wasn&#8217;t as simple as <code>sudo yum install tmux</code>, but it was
+almost that easy. Instead, install <code>libevent-devel</code>, download the
+<a href="http://tmux.sourceforge.net/">tmux source code</a>, and build it normally.</p>
+
+<p>I found <a href="http://www.dayid.org/os/notes/tm.html">dayid&#8217;s tmux cheat sheet</a>
+pretty handy for getting everything set up.</p>
+
+<p>Basically, I start a new tmux session, split the screen vertically, and then
+split one of the panes horizontally. My set up looks like this:
+<a href="/images/tmuxide.png"><img src="/images/tmuxide.t.png" alt="tmux IDE screenshot" /></a></p>
+
+<p>The vertical pane on the left serves as my code editing window. I have my keys
+remapped in vim such that <code>^p</code> and <code>^n</code> cycle through the files I have open
+when I open multiple files. The top right pane is my git (or other version
+control) window, and the bottom right pane is my make / code testing window.
+Sometimes I flip sides, i.e. the vim session is on the right instead. <code>^b o</code>
+cycles through sessions.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -845,10 +900,11 @@ function showLastfmFeed(xml){
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Kyle Isom -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
 
 </footer>
   
