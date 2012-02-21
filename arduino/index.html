@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Arduino - (cons 'hack *life*)</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="Arduino Jan 18th, 2011 Libraries are also available via
+github. Complete Libraries ThumbStick
+(ThumbStick Readme) - 1092 bytes of code plus
+20 bytes &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/arduino">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="(cons 'hack *life*)" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29320669-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">(cons 'hack *life*)</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="https://github.com/kisom">GitHub</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Arduino</h1>
+    <p class="meta">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-01-18T13:15:00+01:00" pubdate data-updated="true">Jan 18<span>th</span>, 2011</time></p>
+  </header>
+  
+  <p>Libraries are also available via
+<a href="http://github.com/brokenlcd/Arduino-Libraries">github</a>.</p>
+
+<h2>Complete Libraries</h2>
+
+<ul>
+<li><strong><a href="lib/ThumbStick.zip">ThumbStick</a></strong>
+(<a href="doc/ThumbStick-Readme.txt">ThumbStick Readme</a>) - 1092 bytes of code plus
+20 bytes per instance (on the ATmega168/328-based boards, you can have a max
+of 3 fully-functional ThumbSticks because of the limit of 6 analog pins)</li>
+<li><strong><a href="lib/DS1307.zip">DS1307</a></strong>
+(<a href="doc/DS1307-Readme.txt">DS1307 Readme</a>) - 1254 bytes of code with one
+instance (note that there can only be one DS1307 on the I2C bus as per the
+datasheet). Also a note for people new to the Arduino, this device uses the
+I2C bus, which requires the use of analog pins 4 and 5, meaning you can only
+have up to four analog devices on the Arduino.</li>
+<li><strong><a href="lib/Ping.zip">Ping</a></strong>
+(<a href="doc/Ping-Readme.txt">Ping Readme</a>) - a library to easily use the
+Parallax Ping))) sensor in robotics / UAV projects. 520 bytes of code with
+one instance using an integer to store the pin in, plus 18 bytes per
+instance (also using an integer to store the pin).</li>
+<li><strong><a href="lib/pushbutton.zip">pushbutton</a></strong>
+(<a href="doc/pushbutton-Readme.txt">pushbutton Readme</a>) - 72 bytes including an
+integer for storing the pin used, 22 bytes per additional instance.
+Includes debouncing and uses internal resistor.</li>
+</ul>
+
+
+<h2><strong>Demo Sketches</strong></h2>
+
+<p><strong>Warning</strong>: these are usually thrown together quickly to very rapidly test
+code / libraries, and generally have minimal commenting. Read at your own
+risk.</p>
+
+<ul>
+<li><a href="sketch/RTC_LCD.pde">LCD/ThumbStick interface to RTC</a> (uses the ThumbStick
+and DS1307 libraries). This file will compile to almost 12k of arduino of
+code. There are several two-dimensional char arrays to display things in a
+human-friendly manner, which use 278 bytes of RAM, a little over the quarter
+of of the ATmega168&#8217;s available RAM. This provides a user-friendly way to
+view the RTC&#8217;s functions and to easily set and verify the date and time on
+the RTC. The code is not commented, one day I might get around to commenting
+it.</li>
+<li><a href="sketch/I2C_scanner.pde">I2C Scanner</a>. A modified version of Tod Kurt&#8217;s
+I2C scanner, the source has a link to his site.</li>
+<li><a href="sketch/PingTest.pde">Ping Test</a>. A very quick test to display the
+distance in centimeters from a Ping))) sensor triggered via pushbutton over
+a serial connection. Uses pushbutton and Ping libraries.</li>
+</ul>
+
+
+  
+    <footer>
+      <p class="meta">
+        
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-01-18T13:15:00+01:00" pubdate data-updated="true">Jan 18<span>th</span>, 2011</time>
+        
+      </p>
+      
+        <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/arduino/index.html" data-via="kyleisom" data-counturl="http://kisom.github.com/arduino/index.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/02/21/analytics-win/">Analytics Win</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/17/thoughts-on-mountain-lion/">Thoughts on Mountain Lion</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/02/setting-up-aquamacs-for-clojure/">Setting Up Aquamacs for Clojure</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/01/using-set-theory/">Using Set Theory</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/28/noir-v-flask/">Noir v. Flask</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+<section class="lastfm">
+<h1>Recently Scrobbled</h1>
+<style type="text/css">
+  #lastfmList li{ text-align: left; }
+</style>
+<ul id="lastfmList">
+  <li class="loading">Updating tracks...</li>
+</ul>
+
+<script type="text/javascript">
+  $.domReady(function(){
+    getLastfmFeed("brokenlcd", 10, "263f6cbb10c41a73ea3d3fb3fb2f942e");
+  });
+</script>
+
+<script lang="Javascript">
+function getLastfmFeed(user,count,api_key) {
+  count = parseInt(count, 10);
+  $.ajax({
+      url: "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=" + user + "&limit=" + count + "&api_key=" + api_key
+    , type: 'xml'
+    , error: function (err) { $('#lastfmList li.loading').addClass('error').text("Last.fm's busted"); }
+    , success: function(data) { showLastfmFeed(data); }
+  });
+}
+
+function showLastfmFeed(xml){
+  var tracklist = document.getElementById('lastfmList'),
+      content = '',
+      i=0;
+  
+  $(xml.responseXML).find("recenttracks").children().each(function(){
+    var artist = $(this).find('artist').text(),
+        name = $(this).find('name').text(),
+        date = $(this).find('date').text(),
+        url = $(this).find('url').text(),
+        img = $(this).find('image').text(),
+        artist_url = url.replace(/_\/[\w\+]+\/?$/, '');
+        content += '<li id="lastfmItem_'+i+'"><img src="' + img + '" width="24" height="24"> <a href="'+ url + '">' + name +'</a> by <a href="' + artist_url + '">' + artist + '</a><span class="date"> ' + prettyDate(date) + ' ago</span></li>';
+    i+=1;
+  });
+
+  tracklist.innerHTML = content;
+}
+</script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

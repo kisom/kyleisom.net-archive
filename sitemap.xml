@@ -101,6 +101,10 @@
         <lastmod>2012-01-21T19:22:59+01:00</lastmod>
     </url>
     <url>
+        <loc>http://kisom.github.com/arduino/</loc>
+        <lastmod>2012-02-21T13:43:46+01:00</lastmod>
+    </url>
+    <url>
         <loc>http://kisom.github.com/blog/archives/</loc>
         <lastmod>2012-02-21T13:25:32+01:00</lastmod>
     </url>
@@ -143,6 +147,10 @@
     <url>
         <loc>http://kisom.github.com/</loc>
         <lastmod>2012-02-21T13:25:32+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kisom.github.com/projects/</loc>
+        <lastmod>2012-02-21T13:39:35+01:00</lastmod>
     </url>
     <url>
         <loc>http://kisom.github.com/publish/datasec/</loc>
