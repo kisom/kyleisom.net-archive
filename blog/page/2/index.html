@@ -9,7 +9,8 @@
   <meta name="author" content="Kyle Isom">
 
   
-  <meta name="description" content="(Originally written on 2011-10-29 and an unusual departure from the usual technical content.) TL;DR One more combat veteran is disgusted and appalled &hellip;">
+  <meta name="description" content="In the spirit of many of my online profiles which proudly declare &#8220;my
+commit log is my blog,&#8221; I&#8217;ve decided to start using that in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +84,65 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/28/add-emacsd/">Add .emacs.d/init.el</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-28T00:00:00+01:00" pubdate data-updated="true">Nov 28<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/28/add-emacsd/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In the spirit of many of my online profiles which proudly declare &#8220;my
+commit log is my blog,&#8221; I&#8217;ve decided to start using that in my posts.
+Here is the first such attempt.</p>
+
+<pre><code> commit 40bbc533313a43192506b682fe546304d8603d11 
+ Author: Kyle Isom &lt;coder@kyleisom.net&gt;
+ Date:   Mon Nov 28 17:34:30 2011 +0300
+
+    add .emacs.d/init.el
+</code></pre>
+
+<p>I&#8217;ve started using emacs, which is an act of such great blasphemy for
+a red-blooded stalwart vim-wielding hacker such as myself that I find
+it difficult to come to grips with sometimes. But there is a method to
+my madness, and it isn&#8217;t just that my morals are so comprised right
+now in this nadir of my life that I&#8217;ve even started learning
+javascript (a running joke).</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/11/28/add-emacsd/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -668,7 +728,7 @@ directory). the code also could be cleaned up quite a bit.</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/06/22/tmux-as-an-IDE/">Tmux as an IDE</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/07/22/compiling-source-navigator-in-ubuntu-10-dot-04/">Compiling Source Navigator in Ubuntu 10.04</a></h1>
     
     
       <p class="meta">
@@ -684,33 +744,35 @@ directory). the code also could be cleaned up quite a bit.</p>
   
 
 
-<time datetime="2010-06-22T11:59:00+02:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2010</time>
+<time datetime="2010-07-22T13:21:00+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2010</time>
         
-         | <a href="/blog/2010/06/22/tmux-as-an-IDE/#disqus_thread">Comments</a>
+         | <a href="/blog/2010/07/22/compiling-source-navigator-in-ubuntu-10-dot-04/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>It may not sound feasible, but I currently use tmux as my IDE. Getting it
-running under Fedora wasn&#8217;t as simple as <code>sudo yum install tmux</code>, but it was
-almost that easy. Instead, install <code>libevent-devel</code>, download the
-<a href="http://tmux.sourceforge.net/">tmux source code</a>, and build it normally.</p>
+  <div class="entry-content"><p>Compiling source navigator under Ubuntu 10.04 is fairly easy once you
+get the dependencies down. Grab the source from
+<a href="http://sourcenav.sourceforge.net/">the sourceforge page</a>.
+The dependencies you need are:</p>
 
-<p>I found <a href="http://www.dayid.org/os/notes/tm.html">dayid&#8217;s tmux cheat sheet</a>
-pretty handy for getting everything set up.</p>
+<pre><code>tk tklib libx11-dev libxmu-dev libxmu-headers libxt-dev libtool
+</code></pre>
 
-<p>Basically, I start a new tmux session, split the screen vertically, and then
-split one of the panes horizontally. My set up looks like this:
-<a href="/images/tmuxide.png"><img src="/images/tmuxide.t.png" alt="tmux IDE screenshot" /></a></p>
+<p>Of course you also need <code>build-essential</code>. Then a quick</p>
 
-<p>The vertical pane on the left serves as my code editing window. I have my keys
-remapped in vim such that <code>^p</code> and <code>^n</code> cycle through the files I have open
-when I open multiple files. The top right pane is my git (or other version
-control) window, and the bottom right pane is my make / code testing window.
-Sometimes I flip sides, i.e. the vim session is on the right instead. <code>^b o</code>
-cycles through sessions.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./configure --prefix<span class="o">=</span>/opt/source-nav
+</span><span class='line'>make
+</span><span class='line'>sudo make install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>should do the trick.</p>
 </div>
   
   
@@ -719,6 +781,8 @@ cycles through sessions.</p>
     </article>
   
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -731,6 +795,10 @@ cycles through sessions.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/02/21/analytics-win/">Analytics Win</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/02/17/thoughts-on-mountain-lion/">Thoughts on Mountain Lion</a>
@@ -746,10 +814,6 @@ cycles through sessions.</p>
     
       <li class="post">
         <a href="/blog/2012/01/28/noir-v-flask/">Noir v. Flask</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/23/basic-set-theory/">Basic Set Theory</a>
       </li>
     
   </ul>
