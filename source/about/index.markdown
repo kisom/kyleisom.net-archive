@@ -17,11 +17,10 @@ Links:
 * [My Setup](/uses/)
 
 I am a software engineer in the United States, and I deal mostly with
-C and python. This is a quick tour of my GitHub repositories. I am very 
-interested in information security, data mining, and natural language 
-processing (although just getting started with the latter two). Unless 
-explicitly stated otherwise, all of my code is released under a dual ISC / 
-public domain license, and it's up to the user which to follow.
+C and python. I am fascinated by information security, data mining, and
+natural language processing (although just getting started with the 
+latter two). Lately, I've been rocking a lot more Clojure and getting back
+to functional programming.
 
 ## Some of my writing
 
@@ -73,4 +72,5 @@ I can also be found lurking on freenode in #devious (the channel for the
 [BSD public shell server](http://www.devio.us) I help run) and #clojure.
 I go by vimja, emacsdaddy, or kyle_dev. 
 
-I also can be contacted via XMPP at kyle [at] dukgo.com.
+I can also be reached on XMPP, Skype, and iMessage; you can get those 
+from one of the other contact methods.
