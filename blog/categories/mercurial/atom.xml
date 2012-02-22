@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mercurial | (cons 'hack *life*)]]></title>
   <link href="http://kisom.github.com/blog/categories/mercurial/atom.xml" rel="self"/>
   <link href="http://kisom.github.com/"/>
-  <updated>2012-02-22T17:21:03+01:00</updated>
+  <updated>2012-02-22T18:22:45+01:00</updated>
   <id>http://kisom.github.com/</id>
   <author>
     <name><![CDATA[Kyle Isom]]></name>
@@ -21,6 +21,8 @@
     <content type="html"><![CDATA[<p>I was at an <a href="http://www.appsterdam.rs">Appsterdam</a> lunch meetup today, and
 before the presentation I was talking with some people about source control.
 They worked for Atlassian, and so of course bitbucket v. github came up.
+(It didn't help that I was wearing a GitHub shirt. Atlassian - I want to give
+you money to get a bitbucket shirt but I don't see any for sale. Why?)
 Regardless of why I typically use github more, or what my usage profiles are
 for the two, they were interested to hear my solution to a problem I had:
 how to simplify working in various source control systems, particularly in
