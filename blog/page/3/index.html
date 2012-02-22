@@ -9,8 +9,10 @@
   <meta name="author" content="Kyle Isom">
 
   
-  <meta name="description" content="It may not sound feasible, but I currently use tmux as my IDE. Getting it
-running under Fedora wasn&#8217;t as simple as sudo yum install tmux, but &hellip;">
+  <meta name="description" content="Compiling source navigator under Ubuntu 10.04 is fairly easy once you
+get the dependencies down. Grab the source from
+the sourceforge page.
+The &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +93,63 @@ running under Fedora wasn&#8217;t as simple as sudo yum install tmux, but &helli
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2010/07/22/compiling-source-navigator-in-ubuntu-10-dot-04/">Compiling Source Navigator in Ubuntu 10.04</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-22T13:21:00+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2010</time>
+        
+         | <a href="/blog/2010/07/22/compiling-source-navigator-in-ubuntu-10-dot-04/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Compiling source navigator under Ubuntu 10.04 is fairly easy once you
+get the dependencies down. Grab the source from
+<a href="http://sourcenav.sourceforge.net/">the sourceforge page</a>.
+The dependencies you need are:</p>
+
+<pre><code>tk tklib libx11-dev libxmu-dev libxmu-headers libxt-dev libtool
+</code></pre>
+
+<p>Of course you also need <code>build-essential</code>. Then a quick</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./configure --prefix<span class="o">=</span>/opt/source-nav
+</span><span class='line'>make
+</span><span class='line'>sudo make install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>should do the trick.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2010/06/22/tmux-as-an-IDE/">Tmux as an IDE</a></h1>
     
     
@@ -156,6 +215,10 @@ cycles through sessions.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/02/22/carefree-git-and-hg/">carefree git and hg</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/02/21/analytics-win/">Analytics Win</a>
       </li>
     
@@ -169,10 +232,6 @@ cycles through sessions.</p>
     
       <li class="post">
         <a href="/blog/2012/02/01/using-set-theory/">Using Set Theory</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/28/noir-v-flask/">Noir v. Flask</a>
       </li>
     
   </ul>
