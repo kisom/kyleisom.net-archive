@@ -31,7 +31,10 @@ given in the examples looks like this:
 
 ![simple world example](/images/cs373/unit1/simple_world.png)
 
-Given a list of sensor readings, i.e. `['green', 'red']` and an list
+You can see each cell in the world has a colour, and the robot's
+worldview consists of a 2D matrix of probabilities. 
+
+Given a list of sensor readings, i.e. `['green', 'red']` and a list
 of corresponding motions in the form [y, x] such that `[1, 0]` is a
 movement downwards and `[0, 1]` is a movement right, the robot should
 be able to figure out where in the world it is. All the example code
@@ -58,7 +61,7 @@ lane.
 
 The world looks something like this:
 
-![road test world](/Images/cs373/unit1/road_test_world.png)
+![road test world](/images/cs373/unit1/road_test_world.png)
 
 
 With that in mind, I wrote the road test:
@@ -134,5 +137,5 @@ Stay tuned!
 ### References:
 
 * [Robust Monte Carlo Localization for Mobile Robots](http://robots.stanford.edu/papers/thrun.robust-mcl.html)
-* [Python versions of the repo)](https://bitbucket.org/kisom/cs373)
+* [Python versions of the repo)](https://bitbucket.org/kisom/cs373) (private until the 28th)
 * [C++ version](https://github.com/kisom/cs373)
