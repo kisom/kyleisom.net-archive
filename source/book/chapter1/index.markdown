@@ -56,7 +56,8 @@ writing software:
 0. Integrity
 
 
-Let's take a look at these in a little more depth, and see how they apply to the software we're writing.
+Let's take a look at these in a little more depth, and see how they apply to the
+software we're writing.
 
 First, we visit the concepts of **authentication** and **authorisation**.
 Authentication is confirming the identity of a user--most often by way of a
