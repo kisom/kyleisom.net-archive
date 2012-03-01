@@ -43,4 +43,6 @@ Python because it is both a language I am well familiar with, and because it
 is a very readable language. Readers should note that the emphasis in the
 book is not on the Python way to do things; readers who are familiar with
 Python will note that I shy away from idiomatic Python that will be
-difficult for those unfamiliar with the language to understand.
+difficult for those unfamiliar with the language to understand. The first few
+chapters will also be code-free, as I would like to focus on some key high-
+level concepts that will be discussed in depth later with code examples.
