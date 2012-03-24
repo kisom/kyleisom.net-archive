@@ -78,8 +78,9 @@ For FlexArgs, I had to navigate to
 There, you should see some files named *.gcno, *.gcda, and so forth. 
 
 At this point you'll want to install `lcov` which is, most fortuitously, in
-HomeBrew. `lcov` gives us pretty HTML output of our code coverage. You'll 
-also want to stick this small script in your path:
+HomeBrew. `lcov` gives us pretty HTML output of our code coverage (via the
+included `genhtml` program). You'll also want to stick this small script in 
+your path:
 
 {% codeblock lang:bash %}
 #!/bin/sh
@@ -130,11 +131,11 @@ a null byte? What happens then? What if the string has more than one `=` in it?
 
 As you can see, there's a lot to think about. While writing tests ahead of time
 to verify basic functionality is a great idea (I wrote about
-[README-Generated Test-Drive Development](http://www.kyleisom.net/blog/2011/07/04/rgtdd/),
-your tests need to go further to fully verify your code. Just by looking at the
-questions above and thinking about the tests, I can already see that my code
-needs some work to address some of those questions. I can write the tests to
-validate the changes I'll need to make.
+[README-Generated Test-Drive Development](http://www.kyleisom.net/blog/2011/07/04/rgtdd/)
+previously), your tests need to go further to fully verify your code. Just by 
+looking at the questions above and thinking about the tests, I can already 
+see that my code needs some work to address some of those questions. I can 
+write the tests to validate the changes I'll need to make.
 
 I mentioned at the beginning that I like to test models using command line
 test drivers. What this means is that I write a small command line target that
@@ -144,10 +145,16 @@ or the controllers to develop the model. This follows my ideal of developing
 model first, and letting the controller and view follow from that. In Xcode,
 we can do this from the commandline inside the project using
 `xcodebuild -target FlexArgsTest -configuration Debug clean build`. 
-(At some point, I'll write a 
+Before you run this, set *Test After Build* to *Yes* in the Build Settings
+to ensure the tests will run after building. (At some point, I'll write a 
 [Guardfile](https://github.com/guard/guard) to automate testing.)
 
-I hope you find this useful. Now, if you'll excused me - I have more tests to write...
+I hope you find this useful. Now, if you'll excuse me - I have more tests to write...
+
+Update: I've written a [part 2](/blog/2012/03/16/so-you-want-to-unit-test-in-xcode-part-2/),
+which covers a bit more and includes <del>black magic where the dark lord has destroyed
+my soul and brought death, destruction, and chaos upon the world</del> a Ruby
+gem I wrote to assist in testing. 
 
 ### References
 
@@ -155,4 +162,4 @@ I hope you find this useful. Now, if you'll excused me - I have more tests to wr
 * [Code Coverage with Xcode 4.2](http://www.infinite-loop.dk/blog/2011/12/code-coverage-with-xcode-4-2/)
 * [Regression Testing](http://drdobbs.com/tools/206105233)
 * [Fuzzing](http://pages.cs.wisc.edu/~bart/fuzz/)
-* [README-Generated Test-Drive Development](http://www.kyleisom.net/blog/2011/07/04/rgtdd/)
+* [README-Generated Test-Driven Development](http://www.kyleisom.net/blog/2011/07/04/rgtdd/)
