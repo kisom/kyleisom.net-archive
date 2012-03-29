@@ -60,7 +60,7 @@ Of course, these tools are quite often in a different language than your code
 is. For example, the autotools use POSIX shell, M4, and POSIX Makefiles to
 generate the configure script and Makefiles for distribution. This takes time
 to learn, especially given some of the nuances involved. There is of course
-some debate (see "Stop the autoconf insanity! Why we need a new build system"[http://freshmeat.net/articles/stop-the-autoconf-insanity-why-we-need-a-new-build-system]) 
+some debate (see ("Stop the autoconf insanity! Why we need a new build system")[http://freshmeat.net/articles/stop-the-autoconf-insanity-why-we-need-a-new-build-system]) 
 as to how useful these are, but for the most part the reward is worth the work.
 For the autotools suite, take a look at the No Starch Press book
 [Autotools:A Practitioner's Guide to GNU Autoconf, Automake, and Libtool](http://nostarch.com/autotools.htm).
@@ -154,3 +154,23 @@ There's the administrative side (i.e. the build system, feature request and bug
 tracking) and the human side (i.e. documentation and responding to support
 requests). While it may not be as much fun as the actual coding, it is still
 integral to the development process. 
+
+update (2012-03-25)
+-------------------
+One of the things I've completely neglected to talk about in this discussion is
+the use of tests. Functional tests, unit tests, regression testing, continuous
+integration, basically -- TEST ALL THE THINGS. Why? First - it helps you write
+better code, and to ensure that changes don't break everything (or if they, the
+breakage is the expected breakage). Second, it's a form of literate coding where
+users can see how to use your code in practise (if it's a library) or can get a
+warm fuzzy knowing you cared enough to validate and test your code as you went.
+You might think, well - this is a binary for end users. They won't know or won't
+care about unit tests and so forth. Maybe that's true. However, part of the 
+craft of writing good code is paying attention to detail. Any open source 
+project that wants to be open to contributions should have tests so quality is
+enforced (i.e. don't bother submitting a patch or pull request if your changes
+don't pass the tests) and so they can see how you are using your code. Yes, you
+should be writing your code so that it's obvious from reading it what it does.
+If there's a lot of it, and a developer wants to make some quick changes to fix
+a bug, tests provide a good way for them to see where things happen and how they
+happen. I assert that good coders write good test code. (Testing joke!)
