@@ -7,6 +7,9 @@ sharing: true
 footer: true
 ---
 
+I have a site, called [tyrfingr](http://tyrfingr.errno61.net), that serves
+as a portfolio of my UNIX coding projects.
+
 ## Examples of Coding Style
 * [srm](./srm.c.html) is a simple C utility to remove files securely. I didn't
 have a network connection when I need the capability, so I wrote my own.

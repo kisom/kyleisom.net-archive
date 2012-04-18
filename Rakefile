@@ -6,7 +6,7 @@ require "stringex"
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
 ssh_user       = "brokenlcd.net"
 ssh_port       = "22"
-document_root  = "~/public_html/"
+document_root  = "~/sites/kyleisom.net/"
 rsync_delete   = false
 deploy_default = "push"
 

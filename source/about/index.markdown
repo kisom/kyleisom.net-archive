@@ -11,6 +11,7 @@ footer: true
 
 Links:
 
+* [tyrfingr](http://tyrfingr.errno61.net) (unix code portfolio)
 * [My GitHub Profile](https://github.com/kisom)
 * [My Bitbucket Profile](https://bitbucket.org/kisom)
 * [My Resumé](/resume/)
