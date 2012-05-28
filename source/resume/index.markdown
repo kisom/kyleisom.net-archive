@@ -10,7 +10,7 @@ footer: true
 I have a copy of my resume available in:
 
 * [PDF format](/resume/resume.pdf)
-* [HTML format](/resume/resume.html)
+<-- * [HTML format](/resume/resume.html) -->
 * [plaintext format](/resume/resume.txt) (UTF-8 encoded)
 * [JSON format](/resume/resume.json)
 * [UNIX mdoc (manpage) format](/resume/kyleisom.7)
