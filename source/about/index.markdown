@@ -11,7 +11,7 @@ footer: true
 
 Links:
 
-* [tyrfingr](http://tyrfingr.errno61.net) (unix code portfolio)
+* [tyrfingr](http://www.tyrfingr.is/) (unix code portfolio)
 * [My GitHub Profile](https://github.com/kisom)
 * [My Bitbucket Profile](https://bitbucket.org/kisom)
 * [My Resumé](/resume/)
@@ -20,8 +20,7 @@ Links:
 I am a software engineer in the United States, and I deal mostly with
 C and python. I am fascinated by information security, data mining, and
 natural language processing (although just getting started with the 
-latter two). Lately, I've been rocking a lot more Clojure and getting back
-to functional programming.
+latter two). 
 
 ## Some of my writing
 
@@ -71,7 +70,7 @@ harvested for spam).
 
 I can also be found lurking on freenode in #devious (the channel for the
 [BSD public shell server](http://www.devio.us) I help run) and #clojure.
-I go by vimja, emacsdaddy, or kyle_dev. 
+I go by kyl, vimja, or emacsdaddy. 
 
 I can also be reached on XMPP, Skype, and iMessage; you can get those 
 from one of the other contact methods.

@@ -13,4 +13,6 @@ I have a copy of my resume available in:
 * [HTML format](/resume/resume.html)
 * [plaintext format](/resume/resume.txt) (UTF-8 encoded)
 * [JSON format](/resume/resume.json)
+* [UNIX mdoc (manpage) format](/resume/kyleisom.7)
+
 

@@ -6,6 +6,7 @@
 ## Skills
 
 * Development: C, Python, Clojure, Objective-C, UNIX / POSIX programming
+network programming, security engineering
 * Software Engineering: GNU Autotools suite, LaTeX, Texinfo,
 * Development Tools: Valgrind, lint, rats, vim, emacs
 * I know how to do the other engineering involved with software
@@ -39,7 +40,7 @@ it.
 cryptography into projects.
 * Includes source code examples with tests.
 </ul>
-* [Libdaemon](https://github.com/kisom/libdaemon) (C)
+* [Libdaemon](http://www.tyrfingr.is/projects/libdaemon/) (C)
     * A lightweight POSIX daemon library.
     * Published September 2011   
     * Written to satisfy the need for a common API to daemonise programs
@@ -53,12 +54,9 @@ cryptography into projects.
     * Designed to quickly share a file over HTTPS.
     * Addresses the fact that similar programs were not using TLS/SSL.
 
-## Current Classes:
-
-* [Natural Language Processing](http://www.nlp-class.org/) (Spring 2012)
-    * Via Stanford's online courses
-* [Introduction to Machine Learning](http://jan2012.ml-class.org/) (Spring 2012)
-    * Via Stanford's online courses
-* [Programming a Robotic Car](http://www.udacity.com/cs#373) (Spring 2012)
-    * Via Udacity
-
+* [srvwd](http://www.tyrfingr.is/projects/srvwd) (C)
+    * Serve Working Directory
+    * Minimal webserver written in ANSI C.
+    * Forking webserver that can be chrooted for security.
+    * Designed to specifically facilitate rapid testing of
+    statically-generated sites.
