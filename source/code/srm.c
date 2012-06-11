@@ -1,19 +1,5 @@
-/************************************************************************
- * srm.c                                                                *
- * author: kyle isom <coder@kyleisom.net>                               *
- * license: isc / public domain dual-licensed                           *
- * date: 2011-09-03                                                     *
- *                                                                      *
- * securely remove a file                                               *
- * powered by radiohead - ok computer                                   *
- *                                                                      *
- * i was bored and needed a secure file removal tool                    *
- * ergo, i rolled my own                                                *
- *                                                                      *
- * TODO: add recursive removal for securely removing a directory        *
- ************************************************************************/
 /*
- * Copyright (c) 2011 Kyle Isom <coder@kyleisom.net>
+ * Copyright (c) 2011, 2012 Kyle Isom <coder@kyleisom.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -33,40 +19,39 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <err.h>
 #include <libgen.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sysexits.h>
 #include <unistd.h>
 
 #define DEFAULT_PASSES  3
 #define DEV_RANDOM      "/dev/urandom"
 #define MAX_CHUNK       4096
 
-/* prototypes */
 static int         do_wipe(char *, size_t);
 static int         wipe(char *);
-#ifdef OPENBSD
-__dead void        usage(void);
-#else
 static void        usage(void);
-#endif
+static void        version(void);
+
+extern char *__progname;
+
 
 /*
- * secure rm: overwrite a file with one or more passes of random data,
- * then unlink it.
+ * overwrite a file with one or more passes of random data, then unlink it.
  */
 int 
-main( int argc, char **argv )
+main(int argc, char **argv)
 {
     size_t passes, tmp_passes, wiped, failed, i;
-    char **wipe_success, **wipe_fail;
-    char **file_ptr;
+    char **file_ptr, **wipe_success, **wipe_fail;
     int retval, opt, verbose;
 
     passes  = DEFAULT_PASSES;
-    retval  = EXIT_FAILURE;
+    retval  = EX_DATAERR;
     wiped   = 0;
     failed  = 0;
     verbose = 0;
@@ -74,7 +59,7 @@ main( int argc, char **argv )
     if (argc == 1)
         usage();
 
-    while (-1 != (opt = getopt(argc, argv, "hn:v"))) {
+    while (-1 != (opt = getopt(argc, argv, "hn:vV"))) {
         switch( opt ) {
         case 'h':
             usage();
@@ -86,6 +71,9 @@ main( int argc, char **argv )
         case 'v':
             verbose = 1;
             break;
+        case 'V':
+            version();
+            exit(EX_OK);
         default:
             usage();
             /* NOTREACHED */
@@ -104,7 +92,7 @@ main( int argc, char **argv )
         printf("%s: ", *file_ptr);
         fflush(stdout);
 
-        if (EXIT_FAILURE == do_wipe(*file_ptr, passes)) {
+        if (EX_OK != do_wipe(*file_ptr, passes)) {
             wipe_fail[failed] = strdup(*file_ptr);
             failed++;
         } else {
@@ -116,7 +104,7 @@ main( int argc, char **argv )
         printf("\n");
     }
 
-    if (1 == verbose) {
+    if (verbose) {
         if (0 < wiped) {
             printf("success: ");
             for( i = 0; i < wiped; ++i ) {
@@ -153,9 +141,7 @@ main( int argc, char **argv )
 }
 
 /*
- * int do_wipe(char *, size_t)
- *  takes a filename and the number of passes to wipe the file
- *  returns EXIT_SUCCESS || EXIT_FAILURE
+ * takes a filename and the number of passes to wipe the file
  */
 int
 do_wipe(char *filename, size_t passes)
@@ -164,21 +150,21 @@ do_wipe(char *filename, size_t passes)
     size_t filesize, i;
     int retval;
 
-    retval = EXIT_FAILURE;
+    retval = EX_IOERR;
     if (-1 == stat(filename, &sb)) {
-        fprintf(stderr, "error opening file!");
+        warn("%s", filename);
         return retval;
     }
     filesize = sb.st_size;
 
     for (i = 0; i < passes; ++i) {
-        if (EXIT_FAILURE == wipe(filename)) {
+        if (EX_OK != wipe(filename)) {
             printf("!");
             return retval;
         } else if (-1 == stat(filename, &sb)) {
             printf("!");
             return retval;
-        } else if (filesize != sb.st_size) {
+        } else if (filesize != (size_t)sb.st_size) {
             printf("!");
             return retval;
         }
@@ -186,19 +172,20 @@ do_wipe(char *filename, size_t passes)
         fflush(stdout);
     }
 
+    if (-1 == truncate(filename, (off_t)0))
+        warn("%s", filename);
+
     if (-1 == unlink(filename)) {
-        fprintf(stderr, "unlink error!");
+        warn("%s", filename);
     } else {
-        retval = EXIT_SUCCESS;
+        retval = EX_OK;
     }
 
     return retval;
 }
 
 /*
- * int wipe(char *)
- *  takes a filename and attempts to overwrite it with random data
- *  returns EXIT_SUCCESS || EXIT_FAILURE
+ * takes a filename and attempts to overwrite it with random data
  */
 int
 wipe(char *filename)
@@ -210,7 +197,7 @@ wipe(char *filename)
     int retval, targetfd;
     char *rdata;
 
-    retval = EXIT_FAILURE;
+    retval = EX_IOERR;
     wiped  = 0;
 
     if (-1 == stat(filename, &sb))
@@ -223,13 +210,10 @@ wipe(char *filename)
      * file. 
      */
     devrandom = fopen(DEV_RANDOM, "r");
-    if (NULL == devrandom) {
-        printf("failed to open PRNG %s!", DEV_RANDOM);
+    if (NULL == devrandom || -1 == ferror(devrandom)) {
+        warn("failed to open PRNG %s!", DEV_RANDOM);
         return retval;
-    } else if (-1 == ferror(devrandom)) {
-        printf("error opening %s!", DEV_RANDOM);
-        return retval;
-    }
+    } 
 
     /*
      * for security purposes, we want to make sure to actually overwrite the
@@ -238,31 +222,23 @@ wipe(char *filename)
      * a file, its size will never seem to change.
      */
     target   = fopen(filename, "r+");
-    if (NULL == target) {
-        fprintf(stderr, "failed to open file");
-        fclose(devrandom);
-        return retval;
-    } else if (-1 == ferror(target)) {
-        fprintf(stderr, "error opening file!");
+    if (NULL == target || -1 == ferror(target)) {
+        warn("failed to open %s", filename);
         fclose(devrandom);
         return retval;
     }
+
     rewind(target);
     targetfd = fileno(target);
-    if (-1 == flock(targetfd, LOCK_EX)) {
-        fprintf(stderr, "error locking file");
-        fclose(devrandom);
-        fclose(target);
-    }
 
     /* wait to calloc until we really need the data - makes cleaning up less
      * tricky.
      */
     rdata = calloc(MAX_CHUNK, sizeof(char));
     if (NULL == rdata) {
-        fprintf(stderr, "could not allocate random data memory");
-
-        /* where's my cleanup code? */
+        warn("could not allocate random data memory");
+        fclose(devrandom);
+        fclose(target);
         return retval;
     }
 
@@ -274,26 +250,21 @@ wipe(char *filename)
         wrsz  = fwrite( rdata, sizeof(char), chunk, target );
 
         if (-1 == stat(filename, &sb)) {
-            fprintf(stderr, " stat() error !");
+            warn(" stat on %s failed", filename);
             break;
         }
         if ((rdsz != wrsz) || (filesize != (unsigned int)sb.st_size)) {
-            fprintf(stderr, "invalid read/write size");
+            warn("invalid read/write size");
             break;
         }
 
         wiped += chunk;
     }
     
-    /* release lock */
-    if (-1 == flock(targetfd, LOCK_UN))
-        fprintf(stderr, "error releasing lock");
-
-    /* for cleanup, report close errors and free mem */
     if ((0 != fclose(devrandom)) || (0 != fclose(target)))
-        fprintf(stderr, "error closing file");
+        warn("%s", filename);
     else
-        retval = EXIT_SUCCESS;
+        retval = EX_OK;
 
     free(rdata);
     rdata = NULL;
@@ -302,22 +273,32 @@ wipe(char *filename)
 }
 
 /*
- * usage: print a quick usage message 
+ * print a quick usage message 
  */
 void 
-usage(void)
+usage()
 {
-    extern char *__progname;
-
-    printf("usage: %s [-v] [-n number] file list\n", __progname);
-    printf("\noptions:\n");
-    printf("\t-v: verbose mode. display list of failures and wiped files ");
-    printf("after wiping\n");
-    printf("\t-n <number of passes>: specify number of passes\n");
-    printf("\t\t(default is %d passes)\n", DEFAULT_PASSES);
+    version();
+    printf("usage: %s [-v] [-n number] files\n", __progname);
+    printf("        -n passes   specify number of passes\n");
+    printf("                    (default is %d passes)\n", DEFAULT_PASSES);
+    printf("        -v          display list of failures and wiped files"
+           " after wiping\n"
+           "                    (verbose mode).\n");
+    printf("        -V          print version information.");
 
     printf("\n");
-    exit(EXIT_FAILURE);
+    exit(EX_USAGE);
+}
+
+
+/*
+ * print program version information
+ */
+void
+version()
+{
+    printf("%s\n", srm_VERSION);
 }
 
 
