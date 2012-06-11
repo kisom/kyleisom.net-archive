@@ -135,7 +135,7 @@ address this, I wrote a Guard called `guard-xcode`, which kicks off an Xcode
 based on the options you configure it with. The source is, of course,
 [on Github](https://github.com/kisom/guard-xcode) and it's on 
 [RubyGems.org](https://rubygems.org/gems/guard-xcode), so it can be installed
-via `gem` or `bundle install`. The `[README](https://github.com/kisom/guard-xcode/blob/master/README.md)`
+via `gem` or `bundle install`. The [README](https://github.com/kisom/guard-xcode/blob/master/README.md)
 explains how to get started.
 
 For FlexArgs, the setup is fairly straightforward. I already have

@@ -1,66 +1,155 @@
 ---
 layout: post
-title: Setting Up Aquamacs for Clojure
-date: 2012-02-02 20:03
-comments: true
-categories: [emacs, clojure, mac, development, aquamacs]
+title: "Clojure Development on OpenBSD"
+date: 2012-06-11 18:24
+comments: false
+categories: [emacs, clojure, openbsd, development, slime, swank, swank-clojure]
 ---
-It took me a bit to get my [Aquamacs](http://www.aquamacs.org) install
-up and ready to do [Clojure](http://www.clojure.org)
-and [SLIME](http://common-lisp.net/project/slime/), so I figured I'd jot
-some notes down for future me and anyone who happens to be listening.
-<!-- more -->
 
-I assume Aquamacs has been downloaded and 
-[leiningen](https://github.com/technomancy/leiningen) is installed. First,
-in a terminal, you'll need to install swank-clojure. As of today, the
-current version is 1.4.0, but I strongly recommend you check the README
-to see if there's a new version out. In the shell, 
-`lein plugin install swank-clojure "1.4.0"`.
+# Clojure Development on OpenBSD
 
-I use [Marmalade](http://marmalade-repo.org/) for package management, so 
-the first thing to do is to add Marmalade to Aquamacs. Open up
-`"~/Library/Preferences/Aquamacs\ Emacs/Preferences.el"` in your editor
-of choice (I used [MacVim](https://code.google.com/p/macvim/)), and add 
-the folowing:
+* emacs24
+* clojure / lein
+* swank
+ln -s /usr/local/openjdk7/jre/lib/amd64/libnpt.so /usr/local/lib/libnpt.so
+
+I was trying to get [emacs24](http://www.gnu.org/software/emacs/) installed on 
+my [OpenBSD](http://www.openbsd.org) box to work on some 
+[Clojure](http://www.clojure.org). Here's a quick rundown on getting started.
+
+## Dependencies, or gathering provisions for the journey
+
+As with dealing with most of the GNU software packages, you'll want to install
+devel/autoconf and textproc/textutils. Clojure requires java, so install the
+JDK and JRE:
+
+`pkg_add -vi jdk jre autoconf textutils`
+
+## Installing emacs24, or taming the beast
+First things first, you'll want to download the emacs24 tarball. I had to tweak
+the autoconf source, so after you apply the 
+[patch](/downloads/patch/emacs24-openbsd-configure.patch) (i.e., if the
+emacs source is in ~/src/emacs-src, you'll need to 
+`cd src && patch -p1 < emacs24-openbsd-configure.patch`) run autoconf on the
+directory (`cd /path/to/emacs-source && autoconf`). If you get a warning about
+needing to provide an AUTOCONF_VERSION variable, then 
+`ls /usr/local/bin/autoconf-*` and `export AUTOCONF_VERSION=NN` where NN is
+the highest number listed.
+
+{% codeblock emacs24-openbsd-configure.patch %}
+diff -rupN ./emacs-24.1/Makefile.in ./emacs-24.1-patched/Makefile.in
+--- ./emacs-24.1/Makefile.in    Mon Jun 11 17:33:21 2012
++++ ./emacs-24.1-patched/Makefile.in    Mon Jun 11 17:39:06 2012
+@@ -128,7 +128,7 @@ libexecdir=@libexecdir@
+ mandir=@mandir@
+ man1dir=$(mandir)/man1
+ MAN_PAGES=ctags.1 ebrowse.1 emacs.1 emacsclient.1 etags.1 \
+-          grep-changelog.1 rcs-checkin.1
++         grep-changelog.1 rcs-checkin.1
+ 
+ # Where to install and expect the info files describing Emacs. In the
+ # past, this defaulted to a subdirectory of ${prefix}/lib/emacs, but
+@@ -652,11 +652,7 @@ install-arch-indep: mkdir info install-etc
+        for page in ${MAN_PAGES}; do \
+          (cd $${thisdir}; \
+           ${INSTALL_DATA} ${mansrcdir}/$${page} $(DESTDIR)${man1dir}/$${page}; \
+-          chmod a+r $(DESTDIR)${man1dir}/$${page}; \
+-          if [ -n "${GZIP_INFO}" ] && [ -n "${GZIP_PROG}" ]; then \
+-            rm -f $(DESTDIR)${man1dir}/$${page}.gz; \
+-            ${GZIP_PROG} -9n $(DESTDIR)${man1dir}/$${page}; \
+-          else true; fi ); \
++          chmod a+r $(DESTDIR)${man1dir}/$${page}); \
+        done
+ 
+ ## Install those items from etc/ that need to end up elsewhere.
+diff -rupN ./emacs-24.1/configure.in ./emacs-24.1-patched/configure.in
+--- ./emacs-24.1/configure.in   Mon Jun 11 17:33:14 2012
++++ ./emacs-24.1-patched/configure.in   Mon Jun 11 17:37:16 2012
+@@ -153,7 +153,7 @@ fi
+ dnl _ON results in a '--without' option in the --help output, so
+ dnl the help text should refer to "don't compile", etc.
+ OPTION_DEFAULT_ON([xpm],[don't compile with XPM image support])
+-OPTION_DEFAULT_ON([jpeg],[don't compile with JPEG image support])
++OPTION_DEFAULT_OFF([jpeg],[don't compile with JPEG image support])
+ OPTION_DEFAULT_ON([tiff],[don't compile with TIFF image support])
+ OPTION_DEFAULT_ON([gif],[don't compile with GIF image support])
+ OPTION_DEFAULT_ON([png],[don't compile with PNG image support])
+{% endcodeblock %}
+Emacs may be built with the standard `./configure && make && make install` to
+install to /usr/local.
+
+## leiningen and clojure, or whereupon the wizards are called upon
+This takes a while, so while you are building emacs, go ahead and install
+clojure via [leiningen](https://github.com/technomancy/leiningen):
+
+`curl https://raw.github.com/technomancy/leiningen/stable/bin/lein > lein`
+
+Copy lein somewhere on your path (e.g. ~/bin/lein) and make it executable
+ - `chmod +x ~/bin/lein`.
+
+You'll want to install [swank](https://gihub.com/technomancy/swank-clojure).
+As of this writing, the latest versions of clojure and swank-clojure are
+1.4.0 and 1.4.2, respectively.
+
+{% codeblock lang:bash %}
+lein install org.clojure/clojure "1.4.0" 
+lein plugin install swank-clojure "1.4.2"
+{% endcodeblock %}
+
+Once lein has finished, let's create a temporary project to test swank and
+slime:
+
+`cd ~/tmp && lein new testproject`
+
+Once emacs has finished installing, I recommend using bbatsov's
+[prelude](https://github.com/bbatsov/prelude) - if you have git, you only
+need to run
+
+`curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh`
+
+Otherwise, you'll need to install package.el - see 
+[ELPA](http://tromey.com/elpa/). I use 
+[marmalade](http://www.marmalade-repo.org) instead of the vanilla ELPA install;
+either way you will need to install 
+[clojure-mode](https://github.com/technomancy/clojure-mode/). 
+
+## Putting it to good use, or wherein the rubber meets the road
+
+Now fire up emacs. If you have the package manager installed (i.e. via prelude
+or ELPA), check the list of available packages (`M-x package-list-packages`)
+and install clojure-mode. Pull up ~/tmp/testproject/src/testproject/core.clj 
+and create a quick test function:
 
 {% codeblock lang:clojure %}
-;; Marmalade
-(require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+(defn test-swank []
+  (printf "all's quiet on the western front\n"))
 {% endcodeblock %}
 
-I'm assuming you don't have `package.el` installed yet, so make sure to
-{% codeblock %}
-`curl "http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el" > ~/Library/Preferences/Aquamacs\ Emacs/package.el`
+Fire up swank via `M-x clojure-jack-in`. If you get a long list of errors
+with the last couple lines contains "NPT ERROR: Cannot open library", you
+need to fix your jdk install:
+
+`ln -s /usr/local/jdk-1.7.0/jre/lib/amd64/libnpt.so /usr/local/lib/libnpt.so`
+
+You may need to change the jdk-1.7.0 directory above to the one relevant to
+your system. (Thanks to Beau Holton for helping me to figure this one out!)
+
+Once swank loads, invoke the SLIME compiler on the core.clj buffer via
+`C-c C-k`. Once you see 
+
+`user> `
+
+run `(testproject.core/test-swank)`:
+
+{% codeblock lang:clojure %}
+; SLIME - ChangeLog file not found
+user> (testproject.core/test-swank)
+all's quiet on the western front
+nil
+user>
 {% endcodeblock %}
 
-Now fire up Aquamacs (or evaluate the additions to `Preferences.el` with
-`C-x C-e`. `clojure-mode` needs to be installed, either via `M-x package-list-packages`, 
-and marking `clojure-mode` for installation (with `i`) and installing
-(with `x`), or with `M-x package-refresh-contents` followed by
-`M-x package-install clojure-mode`. I also like `paredit` but you 
-might not, it takes some getting used to.
-
-Now, open up a file in your lein'd project and use `M-x clojure-jack-in`. 
-You might see some errors pop up in your `*Compile-Log*` buffer, but you
-should be very shortly greeted with a REPL.
-
+It may be useful to peruse the 
+[SLIME manual](http://common-lisp.net/project/slime/doc/html/)
 Happy hacking!
-
-## The End Result
-Here's a screenshot of how it turned out (click to view it full-size):
-[![aquamacs-clojure thumbnail](/images/aquamacs-clojure.t.png)](/images/aquamacs-clojure.png)
-
-I usually run aquamacs full-screen with two panes, left-side for editing
-source code and right-size for SLIME.
-
-## References
-I patched together my knowledge from a couple of pages:
-
-* Incanter's article [Setting up Clojure, Incanter, Emacs, Slime, Swank, and Paredit](http://data-sorcery.org/2009/12/20/getting-started/)
-* The Doctor What's article [Aquamacs 2.3a and Marmalade](http://docwhat.org/2011/08/aquamacs-2-3a-and-marmalade/)
-* Phil Hagelberg's [swank-clojure](https://github.com/technomancy/swank-clojure) [README](https://github.com/technomancy/swank-clojure/blob/master/README.md)
 
