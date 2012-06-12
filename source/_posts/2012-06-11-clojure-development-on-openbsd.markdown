@@ -74,7 +74,7 @@ diff -rupN ./emacs-24.1/configure.in ./emacs-24.1-patched/configure.in
 Emacs may be built with the standard `./configure && make && make install` to
 install to /usr/local.
 
-## leiningen and clojure, or whereupon the wizards are called upon
+## leiningen and clojure, or whereupon the wizards are summoned forth
 This takes a while, so while you are building emacs, go ahead and install
 clojure via [leiningen](https://github.com/technomancy/leiningen):
 
