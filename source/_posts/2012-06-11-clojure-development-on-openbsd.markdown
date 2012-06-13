@@ -150,3 +150,8 @@ It may be useful to peruse the
 
 Happy hacking!
 
+Screenshots for the interested:
+
+[![Clojure + SLIME in emacs24 on OpenBSD](/images/clojure-openbsd_thumb.png)](/images/clojure-openbsd.png)
+
+
