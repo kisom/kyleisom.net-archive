@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Synchronous Monotonic Counters in Go"
+title: "Threadsafe Counters in Go"
 tagline: "An Introudction to Channels and Goroutines"
 date: 2012-09-06 18:10
 comments: true
