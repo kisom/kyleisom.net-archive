@@ -7,8 +7,17 @@ sharing: true
 footer: true
 ---
 
-I have a site, called [tyrfingr](http://www.tyrfingr.is/), that serves
-as a portfolio of my UNIX coding projects.
+## Curated Guides to Code
+* My Unix coding projects are on a site called 
+[tyrfingr](http://www.tyrfingr.is/), that serves as a portfolio of my UNIX
+coding projects.
+
+* An ontology of my [Github](http://kisom.github.com/) and
+[Bitbucket](http://kisom.bitbucket.org) is available.
+
+* Lately, most of my personal code is being written in
+[Go](http://www.golang.org) is in a Github organisation called
+[Go Kyle](http://gokyle.github.com).
 
 ## Examples of Coding Style
 * [srm](./srm.c.html) is a simple C utility to remove files securely. I didn't
