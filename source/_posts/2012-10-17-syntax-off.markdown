@@ -11,6 +11,8 @@ struggled with this choice, since I used to rather enjoy the shininess
 of a well-done vim colour scheme. It's been about two weeks now, and I
 have no regrets. How did I end up here?
 
+<!-- more -->
+
 It started when I gave the [acme](https://research.swtch.com/acme) editor
 a try. The acme editor uses no syntax highlighting, as per Rob Pike's
 preferences. I spent a few days playing with acme, mostly hacking on some
