@@ -63,3 +63,5 @@ smattering of Go.
 
 If you made it this far, I'd be interested to hear what your thoughts on the
 subject are - feel free to email me at kyle at tyrfingr dot is.
+
+I'd like to thank Jeremy for proofreading this for me ahead of time.
