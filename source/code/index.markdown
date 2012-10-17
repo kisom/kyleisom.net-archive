@@ -13,7 +13,7 @@ footer: true
 coding projects.
 
 * An ontology of my [Github](http://kisom.github.com/) and
-[Bitbucket](http://kisom.bitbucket.org) is available.
+[Bitbucket](http://kisom.bitbucket.org) profiles are available.
 
 * Lately, most of my personal code is being written in
 [Go](http://www.golang.org) is in a Github organisation called
