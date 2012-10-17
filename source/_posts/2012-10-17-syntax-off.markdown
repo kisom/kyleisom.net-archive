@@ -8,7 +8,7 @@ categories: [ development ]
 ---
 
 Recently, I made a major change to my `.vimrc`: I turned syntax off. I
-struggled with this choice, since I used to rather enjoy the colour scheme
+struggled with this choice, since I used to rather enjoy the shininess
 of a well-done vim colour scheme. It's been about two weeks now, and I
 have no regrets. How did I end up here?
 
@@ -20,7 +20,8 @@ a shock at first, but I found over a day or two that I began to get used
 to it. I found that I began to focus more on the code and less on the colours.
 Syntax highlighting had, for me, been somewhat of a crutch. I was relying on
 it to immediately highlight code errors. I found that I began to read the
-code closer, to hold the program in my head, and to write more consider code.
+code closer, to hold the program in my head, and to write more judicious
+code.
 
 The best way I can describe it is to compare it to reading a book. When I
 read a book, I don't want parts of speech highlighted in different colours.
@@ -29,15 +30,15 @@ that writing code is much the same for me. I don't want to focus on syntactic
 elements; not relying on colouring not only makes me write more careful and
 considered code, but it also forces me to pay more attention to the program.
 When reading source, a similar effect is had - I pay attention to what the
-code is doing, not the individual elements.
+code is doing rather than the individual elements.
 
 I've had quite a few discussions on this subject in IRC, and there have been
 several interesting points about this. Before I look at some of the ideas
 thrown around, I'd like to note that the conclusion I've come to is that
 this is definitely not for everyone. I happen to be at a point in my coding
 career where syntax isn't a concern for me, but other developers that I
-respect and are quite talented find having syntax highlighting to be useful.
-To each their own; I have just found an alternate system that works for me.
+respect and are quite talented find syntax highlighting to be useful.  To
+each their own; I have just found an alternate system that works for me.
 Part of my background is not always coding on a computer; there have been
 several points in my life where I wasn't always able to have access to a
 computer, and therefore wrote code on legal pads or read through printouts
