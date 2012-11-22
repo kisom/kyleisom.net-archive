@@ -6,7 +6,7 @@ require "stringex"
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
 ssh_user       = "brokenlcd.net"
 ssh_port       = "22"
-document_root  = "~/sites/kyleisom.net/"
+document_root  = "~/code/sites/kyleisom.net/"
 rsync_delete   = false
 deploy_default = "push"
 
@@ -299,7 +299,9 @@ task :setup_github_pages, :repo do |t, args|
   if args.repo
     repo_url = args.repo
   else
-    repo_url = get_stdin("Enter the read/write url for your repository: ")
+    puts "Enter the read/write url for your repository" 
+    puts "(For example, 'git@github.com:your_username/your_username.github.com)"
+    repo_url = get_stdin("Repository url: ")
   end
   user = repo_url.match(/:([^\/]+)/)[1]
   branch = (repo_url.match(/\/[\w-]+.github.com/).nil?) ? 'gh-pages' : 'master'
