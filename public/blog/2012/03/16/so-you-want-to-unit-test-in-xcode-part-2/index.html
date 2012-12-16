@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>So, You Want To Unit Test in Xcode (Part 2) - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="In the last post, I
+talked about getting unit testing set up in Xcode, why you should write
+unit tests, and what kinds of things you should unit test &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/2012/03/16/so-you-want-to-unit-test-in-xcode-part-2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">So, You Want to Unit Test in Xcode (Part 2)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-16T12:13:00-06:00" pubdate data-updated="true">Mar 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In the <a href="/blog/2012/03/15/so-you-want-to-unit-test-in-xcode">last post</a>, I
+talked about getting unit testing set up in Xcode, why you should write
+unit tests, and what kinds of things you should unit test. Now, I&#8217;d like
+to talk a bit more about <em>how</em> to write unit tests. If you come from a
+background doing unit testing, as I did, it&#8217;s very straightforward. If not,
+I&#8217;ll spend a little time explaining things a bit more.</p>
+
+<!-- more -->
+
+
+<p>When you generate a test case, you get a test class (which is a subclass of
+<code>SenTestCase</code>). Just like any other class, you can declare members and methods,
+which are used to perform helper tasks and carry state.</p>
+
+<p>A very basic codebase only requires test methods.
+<a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/00-About_Unit_Testing/about.html">OCUnit</a>
+will load any method prefixed by <code>test</code>. These methods must return <code>void</code> and
+take no parameters. After setting up the test in the method, you can use the
+<code>ST...</code> macros to actually test the results. Here&#8217;s a contrived example:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7c2d3cd8></p>
+
+<p>There are a number of test macros, which are listed in
+<a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/AB-Unit-Test_Result_Macro_Reference/result_macro_reference.html#//apple_ref/doc/uid/TP40002143-CH9-SW1">Appendix B</a>
+of the <a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/00-About_Unit_Testing/about.html">Xcode Unit Testing Guide</a>.</p>
+
+<p>A real example taken from <a href="https://github.com/kisom/flexargs">FlexArgs</a>:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7c2cf3e0></p>
+
+<p>This test is set up to verify that the dictionary returned by <code>DNFlexArgs</code> is
+what we&#8217;d expect it to be. <code>[flexargs initParserWithNSArray:]</code> expects an
+<code>NSArray</code> of NSStrings to be passed to it, I&#8217;ve initialised an <code>NSArray</code> of
+<code>NSString</code>s. Because <code>DNFlexArgs</code> returns an <code>NSDictionary</code>, I&#8217;ve set up one
+with the expected results. Then I setup the instance, pass it the initial
+test arguments, and retrieve the results. The last step is to assert that the
+returned <code>NSDictionary</code> matches the expected one. I&#8217;ve made sure to hit one of
+each kind of possible argument that can be passed in.</p>
+
+<p>In the last post, I listed some questions to help develop tests:</p>
+
+<blockquote><ul>
+<li>Right now, I&#8217;m only testing what I expect possible input <em>could</em> be. What
+if someone passes in just <code>arg</code> or <code>arg=</code> - do I know that my code will handle
+that gracefully?</li>
+<li>What happens if I pass in an overflowed numeric value? I&#8217;ve tried to prepare
+for this by using <code>long long</code> values, but how do I know my code is doing the
+right thing?</li>
+<li>What if I craft a special string that does something shifty, like embedding
+a null byte? What happens then? What if the string has more than one <code>=</code> in it?</li>
+<li>What happens if I <a href="http://pages.cs.wisc.edu/~bart/fuzz/">feed the parser random data</a>?</li>
+</ul>
+</blockquote>
+
+<p>If you look in the source, you&#8217;ll see I&#8217;ve covered all but the last. That&#8217;s
+because I haven&#8217;t yet found a good fuzzing library for Objective-C. However,
+the new tests allowed me to make a few improvements to and verifications of
+FlexArgs:</p>
+
+<ul>
+<li>I&#8217;ve verified that having an argument with no <code>=value</code> yields a boolean
+value (i.e. <code>arg</code> results in an <code>arg = 1;</code>)</li>
+<li>I&#8217;ve verified that having an argument with an empty value (i.e. <code>arg=</code>)
+yields an empty string value (i.e. <code>arg = @"";</code>)</li>
+<li>I was able to add support for multiple <code>=</code> in the class. Previously, only
+the part of the value after the first <code>=</code> and before any other <code>=</code>&#8217;s was
+captured. For example, passing <code>foo=bar=baz</code> resulted in <code>foo = @"bar";</code>
+and <code>operator===</code> resulted in <code>operator = @"";</code>. Now, I get <code>foo = @"bar=baz";</code>
+and <code>operator = @"==";</code>.</li>
+<li>I was able to verify that passing a null byte in the middle of the string
+just cut the string off at the null byte instead of causing problems.</li>
+</ul>
+
+
+<p>You can see the new code coverage output (as detailed in the
+<a href="/blog/2012/03/15/so-you-want-to-unit-test-in-xcode/">last post</a>)
+<a href="/downloads/FlexArgsCoverage2/">here</a>.</p>
+
+<h2>More advanced test cases with <code>setUp</code>, <code>tearDown</code>, and class members</h2>
+
+<p>OCUnit gives us more control over our test cases. Just like any other class,
+we can include our own members in the class by putting their definitions
+and any <code>@property</code> declarations in the interface. For example, if we&#8217;re
+testing network code, we might want to create a socket.</p>
+
+<p>If your members need to be set up for every test, or if certain preparation
+needs to be done before each test (like clearing out a temporary directory),
+you can reduce code duplication by putting the code in the <code>setUp</code> and
+<code>tearDown</code> methods. The <code>setUp</code> method is called before each test method,
+and the <code>tearDown</code> method is called after each. If you&#8217;re calling the same
+code before each test, you might consider moving them. If most of your tests
+are calling the same code and a few aren&#8217;t, consider creating a new test case
+for the ones that don&#8217;t, and moving the duplicate code into these methods and
+members.</p>
+
+<h2>guard-xcode</h2>
+
+<p>In the <a href="/blog/2012-03-15/so-you-want-to-unit-test-in-xcode/">last post</a>, I
+mentioned <a href="https://github.com/guard/guard/">guard</a>. What is guard?</p>
+
+<blockquote><p>Guard is a command line tool to easily handle events on file system modifications.</p></blockquote>
+
+<p>We can use this to trigger a build every time a source file is changed.
+Unfortunately, I couldn&#8217;t find any good Guards (the term for specific tasks to
+be done on a changed-file event) to handle running configurable builds. To
+address this, I wrote a Guard called <code>guard-xcode</code>, which kicks off an Xcode
+based on the options you configure it with. The source is, of course,
+<a href="https://github.com/kisom/guard-xcode">on Github</a> and it&#8217;s on
+<a href="https://rubygems.org/gems/guard-xcode">RubyGems.org</a>, so it can be installed
+via <code>gem</code> or <code>bundle install</code>. The <a href="https://github.com/kisom/guard-xcode/blob/master/README.md">README</a>
+explains how to get started.</p>
+
+<p>For FlexArgs, the setup is fairly straightforward. I already have
+<a href="http://growl.info/downloads#generaldownloads">growl-notify</a> installed, so all
+I have to do is create my Gemfile:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7c2ccbe0></p>
+
+<p>I&#8217;m using <a href="http://rvm.beginrescueend.com">rvm</a>, so I&#8217;ve already got the
+<code>bundle</code> gem installed. You can install it with <code>gem install bundle</code> if you
+need to. The next step is to run <code>bundle install</code>, and then <code>guard init xcode</code>.
+Of course, the Guardfile doesn&#8217;t know the name of your target, so you&#8217;ll need
+to open the Guardfile and edit it. Mine looks like this:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7c2ca840></p>
+
+<p>Now all you need to do is run <code>guard</code> in your project root. Once files change,
+<code>guard</code> will kick off a build. I&#8217;ve set <code>:quiet =&gt; true</code>, so I only get Growl
+notifications if the build has warnings or errors.</p>
+
+<h2>Some final ideas for a test-based development cycle</h2>
+
+<p>There&#8217;s a few options you can set in your project build settings that I&#8217;ve
+found quite useful:</p>
+
+<ol>
+<li>Setting <strong>Test After Build</strong> to <strong>Yes</strong> runs tests anytime a build is done.</li>
+<li>Setting <strong>Treat Warnings as Errors</strong> to <strong>Yes</strong> adds more emphasis to
+writing good code.</li>
+<li>Adding the Test product to the main build makes testing easier as well, and
+means you can set your build target to the main target, and still test.</li>
+</ol>
+
+
+<h2>Conclusion</h2>
+
+<p>This concludes the two-part series on Unit Testing in Xcode. I&#8217;ve tried to
+document what I learned trying to get testing set up, and hopefully other
+people will find it helpful as well.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/00-About_Unit_Testing/about.html">XCode Unit Testing Guide</a></li>
+<li><a href="http://www.infinite-loop.dk/blog/2011/12/code-coverage-with-xcode-4-2/">Code Coverage with Xcode 4.2</a></li>
+<li><a href="https://github.com/kisom/flexargs/zipball/blog-post2">FlexArgs tag for this project</a></li>
+<li>guard-xcode on <a href="https://github.com/kisom/guard-xcode">Github</a> and <a href="http://rubygems.org/gems/guard-xcode">RubyGems</a></li>
+<li><a href="https://github.com/guard/guard">Guard on Github</a></li>
+<li><a href="http://growl.info/downloads#generaldownloads">growl-notify</a></li>
+<li><a href="http://rvm.beginrescueend.com">rvm</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-16T12:13:00-06:00" pubdate data-updated="true">Mar 16<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/development/'>development</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>, <a class='category' href='/blog/categories/testing/'>testing</a>, <a class='category' href='/blog/categories/xcode/'>xcode</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/03/16/so-you-want-to-unit-test-in-xcode-part-2/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/03/16/so-you-want-to-unit-test-in-xcode-part-2/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/15/so-you-want-to-unit-test-in-xcode/" title="Previous Post: So, You Want To Unit Test in Xcode">&laquo; So, You Want To Unit Test in Xcode</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/06/11/clojure-development-on-openbsd/" title="next Post: Clojure Development on OpenBSD">Clojure Development on OpenBSD &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

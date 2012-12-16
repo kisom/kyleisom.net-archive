@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>'Just Ship It' v. 'Proudifying' Code - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="Just Ship It v. Proudifying Code I was recently working on a project
+that highlighted some software development concepts that have been on my
+mind &hellip;">
+  <meta name="keywords" content="development">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/2012/08/15/just-ship-it-v-proudifying-code">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">'Just Ship It' v. 'Proudifying' Code</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-15T18:17:00-06:00" pubdate data-updated="true">Aug 15<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Just Ship It v. Proudifying Code</h2>
+
+<p>I was recently working on a <a href="http://kisom.github.com/lobsterpie">project</a>
+that highlighted some software development concepts that have been on my
+mind lately. Specifically, the balance between writing the code you know
+you should be writing and writing the code you want want to be writing
+(in this case, I&#8217;m referring to writing code for the same end state and
+looking at how to get there). This might also be considered the balance
+(clash) between a &#8220;just ship it&#8221; mentality and &#8220;proudifying&#8221; code (I&#8217;ll
+explain that in a minute). I&#8217;ll develop these ideas through the discussion
+of my work flow in developing the afore-mentioned project.</p>
+
+<!-- more -->
+
+
+<p>Lately, I&#8217;ve been using <a href="https://lobste.rs">lobste.rs</a> as my main news
+aggregator site, as I find it has a very high signal-to-noise ratio.
+However, I still follow a bot on Twitter that posts links from the
+infamous <a href="http://news.ycombinator.com">Hacker News</a>, and I wanted to
+write something similar for <a href="https://lobste.rs">lobste.rs</a> because the
+site has a low user count now and news stories are sometimes few and far
+between, relatively speaking; I don&#8217;t always remember to check the site
+regularly. At the same time, I&#8217;ve been trying to pick Common Lisp back up,
+a language I&#8217;ve been fond of but for practical reasons, I&#8217;ve been using
+mostly Python and C (due to work). I&#8217;d been writing a lot of Clojure as
+well, but the JVM has turned into a showstopper for me. Clojure did,
+however, reawaken a desire to do more in Lisp - hence my turning to CL.</p>
+
+<p>As I started trying to write the bot, I managed to get most of the bot
+done except for one critical component: posting to twitter. It turns
+out none of the available Twitter or OAuth libraries were working for me,
+and I started trying to write my own OAuth code. This, by the way, is
+fiendishly hard to do right, especially in a language you aren&#8217;t terribly
+familiar with. In addition to trying to get the OAuth side working, I was
+trying to learn more syntax in the language and become familiar with some
+of the available tools. While I did learn quite a bit, and had a generally
+good time writing the rest of the bot, the OAuth component turned out to
+be maddeningly difficult for me. I was getting very close, including
+being able to duplicate the components in the Twitter authentication example
+page and the data from the OAuth tool page. I spent close to 15 hours just
+working on the OAuth part alone, and felt like I was getting nowhere. With
+apologies to the author of the infamous
+<a href="http://stackoverflow.com/a/1732454">Stack Overflow post</a> post,
+my mental state could be summed up as:</p>
+
+<blockquote><p>he comes he comes do not fi​ght he com̡e̶s, ̕h̵i​s un̨ho͞ly radiańcé
+destro҉ying all enli̍̈́̂̈́ghtenment, auth tokens lea͠ki̧n͘g fr̶ǫm ̡yo​͟ur eye͢s̸ ̛l̕ik͏e
+liq​uid pain, the song of oauth he̸aders and HM​AC signatures will
+exti​nguish the voices of mor​tal man from the sp​here I
+can see it can you see ̲͚̖͔̙î̩́t̲͎̩̱͔́̋̀ it is beautiful t​he final snuffing of the
+lies of Man ALL IS LOŚ͖̩͇̗̪̏̈́T ALL I​S LOST the pon̷y he comes he c̶̮omes
+he comes the ich​or permeates all MY FACE MY FACE ᵒh god no NO
+NOO̼O​O NΘ stop the an​*̶͑̾̾​̅ͫ͏̙̤g͇̫͛͆̾ͫ̑͆l͖͉̗̩̳̟̍ͫͥͨe̠̅s ͎a̧͈͖r̽̾̈́͒͑e n​ot rè̑ͧ̌aͨl̘̝̙̃ͤ͂̾̆ ZA̡͊͠͝LGΌ
+ISͮ̂҉̯͈͕̹̘̱ TO͇̹̺ͅƝ̴ȳ̳ TH̘Ë͖́̉ ͠P̯͍̭O̚​N̐Y̡ H̸̡̪̯ͨ͊̽̅̾̎Ȩ̬̩̾͛ͪ̈́̀́͘ ̶̧̨̱̹̭̯ͧ̾ͬC̷̙̲̝͖ͭ̏ͥͮ͟Oͮ͏̮̪̝͍M̲̖͊̒ͪͩͬ̚̚͜Ȇ̴̟̟͙̞ͩ͌͝S̨̥̫͎̭ͯ̿̔̀ͅ</p></blockquote>
+
+<p>Finally, sometime after midnight on a sleepless night, I turned to Python.
+Python is my workhorse language (I have a large number of Python projects
+on both Github and Bitbucket). In about forty-five minutes, I was able to
+get a working (albeit somewhat kludgy) version of the bot working. Much of
+this was due to the confusion caused when I originally installed the
+<code>twitter</code> module instead of the <code>python-twitter</code> module: both use the same
+name but they have different interfaces. I posted the link to the bot&#8217;s
+<a href="https://www.twitter.com/lobsternews">Twitter account</a> and decided to clean
+up the code before I made the <a href="https://bitbucket.org/kisom/lobsterpie">repository</a>
+public. As it was now after one o&#8217;clock in the morning, I put that off until
+the bus ride to work.</p>
+
+<p>To be fair, there are a couple of reasons for the fact that, starting from
+scratch, I was able to get a working version of the bot in Python:</p>
+
+<ol>
+<li>I am well-versed in the ways of Python,</li>
+<li>I&#8217;ve written feed parsing, Twitter interaction, and database code
+in Python before,</li>
+<li>There are a number of well-documented libraries for performing these
+tasks,</li>
+<li>I knew both of the existence of and how to use the libraries before I&#8217;d
+started writing the bot, and</li>
+<li>I wrote the first draft with only minor regard to style.</li>
+</ol>
+
+
+<p>As an example of the hackish, &#8220;just ship it&#8221; mentality of the first draft,
+I had several functions I never ended up using that I removed in the
+cleanup stage.</p>
+
+<p>On the bus the next morning, I gave the code proper the proper attention,
+running it through the Python <a href="http://www.python.org/dev/peps/pep-0008/">pep8</a>
+code formatting tool and the <a href="http://www.logilab.org/857">pylint</a>
+utility, added documentation and useful output, and made the code a bit
+more resilient and robust. Again, familiarity with the language and the
+Way of Python, this was a fairly quick process. In another hour, I had
+the code cleaned up and wrote a database tool specific to the project to
+faciliate testing and migrating the code to another machine.</p>
+
+<p>I do take pride in my work, so both source files are 100% PEP8 compliant
+and score 10.00/10.00 in pylint. Here&#8217;s the crux of the concepts central
+to this post: I used &#8220;just ship it&#8221; to get a working version that was good
+enough to last through the morning, but I made my first priority once the
+code was live to get it cleaned. The benefits of clean code are many,
+not the least of which is maintainability, so the question is: what is
+the transition point? It would also be prudent to devise a strategy for
+cleaning up the codebase in most applications: lobsterpie is just under
+one hundred lines of actual code at this point, so it&#8217;s all well and
+good to utilise an immediate, clean-the-entire-codebase (the all of one
+file that comprises the project). Real-world projects are considerably
+larger and more pragmatically messy; that is, they tend to suffer from
+the get-it-done mentality out of a practical necessity for working code.
+At what point do you transition mentalities, or does one mentality take
+precedent? What sorts of strategies can be employed?</p>
+
+<p>In the past, I&#8217;ve rotated sections of projects between &#8220;development&#8221; mode
+and &#8220;maintenance&#8221; mode. The difference being that code under development
+is an area I am focusing new features on. Code that is under maintenance
+is being cleaned up, possibly refactored. I find this provides a
+side-benfit: when I run into road blocks on the development code, I can
+put the problem on the back burner and mull over it while carrying out
+the typically more mundane task of cleaning up code. It also gives me work
+to do while trying to solve the complex problems of my code while improving
+code quality.</p>
+
+<p>There is also a balance to be had between developing your skills in a new
+language and using the language(s) you know best. While I learned a lot of
+relevant Common Lisp skills, including not only the language and library
+but general workflow, at the end of the day I still didn&#8217;t have working
+code. I&#8217;d set a goal for myself: if by the deadline, I wasn&#8217;t making
+progress (and progress had more or less halted on the OAuth part), I forced
+myself to switch over to Python. It is hard, sometimes, to determine where
+this switchover point should be. This is often exacerbated  on side
+projects, where there isn&#8217;t a hard deadline for the code to be finished
+and no client / manager pushing for it to get done. For this, I don&#8217;t
+have any easy answers and even fewer examples as I have a predisposition
+towards a bullheaded nature of stubbornly trying to slog through things.
+This sometimes works in my favour, in terms of things learned. Quite
+often, it kills projects.</p>
+
+<p>At the end of the day, I want to have working, proudifying code. I said
+I&#8217;d explain that word; my friend <a href="http://www.ryaniam.com">Ryan</a> was
+trying to help me figure out the word I was looking for in its place,
+and our conversation led his neologism. It essentially means, code that
+instills or evokes a sense of pride. Code that I don&#8217;t mind showing people,
+as opposed to code I don&#8217;t mind showing people the façade of. For example,
+showing people the repository and not just showing them the cool application
+or website the code powers.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-15T18:17:00-06:00" pubdate data-updated="true">Aug 15<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/development/'>development</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/08/15/just-ship-it-v-proudifying-code/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/08/15/just-ship-it-v-proudifying-code/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/07/18/undefined-symbol-errors-in-lisp/" title="Previous Post: Undefined symbol errors in Lisp">&laquo; Undefined symbol errors in Lisp</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/08/16/system-of-output/" title="next Post: A System of Useful Output">A System of Useful Output &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

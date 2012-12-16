@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: OS X | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/os-x/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Thoughts on Mountain Lion]]></title>
+    <link href="http://kisom.github.com/blog/2012/02/17/thoughts-on-mountain-lion/"/>
+    <updated>2012-02-17T20:16:00-07:00</updated>
+    <id>http://kisom.github.com/blog/2012/02/17/thoughts-on-mountain-lion</id>
+    <content type="html"><![CDATA[<p>One of the great things about paradigm shifts is we can throw out the old
+and start from scratch, getting rid of all the old cruft that's built up over
+time. Computers are no different, and the tablet revolution has allowed us
+to rethink a few things. It looks like Apple is finally converging some of the
+lessons learned with iOS and OS X. So, let's take a look at some of these
+ideas:</p>
+
+<!-- more -->
+
+
+<h3>The App Store as a sole source of software</h3>
+
+<p>I've heard a lot of complaints about this. The fact of the matter is that for
+the average user, this makes sense. It limits the exposure due to malware. For
+users who need expanded privileges, it is <em>extremely</em> easy to do. This follows
+a principle of secure by default and requiring a decision on the user's part
+to open up their system. Does Apple benefit? Surely. However, in this case the
+decision also benefits users.</p>
+
+<h3>Messages</h3>
+
+<p>We are surrounded by a variety of chat systems. On mobile phones, SMS reigns
+supreme; while on the desktop, there are more chat protocols than you can
+shake a stick at. Bringing Messages onto the desktop starts to unify the
+two systems. While Jabber and AIM / OSCAR are two very common protocols, it
+would be good to see Twitter and perhaps even IRC. (While I would love to
+see SILC supported, I don't expect to see that anytime soon). One other thing
+missing is OTR support. While the iMessage compatibility is interesting, lack
+of Twitter and OTR support make it not compelling enough for me to switch over
+as my chat client<a href="#footnotes">*</a>.</p>
+
+<h3>XCode</h3>
+
+<p>Apple is now providing a much smaller download with just the compiler and
+commandline tools needed to use <a href="http://mxcl.github.com/homebrew/">Homebrew</a>
+or other package management systems.</p>
+
+<h3>Conclusion</h3>
+
+<p>We're starting to see some of the benefits of tablet revolution folded back
+into the desktop and laptop realm. For normal users, these changes create a
+more streamlined experience and improve the overall security of the system.
+For developers, there are some changes to simplify non-iOS / Cocoa developers'
+setups. I think this is a step in the right direction.</p>
+
+<p>Except that it's called "Mountain Lion."</p>
+
+<h3><a name="footnotes">Footnotes</a></h3>
+
+<ol>
+<li>I currently use <a href="http://www.adium.im/">Adium</a> for my chat and twitter client.</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

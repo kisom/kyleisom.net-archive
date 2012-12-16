@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>:syntax off - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="Recently, I made a major change to my .vimrc: I turned syntax off. I
+struggled with this choice, since I used to rather enjoy the shininess
+of a well &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/2012/10/17/syntax-off">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">:syntax Off</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-17T02:02:00-06:00" pubdate data-updated="true">Oct 17<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Recently, I made a major change to my <code>.vimrc</code>: I turned syntax off. I
+struggled with this choice, since I used to rather enjoy the shininess
+of a well-done vim colour scheme. It&#8217;s been about two weeks now, and I
+have no regrets. How did I end up here?</p>
+
+<!-- more -->
+
+
+<p>It started when I gave the <a href="https://research.swtch.com/acme">acme</a> editor
+a try. The acme editor uses no syntax highlighting, as per Rob Pike&#8217;s
+preferences. I spent a few days playing with acme, mostly hacking on some
+<a href="http://golang.org">Go</a> code. The lack of syntax highlighting was a bit of
+a shock at first, but I found over a day or two that I began to get used
+to it. I found that I began to focus more on the code and less on the colours.
+Syntax highlighting had, for me, been somewhat of a crutch. I was relying on
+it to immediately highlight code errors. I found that I began to read the
+code closer, to hold the program in my head, and to write more judicious
+code.</p>
+
+<p>The best way I can describe it is to compare it to reading a book. When I
+read a book, I don&#8217;t want parts of speech highlighted in different colours.
+What I want to do is to read the book, to take in the information. I find
+that writing code is much the same for me. I don&#8217;t want to focus on syntactic
+elements; not relying on colouring not only makes me write more careful and
+considered code, but it also forces me to pay more attention to the program.
+When reading source, a similar effect is had - I pay attention to what the
+code is doing rather than the individual elements.</p>
+
+<p>I&#8217;ve had quite a few discussions on this subject in IRC, and there have been
+several interesting points about this. Before I look at some of the ideas
+thrown around, I&#8217;d like to note that the conclusion I&#8217;ve come to is that
+this is definitely not for everyone. I happen to be at a point in my coding
+career where syntax isn&#8217;t a concern for me, but other developers that I
+respect and are quite talented find syntax highlighting to be useful.  To
+each their own; I have just found an alternate system that works for me.
+Part of my background is not always coding on a computer; there have been
+several points in my life where I wasn&#8217;t always able to have access to a
+computer, and therefore wrote code on legal pads or read through printouts
+of code. In my generation this appears to be quite rare, and so you have a
+lot of people who aren&#8217;t used to spending a lot of time reading and writing
+code without the aid of syntax highlighting.</p>
+
+<p>One of the points that was brought up is that reading and writing code is
+not like reading and writing in natural languages. I can definitely understand
+this viewpoint, but I treat computer langauges internally very similar to
+spoken languages. Another point was that highlighting strings is useful, as
+they tend to be in a different (i.e. natural) language as opposed to the rest
+of the program. I think this is definitely an interesting idea that I would
+like to pursue. I&#8217;d imagine it might be more useful to use an italicised face
+for character strings. This will require some time spent learning the vim
+theme syntax, which shouldn&#8217;t be difficult &#8211; it is rather a question of time.</p>
+
+<p>Coincidentally, shortly after turning off syntax highlighting, I revamped my
+<code>.vimrc</code>, based heavily on the one from <a href="https://www.conformal.com">Conformal&#8217;s</a>
+<a href="https://opensource.conformal.com/wiki/vim">wiki vim page</a>. Between these two
+changes, I&#8217;ve had a very productive past two weeks writing mostly C with a
+smattering of Go.</p>
+
+<p>If you made it this far, I&#8217;d be interested to hear what your thoughts on the
+subject are - feel free to email me at kyle at tyrfingr dot is.</p>
+
+<p>I&#8217;d like to thank Jeremy for proofreading this for me ahead of time.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-17T02:02:00-06:00" pubdate data-updated="true">Oct 17<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/development/'>development</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/10/17/syntax-off/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/10/17/syntax-off/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/06/threadsafe-counters/" title="Previous Post: Thread-Safe Counters in Go">&laquo; Thread-Safe Counters in Go</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

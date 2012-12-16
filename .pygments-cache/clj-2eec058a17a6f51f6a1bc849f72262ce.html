@@ -1,0 +1,58 @@
+<div class="highlight"><pre><span class="c1">;; set-theory.clj</span>
+<span class="c1">;; author: kyle isom &lt;coder@kyleisom.net&gt;</span>
+<span class="c1">;; date: 2012-01-23</span>
+<span class="c1">;; license: ISC / public domain (brokenlcd.net/license.txt)</span>
+<span class="c1">;;</span>
+<span class="c1">;; code examples for blog post &quot;Basic Set Theory&quot;</span>
+<span class="c1">;;     http://kisom.github.com/blog/2012/01/23/basic-set-theory/</span>
+<span class="c1">;;</span>
+
+<span class="p">(</span><span class="nf">require</span> <span class="ss">&#39;clojure.set</span><span class="p">)</span>
+
+<span class="c1">; the superset</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">library</span> <span class="o">#</span><span class="p">{</span> <span class="s">&quot;Natural Language Processing with Python&quot;</span>,
+                <span class="s">&quot;Learning OpenCV&quot;</span>,
+                <span class="s">&quot;Code Complete&quot;</span>, 
+                <span class="s">&quot;Mastering Algorithms with C&quot;</span>, 
+                <span class="s">&quot;The Joy of Clojure&quot;</span>, 
+                <span class="s">&quot;Mining the Social Web&quot;</span>, 
+                <span class="s">&quot;Algorithms In A Nutshell&quot;</span>,
+                <span class="s">&quot;Introduction to Information Retrieval&quot;</span> 
+                <span class="s">&quot;Network Security With OpenSSL&quot;</span>, 
+                <span class="s">&quot;RADIUS&quot;</span> <span class="p">})</span>
+
+<span class="c1">; the subsets</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">mobi</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;Natural Language Processing with Python&quot;</span>, <span class="s">&quot;Code Complete&quot;</span>,
+           <span class="s">&quot;Introduction to Information Retrieval&quot;</span><span class="p">})</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">epub</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;The Joy of Clojure&quot;</span>, <span class="s">&quot;Mining the Social Web&quot;</span>, <span class="s">&quot;Code Complete&quot;</span><span class="p">})</span>
+
+<span class="c1">; union illustration</span>
+<span class="p">(</span><span class="nb">println </span><span class="s">&quot;union illustration (books in either mobile format)&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">mobile</span> <span class="p">(</span><span class="nf">clojure.set/union</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">mobile</span><span class="p">]</span> 
+    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+
+<span class="c1">; intersection illustration</span>
+<span class="p">(</span><span class="nb">println </span><span class="s">&quot;intersection illustration (books in both mobile formats)&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">both-formats</span> <span class="p">(</span><span class="nf">clojure.set/intersection</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">both-formats</span><span class="p">]</span> 
+    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+
+
+<span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in mobi format:&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">only-mobi</span> <span class="p">(</span><span class="nf">clojure.set/difference</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-mobi</span><span class="p">]</span>
+    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in epub format:&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">only-epub</span> <span class="p">(</span><span class="nf">clojure.set/difference</span> <span class="nv">epub</span> <span class="nv">mobi</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-epub</span><span class="p">]</span>
+    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+
+<span class="c1">; complement illustration</span>
+<span class="p">(</span><span class="nb">println </span><span class="s">&quot;books not in mobi format, using the library superset:&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">not-mobi</span> <span class="p">(</span><span class="nf">clojure.set/difference</span> <span class="nv">library</span> <span class="nv">mobi</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">not-mobi</span><span class="p">]</span>
+    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</pre>
+</div>

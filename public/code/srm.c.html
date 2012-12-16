@@ -1,0 +1,332 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Code/srm/srm.c.html</title>
+<meta name="Generator" content="Vim/7.3">
+<meta name="plugin-version" content="vim7.3_v8">
+<meta name="syntax" content="c">
+<meta name="settings" content="number_lines,use_css,expand_tabs">
+<style type="text/css">
+<!--
+pre { font-family: monospace; color: #839496; background-color: #002b36; }
+body { font-family: monospace; color: #839496; background-color: #002b36; }
+.lnr { color: #586e75; background-color: #073642; }
+.Special { color: #dc322f; }
+.Statement { color: #719e07; }
+.Type { color: #b58900; }
+.Constant { color: #2aa198; }
+.PreProc { color: #cb4b16; }
+.Comment { color: #586e75; font-style: italic; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="lnr">  1 </span><span class="Comment">/*</span>
+<span class="lnr">  2 </span><span class="Comment"> * Copyright (c) 2011, 2012 Kyle Isom &lt;coder@kyleisom.net&gt;</span>
+<span class="lnr">  3 </span><span class="Comment"> *</span>
+<span class="lnr">  4 </span><span class="Comment"> * Permission to use, copy, modify, and distribute this software for any</span>
+<span class="lnr">  5 </span><span class="Comment"> * purpose with or without fee is hereby granted, provided that the above</span>
+<span class="lnr">  6 </span><span class="Comment"> * copyright notice and this permission notice appear in all copies.</span>
+<span class="lnr">  7 </span><span class="Comment"> *</span>
+<span class="lnr">  8 </span><span class="Comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL WARRANTIES</span>
+<span class="lnr">  9 </span><span class="Comment"> * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF</span>
+<span class="lnr"> 10 </span><span class="Comment"> * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR</span>
+<span class="lnr"> 11 </span><span class="Comment"> * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES</span>
+<span class="lnr"> 12 </span><span class="Comment"> * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN</span>
+<span class="lnr"> 13 </span><span class="Comment"> * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF</span>
+<span class="lnr"> 14 </span><span class="Comment"> * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</span>
+<span class="lnr"> 15 </span><span class="Comment"> </span><span class="Comment">*/</span>
+<span class="lnr"> 16 </span>
+<span class="lnr"> 17 </span><span class="PreProc">#include </span><span class="Constant">&lt;sys/cdefs.h&gt;</span>
+<span class="lnr"> 18 </span><span class="PreProc">#include </span><span class="Constant">&lt;sys/file.h&gt;</span>
+<span class="lnr"> 19 </span><span class="PreProc">#include </span><span class="Constant">&lt;sys/stat.h&gt;</span>
+<span class="lnr"> 20 </span><span class="PreProc">#include </span><span class="Constant">&lt;sys/types.h&gt;</span>
+<span class="lnr"> 21 </span>
+<span class="lnr"> 22 </span><span class="PreProc">#include </span><span class="Constant">&lt;err.h&gt;</span>
+<span class="lnr"> 23 </span><span class="PreProc">#include </span><span class="Constant">&lt;libgen.h&gt;</span>
+<span class="lnr"> 24 </span><span class="PreProc">#include </span><span class="Constant">&lt;limits.h&gt;</span>
+<span class="lnr"> 25 </span><span class="PreProc">#include </span><span class="Constant">&lt;stdio.h&gt;</span>
+<span class="lnr"> 26 </span><span class="PreProc">#include </span><span class="Constant">&lt;stdlib.h&gt;</span>
+<span class="lnr"> 27 </span><span class="PreProc">#include </span><span class="Constant">&lt;string.h&gt;</span>
+<span class="lnr"> 28 </span><span class="PreProc">#include </span><span class="Constant">&lt;sysexits.h&gt;</span>
+<span class="lnr"> 29 </span><span class="PreProc">#include </span><span class="Constant">&lt;unistd.h&gt;</span>
+<span class="lnr"> 30 </span>
+<span class="lnr"> 31 </span><span class="PreProc">#define DEFAULT_PASSES  </span><span class="Constant">3</span>
+<span class="lnr"> 32 </span><span class="PreProc">#define DEV_RANDOM      </span><span class="Constant">&quot;/dev/urandom&quot;</span>
+<span class="lnr"> 33 </span><span class="PreProc">#define MAX_CHUNK       </span><span class="Constant">4096</span>
+<span class="lnr"> 34 </span>
+<span class="lnr"> 35 </span><span class="Type">static</span> <span class="Type">int</span>         do_wipe(<span class="Type">char</span> *, <span class="Type">size_t</span>);
+<span class="lnr"> 36 </span><span class="Type">static</span> <span class="Type">int</span>         wipe(<span class="Type">char</span> *);
+<span class="lnr"> 37 </span><span class="Type">static</span> <span class="Type">void</span>        usage(<span class="Type">void</span>);
+<span class="lnr"> 38 </span><span class="Type">static</span> <span class="Type">void</span>        version(<span class="Type">void</span>);
+<span class="lnr"> 39 </span>
+<span class="lnr"> 40 </span><span class="Type">extern</span> <span class="Type">char</span> *__progname;
+<span class="lnr"> 41 </span>
+<span class="lnr"> 42 </span>
+<span class="lnr"> 43 </span><span class="Comment">/*</span>
+<span class="lnr"> 44 </span><span class="Comment"> * overwrite a file with one or more passes of random data, then unlink it.</span>
+<span class="lnr"> 45 </span><span class="Comment"> </span><span class="Comment">*/</span>
+<span class="lnr"> 46 </span><span class="Type">int</span>
+<span class="lnr"> 47 </span>main(<span class="Type">int</span> argc, <span class="Type">char</span> **argv)
+<span class="lnr"> 48 </span>{
+<span class="lnr"> 49 </span>    <span class="Type">size_t</span> passes, tmp_passes, wiped, failed, i;
+<span class="lnr"> 50 </span>    <span class="Type">char</span> **file_ptr, **wipe_success, **wipe_fail;
+<span class="lnr"> 51 </span>    <span class="Type">int</span> retval, opt, verbose;
+<span class="lnr"> 52 </span>
+<span class="lnr"> 53 </span>    passes  = DEFAULT_PASSES;
+<span class="lnr"> 54 </span>    retval  = EX_DATAERR;
+<span class="lnr"> 55 </span>    wiped   = <span class="Constant">0</span>;
+<span class="lnr"> 56 </span>    failed  = <span class="Constant">0</span>;
+<span class="lnr"> 57 </span>    verbose = <span class="Constant">0</span>;
+<span class="lnr"> 58 </span>
+<span class="lnr"> 59 </span>    <span class="Statement">if</span> (argc == <span class="Constant">1</span>)
+<span class="lnr"> 60 </span>        usage();
+<span class="lnr"> 61 </span>
+<span class="lnr"> 62 </span>    <span class="Statement">while</span> (-<span class="Constant">1</span> != (opt = getopt(argc, argv, <span class="Constant">&quot;hn:vV&quot;</span>))) {
+<span class="lnr"> 63 </span>        <span class="Statement">switch</span>( opt ) {
+<span class="lnr"> 64 </span>        <span class="Statement">case</span> <span class="Constant">'h'</span>:
+<span class="lnr"> 65 </span>            usage();
+<span class="lnr"> 66 </span>            <span class="Statement">break</span>;              <span class="Comment">/*</span><span class="Comment"> don't technically need it but meh </span><span class="Comment">*/</span>
+<span class="lnr"> 67 </span>        <span class="Statement">case</span> <span class="Constant">'n'</span>:
+<span class="lnr"> 68 </span>            tmp_passes = atoi(optarg);
+<span class="lnr"> 69 </span>            passes = tmp_passes &gt; <span class="Constant">0</span> ? tmp_passes : passes;
+<span class="lnr"> 70 </span>            <span class="Statement">break</span>;
+<span class="lnr"> 71 </span>        <span class="Statement">case</span> <span class="Constant">'v'</span>:
+<span class="lnr"> 72 </span>            verbose = <span class="Constant">1</span>;
+<span class="lnr"> 73 </span>            <span class="Statement">break</span>;
+<span class="lnr"> 74 </span>        <span class="Statement">case</span> <span class="Constant">'V'</span>:
+<span class="lnr"> 75 </span>            version();
+<span class="lnr"> 76 </span>            exit(EX_OK);
+<span class="lnr"> 77 </span>        <span class="Statement">default</span>:
+<span class="lnr"> 78 </span>            usage();
+<span class="lnr"> 79 </span>            <span class="Comment">/*</span><span class="Comment"> NOTREACHED </span><span class="Comment">*/</span>
+<span class="lnr"> 80 </span>        }
+<span class="lnr"> 81 </span>    }
+<span class="lnr"> 82 </span>
+<span class="lnr"> 83 </span>    argc -= optind;
+<span class="lnr"> 84 </span>    argv += optind;
+<span class="lnr"> 85 </span>
+<span class="lnr"> 86 </span>    file_ptr = argv;
+<span class="lnr"> 87 </span>    wipe_success = calloc(argc, <span class="Statement">sizeof</span>(<span class="Type">char</span> *));
+<span class="lnr"> 88 </span>    wipe_fail    = calloc(argc, <span class="Statement">sizeof</span>(<span class="Type">char</span> *));
+<span class="lnr"> 89 </span>
+<span class="lnr"> 90 </span>
+<span class="lnr"> 91 </span>    <span class="Statement">while</span> (<span class="Constant">NULL</span> != *file_ptr) {
+<span class="lnr"> 92 </span>        printf(<span class="Constant">&quot;</span><span class="Special">%s</span><span class="Constant">: &quot;</span>, *file_ptr);
+<span class="lnr"> 93 </span>        fflush(<span class="Constant">stdout</span>);
+<span class="lnr"> 94 </span>
+<span class="lnr"> 95 </span>        <span class="Statement">if</span> (EX_OK != do_wipe(*file_ptr, passes)) {
+<span class="lnr"> 96 </span>            wipe_fail[failed] = strdup(*file_ptr);
+<span class="lnr"> 97 </span>            failed++;
+<span class="lnr"> 98 </span>        } <span class="Statement">else</span> {
+<span class="lnr"> 99 </span>            wipe_success[wiped] = strdup(*file_ptr);
+<span class="lnr">100 </span>            wiped++;
+<span class="lnr">101 </span>            printf(<span class="Constant">&quot; OK!&quot;</span>);
+<span class="lnr">102 </span>        }
+<span class="lnr">103 </span>        file_ptr++;
+<span class="lnr">104 </span>        printf(<span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">&quot;</span>);
+<span class="lnr">105 </span>    }
+<span class="lnr">106 </span>
+<span class="lnr">107 </span>    <span class="Statement">if</span> (verbose) {
+<span class="lnr">108 </span>        <span class="Statement">if</span> (<span class="Constant">0</span> &lt; wiped) {
+<span class="lnr">109 </span>            printf(<span class="Constant">&quot;success: &quot;</span>);
+<span class="lnr">110 </span>            <span class="Statement">for</span>( i = <span class="Constant">0</span>; i &lt; wiped; ++i ) {
+<span class="lnr">111 </span>                printf(<span class="Constant">&quot;</span><span class="Special">%s</span><span class="Constant"> &quot;</span>, wipe_success[i]);
+<span class="lnr">112 </span>            }
+<span class="lnr">113 </span>            printf(<span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">&quot;</span>);
+<span class="lnr">114 </span>        }
+<span class="lnr">115 </span>
+<span class="lnr">116 </span>        <span class="Statement">if</span> (<span class="Constant">0</span> &lt; failed) {
+<span class="lnr">117 </span>            printf(<span class="Constant">&quot;failures: &quot;</span>);
+<span class="lnr">118 </span>            <span class="Statement">for</span>( i = <span class="Constant">0</span>; i &lt; failed; ++i ) {
+<span class="lnr">119 </span>                printf(<span class="Constant">&quot;</span><span class="Special">%s</span><span class="Constant"> &quot;</span>, wipe_fail[i]);
+<span class="lnr">120 </span>            }
+<span class="lnr">121 </span>            printf(<span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">&quot;</span>);
+<span class="lnr">122 </span>        }
+<span class="lnr">123 </span>    }
+<span class="lnr">124 </span>
+<span class="lnr">125 </span>    <span class="Comment">/*</span><span class="Comment"> free allocated memory </span><span class="Comment">*/</span>
+<span class="lnr">126 </span>    <span class="Statement">for</span> (i = <span class="Constant">0</span>; i &lt; failed; ++i) {
+<span class="lnr">127 </span>        free(wipe_fail[i]);
+<span class="lnr">128 </span>        wipe_fail[i] = <span class="Constant">NULL</span>;
+<span class="lnr">129 </span>    }
+<span class="lnr">130 </span>    free(wipe_fail);
+<span class="lnr">131 </span>    wipe_fail = <span class="Constant">NULL</span>;
+<span class="lnr">132 </span>
+<span class="lnr">133 </span>    <span class="Statement">for</span> (i = <span class="Constant">0</span>; i &lt; wiped; ++i) {
+<span class="lnr">134 </span>        free(wipe_success[i]);
+<span class="lnr">135 </span>        wipe_success[i] = <span class="Constant">NULL</span>;
+<span class="lnr">136 </span>    }
+<span class="lnr">137 </span>    free(wipe_success);
+<span class="lnr">138 </span>    wipe_success = <span class="Constant">NULL</span>;
+<span class="lnr">139 </span>
+<span class="lnr">140 </span>    <span class="Statement">return</span> retval;
+<span class="lnr">141 </span>}
+<span class="lnr">142 </span>
+<span class="lnr">143 </span><span class="Comment">/*</span>
+<span class="lnr">144 </span><span class="Comment"> * takes a filename and the number of passes to wipe the file</span>
+<span class="lnr">145 </span><span class="Comment"> </span><span class="Comment">*/</span>
+<span class="lnr">146 </span><span class="Type">int</span>
+<span class="lnr">147 </span>do_wipe(<span class="Type">char</span> *filename, <span class="Type">size_t</span> passes)
+<span class="lnr">148 </span>{
+<span class="lnr">149 </span>    <span class="Type">struct</span> stat sb;
+<span class="lnr">150 </span>    <span class="Type">size_t</span> filesize, i;
+<span class="lnr">151 </span>    <span class="Type">int</span> retval;
+<span class="lnr">152 </span>
+<span class="lnr">153 </span>    retval = EX_IOERR;
+<span class="lnr">154 </span>    <span class="Statement">if</span> (-<span class="Constant">1</span> == stat(filename, &amp;sb)) {
+<span class="lnr">155 </span>        warn(<span class="Constant">&quot;</span><span class="Special">%s</span><span class="Constant">&quot;</span>, filename);
+<span class="lnr">156 </span>        <span class="Statement">return</span> retval;
+<span class="lnr">157 </span>    }
+<span class="lnr">158 </span>    filesize = sb.st_size;
+<span class="lnr">159 </span>
+<span class="lnr">160 </span>    <span class="Statement">for</span> (i = <span class="Constant">0</span>; i &lt; passes; ++i) {
+<span class="lnr">161 </span>        <span class="Statement">if</span> (EX_OK != wipe(filename)) {
+<span class="lnr">162 </span>            printf(<span class="Constant">&quot;!&quot;</span>);
+<span class="lnr">163 </span>            <span class="Statement">return</span> retval;
+<span class="lnr">164 </span>        } <span class="Statement">else</span> <span class="Statement">if</span> (-<span class="Constant">1</span> == stat(filename, &amp;sb)) {
+<span class="lnr">165 </span>            printf(<span class="Constant">&quot;!&quot;</span>);
+<span class="lnr">166 </span>            <span class="Statement">return</span> retval;
+<span class="lnr">167 </span>        } <span class="Statement">else</span> <span class="Statement">if</span> (filesize != (<span class="Type">size_t</span>)sb.st_size) {
+<span class="lnr">168 </span>            printf(<span class="Constant">&quot;!&quot;</span>);
+<span class="lnr">169 </span>            <span class="Statement">return</span> retval;
+<span class="lnr">170 </span>        }
+<span class="lnr">171 </span>        printf(<span class="Constant">&quot;.&quot;</span>);
+<span class="lnr">172 </span>        fflush(<span class="Constant">stdout</span>);
+<span class="lnr">173 </span>    }
+<span class="lnr">174 </span>
+<span class="lnr">175 </span>    <span class="Statement">if</span> (-<span class="Constant">1</span> == truncate(filename, (<span class="Type">off_t</span>)<span class="Constant">0</span>))
+<span class="lnr">176 </span>        warn(<span class="Constant">&quot;</span><span class="Special">%s</span><span class="Constant">&quot;</span>, filename);
+<span class="lnr">177 </span>
+<span class="lnr">178 </span>    <span class="Statement">if</span> (-<span class="Constant">1</span> == unlink(filename)) {
+<span class="lnr">179 </span>        warn(<span class="Constant">&quot;</span><span class="Special">%s</span><span class="Constant">&quot;</span>, filename);
+<span class="lnr">180 </span>    } <span class="Statement">else</span> {
+<span class="lnr">181 </span>        retval = EX_OK;
+<span class="lnr">182 </span>    }
+<span class="lnr">183 </span>
+<span class="lnr">184 </span>    <span class="Statement">return</span> retval;
+<span class="lnr">185 </span>}
+<span class="lnr">186 </span>
+<span class="lnr">187 </span><span class="Comment">/*</span>
+<span class="lnr">188 </span><span class="Comment"> * takes a filename and attempts to overwrite it with random data</span>
+<span class="lnr">189 </span><span class="Comment"> </span><span class="Comment">*/</span>
+<span class="lnr">190 </span><span class="Type">int</span>
+<span class="lnr">191 </span>wipe(<span class="Type">char</span> *filename)
+<span class="lnr">192 </span>{
+<span class="lnr">193 </span>    <span class="Type">struct</span> stat sb;
+<span class="lnr">194 </span>
+<span class="lnr">195 </span>    <span class="Type">size_t</span> chunk, filesize, rdsz, wiped, wrsz;
+<span class="lnr">196 </span>    <span class="Type">FILE</span> *devrandom, *target;
+<span class="lnr">197 </span>    <span class="Type">int</span> retval, targetfd;
+<span class="lnr">198 </span>    <span class="Type">char</span> *rdata;
+<span class="lnr">199 </span>
+<span class="lnr">200 </span>    retval = EX_IOERR;
+<span class="lnr">201 </span>    wiped  = <span class="Constant">0</span>;
+<span class="lnr">202 </span>
+<span class="lnr">203 </span>    <span class="Statement">if</span> (-<span class="Constant">1</span> == stat(filename, &amp;sb))
+<span class="lnr">204 </span>        <span class="Statement">return</span> retval;
+<span class="lnr">205 </span>
+<span class="lnr">206 </span>    filesize = sb.st_size;
+<span class="lnr">207 </span>
+<span class="lnr">208 </span>    <span class="Comment">/*</span><span class="Comment"> </span>
+<span class="lnr">209 </span><span class="Comment">     * open devrandom first: if this fails, we don't want to touch the target</span>
+<span class="lnr">210 </span><span class="Comment">     * file. </span>
+<span class="lnr">211 </span><span class="Comment">     </span><span class="Comment">*/</span>
+<span class="lnr">212 </span>    devrandom = fopen(DEV_RANDOM, <span class="Constant">&quot;r&quot;</span>);
+<span class="lnr">213 </span>    <span class="Statement">if</span> (<span class="Constant">NULL</span> == devrandom || -<span class="Constant">1</span> == ferror(devrandom)) {
+<span class="lnr">214 </span>        warn(<span class="Constant">&quot;failed to open PRNG </span><span class="Special">%s</span><span class="Constant">!&quot;</span>, DEV_RANDOM);
+<span class="lnr">215 </span>        <span class="Statement">return</span> retval;
+<span class="lnr">216 </span>    }
+<span class="lnr">217 </span>
+<span class="lnr">218 </span>    <span class="Comment">/*</span>
+<span class="lnr">219 </span><span class="Comment">     * for security purposes, we want to make sure to actually overwrite the</span>
+<span class="lnr">220 </span><span class="Comment">     * the file. r+ gives us read/write but more importantly, sets the write</span>
+<span class="lnr">221 </span><span class="Comment">     * stream at the beginning of the file. a side note is that when overwriting</span>
+<span class="lnr">222 </span><span class="Comment">     * a file, its size will never seem to change.</span>
+<span class="lnr">223 </span><span class="Comment">     </span><span class="Comment">*/</span>
+<span class="lnr">224 </span>    target   = fopen(filename, <span class="Constant">&quot;r+&quot;</span>);
+<span class="lnr">225 </span>    <span class="Statement">if</span> (<span class="Constant">NULL</span> == target || -<span class="Constant">1</span> == ferror(target)) {
+<span class="lnr">226 </span>        warn(<span class="Constant">&quot;failed to open </span><span class="Special">%s</span><span class="Constant">&quot;</span>, filename);
+<span class="lnr">227 </span>        fclose(devrandom);
+<span class="lnr">228 </span>        <span class="Statement">return</span> retval;
+<span class="lnr">229 </span>    }
+<span class="lnr">230 </span>
+<span class="lnr">231 </span>    rewind(target);
+<span class="lnr">232 </span>    targetfd = fileno(target);
+<span class="lnr">233 </span>
+<span class="lnr">234 </span>    <span class="Comment">/*</span><span class="Comment"> wait to calloc until we really need the data - makes cleaning up less</span>
+<span class="lnr">235 </span><span class="Comment">     * tricky.</span>
+<span class="lnr">236 </span><span class="Comment">     </span><span class="Comment">*/</span>
+<span class="lnr">237 </span>    rdata = calloc(MAX_CHUNK, <span class="Statement">sizeof</span>(<span class="Type">char</span>));
+<span class="lnr">238 </span>    <span class="Statement">if</span> (<span class="Constant">NULL</span> == rdata) {
+<span class="lnr">239 </span>        warn(<span class="Constant">&quot;could not allocate random data memory&quot;</span>);
+<span class="lnr">240 </span>        fclose(devrandom);
+<span class="lnr">241 </span>        fclose(target);
+<span class="lnr">242 </span>        <span class="Statement">return</span> retval;
+<span class="lnr">243 </span>    }
+<span class="lnr">244 </span>
+<span class="lnr">245 </span>    <span class="Statement">while</span> (wiped &lt; filesize) {
+<span class="lnr">246 </span>        chunk = filesize - wiped;
+<span class="lnr">247 </span>        chunk = chunk &gt; MAX_CHUNK ? MAX_CHUNK : chunk;
+<span class="lnr">248 </span>
+<span class="lnr">249 </span>        rdsz  =  fread( rdata, <span class="Statement">sizeof</span>(<span class="Type">char</span>), chunk, devrandom );
+<span class="lnr">250 </span>        wrsz  = fwrite( rdata, <span class="Statement">sizeof</span>(<span class="Type">char</span>), chunk, target );
+<span class="lnr">251 </span>
+<span class="lnr">252 </span>        <span class="Statement">if</span> (-<span class="Constant">1</span> == stat(filename, &amp;sb)) {
+<span class="lnr">253 </span>            warn(<span class="Constant">&quot; stat on </span><span class="Special">%s</span><span class="Constant"> failed&quot;</span>, filename);
+<span class="lnr">254 </span>            <span class="Statement">break</span>;
+<span class="lnr">255 </span>        }
+<span class="lnr">256 </span>        <span class="Statement">if</span> ((rdsz != wrsz) || (filesize != (<span class="Type">unsigned</span> <span class="Type">int</span>)sb.st_size)) {
+<span class="lnr">257 </span>            warn(<span class="Constant">&quot;invalid read/write size&quot;</span>);
+<span class="lnr">258 </span>            <span class="Statement">break</span>;
+<span class="lnr">259 </span>        }
+<span class="lnr">260 </span>
+<span class="lnr">261 </span>        wiped += chunk;
+<span class="lnr">262 </span>    }
+<span class="lnr">263 </span>
+<span class="lnr">264 </span>    <span class="Statement">if</span> ((<span class="Constant">0</span> != fclose(devrandom)) || (<span class="Constant">0</span> != fclose(target)))
+<span class="lnr">265 </span>        warn(<span class="Constant">&quot;</span><span class="Special">%s</span><span class="Constant">&quot;</span>, filename);
+<span class="lnr">266 </span>    <span class="Statement">else</span>
+<span class="lnr">267 </span>        retval = EX_OK;
+<span class="lnr">268 </span>
+<span class="lnr">269 </span>    free(rdata);
+<span class="lnr">270 </span>    rdata = <span class="Constant">NULL</span>;
+<span class="lnr">271 </span>
+<span class="lnr">272 </span>    <span class="Statement">return</span> retval;
+<span class="lnr">273 </span>}
+<span class="lnr">274 </span>
+<span class="lnr">275 </span><span class="Comment">/*</span>
+<span class="lnr">276 </span><span class="Comment"> * print a quick usage message </span>
+<span class="lnr">277 </span><span class="Comment"> </span><span class="Comment">*/</span>
+<span class="lnr">278 </span><span class="Type">void</span>
+<span class="lnr">279 </span>usage()
+<span class="lnr">280 </span>{
+<span class="lnr">281 </span>    version();
+<span class="lnr">282 </span>    printf(<span class="Constant">&quot;usage: </span><span class="Special">%s</span><span class="Constant"> [-v] [-n number] files</span><span class="Special">\n</span><span class="Constant">&quot;</span>, __progname);
+<span class="lnr">283 </span>    printf(<span class="Constant">&quot;        -n passes   specify number of passes</span><span class="Special">\n</span><span class="Constant">&quot;</span>);
+<span class="lnr">284 </span>    printf(<span class="Constant">&quot;                    (default is </span><span class="Special">%d</span><span class="Constant"> passes)</span><span class="Special">\n</span><span class="Constant">&quot;</span>, DEFAULT_PASSES);
+<span class="lnr">285 </span>    printf(<span class="Constant">&quot;        -v          display list of failures and wiped files&quot;</span>
+<span class="lnr">286 </span>           <span class="Constant">&quot; after wiping</span><span class="Special">\n</span><span class="Constant">&quot;</span>
+<span class="lnr">287 </span>           <span class="Constant">&quot;                    (verbose mode).</span><span class="Special">\n</span><span class="Constant">&quot;</span>);
+<span class="lnr">288 </span>    printf(<span class="Constant">&quot;        -V          print version information.&quot;</span>);
+<span class="lnr">289 </span>
+<span class="lnr">290 </span>    printf(<span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">&quot;</span>);
+<span class="lnr">291 </span>    exit(EX_USAGE);
+<span class="lnr">292 </span>}
+<span class="lnr">293 </span>
+<span class="lnr">294 </span>
+<span class="lnr">295 </span><span class="Comment">/*</span>
+<span class="lnr">296 </span><span class="Comment"> * print program version information</span>
+<span class="lnr">297 </span><span class="Comment"> </span><span class="Comment">*/</span>
+<span class="lnr">298 </span><span class="Type">void</span>
+<span class="lnr">299 </span>version()
+<span class="lnr">300 </span>{
+<span class="lnr">301 </span>    printf(<span class="Constant">&quot;</span><span class="Special">%s</span><span class="Special">\n</span><span class="Constant">&quot;</span>, srm_VERSION);
+<span class="lnr">302 </span>}
+<span class="lnr">303 </span>
+<span class="lnr">304 </span>
+</pre>
+</body>
+</html>

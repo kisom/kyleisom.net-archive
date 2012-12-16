@@ -1,0 +1,520 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="intro i just finished getting ctrans into
+a workable state. what is ctrans? in short, it translates comments in a
+foreign-language (i.e. russian) to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/page/4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/05/13/presenting-ctrans/">Introducing Ctrans</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-13T00:00:00-06:00" pubdate data-updated="true">May 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>intro</h2>
+
+<p>i just finished getting <strong><a href="https://www.github.com/kisom/ctrans">ctrans</a></strong> into
+a workable state. what is <strong>ctrans</strong>? in short, it translates comments in a
+foreign-language (i.e. russian) to english using google translate and some
+regex magic.</p>
+
+<p>the project started when one of my buddies and i started looking at the zeus
+source code. <a href="https://www.github.com/clarke187/">zenmower</a> got the first peek
+and mentioned all the comments being in russian; i started poking around looking
+for something to translate the comments. after ten minutes i couldn&#8217;t find
+anything, so as they say, if you want something done do it yourself. i snagged
+<a href="http://www.halotis.com/2009/09/15/google-translate-api-python-script/">a python snippet to run google translate</a>
+on text passed in. it seemed to work pretty well and handled breaking the text
+up into chunks, so i cleaned it up a bit to fit my coding standards and started
+writing code to plug into that.</p>
+
+<p>i slapped together some regexes to scan for c-style comments and later
+scripting-language (i.e. python, perl, ruby) style &#8216;#&#8217; comments. a couple of
+iterations later, i had some mostly-working code that featured
+* file extension-based comment scanning (i.e. look for c-style comments in
+.cpp files, script-style comments in .pl files)
+* a directory scanning mode and a single-file mode
+* multiprocess directory scanning: the script builds a list of files that should
+be scanned (based solely on file extensions) and maps a pool of workers to scan
+through that list of files. i&#8217;ll talk more on the multiprocessing design later.</p>
+
+<h2>unicode notes</h2>
+
+<p>this code worked pretty well on the test files i generated, but choked on the
+zeus source, throwing the dreaded
+<a href="http://wiki.python.org/moin/UnicodeDecodeError"><code>UnicodeDecodeError</code></a> and
+<a href="http://wiki.python.org/moin/UnicodeEncodeError"><code>UnicodeEncodeError</code></a>. after
+digging around and finding <a href="http://effbot.org/zone/unicode-objects.htm">some</a>
+<a href="http://stackoverflow.com/questions/3588083/unicodeencodeerror-ascii-codec-cant-encode-character-u-xa3">excellent</a>
+<a href="http://farmdev.com/talks/unicode/">resources</a> on
+<a href="http://www.joelonsoftware.com/articles/Unicode.html">unicode</a> that helped jog
+my memory and clarify a few things i wasn&#8217;t thinking about. i came up with a
+few notes for dealing with different file encodings:</p>
+
+<ol>
+<li>you decode a stream of bytes being read into the program from whatever
+encoding the file came in (i.e. utf-8) to a unicode string.</li>
+<li>you encode a unicode string to whatever file encoding you want it output as;
+for most files, you will likely want utf-8. if you want to print the string, it
+needs to be the same encoding as your terminal (i.e.
+<code>sys.getdefaultencoding()</code>).</li>
+<li>it matters what encoding the file you are reading is. this was a problem for
+me, since the zeus source files were often not in utf-8 or ascii.</li>
+<li>file encoding detection if you really don&#8217;t know what format the file is in
+is extremely difficult and programatically doing this is akin to black magic.
+the <a href="http://chardet.feedparser.org/">chardet module</a> is very useful but not
+always correct. case in point - the two test source files that ship with ctrans
+are saved as utf-8, but watch what happens when we try to guess the encoding on
+the python test file:</li>
+</ol>
+
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a582940></p>
+
+<p>that&#8217;s a 90% confidence that the file uses a different encoding than it actually
+does. automagic should be used sparingly and with supervision.</p>
+
+<h2>concurrency notes</h2>
+
+<p>one design issue that came up is that of concurrency. i had to decide whether to
+launch new processes for each network connection (i.e. chunk of text being
+translated) or per-file (resulting in several network connections in sequence
+per process). the network connections were definitely the bottleneck, but i had
+to make sure the text would be returned in the proper sequence (order is <em>sort
+of</em> important in source files). in this case, the simplest answer to ensure
+the correctness of information, and given that files are the smallest <em>atomic</em>
+units, is to launch a new process to translate a file. given a list of the files
+that need to be translated, python&#8217;s multiprocessing.Pool.map() makes it
+incredibly easy to set up a worker pool.</p>
+
+<p>concurrency also factored into how the file encoding guessing would work -
+my original idea was to modify the global variable <code>decodeas</code> and set this based
+on whatever encoding the file was guessed to be. however, proper concurrency
+requires locking and ensuring the consistency of that variable&#8217;s state. it
+requires far less work to return the encoding as a string and set a local
+variable in the <code>scan_file()</code> function - the encoding string takes a minimal
+amount of memory and avoids the variable getting into an inconsistent state.</p>
+
+<h2>end notes</h2>
+
+<p>ctrans is still in a fairly rough state, but i think given the original goals -
+giving zenmower and me fast english translations (as best as could be done) of
+the comments in the source - the program does this fairly well. of course,
+it stills requires verification to ensure that the proper encodings are being
+used but it does work fairly quickly, the biggest slowdown typically being the
+network speed.</p>
+
+<p>the first commit was 2011-05-11 in the afternoon and the latest commit with
+what i consider revison 1.0 was committed 2011-05-13 - two days of coding,
+mostly hampered by network issues at home, to get working code.</p>
+
+<p>the source code is available at the github repo linked at the beginning. one
+planned improvement is to guess file encodings based on the average encoding
+detected in a directory (i.e. to compensate for possible variations in detected
+encoding and baesd on the assumption that encoding doesn&#8217;t vary over a
+directory). the code also could be cleaned up quite a bit.</p>
+
+<p>the important thing is that i have working code to show&#8230;</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/22/compiling-source-navigator-in-ubuntu-10-dot-04/">Compiling Source Navigator in Ubuntu 10.04</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-22T13:21:00-06:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Compiling source navigator under Ubuntu 10.04 is fairly easy once you
+get the dependencies down. Grab the source from
+<a href="http://sourcenav.sourceforge.net/">the sourceforge page</a>.
+The dependencies you need are:</p>
+
+<pre><code>tk tklib libx11-dev libxmu-dev libxmu-headers libxt-dev libtool
+</code></pre>
+
+<p>Of course you also need <code>build-essential</code>. Then a quick</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./configure --prefix<span class="o">=</span>/opt/source-nav
+</span><span class='line'>make
+</span><span class='line'>sudo make install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>should do the trick.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/06/22/tmux-as-an-IDE/">Tmux as an IDE</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-22T11:59:00-06:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It may not sound feasible, but I currently use tmux as my IDE. Getting it
+running under Fedora wasn&#8217;t as simple as <code>sudo yum install tmux</code>, but it was
+almost that easy. Instead, install <code>libevent-devel</code>, download the
+<a href="http://tmux.sourceforge.net/">tmux source code</a>, and build it normally.</p>
+
+<p>I found <a href="http://www.dayid.org/os/notes/tm.html">dayid&#8217;s tmux cheat sheet</a>
+pretty handy for getting everything set up.</p>
+
+<p>Basically, I start a new tmux session, split the screen vertically, and then
+split one of the panes horizontally. My set up looks like this:
+<a href="/images/tmuxide.png"><img src="/images/tmuxide.t.png" alt="tmux IDE screenshot" /></a></p>
+
+<p>The vertical pane on the left serves as my code editing window. I have my keys
+remapped in vim such that <code>^p</code> and <code>^n</code> cycle through the files I have open
+when I open multiple files. The top right pane is my git (or other version
+control) window, and the bottom right pane is my make / code testing window.
+Sometimes I flip sides, i.e. the vim session is on the right instead. <code>^b o</code>
+cycles through sessions.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/3/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">&#8216;Just Ship It&#8217; v. &#8216;Proudifying&#8217; Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll&#8230;</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

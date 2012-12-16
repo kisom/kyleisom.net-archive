@@ -1,0 +1,736 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Practical Introduction to Cryptography - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="Practical Introduction to Cryptography Feb 11th, 2012 Introduction This chapter is adapted from my introductory article to cryptography. We&#8217;ll &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/book/chapter2/index2.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Practical Introduction to Cryptography</h1>
+    <p class="meta">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-11T23:07:00-07:00" pubdate data-updated="true">Feb 11<span>th</span>, 2012</time></p>
+  </header>
+  
+  <h2>Introduction</h2>
+
+<p>This chapter is adapted from my introductory article to cryptography. We&#8217;ll take
+a quick, high-level overview of cryptography. The
+<a href="https://www.dlitz.net/software/pycrypto/">PyCrypto</a> and
+<a href="http://www.mindrot.org/projects/py-bcrypt/">py-bcrypt</a> libraries will be used
+to illustrate some general things to know when writing cryptographic code.
+We&#8217;ll take a look at symmetric, public-key, hybrid, cryptographic hashing,
+password hashing, and message authentication codes.</p>
+
+<p>Some quick terminology: for those unfamiliar, it&#8217;s important to know what these
+mean:</p>
+
+<ul>
+<li><strong>plaintext</strong>: the original message</li>
+<li><strong>ciphertext</strong>: the message after cryptographic transformations are applied
+to obscure the original message.</li>
+<li><strong>encrypt</strong>: producing ciphertext by applying cryptographic transformations
+to plaintext.</li>
+<li><strong>decrypt</strong>: producing plaintext by applying cryptographic transformations to
+ciphertext.</li>
+<li><strong>cipher</strong>: a particular set of cryptographic transformations providing means
+of both encryption and decryption.</li>
+<li><strong>ciphersystem</strong>: a set of cryptographic transformations that take a large input and
+transform it to a unique (typically fixed-size) output. For hashes to be
+cryptographically secure, collisions should be practically nonexistent. It
+should be practically impossible to determine the input from the output.</li>
+</ul>
+
+
+<p>Cryptography is an often misunderstood component of information security. We
+covered some information security principles in the previous chapter; the
+ones that cryptography covers are:</p>
+
+<ul>
+<li><strong>privacy</strong> (aka <strong>confidentiality</strong>).</li>
+<li><strong>data integrity</strong>: the plaintext message arrives unaltered.</li>
+<li><strong>entity authentication</strong>: the identity of the sender is verified. An entity
+may be a person or a machine.</li>
+<li><strong>message authentication</strong>: the message is verified as having been
+unaltered.</li>
+</ul>
+
+
+<p>Note that cryptography is used to obscure the contents of a message and verify
+its contents and source. It will <strong>not</strong> hide the fact that two entities are
+communicating.</p>
+
+<p>There are two basic types of ciphers: symmetric and public-key ciphers. A
+symmetric key cipher employs the use of shared secret keys. They also tend to
+be much faster than public-key ciphers. A public-key cipher is so-called because
+each key consists of a private key which is used to generate a public key. Like
+their names imply, the private key is kept secret while the public key is
+passed around. First, I&#8217;ll take a look at a specific type of symmetric ciphers:
+block ciphers.</p>
+
+<h2>Block Ciphers</h2>
+
+<p>There are two further types of symmetric keys: stream and block ciphers. Stream
+ciphers operate on data streams, i.e. one byte at a time. Block ciphers operate
+on blocks of data, typically 16 bytes at a time. The most common block cipher
+and the standard one you should use unless you have a very good reason to use
+another one is the AES block cipher, documented in
+<a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">FIPS PUB 197</a>.
+AES is a specific subset of the Rijndael cipher. AES uses block size of
+128-bits (16 bytes); data should be padded out to fit the block size - the
+length of the data block must be multiple of the block size. For example,
+given an input of <code>ABCDABCDABCDABCD ABCDABCDABCDABCD</code> no padding would
+need to be done. However, given <code>ABCDABCDABCDABCD ABCDABCDABCD</code> an
+additional 4 bytes of padding would need to be added. A common padding scheme
+is to use <code>0x80</code> as the first byte of padding, with <code>{0x00</code> bytes
+filling out the rest of the padding. With padding, the previous example would
+look like: <code>ABCDABCDABCDABCD ABCDABCDABCD\x80\x00\x00\x00</code>.</p>
+
+<p>Writing a padding function is pretty easy: <br/>
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac88618></p>
+
+<p>Similarly, removing padding is also easy:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac88118></p>
+
+<p>I&#8217;ve included these functions in the
+<a href="http://www.kyleisom.net/publish/datasec/code/chapter2.tar.gz">example code</a>
+for the book.</p>
+
+<p>Encryption with a block cipher requires selecting a
+<a href="http://csrc.nist.gov/groups/ST/toolkit/BCM/index.html">block mode</a>.
+By far the most common mode used is <strong>cipher block chaining</strong> or
+<em>CBC</em> mode. Other modes include <strong>counter (CTR)</strong>,
+<strong>cipher feedback (CFB)</strong>, and the extremely insecure
+<strong>electronic codebook (ECB)</strong>. CBC mode is the standard and is
+well-vetted, so I will stick to that in this tutorial. Cipher block chaining
+works by XORing the previous block of ciphertext with the current block. You
+might recognise that the first block has nothing to be XOR&#8217;d with; enter the
+<em><a href="http://www.cs.ucdavis.edu/~rogaway/papers/nonce.pdf">initialisation vector</a></em>.
+This comprises a number of randomly-generated bytes of data the same
+size as the cipher&#8217;s block size. This initialisation vector should random
+enough that it cannot be recovered; one manner of doing this is to combine a
+standard UNIX timestamp with a block-size group of random data, using a standard
+hashing algorithm such as MD5 to make it unique.</p>
+
+<p>One of the most critical components to encryption is properly generating
+random data. Fortunately, most of this is handled by the PyCrypto library&#8217;s
+<code>Crypto.Random.OSRNG module</code>. You should know that the more entropy sources
+available (such as network traffic and disk activity), the faster the system
+can generate cryptographically-secure random data. I&#8217;ve written a function that
+can generate a <em>cryptographic nonce</em> (an number used only once)
+suitable for use as an initialisation vector. This will work on a UNIX machine;
+the comments note how easy it is to adapt it to a Windows machine. This
+function requires a version of PyCrypto at least 2.1.0 or higher.
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac87c18></p>
+
+<p>I will note here that the python <code>random</code> module is completely unsuitable for
+cryptography (as it is completely deterministic). You shouldn&#8217;t use it for
+cryptographic code. If you&#8217;re using another language, you need to be careful
+to select a cryptographically-secure random number generator (RNG).</p>
+
+<p>Symmetric ciphers are so-named because the key is shared across any entities.
+There are three key sizes for AES: 128-bit, 192-bit, and 256-bit, aka 16-byte,
+24-byte, and 32-byte key sizes. If you want to use a passphrase, you
+should use a digest algorithm that produces an appropriately sized digest, and
+hash that passphrase. For example, for AES-256, you would want to use SHA-256.
+Here is a sample function to generate an AES-256 key from a passphrase:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac87718></p>
+
+<p>We could include this a set of AES encryption and decryption functions:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac87218></p>
+
+<p>Notice how the data is padded before being encrypted and unpadded after
+decryption - the decryption process will not remove the padding on its own.</p>
+
+<p>Unless you are you doing interactive encryption passphrase encryption won&#8217;t be
+terribly useful. Instead, we just need to generate 32 random bytes (and make
+sure we keep track of it) and use that as the key:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac86d18></p>
+
+<p>We can use this key directly in the AES transformations:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8e810></p>
+
+<p>That should cover the basics of block cipher encryption. We&#8217;ve gone over key
+generation, padding, and encryption / decryption. AES-256 isn&#8217;t the only
+block cipher provided by the PyCrypto package, but again: it is the standard
+and well vetted.</p>
+
+<h2>ASCII-Armouring</h2>
+
+<p>I&#8217;m going to take a quick detour and talk about ASCII armouring. If you&#8217;ve
+played with the crypto functions above, you&#8217;ll notice they produce an annoying
+dump of binary data that can be a hassle to deal with. One common technique for
+making the data a little bit easier to deal with is to encode it with
+base64 (which is defined in <a href="http://tools.ietf.org/html/rfc1521.html">RFC 1521</a>.
+There are a few ways to incorporate this into python:</p>
+
+<h3>Absolute Base64 Encoding</h3>
+
+<p>The easiest way is to just base64 encode everything in the encrypt function.
+Everything that goes into the decrypt function should be in base64 - if it&#8217;s
+not, the <code>base64</code> module will throw an error: you could catch this and
+then try to decode it as binary data.</p>
+
+<h3>A Simple Header</h3>
+
+<p>A slightly more complex option, and the one I adopt in this article, is to use
+a <code>x00</code> as the first byte of the ciphertext for binary data, and to use
+<code>\x41</code> (an ASCII &#8221;<code>A</code>&#8221;) for ASCII encoded data. This will increase
+the complexity of the encryption and decryption functions slightly. We&#8217;ll also
+pack the initialisation vector at the beginning of the file as well. Given now
+that the <code>iv</code> argument might be <code>None</code> in the decrypt function, I
+will have to rearrange the arguments a bit; for consistency, I will move it in
+both functions. I leave adding it into the <code>passphrase_encrypt</code> and
+<code>passphrase_decrypt</code> functions as an exercise for the reader. My modified
+functions look like this now:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8e310></p>
+
+<h3>A More Complex Container</h3>
+
+<p>There are more complex ways to do it (and you&#8217;ll see it with the public keys
+in the next section) that involve putting the base64 into a container of sorts
+that contains additional information about the key.</p>
+
+<h2>Public Key Cryptography</h2>
+
+<p>Now it is time to take a look at public-key cryptography. Public-key
+cryptography, or PKC, involves the use of two-part keys. The private key is
+the sensitive key that should be kept private by the owning entity, whereas the
+public key (which is generated from the private key) is meant to be distributed
+to any entities which must communicate securely with the entity owning the
+private key. Confusing? Let&#8217;s look at this using the venerable Alice and Bob,
+patron saints of cryptography.</p>
+
+<p>Alice wants to talk to Bob, but doesn&#8217;t want Eve to know the contents of the
+message. Both Alice and Bob generate a set of private keys. From those private
+keys, they both generate public keys. Let&#8217;s say they post their public keys on
+their websites. Alice wants to send a private message to Bob, so she looks up
+Bob&#8217;s public key from his site. (In fact, there is a way to distribute keys via
+a central site or entity; this is called a public key infrastructure (PKI). The
+public key can be used as the key to encrypt a message with PKC. The resulting
+ciphertext can only be decrypted using Bob&#8217;s private key. Alice sends Bob the
+resulting ciphertext, which Eve cannot decrypt without Bob&#8217;s private key.
+Hopefully this is a little less confusing.</p>
+
+<p>One of the most common PKC systems is RSA (which is an acronym for the last
+names of the designers of the algorithm). Generally, RSA keys are 1024-bit,
+2048-bit, or 4096-bits long. The keys are most often in
+PEM (defined in <a href="https://tools.ietf.org/html/rfc1421">RFCs 1421-1424</a>)
+or
+<a href="http://www.itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf">DER</a>
+format. Generating RSA keys with PyCrypto is extremely easy:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8de10></p>
+
+<p>The <code>key</code> that is returned isn&#8217;t like the keys we used with the block ciphers:
+it is an RSA object and comes with several useful built-in methods. One of
+these is the <code>size()</code> method, which returns the size of the key in bits minus
+one. For example:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8d910></p>
+
+<p>A quick note: I will use 1024-bit keys in this tutorial because they are
+faster to generate, but in practice you should be using at least 2048-bit
+keys. The key also includes encryption and decryption methods in the class:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8d410></p>
+
+<p>The <code>None</code> that is passed into the encryption function is part of the
+PyCrypto API for those publickey ciphers requiring an additional random number
+function to be passed in. It returns a tuple containing only the encrypted
+message. In order to pass this to the decryption function, we need to pass only
+the encrypted message as a string:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8cf10></p>
+
+<p>While these are simple enough, we could put them into a pair of functions that
+also include ASCII-armouring:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8ca10></p>
+
+<p>These two functions present a common API that will simplify encryption and
+decryption and make it a little easier to read. Assuming we still have the same
+<code>message</code> definition as before:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8c510></p>
+
+<p>Now, what if we want to export this generated key and read it in later? The key
+comes with the method <code>exportKey()</code>. If the key is a private key, it will
+export the private key; if it is a public key, it will export the public key.
+We can write functions to backup our private key (which <strong>absolutely</strong>
+needs to be kept secure) and a function to export our public key, suitable for
+uploading to our web page or to a PKI keystore:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8c010></p>
+
+<p>Importing a key is done using the <code>RSA.importKey</code> function:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8bb10></p>
+
+<p>We can take a look at the difference between the public and private keys:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8b610></p>
+
+<p>Using the <code>export_pubkey()</code> function, you can pass that file
+around to people to encrypt messages to you. Often, you wil want to generate a
+keypair to give to people. One convention is to name the secret key
+<code>keyname.prv</code> (prv for private, and sometimes <code>keyname.key</code>) and the
+public key <code>keyname.pub</code>. We will
+follow that convention in an <code>export_keypair()</code> function:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8b110></p>
+
+<p>For example, Bob generates a keypair and emails the public key to Alice:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac8ac10></p>
+
+<p>Then, Assuming Bob gave Alice <code>bob.pub</code>:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac926e0></p>
+
+<p>The ASCII-armoured format makes it convenient for Alice to paste the encrypted
+message to Bob, so she does, and now Bob has it on his computer. To read it, he
+does something similar:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac921e0></p>
+
+<p>At this point, Bob can&#8217;t be sure that the message came from Alice but he can
+read the message. We&#8217;ll cover entity authentication in a later section, but
+first, there&#8217;s something else I&#8217;d to point out:</p>
+
+<p>You might have noticed at this point that public key cryptography appears to
+be a lot simpler than symmetric key cryptography. The key distribution problem
+is certainly easier, especially with a proper PKI. Why would anyone choose to
+use symmetric key cryptography over public key cryptography? The answer is
+performance: if you compare the block cipher test code with the public
+key test code, you will notice that the block cipher code is orders of magnitude
+faster - and it generates far more keys than the public key code. There is a
+solution to this problem: hybrid cryptosystems.</p>
+
+<p>Hybrid cryptosystems use public key cryptography to establish a symmetric
+session key. Both <strong>TLS</strong> (Transport Layer Security), and its predecessor
+<strong>SSL</strong> (Secure Sockets Layer), most often used to secure HTTP transactions,
+use a hybrid cryptosystem to speed up establishing a secure session. PGP
+also uses hybrid crypto.</p>
+
+<p>Let&#8217;s say Alice and Bob wish to use hybrid crypto; if Alice initiates the
+session, she should be the one to generate the session key. For example,
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac91ce0></p>
+
+<p>At this point, Alice should send Bob the <code>encrypted_session_key</code>; she
+should retain a copy as well. They can then use this key to communicate using
+the much-faster AES256.</p>
+
+<h2>Cryptographic Hashing</h2>
+
+<p>I&#8217;ve mentioned hashes before, but now let&#8217;s take a look at what a hash actually is:
+simply put, a hash is a way to take an arbitrary chunk of data (a file or a string,
+for example) and convert that to a smaller, unique, fixed-size bit string. Often,
+this bit string will be represented as the hexadecimal version of the bytes it
+comprises. Hashes provide us with the ability to quickly verify that two blocks of
+data are the same (or not). Because hashes are one-way functions that convert the
+input block of data to a fixed-size bit string, the block of input data cannot be
+easily recovered from the hash. In fact, one of the properties of a cryptographic
+hash is that the only way to identify a hash&#8217;s input data is to have the input data
+and the hash it generates. A <strong>rainbow table</strong> is a set of precomputed hashes and
+the input that generated them. While this makes sense for short input blocks, it
+quickly becomes cost prohibitive in terms of storage and time to compute for blocks
+of significant length. For example, an 8-byte password string contains 64 bits.
+Assuming a password set that could include both uppercase and lowercase letters,
+numbers, special characters, and spaces, the keyspace would be</p>
+
+<pre><code>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%
+^&amp;*()-_+=~`[]{}|\:;"'&lt;&gt;,.? /
+</code></pre>
+
+<p>This is 95 characters, so our keyspace size is <code>95 ^ 8</code>, or
+<code>6,634,204,312,890,625</code> (over six quadrillion possible combinations). This set
+could be reduced to dictionary words with mutations, but that adds more
+computational work for an attacker.</p>
+
+<p>Cryptographic hashes can serve several purposes. First, we can tell whether a
+message has been tampered with (<strong>data integrity</strong>). Second, we can use them
+to securely store information that the user should know, but that other people
+should not (for example, passwords).</p>
+
+<h2>Digital Signatures</h2>
+
+<p>In all of the previous examples, we assumed that the identity of the sender
+wasn&#8217;t a question. For a symmetric key, that&#8217;s less of a stretch - there&#8217;s no
+differentiation between owners. Public keys, however, are supposed to be
+associated with an entity. How can we prove the identity of the user? Without
+delving into too much into social sciences and trust metrics and a huge
+philosophical argument, let&#8217;s look at the basics of signatures.</p>
+
+<p>A signature works similarly to encryption, but it in reverse, and it is slightly
+different: a hash of the message is &#8216;encrypted&#8217; by the private key to the
+public key. The public key is used to &#8216;decrypt&#8217; this ciphertext. Contrast this
+to actual public key encryption: the entire message is encrypted to the private
+key by the public key, and the private key is used to decrypt the ciphertext.
+With signatures, the &#8216;encrypted&#8217; hash of the message is called the signature,
+and the act of &#8216;encryption&#8217; is termed &#8216;signing&#8217;. Similarly, the &#8216;decryption&#8217;
+is known as verification or verifying the signature.</p>
+
+<p>PyCrypto&#8217;s PublicKey implementations already come with signatures and
+verification methods for keys using <code>sign()</code> and <code>verify()</code>. The signature
+is a long in a tuple:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac917e0></p>
+
+<p>We can write our own functions to wrap around these two functions and perform
+ASCII-armouring if desired. Our signature function should take a key and a
+message (and optionally a flag to ASCII armour the signature), and sign a
+digest of the message:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac912e0></p>
+
+<p>The signature is converted to a string to make it easier to pack it into
+structures and also to give us consistent input to the verify() function.</p>
+
+<p>Verifying the signature requires that we determine if the signature is ASCII-
+armoured or not, then comparing a digest of the message to the signature:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7ac90de0></p>
+
+<p>The <code>sign()</code> function returns a signature and the <code>verify()</code> function returns a
+boolean. Now, Alice can sign her message to Bob, and Bob knows the key belongs
+to Alice. She sends Bob the signature and the encrypted message. Bob then makes
+sure Alice&#8217;s key properly verifies the signature to the encrypted message.</p>
+
+<h2>Key Exchange</h2>
+
+<p>So how does Bob know the key actually belongs to Alice? There are two main
+schools of thought regarding the authentication of key ownership: centralised
+and decentralised. TLS/SSL follow the centralised school: a root
+certificate (a certificate is a public key encoded with X.509 and which
+can have additional informational attributes attached, such as organisation
+name and country) authority (CA) signs intermediary CA keys, which then sign
+user keys. For example, if Bob runs Foo Widgets, LLC, he can generate an SSL
+keypair. From this, he generates a certificate signing request, and sends this
+to the CA. The CA, usually after taking some money and ostensibly actually
+verifying Bob&#8217;s identity (the extent to which this actually happens
+varies widely based on the different CAs), then signs Bob&#8217;s certificate. Bob
+sets up his webserver to use his SSL certificate for all secure traffic, and
+Alice sees that the CA did in fact sign his certificate. This relies on trusted
+central authorities, like VeriSign (there is some question as to whether
+VeriSign can actually be trusted, but that is another discussion for another
+day&#8230;) Alice&#8217;s web browser would ship with a keystore of select trusted CA
+public keys (like VeriSign&#8217;s) that she could use to verify signatures on the
+certificates from various sites. This system is called a public key
+infrastructure.</p>
+
+<p>The other school of thought is followed by PGP (and GnuPG) - the
+decentralised model. In PGP, this is manifested as the
+<a href="http://www.rubin.ch/pgp/weboftrust.en.html">Web of Trust</a>.
+For example, if Carol now wants to talk to Bob and gives Bob her public key,
+Bob can check to see if Carol&#8217;s key has been signed by anyone else. We&#8217;ll also
+say that Bob knows for a fact that Alice&#8217;s key belongs to Alice, and he trusts
+her&mdash;it is quite often important to distinguish between
+<em>I know this key belongs to that user</em> and <em>I trust that user</em>, which
+is especially important with key signatures - if Bob cannot trust
+Alice to properly check identities, she might sign a key for an identity she hasn&#8217;t
+checked&mdash;and that Alice has signed Carol&#8217;s key. Bob sees Alice&#8217;s signature on
+Carol&#8217;s key and then can be reasonably sure that Carol is who she says it was.
+If we repeat the process with Dave, whose key was signed by Carol (whose key
+was signed by Alice), Bob might be able to be more certain that the key belongs
+to Dave, but maybe he doesn&#8217;t really trust Carol to properly verify identities.
+In PGP, Bob can mark keys as having various trust levels, and from this a web
+of trust emerges: a picture of how well you can trust that a given key belongs
+to a given user.</p>
+
+<p>The key distribution problem is not a quick and easy problem to solve; a lot of
+very smart people have spent a lot of time coming up with solutions to the
+problem. There are key exchange protocols (such as the
+<a href="http://is.gd/Tr0zLP">Diffie-Hellman key exchange</a>
+and IKE (Internet Key Exchange, defined in <a href="http://www.ietf.org/rfc/rfc2409.txt">RFC 2409</a>
+(which uses Diffie-Hellman) that provide alternatives to the web of trust and
+public key infrastructures.</p>
+
+  
+    <footer>
+      <p class="meta">
+        
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-11T23:07:00-07:00" pubdate data-updated="true">Feb 11<span>th</span>, 2012</time>
+        
+      </p>
+      
+        <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/book/chapter2/index2.html" data-via="kyleisom" data-counturl="http://kisom.github.com/book/chapter2/index2.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

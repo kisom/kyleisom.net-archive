@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Practical Threat Modeling - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="Practical Threat Modeling Feb 9th, 2012 NOTE: This chapter is currently in progress. It&#8217;s being posted for peer
+review during the writing &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/book/chapter4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Practical Threat Modeling</h1>
+    <p class="meta">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-09T07:11:00-07:00" pubdate data-updated="true">Feb 9<span>th</span>, 2012</time></p>
+  </header>
+  
+  <p>NOTE: This chapter is currently in progress. It&#8217;s being posted for peer
+review during the writing process.</p>
+
+<p><strong>Threat modeling</strong> is the art of thinking about what threats your
+application will face. By understanding the threats, you can begin thinking
+about how to mitigate them.</p>
+
+<p>One useful tool when threat modeling is an <strong>attack tree</strong>. In an attack tree,
+you identify what threats you might face, and what those attacks lead to. During
+the initial stages, you don&#8217;t focus on mitigation (or what you have done so far).
+It&#8217;s important to consider what sorts of attacks can be made: while you might
+think an attack is mitigated or you may not see it as practical, changes to the
+code can easily change the situation. It&#8217;s important to regularly review the
+attack tree, updating it as necessary. If you add a feature, consider the
+potential security impact. The point of the attack tree is just to visualise
+what could happen; later parts of the security engineering process transform
+this into a practical outlook.</p>
+
+<p>Let&#8217;s consider a simple web site that allows users to update their information;
+it&#8217;s backed by a fairly simple database. Some potential attack vectors that
+come to mind in a quick overview are:</p>
+
+<ol>
+<li>SQL injection on the login form -> privilege escalation</li>
+<li>password interception on the wire -> stealing user&#8217;s account information</li>
+<li>password brute forcing -> stealing user&#8217;s account information</li>
+<li>unauthorised access to resources, i.e. user B can read or update user A&#8217;s
+information without their consent.</li>
+</ol>
+
+
+<p>It&#8217;s also helpful to identify vulnerability points with these:</p>
+
+<ol>
+<li>login form (SQL injection, password brute forcing)</li>
+<li>the wire, i.e. the connection between the user and the server (password
+interception)</li>
+<li>whereever user information can be looked up</li>
+</ol>
+
+
+<p>From here, we can identify mitigation steps fairly easily:</p>
+
+<ol>
+<li>Sanitize all user inputs.</li>
+<li>Secure the connection using SSL.</li>
+<li>Use <a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a> to store passwords.</li>
+<li>Force all sensitive information to be routed through authorisation
+middleware.</li>
+</ol>
+
+
+<p>Generally, it&#8217;s good practise to keep these in separate documents; i.e. an
+attack tree (though often annotated with the vulnerability points), and
+a security plan. This allows you to consider the two separately when needed.
+The security plan should reference the attack tree in considering what
+attacks are being defended against. These are also living documents; as
+mentioned before, they will need to be reviewed and updated regularly.</p>
+
+<h2>Identifying Attack Vectors</h2>
+
+<p>A good place to check for attack vectors is to consider the generic attack
+points:</p>
+
+<ol>
+<li>Where does data enter the system? Unsanitised data can pose a risk, as can
+data that is not normalised to expected values.</li>
+<li>Where does data leave the system? <strong>Information leakage</strong> is a security
+issue where information that should not leave the system does, or is revealed
+by the system unintentionally (typically without effort on the part of the
+attacker).</li>
+<li>What sensitive data does the system use? Passwords an obvious answer that
+come to find first; also, consider email addresses and other personal details.
+Resources that should not be widely accessible to the public fall under this
+category as well; for example, if you are publishing a paid magazine online,
+you want to consider restricting access to it.</li>
+<li>Where and how is sensitive information stored? For example, when passwords
+aren&#8217;t being used, how are they being stored? Are you using bcrypt or are they
+being stored in plaintext?</li>
+</ol>
+
+
+<p>This can be a difficult task. You have to be creative, and you will likely still
+not consider everything an attacker will. Having several people involved in
+developing the attack tree is very useful, as they will all have different
+mindsets and backgrounds to contribute. One technique I find useful is to
+visualise your program as a system, diagramming subsystems and information flow.
+Just as physical security engineers will study the physical layout of the area
+they are working to protect and bank robbers will often observe their target
+beforehand, it is another tool useful for visualising where security systems
+fit into the overall architecture.</p>
+
+<h2>Example</h2>
+
+<p>Let&#8217;s consider an example: I have a website that provides a front end for my
+small team&#8217;s ebook library. Here is the systems diagram I have for the site:</p>
+
+<p><img src="images/dystopia_system_diagram.png" alt="systems diagram" /></p>
+
+<p>And here is a sample attack tree I&#8217;ve come up with:</p>
+
+<p><img src="images/dystopia_attack_tree.png" alt="attack tree" /></p>
+
+<p>What are the attack vectors? If we organise them by the four generic attack
+points, we could come up with:</p>
+
+<ol>
+<li>Where does data enter the system?
+
+<ul>
+<li>login form</li>
+<li>user book uploads</li>
+<li>user metadata fields</li>
+<li>book cover images</li>
+<li>user bio</li>
+</ul>
+</li>
+<li>Where does data leave the system?
+
+<ul>
+<li>book download</li>
+<li>user bio display</li>
+<li>displaying catalog information</li>
+<li>book cover display</li>
+</ul>
+</li>
+<li>What sensitive data is present in the system?
+
+<ul>
+<li>passwords</li>
+<li>user catalog</li>
+</ul>
+</li>
+<li>Where and how is sensitive information stored?
+
+<ul>
+<li>passwords: stored in the database as bcrypted hashes</li>
+<li>user catalog: stored in the database and accessed through an access control list (ACL)</li>
+</ul>
+</li>
+</ol>
+
+
+  
+    <footer>
+      <p class="meta">
+        
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-09T07:11:00-07:00" pubdate data-updated="true">Feb 9<span>th</span>, 2012</time>
+        
+      </p>
+      
+        <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/book/chapter4/index.html" data-via="kyleisom" data-counturl="http://kisom.github.com/book/chapter4/index.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

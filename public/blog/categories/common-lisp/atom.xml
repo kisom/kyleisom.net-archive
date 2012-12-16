@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: common-lisp | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/common-lisp/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Undefined symbol errors in Lisp]]></title>
+    <link href="http://kisom.github.com/blog/2012/07/18/undefined-symbol-errors-in-lisp/"/>
+    <updated>2012-07-18T19:50:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/07/18/undefined-symbol-errors-in-lisp</id>
+    <content type="html"><![CDATA[<p>The other day, I got a strange error while writing a macro (actually,
+<code>deftest</code> from <a href="http://www.gigamonkeys.com">Peter Seibel's</a>
+<a href="http://www.gigamonkeys.com/book/">Practical Common Lisp</a>). My
+<code>defmacro</code> looked like this:</p>
+
+<p><code>``common-lisp
+(defmacro deftest (name parameters &amp;body body)
+ </code>(defun ,name ,parameters</p>
+
+<pre><code> (let ((*test-name* ,name))
+   ,@body)))
+</code></pre>
+
+<p>```</p>
+
+<p>At first glance, it looks fine. So, I defined a few tests with it
+(<code>check</code> is another macro for reporting test results) and ran into a
+bug:</p>
+
+<p><code>
+CL-USER&gt; (deftest test-fn () (format t "testing~%"))
+; in: DEFTEST TEST-+
+;     (LET ((*TEST-NAME* TEST-+))
+;       (FORMAT T "ohai~%"))
+;
+; caught WARNING:
+;   undefined variable: TEST-FN
+;
+; compilation unit finished
+;   Undefined variable:
+;     TEST-FN
+;   caught 1 WARNING condition
+TEST-FN
+CL-USER&gt;
+</code></p>
+
+<p>I racked my brain trying to figure it out. Here's the <code>macroexpand-1</code>
+of that definition:</p>
+
+<p>```
+(DEFUN TEST-FN ()
+  (LET ((<em>TEST-NAME</em> TEST-FN))</p>
+
+<pre><code>(FORMAT T "testing~%")))
+</code></pre>
+
+<p>T
+```</p>
+
+<p>Still being new to Lisp, I didn't see what was wrong with it. However,
+the <code>LET</code> gives it away:</p>
+
+<p><code>common-lisp
+  (LET ((*TEST-NAME* TEST-FN))
+</code></p>
+
+<p>It tries to evaluate the symbol TEST-FN, which we haven't defined yet
+(we're still building the function; as Paul Graham writes in
+<a href="http://paulgraham.com/onlisp.html">On Lisp</a>, "building a function and
+associating it with a certain name are two separate operations." (page
+13)). Let's take a look back at the original <code>defmacro</code>: you'll notice
+that we're evaluating <code>name</code> in the LET:</p>
+
+<p>```common-lisp</p>
+
+<pre><code> (let ((*test-name* ,name))
+</code></pre>
+
+<p>```</p>
+
+<p>What I really wanted to do was to quote the value of name:</p>
+
+<p>```common-lisp</p>
+
+<pre><code> (let ((*test-name* ',name))
+</code></pre>
+
+<p>```</p>
+
+<p>With that, the testing suite works.</p>
+
+<p>This is one reason I'm hand typing all the examples. It's bugs like
+this one that give me the best education and help me recognise when
+things go sideways later.</p>
+]]></content>
+  </entry>
+  
+</feed>

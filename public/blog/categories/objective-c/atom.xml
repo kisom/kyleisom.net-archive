@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: objective-c | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/objective-c/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[So, You Want To Unit Test in Xcode (Part 2)]]></title>
+    <link href="http://kisom.github.com/blog/2012/03/16/so-you-want-to-unit-test-in-xcode-part-2/"/>
+    <updated>2012-03-16T12:13:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/03/16/so-you-want-to-unit-test-in-xcode-part-2</id>
+    <content type="html"><![CDATA[<p>In the <a href="/blog/2012/03/15/so-you-want-to-unit-test-in-xcode">last post</a>, I
+talked about getting unit testing set up in Xcode, why you should write
+unit tests, and what kinds of things you should unit test. Now, I'd like
+to talk a bit more about <em>how</em> to write unit tests. If you come from a
+background doing unit testing, as I did, it's very straightforward. If not,
+I'll spend a little time explaining things a bit more.</p>
+
+<!-- more -->
+
+
+<p>When you generate a test case, you get a test class (which is a subclass of
+<code>SenTestCase</code>). Just like any other class, you can declare members and methods,
+which are used to perform helper tasks and carry state.</p>
+
+<p>A very basic codebase only requires test methods.
+<a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/00-About_Unit_Testing/about.html">OCUnit</a>
+will load any method prefixed by <code>test</code>. These methods must return <code>void</code> and
+take no parameters. After setting up the test in the method, you can use the
+<code>ST...</code> macros to actually test the results. Here's a contrived example:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7aae42f8></p>
+
+<p>There are a number of test macros, which are listed in
+<a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/AB-Unit-Test_Result_Macro_Reference/result_macro_reference.html#//apple_ref/doc/uid/TP40002143-CH9-SW1">Appendix B</a>
+of the <a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/00-About_Unit_Testing/about.html">Xcode Unit Testing Guide</a>.</p>
+
+<p>A real example taken from <a href="https://github.com/kisom/flexargs">FlexArgs</a>:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7aae3df8></p>
+
+<p>This test is set up to verify that the dictionary returned by <code>DNFlexArgs</code> is
+what we'd expect it to be. <code>[flexargs initParserWithNSArray:]</code> expects an
+<code>NSArray</code> of NSStrings to be passed to it, I've initialised an <code>NSArray</code> of
+<code>NSString</code>s. Because <code>DNFlexArgs</code> returns an <code>NSDictionary</code>, I've set up one
+with the expected results. Then I setup the instance, pass it the initial
+test arguments, and retrieve the results. The last step is to assert that the
+returned <code>NSDictionary</code> matches the expected one. I've made sure to hit one of
+each kind of possible argument that can be passed in.</p>
+
+<p>In the last post, I listed some questions to help develop tests:</p>
+
+<blockquote><ul>
+<li>Right now, I'm only testing what I expect possible input <em>could</em> be. What
+if someone passes in just <code>arg</code> or <code>arg=</code> - do I know that my code will handle
+that gracefully?</li>
+<li>What happens if I pass in an overflowed numeric value? I've tried to prepare
+for this by using <code>long long</code> values, but how do I know my code is doing the
+right thing?</li>
+<li>What if I craft a special string that does something shifty, like embedding
+a null byte? What happens then? What if the string has more than one <code>=</code> in it?</li>
+<li>What happens if I <a href="http://pages.cs.wisc.edu/~bart/fuzz/">feed the parser random data</a>?</li>
+</ul>
+</blockquote>
+
+<p>If you look in the source, you'll see I've covered all but the last. That's
+because I haven't yet found a good fuzzing library for Objective-C. However,
+the new tests allowed me to make a few improvements to and verifications of
+FlexArgs:</p>
+
+<ul>
+<li>I've verified that having an argument with no <code>=value</code> yields a boolean
+value (i.e. <code>arg</code> results in an <code>arg = 1;</code>)</li>
+<li>I've verified that having an argument with an empty value (i.e. <code>arg=</code>)
+yields an empty string value (i.e. <code>arg = @"";</code>)</li>
+<li>I was able to add support for multiple <code>=</code> in the class. Previously, only
+the part of the value after the first <code>=</code> and before any other <code>=</code>'s was
+captured. For example, passing <code>foo=bar=baz</code> resulted in <code>foo = @"bar";</code>
+and <code>operator===</code> resulted in <code>operator = @"";</code>. Now, I get <code>foo = @"bar=baz";</code>
+and <code>operator = @"==";</code>.</li>
+<li>I was able to verify that passing a null byte in the middle of the string
+just cut the string off at the null byte instead of causing problems.</li>
+</ul>
+
+
+<p>You can see the new code coverage output (as detailed in the
+<a href="/blog/2012/03/15/so-you-want-to-unit-test-in-xcode/">last post</a>)
+<a href="/downloads/FlexArgsCoverage2/">here</a>.</p>
+
+<h2>More advanced test cases with <code>setUp</code>, <code>tearDown</code>, and class members</h2>
+
+<p>OCUnit gives us more control over our test cases. Just like any other class,
+we can include our own members in the class by putting their definitions
+and any <code>@property</code> declarations in the interface. For example, if we're
+testing network code, we might want to create a socket.</p>
+
+<p>If your members need to be set up for every test, or if certain preparation
+needs to be done before each test (like clearing out a temporary directory),
+you can reduce code duplication by putting the code in the <code>setUp</code> and
+<code>tearDown</code> methods. The <code>setUp</code> method is called before each test method,
+and the <code>tearDown</code> method is called after each. If you're calling the same
+code before each test, you might consider moving them. If most of your tests
+are calling the same code and a few aren't, consider creating a new test case
+for the ones that don't, and moving the duplicate code into these methods and
+members.</p>
+
+<h2>guard-xcode</h2>
+
+<p>In the <a href="/blog/2012-03-15/so-you-want-to-unit-test-in-xcode/">last post</a>, I
+mentioned <a href="https://github.com/guard/guard/">guard</a>. What is guard?</p>
+
+<blockquote><p>Guard is a command line tool to easily handle events on file system modifications.</p></blockquote>
+
+<p>We can use this to trigger a build every time a source file is changed.
+Unfortunately, I couldn't find any good Guards (the term for specific tasks to
+be done on a changed-file event) to handle running configurable builds. To
+address this, I wrote a Guard called <code>guard-xcode</code>, which kicks off an Xcode
+based on the options you configure it with. The source is, of course,
+<a href="https://github.com/kisom/guard-xcode">on Github</a> and it's on
+<a href="https://rubygems.org/gems/guard-xcode">RubyGems.org</a>, so it can be installed
+via <code>gem</code> or <code>bundle install</code>. The <a href="https://github.com/kisom/guard-xcode/blob/master/README.md">README</a>
+explains how to get started.</p>
+
+<p>For FlexArgs, the setup is fairly straightforward. I already have
+<a href="http://growl.info/downloads#generaldownloads">growl-notify</a> installed, so all
+I have to do is create my Gemfile:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7aae38f8></p>
+
+<p>I'm using <a href="http://rvm.beginrescueend.com">rvm</a>, so I've already got the
+<code>bundle</code> gem installed. You can install it with <code>gem install bundle</code> if you
+need to. The next step is to run <code>bundle install</code>, and then <code>guard init xcode</code>.
+Of course, the Guardfile doesn't know the name of your target, so you'll need
+to open the Guardfile and edit it. Mine looks like this:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7aae33d0></p>
+
+<p>Now all you need to do is run <code>guard</code> in your project root. Once files change,
+<code>guard</code> will kick off a build. I've set <code>:quiet =&gt; true</code>, so I only get Growl
+notifications if the build has warnings or errors.</p>
+
+<h2>Some final ideas for a test-based development cycle</h2>
+
+<p>There's a few options you can set in your project build settings that I've
+found quite useful:</p>
+
+<ol>
+<li>Setting <strong>Test After Build</strong> to <strong>Yes</strong> runs tests anytime a build is done.</li>
+<li>Setting <strong>Treat Warnings as Errors</strong> to <strong>Yes</strong> adds more emphasis to
+writing good code.</li>
+<li>Adding the Test product to the main build makes testing easier as well, and
+means you can set your build target to the main target, and still test.</li>
+</ol>
+
+
+<h2>Conclusion</h2>
+
+<p>This concludes the two-part series on Unit Testing in Xcode. I've tried to
+document what I learned trying to get testing set up, and hopefully other
+people will find it helpful as well.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/00-About_Unit_Testing/about.html">XCode Unit Testing Guide</a></li>
+<li><a href="http://www.infinite-loop.dk/blog/2011/12/code-coverage-with-xcode-4-2/">Code Coverage with Xcode 4.2</a></li>
+<li><a href="https://github.com/kisom/flexargs/zipball/blog-post2">FlexArgs tag for this project</a></li>
+<li>guard-xcode on <a href="https://github.com/kisom/guard-xcode">Github</a> and <a href="http://rubygems.org/gems/guard-xcode">RubyGems</a></li>
+<li><a href="https://github.com/guard/guard">Guard on Github</a></li>
+<li><a href="http://growl.info/downloads#generaldownloads">growl-notify</a></li>
+<li><a href="http://rvm.beginrescueend.com">rvm</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[So, You Want To Unit Test in Xcode]]></title>
+    <link href="http://kisom.github.com/blog/2012/03/15/so-you-want-to-unit-test-in-xcode/"/>
+    <updated>2012-03-15T19:19:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/03/15/so-you-want-to-unit-test-in-xcode</id>
+    <content type="html"><![CDATA[<p>One of my personal preferences when testing
+<a href="http://heim.ifi.uio.no/~trygver/themes/mvc/mvc-index.html">MVC</a> code is to
+test my model using a commandline test driver, so when
+<a href="http://samuelgoodwin.tumblr.com">Samuel Goodwin</a>
+and I were talking about testing code and he brought that up, we started
+discussing ways to more effectively write those commandline drivers. Long story
+short, we decided a useful strategy would be able to provide a library to parse
+arguments like 'key=value' into a dictionary. Since we will be doing a lot of
+iOS app work, and quite possibly desktop Cocoa work later on, we decided
+writing a class to do this in Objective-C would be useful, and about 24 hours
+later, <a href="https://github.com/kisom/flexargs/">FlexArgs</a> was dumped onto the
+world. But that's not what I want to talk about here. Rather, I'd like to
+discuss what I've learned about unit testing in Objective-C. As a developer
+who does a lot of testing in C and Python already, I immediately made it a
+priority to learn how to do this. In this post, I'll go over basic unit
+testing, doing code coverage, and writing better tests. I'm particularly
+aiming this post at people who know how to code and test, but want to do it
+more effectively in Objective-C or want to learn how to get started.</p>
+
+<!-- more -->
+
+
+<p>Through version 0.9.0, which was a functional version of the code missing a few
+other pieces, I was using the autotools suite to manage the build. (Why? I know
+autotools, and can set up the build environment quickly, whereas I don't use
+Xcode enough to be terribly good at it.) Unfortunately, I couldn't find any
+good libraries to do it. One of the goals of the project was to learn Objective-C
+better, so I buckled down and imported the project into Xcode. I subscribe to
+the idea that it's a good idea to start writing tests before you write code,
+so writing tests after the bulk of the code was written felt a little janky.
+I digress.</p>
+
+<p>First things you'll need to do is add a new target (<code>File</code>-><code>New</code>-><code>Target</code>)
+and name it <code>(@"%@Tests", ProjectName)</code> (ex. MyClassTests), and save it.
+Because this is a library I want to give other people, it's set up as a CLI
+application with a minimal main that gives an example of how to use code, and
+so we don't really need coverage for that. However, the test suite should be
+exercising large portions of our code, so setting up code coverage for that is
+a good way to make sure your tests are exercising your code fully.</p>
+
+<p>I'd like to point out here that while code coverage is great for making sure
+all of your code is being touched, it's not a replacement for well-thought-out
+tests. It's a useful tool in the tool box while you're developing code, and
+great for profiling code to determine bottlenecks (but not
+<a href="http://c2.com/cgi/wiki?PrematureOptimization">prematurely</a>!), but you still
+need to make sure you're testing your code fully. I try to take the time to
+consider edge cases, places where the code might act inappropriately, and try
+to implement some fuzzing to throw unexpected things at the code.</p>
+
+<p>You can set up your main target to run tests as well. You'll need to
+edit the scheme:</p>
+
+<p><img src="/images/unit_testing_xcode/xcode4_edit_scheme.png" alt="editing the scheme in xcode4" /></p>
+
+<p>Once there, select <code>Test</code>, and click the <code>+</code> to add the test case bundle.</p>
+
+<p>Now, we can set up code coverage. Under the project settings, select the test
+target. Under the build settings, change the <strong>Generate Test Coverage Files</strong>
+and <strong>Instrument Program Flow</strong> options to <strong>Yes</strong>. Now the fun part is adding
+in <code>libprofile_rt.dylib</code>. I found it under
+<code>/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib</code>
+in OS X 10.8. Under the <code>Build Phases</code> tab, you'll need to add this to the
+<code>Link Binary with Libraries</code> section. Once you start running tests, you'll start
+getting coverage data.</p>
+
+<p>I lied about there being only one fun part. The other fun part is getting that
+data, which you will find in the <code>Projects</code> tab in the Organiser. There is a
+line called <code>Derived Data</code> with an arrow next to it to open that folder in
+Finder. You'll want to open that folder in your terminal emulator of choice.
+For FlexArgs, I had to navigate to
+<code>DERIVED_DATA/Intermediates/FlexArgs.build/Debug/FlexArgsTest.build/Objects-normal/x86_64/</code>.
+There, you should see some files named <em>.gcno, </em>.gcda, and so forth.</p>
+
+<p>At this point you'll want to install <code>lcov</code> which is, most fortuitously, in
+HomeBrew. <code>lcov</code> gives us pretty HTML output of our code coverage (via the
+included <code>genhtml</code> program). You'll also want to stick this small script in
+your path:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7aae2ed0></p>
+
+<p>The first argument is the name of output file to generate, and is also used
+to generate the title for the HTML output. The second is the output directory
+to store the files in. Once you've run your tests, run that script and check
+out the results. For my code, it built <a href="/downloads/FlexArgsCoverage/">this page</a>.
+Note that this is with two tests that don't yet test the full functionality
+(specifically <code>+(id)parserWithNSArray:(NSArray *)inargv</code> and
+<code>-(id)initParser:(char **)inargv nargs:(int)nargs</code>), so you can see that the
+output highlights those lines. If you take a look at the <a href="https://github.com/kisom/FlexArgs">FlexArgs</a>
+source at <a href="https://github.com/kisom/flexargs/tree/bec86374f3876e8a8c44a17849a3f49c76245d1e">commit bec86374f3</a>
+or the helpful tag <code>blog-post</code> (you can grab a <a href="https://github.com/kisom/flexargs/zipball/blog-post">zipfile snapshot</a>)
+you'll see I only have two tests, and they both touch basic functionality.</p>
+
+<p>Intelligent and well-planned and executed tests offer many benefits:</p>
+
+<ol>
+<li>Validate the program's logic</li>
+<li>Drive development by letting you see what's not implemented yet</li>
+<li>Perform <a href="https://en.wikipedia.org/wiki/Regression_testing">regression tests</a>
+to let you know if changes broke your code, or if they've broken other parts
+of the codebase</li>
+<li>Test edge cases to make sure your code doesn't do anything unexpected</li>
+<li>Assist in identifying possible security issues.</li>
+</ol>
+
+
+<p>So given this code, what kinds of tests could I write to improve the functionality?</p>
+
+<ul>
+<li>Right now, I'm only testing what I expect possible input <em>could</em> be. What
+if someone passes in just <code>arg</code> or <code>arg=</code> - do I know that my code will handle
+that gracefully?</li>
+<li>What happens if I pass in an overflowed numeric value? I've tried to prepare
+for this by using <code>long long</code> values, but how do I know my code is doing the
+right thing?</li>
+<li>What if I craft a special string that does something shifty, like embedding
+a null byte? What happens then? What if the string has more than one <code>=</code> in it?</li>
+<li>What happens if I <a href="http://pages.cs.wisc.edu/~bart/fuzz/">feed the parser random data</a>?</li>
+</ul>
+
+
+<p>As you can see, there's a lot to think about. While writing tests ahead of time
+to verify basic functionality is a great idea (I wrote about
+<a href="http://www.kyleisom.net/blog/2011/07/04/rgtdd/">README-Generated Test-Drive Development</a>
+previously), your tests need to go further to fully verify your code. Just by
+looking at the questions above and thinking about the tests, I can already
+see that my code needs some work to address some of those questions. I can
+write the tests to validate the changes I'll need to make.</p>
+
+<p>I mentioned at the beginning that I like to test models using command line
+test drivers. What this means is that I write a small command line target that
+I can call from something like <code>make tests</code> or even <code>python testrunner.py</code> so
+I can constantly run my tests. This way, I don't need to worry about the view
+or the controllers to develop the model. This follows my ideal of developing
+model first, and letting the controller and view follow from that. In Xcode,
+we can do this from the commandline inside the project using
+<code>xcodebuild -target FlexArgsTest -configuration Debug clean build</code>.
+Before you run this, set <em>Test After Build</em> to <em>Yes</em> in the Build Settings
+to ensure the tests will run after building. (At some point, I'll write a
+<a href="https://github.com/guard/guard">Guardfile</a> to automate testing.)</p>
+
+<p>I hope you find this useful. Now, if you'll excuse me - I have more tests to write...</p>
+
+<p>Update: I've written a <a href="/blog/2012/03/16/so-you-want-to-unit-test-in-xcode-part-2/">part 2</a>,
+which covers a bit more and includes <del>black magic where the dark lord has destroyed
+my soul and brought death, destruction, and chaos upon the world</del> a Ruby
+gem I wrote to assist in testing.</p>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/00-About_Unit_Testing/about.html">XCode Unit Testing Guide</a></li>
+<li><a href="http://www.infinite-loop.dk/blog/2011/12/code-coverage-with-xcode-4-2/">Code Coverage with Xcode 4.2</a></li>
+<li><a href="http://drdobbs.com/tools/206105233">Regression Testing</a></li>
+<li><a href="http://pages.cs.wisc.edu/~bart/fuzz/">Fuzzing</a></li>
+<li><a href="http://www.kyleisom.net/blog/2011/07/04/rgtdd/">README-Generated Test-Driven Development</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

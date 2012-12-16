@@ -1,0 +1,6 @@
+<div class="highlight"><pre><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">deftest</span> <span class="p">(</span><span class="nv">name</span> <span class="nv">parameters</span> <span class="k">&amp;body</span> <span class="nv">body</span><span class="p">)</span>
+  <span class="o">`</span><span class="p">(</span><span class="nb">defun</span> <span class="o">,</span><span class="nv">name</span> <span class="o">,</span><span class="nv">parameters</span>
+     <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="vg">*test-name*</span> <span class="o">,</span><span class="nv">name</span><span class="p">))</span>
+       <span class="o">,@</span><span class="nv">body</span><span class="p">)))</span>
+</pre>
+</div>

@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>So, You Want To Unit Test in Xcode - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="One of my personal preferences when testing
+MVC code is to
+test my model using a commandline test driver, so when
+Samuel Goodwin
+and I were talking &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/2012/03/15/so-you-want-to-unit-test-in-xcode">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">So, You Want to Unit Test in Xcode</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-15T19:19:00-06:00" pubdate data-updated="true">Mar 15<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>One of my personal preferences when testing
+<a href="http://heim.ifi.uio.no/~trygver/themes/mvc/mvc-index.html">MVC</a> code is to
+test my model using a commandline test driver, so when
+<a href="http://samuelgoodwin.tumblr.com">Samuel Goodwin</a>
+and I were talking about testing code and he brought that up, we started
+discussing ways to more effectively write those commandline drivers. Long story
+short, we decided a useful strategy would be able to provide a library to parse
+arguments like &#8216;key=value&#8217; into a dictionary. Since we will be doing a lot of
+iOS app work, and quite possibly desktop Cocoa work later on, we decided
+writing a class to do this in Objective-C would be useful, and about 24 hours
+later, <a href="https://github.com/kisom/flexargs/">FlexArgs</a> was dumped onto the
+world. But that&#8217;s not what I want to talk about here. Rather, I&#8217;d like to
+discuss what I&#8217;ve learned about unit testing in Objective-C. As a developer
+who does a lot of testing in C and Python already, I immediately made it a
+priority to learn how to do this. In this post, I&#8217;ll go over basic unit
+testing, doing code coverage, and writing better tests. I&#8217;m particularly
+aiming this post at people who know how to code and test, but want to do it
+more effectively in Objective-C or want to learn how to get started.</p>
+
+<!-- more -->
+
+
+<p>Through version 0.9.0, which was a functional version of the code missing a few
+other pieces, I was using the autotools suite to manage the build. (Why? I know
+autotools, and can set up the build environment quickly, whereas I don&#8217;t use
+Xcode enough to be terribly good at it.) Unfortunately, I couldn&#8217;t find any
+good libraries to do it. One of the goals of the project was to learn Objective-C
+better, so I buckled down and imported the project into Xcode. I subscribe to
+the idea that it&#8217;s a good idea to start writing tests before you write code,
+so writing tests after the bulk of the code was written felt a little janky.
+I digress.</p>
+
+<p>First things you&#8217;ll need to do is add a new target (<code>File</code>-><code>New</code>-><code>Target</code>)
+and name it <code>(@"%@Tests", ProjectName)</code> (ex. MyClassTests), and save it.
+Because this is a library I want to give other people, it&#8217;s set up as a CLI
+application with a minimal main that gives an example of how to use code, and
+so we don&#8217;t really need coverage for that. However, the test suite should be
+exercising large portions of our code, so setting up code coverage for that is
+a good way to make sure your tests are exercising your code fully.</p>
+
+<p>I&#8217;d like to point out here that while code coverage is great for making sure
+all of your code is being touched, it&#8217;s not a replacement for well-thought-out
+tests. It&#8217;s a useful tool in the tool box while you&#8217;re developing code, and
+great for profiling code to determine bottlenecks (but not
+<a href="http://c2.com/cgi/wiki?PrematureOptimization">prematurely</a>!), but you still
+need to make sure you&#8217;re testing your code fully. I try to take the time to
+consider edge cases, places where the code might act inappropriately, and try
+to implement some fuzzing to throw unexpected things at the code.</p>
+
+<p>You can set up your main target to run tests as well. You&#8217;ll need to
+edit the scheme:</p>
+
+<p><img src="/images/unit_testing_xcode/xcode4_edit_scheme.png" alt="editing the scheme in xcode4" /></p>
+
+<p>Once there, select <code>Test</code>, and click the <code>+</code> to add the test case bundle.</p>
+
+<p>Now, we can set up code coverage. Under the project settings, select the test
+target. Under the build settings, change the <strong>Generate Test Coverage Files</strong>
+and <strong>Instrument Program Flow</strong> options to <strong>Yes</strong>. Now the fun part is adding
+in <code>libprofile_rt.dylib</code>. I found it under
+<code>/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib</code>
+in OS X 10.8. Under the <code>Build Phases</code> tab, you&#8217;ll need to add this to the
+<code>Link Binary with Libraries</code> section. Once you start running tests, you&#8217;ll start
+getting coverage data.</p>
+
+<p>I lied about there being only one fun part. The other fun part is getting that
+data, which you will find in the <code>Projects</code> tab in the Organiser. There is a
+line called <code>Derived Data</code> with an arrow next to it to open that folder in
+Finder. You&#8217;ll want to open that folder in your terminal emulator of choice.
+For FlexArgs, I had to navigate to
+<code>DERIVED_DATA/Intermediates/FlexArgs.build/Debug/FlexArgsTest.build/Objects-normal/x86_64/</code>.
+There, you should see some files named <em>.gcno, </em>.gcda, and so forth.</p>
+
+<p>At this point you&#8217;ll want to install <code>lcov</code> which is, most fortuitously, in
+HomeBrew. <code>lcov</code> gives us pretty HTML output of our code coverage (via the
+included <code>genhtml</code> program). You&#8217;ll also want to stick this small script in
+your path:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5e5068></p>
+
+<p>The first argument is the name of output file to generate, and is also used
+to generate the title for the HTML output. The second is the output directory
+to store the files in. Once you&#8217;ve run your tests, run that script and check
+out the results. For my code, it built <a href="/downloads/FlexArgsCoverage/">this page</a>.
+Note that this is with two tests that don&#8217;t yet test the full functionality
+(specifically <code>+(id)parserWithNSArray:(NSArray *)inargv</code> and
+<code>-(id)initParser:(char **)inargv nargs:(int)nargs</code>), so you can see that the
+output highlights those lines. If you take a look at the <a href="https://github.com/kisom/FlexArgs">FlexArgs</a>
+source at <a href="https://github.com/kisom/flexargs/tree/bec86374f3876e8a8c44a17849a3f49c76245d1e">commit bec86374f3</a>
+or the helpful tag <code>blog-post</code> (you can grab a <a href="https://github.com/kisom/flexargs/zipball/blog-post">zipfile snapshot</a>)
+you&#8217;ll see I only have two tests, and they both touch basic functionality.</p>
+
+<p>Intelligent and well-planned and executed tests offer many benefits:</p>
+
+<ol>
+<li>Validate the program&#8217;s logic</li>
+<li>Drive development by letting you see what&#8217;s not implemented yet</li>
+<li>Perform <a href="https://en.wikipedia.org/wiki/Regression_testing">regression tests</a>
+to let you know if changes broke your code, or if they&#8217;ve broken other parts
+of the codebase</li>
+<li>Test edge cases to make sure your code doesn&#8217;t do anything unexpected</li>
+<li>Assist in identifying possible security issues.</li>
+</ol>
+
+
+<p>So given this code, what kinds of tests could I write to improve the functionality?</p>
+
+<ul>
+<li>Right now, I&#8217;m only testing what I expect possible input <em>could</em> be. What
+if someone passes in just <code>arg</code> or <code>arg=</code> - do I know that my code will handle
+that gracefully?</li>
+<li>What happens if I pass in an overflowed numeric value? I&#8217;ve tried to prepare
+for this by using <code>long long</code> values, but how do I know my code is doing the
+right thing?</li>
+<li>What if I craft a special string that does something shifty, like embedding
+a null byte? What happens then? What if the string has more than one <code>=</code> in it?</li>
+<li>What happens if I <a href="http://pages.cs.wisc.edu/~bart/fuzz/">feed the parser random data</a>?</li>
+</ul>
+
+
+<p>As you can see, there&#8217;s a lot to think about. While writing tests ahead of time
+to verify basic functionality is a great idea (I wrote about
+<a href="http://www.kyleisom.net/blog/2011/07/04/rgtdd/">README-Generated Test-Drive Development</a>
+previously), your tests need to go further to fully verify your code. Just by
+looking at the questions above and thinking about the tests, I can already
+see that my code needs some work to address some of those questions. I can
+write the tests to validate the changes I&#8217;ll need to make.</p>
+
+<p>I mentioned at the beginning that I like to test models using command line
+test drivers. What this means is that I write a small command line target that
+I can call from something like <code>make tests</code> or even <code>python testrunner.py</code> so
+I can constantly run my tests. This way, I don&#8217;t need to worry about the view
+or the controllers to develop the model. This follows my ideal of developing
+model first, and letting the controller and view follow from that. In Xcode,
+we can do this from the commandline inside the project using
+<code>xcodebuild -target FlexArgsTest -configuration Debug clean build</code>.
+Before you run this, set <em>Test After Build</em> to <em>Yes</em> in the Build Settings
+to ensure the tests will run after building. (At some point, I&#8217;ll write a
+<a href="https://github.com/guard/guard">Guardfile</a> to automate testing.)</p>
+
+<p>I hope you find this useful. Now, if you&#8217;ll excuse me - I have more tests to write&#8230;</p>
+
+<p>Update: I&#8217;ve written a <a href="/blog/2012/03/16/so-you-want-to-unit-test-in-xcode-part-2/">part 2</a>,
+which covers a bit more and includes <del>black magic where the dark lord has destroyed
+my soul and brought death, destruction, and chaos upon the world</del> a Ruby
+gem I wrote to assist in testing.</p>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/#documentation/DeveloperTools/Conceptual/UnitTesting/00-About_Unit_Testing/about.html">XCode Unit Testing Guide</a></li>
+<li><a href="http://www.infinite-loop.dk/blog/2011/12/code-coverage-with-xcode-4-2/">Code Coverage with Xcode 4.2</a></li>
+<li><a href="http://drdobbs.com/tools/206105233">Regression Testing</a></li>
+<li><a href="http://pages.cs.wisc.edu/~bart/fuzz/">Fuzzing</a></li>
+<li><a href="http://www.kyleisom.net/blog/2011/07/04/rgtdd/">README-Generated Test-Driven Development</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-15T19:19:00-06:00" pubdate data-updated="true">Mar 15<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/development/'>development</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>, <a class='category' href='/blog/categories/testing/'>testing</a>, <a class='category' href='/blog/categories/xcode/'>xcode</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/03/15/so-you-want-to-unit-test-in-xcode/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/03/15/so-you-want-to-unit-test-in-xcode/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/26/autonomous-vehicle/" title="Previous Post: Autonomous Vehicles">&laquo; Autonomous Vehicles</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/16/so-you-want-to-unit-test-in-xcode-part-2/" title="next Post: So, You Want To Unit Test in Xcode (Part 2)">So, You Want To Unit Test in Xcode (Part 2) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

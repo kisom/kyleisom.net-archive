@@ -1,0 +1,950 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: coding | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/coding/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Using Set Theory]]></title>
+    <link href="http://kisom.github.com/blog/2012/02/01/using-set-theory/"/>
+    <updated>2012-02-01T20:45:00-07:00</updated>
+    <id>http://kisom.github.com/blog/2012/02/01/using-set-theory</id>
+    <content type="html"><![CDATA[<p>In the <a href="/blog/2012/01/23/basic-set-theory/">last post</a>, we took a look at the
+basics of set theory. Now, I'd like to take a look at how to actually make use
+of it in your code.</p>
+
+<p>One of the issues with practically using the code in the last post is that the
+initial subsets were defined arbitrarily and not derived from the superset. In
+this post, all the examples are derived from the superset. We'll use a couple
+techniques for doing this illustrate some of the various ways to do it.</p>
+
+<p>In Python, we'll use an object-oriented approach, creating a few classes and
+working on Book objects. In Clojure, we'll use records. Though we'll approach
+language a little differently, I  hope they still bring clarity to the subject.</p>
+
+<!-- more -->
+
+
+<h2>Foundation: A Collection of Books</h2>
+
+<p>The first thing we need to do in a useful system is determine what we mean by
+book. The last post represented each book as a string denoting the title; while
+that worked for a brief introduction, in practise it gives us very limited
+options for building subsets. What we need to do is identify more information,
+called attributes or fields, that give us the information we need to build our
+subsets.</p>
+
+<h3>Python</h3>
+
+<p>In Python, we'll approach this using a class. I've saved them in <code>library.py</code>
+in the <a href="/downloads/code/using-set-theory/py_example.tar.gz">Python example code</a></p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5b6c90></p>
+
+<p>We'll also want a <code>BookCollection</code> class to store a set of books and provide
+some utility methods for dealing with the collection:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5b6470>
+These two classes are very short (and we'll extend them later to make them
+more useful) but provide a solid foundation to begin building on. You'll want
+to load the books in the class.</p>
+
+<p>To load an example book, you would do use code similar to this:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5b5e30></p>
+
+<p>Manually entering all these details is tedious. Fortunately for you, I put up
+with the tedium to create a sample dataset in <code>sample_library.py</code>. You use the
+function <code>get_library()</code> from the file to use it.</p>
+
+<h3>Clojure</h3>
+
+<p>In Clojure, we'll use a record to define a book:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5b5160></p>
+
+<p>We're not using objects, so we don't need a record to store a collection.
+(If we wanted to validate formats, we could do it using a Ref and a
+:validator argument - that's left as an exercise for the reader). I have,
+however, defined a few helper functions.</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5b4378></p>
+
+<p>Adding books is a simple affair:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5b3ab8></p>
+
+<p>I've loaded a sample dataset into the <code>sample_library.clj</code> source file, available
+from the <a href="/downloads/code/using-set-theory/clj-example.tar.gz">Clojure example code</a>.</p>
+
+<h2>Building Subsets</h2>
+
+<p>Now that we have a way to represent a book (with more useful information than
+simply the title), we can start to build some subsets. Let's start by
+looking at <em>set notation</em> (aka how to write a set both mathematically and
+in code), and then continue on to recreate the two subsets in the previous
+article, <code>epub</code> and <code>mobi</code>.</p>
+
+<h3>Set Notation</h3>
+
+<p>In <a href="https://en.wikipedia.org/wiki/Set_notation">set notation</a>, we denote
+a set by writing:</p>
+
+<blockquote><p>A = { x | x ∈ N, x &lt; 10 }</p></blockquote>
+
+<p>which means the set of numbers that are members of (∈ means <em>'element of'</em>)
+the set of positive integers and are less than 10. You might generalise this
+as such:</p>
+
+<blockquote><p>given the universal set S, which defines all the elements under
+consideration, and some predicate P which is a function that returns either
+true if the element satisfies the predicate (and thus should be included
+in the set):<br>
+{ x | x ∈ S, P(x) }</p></blockquote>
+
+<p>We would express this set as:</p>
+
+<blockquote><p>A = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }</p></blockquote>
+
+<p>In Python, this is easily expressed with a
+<a href="http://www.python.org/dev/peps/pep-0202/">list comprehension</a> (see also
+the <a href="http://docs.python.org/reference/expressions.html#list-displays">Python documentation</a>:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5bb420></p>
+
+<p>And in Clojure, we could use something similar:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5baae8></p>
+
+<h3>Building the Subsets</h3>
+
+<p>As mentioned earlier, I have already built sample datasets for both Python
+and Clojure, so be sure to use those and save yourself from having to build
+your own just yet!</p>
+
+<h4>Python</h4>
+
+<p>In Python, we can use the built-in <code>filter</code> function to build a list. It will
+serve as our predicate function.</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5ba4f8></p>
+
+<p>This gives me the output:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5b9da0></p>
+
+<p>If you recall the definition of <code>BookCollection</code>, the filter method is
+called as <code>filter(predicate, collection)</code>. In the case of the <code>mobi</code>
+subset, it filters out anything that fails the test
+<code>'mobi' in book.formats</code>. We might write this as</p>
+
+<blockquote><p>{ book | book ∈ <code>my_library</code>, <code>is_mobi(book)</code> }</p></blockquote>
+
+<p>in set notation. I've predefined some filters in the file <code>formats.py</code>
+which is again in the <a href="/downloads/code/using-set-theory/py_example.tar.gz">example code</a>.</p>
+
+<h4>Clojure</h4>
+
+<p>Likewise, Clojure has a built-in filter function, in the form
+<code>(filter pred coll)</code>. We'll use two
+<a href="http://clojuredocs.org/clojure_core/clojure.core/fn">anonymous functions</a>
+to do our filtering:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5b8fb8></p>
+
+<p>In the repl, this gives me:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5b82e8></p>
+
+<p>I've put these filters in the <code>filters.clj</code> source file, along with definitions
+for <code>epub-books</code> and <code>mobi-books</code>:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5bf368></p>
+
+<h2>Parallels with SQL</h2>
+
+<p>This introduction of filters might remind you of SQL, and for good reason.
+<a href="https://en.wikipedia.org/wiki/Edgar_F._Codd">Edgar Codd</a> designed SQL with
+set theory in mind. You can think of tables as sets (provided, of course,
+proper data preparation is done to ensure there are no duplicates in the
+database), and operations like <code>SELECT</code> return subsets. For example, if we
+were storing the books in a library, we would write something like</p>
+
+<p>Liquid error: undefined method `join' for "\nSELECT * FROM books WHERE has_epub = TRUE;\n":String</p>
+
+<h2>Moving On</h2>
+
+<p>Now that we have a programmatic way to build subsets, we can automate the entire
+set of sequences in the <a href="/blog/2012/01/23/basic-set-theory/">last post</a>:</p>
+
+<h3>Python</h3>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5be1c0></p>
+
+<p>which gives me the results:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5bd540></p>
+
+<h3>Clojure</h3>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5bceb0></p>
+
+<p>In the Clojure REPL, I get the following output:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5bc7f8></p>
+
+<h2>Sets v. Lists</h2>
+
+<p>Remember that one of the key attributes of a set is that each member is distinct.
+Let's compare a set with a list; we'll do this with an intersection.</p>
+
+<h3>Python</h3>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5bc0a0></p>
+
+<p>The result:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5bba38></p>
+
+<h3>Clojure</h3>
+
+<p>In Clojure, we'll use the vector type, which is like a list but the first
+element isn't evaluated:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5c3058></p>
+
+<p>Which yields:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c28b0></p>
+
+<h3>So what?</h3>
+
+<p>You'll notice "Code Complete" shows up twice in the list. The advantage of sets
+here is that only unique items are returned. A union is actually the list of
+elements in both sets, <em>minus</em> the list of items that are in both
+sets.</p>
+
+<h3>A Second Stab: Python</h3>
+
+<p>Implementing the set operations:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c20b8></p>
+
+<p>Applying this to our lists:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c13c0></p>
+
+<h3>A Second Stab: Clojure</h3>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5c0088></p>
+
+<p>Applying this:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c7950></p>
+
+<h2>Applications</h2>
+
+<p>This has been just a quick introduction to the topic, but hopefully you
+can see the relevance to areas like data mining. Coincidentally, datasets
+tend to conform to the mathematical idea of sets, and typically with some
+data massaging (i.e. to filter out duplicates), those that don't can
+be made more like mathemtical sets. Once appropriately represented in the
+computer, they can be acted upon with the basic set operations.</p>
+
+<p>I've created an additional example: a web service providing a rest API to
+the book collection. As with the code in this post, there is an example in
+<a href="https://bitbucket.org/kisom/py_web_service/get/release-1.0.2.tar.gz">Python</a>
+and in
+<a href="https://github.com/kisom/clj_web_service/tarball/release-1.0.2">Clojure</a>. The
+README in either example explains what dependencies are required. You can also
+view the <a href="https://bitbucket.org/kisom/py_web_service/">Bitbucket repo</a> for the
+Python example, or the <a href="https://github.com/kisom/clj_web_service">GitHub repo</a>
+for the Clojure example.</p>
+
+<h2>Acknowledgements</h2>
+
+<p><a href="https://www.github.com/saolsen">Stephen Olsen</a> reviewed many iterations of this
+article and helped me to properly articulate the important points (like illustrating
+that unions require the subtraction of the intersection). I originally wrote
+the bulk of this article on the 25th, but it took me until the 28th to finish
+writing the API example code, until the 31st to add in the additional union
+explanation, and until the 1st to polish it up.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Basic Set Theory]]></title>
+    <link href="http://kisom.github.com/blog/2012/01/23/basic-set-theory/"/>
+    <updated>2012-01-23T17:44:00-07:00</updated>
+    <id>http://kisom.github.com/blog/2012/01/23/basic-set-theory</id>
+    <content type="html"><![CDATA[<p>Recently, I was explaining to someone the basics of set theory and how the
+various basic operations translate to the real world. I used the example of the
+project I'm currently working on, which is a web front end to my ebook library.
+This is a very quick introduction aimed at people with a programming background
+but who don't have a strong math background; the goal is to help you to learn
+to use them without having to delve deep into the math behind them.</p>
+
+<!-- more -->
+
+
+<h2>Basic Properties of Sets</h2>
+
+<p>The first thing we have to do is to explain what is meant by a <em>set</em> -</p>
+
+<blockquote><p>definition: set<br>
+A set is any collection of items where each item is unique and the order of
+items in the collection is not important.</p></blockquote>
+
+<p>The uniqueness property is very important to sets: there are no duplicates in
+a set.</p>
+
+<p>So what does a set look like? In my database, I have a list of all the books
+I have electronic copies of. Each book comes in at least one of three formats:
+PDF, epub, or mobi. We'll call the <em>superset</em> (the universal set of all the items
+under consideration) the list of all the books in the library. We'll call this
+set 'L' (for Library). Part of the set might look like:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5c71f8></p>
+
+<p>We use <code>'{}'</code> to denote the members of a set. The order of books in the library
+doesn't matter here, and it doesn't make sense to have more than one entry for
+a book in the library.</p>
+
+<p>Building a set in Python is very easy:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c68e8></p>
+
+<p>Clojure has set notation built in using the <code>#{ }</code> syntax, and any collection
+can be turned into a set with <code>(set coll)</code>:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c5f10></p>
+
+<p>So now we need to build some subsets.</p>
+
+<blockquote><p>definition: subset<br>
+A subset is some part of a set.</p>
+
+<p>definition: proper subset<br>
+A proper subset is some part of a set, but is not the whole set.</p></blockquote>
+
+<p>For example, we'll create a subset of books P that are on or in Python. We'll also create a subset of books E that are in the English language. For my library,
+because not all of my books are in or about Python, the number of members of P
+is smaller than the number of elements in L. However, all of my books are in
+English, so the number of elements in E is the same as the number of elements in
+L. Therefore P is a proper subset, while E is not.</p>
+
+<h2>The Basic Set Operations</h2>
+
+<p>Now let's consider two proper subsets of the library to explain some of the basic
+set operations: M is the subset of ebooks that I have in mobi format, and we'll
+redefine E to be the list of ebooks in epub format. For the sake of the rest of
+this article, let's note the following:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5c5538></p>
+
+<p>In practical terms, this means in my library I have copies of:</p>
+
+<ul>
+<li>"Natural Language Processing with Python," "Introduction to Information
+Retrieval," and "Code Complete" in mobi format</li>
+<li>"The Joy of Clojure," "Mining the Social Web," and "Code Complete" in epub
+format.</li>
+</ul>
+
+
+<p>In Python:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c4818></p>
+
+<p>In Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c3f08></p>
+
+<h3>Union</h3>
+
+<p>A union is the set of members that appear in either set - if it's in at least
+one of the sets, it will appear in a union of the two sets. So we could define
+a subset of L that contains all the books I have in a mobile format, which for
+our purposes means copies exist in epub or mobi format. In Python, you can
+use the <code>set.union</code> method, and in Clojure you can use the functions in the
+<code>clojure.set</code> namespace.</p>
+
+<p>In Python:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5caab0></p>
+
+<p>which yields the output:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5ca038></p>
+
+<p>Remember that one of the properties of sets is that order is irrelevant, so you
+might get the books in a different order (this applies to Clojure as well).</p>
+
+<p>The same thing, in Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c9228></p>
+
+<p>You would see a similar output to the Python example.</p>
+
+<p>Again, the practical result of this is a set of all the books I have in my
+library in a mobile format.</p>
+
+<h3>Intersection</h3>
+
+<p>The intersection of two sets is a list of all the members that only appear in
+both sets. In the library example, taking the intersection of the mobi and epub
+sets gives me a set of my books that I have in both epub and mobi format. The
+<code>intersection</code> function gives me this result.</p>
+
+<p>The Python example:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c8878></p>
+
+<p>And in Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5c8170></p>
+
+<p>For either example, the output should be just one book, given the sample sets:
+Liquid error: undefined method `join' for "\nCode Complete\n":String</p>
+
+<p>I could use this result to know which books I can use on any mobile device.</p>
+
+<h3>Difference</h3>
+
+<p>The difference of one set from another is a list of all the members in the first
+set that are not in the second set. This operation is a bit different from the
+first two; the first two operations are
+<a href="http://en.wikipedia.org/wiki/Commutative_property">commutative</a>,
+but the result of a difference is dependent on the order of the sets. I'll
+illustrate this with some code examples:</p>
+
+<p>In Python:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5ced68></p>
+
+<p>In Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5cdb20></p>
+
+<p>As the output messages show, this gives us the set of books that are only
+in mobi and the set of books that are only in epub. The output should look
+something like:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5ccdb0></p>
+
+<h3>Complements</h3>
+
+<p>When discussing complements, we do so when considering a subset and it's
+superset. The complement of a subset is the difference of subset from the
+superset; i.e., the set of all members in the superset that are not in the
+subset. For example, if I wanted to check my library for all ebooks I have
+that are not in mobi format, I would use the superset <code>library</code> and take the
+difference of mobi from library:</p>
+
+<p>In Python:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5cc4c8></p>
+
+<p>and in Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5cbac8></p>
+
+<p>This gives us the output:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5d34a8></p>
+
+<h2>Conclusion</h2>
+
+<p>This has been a very basic look at set theory and what it means in practise.
+There is a lot more to set theory (see the references) but this should help
+get you started. There are a lot of applications for set theory, such as in
+data mining and natural language processing; it is a powerful tool that is
+worth spending some time to get to know.</p>
+
+<p>Stay tuned for the next post, which will be on how to use sets in your code.
+We'll develop the library idea a bit more.</p>
+
+<p><em>UPDATE</em>: The <a href="http://kyleisom.net/blog/2012/02/01/using-set-theory/">next post</a> is up!</p>
+
+<h2>References</h2>
+
+<ul>
+<li>I've been reading <a href="https://en.wikipedia.org/wiki/Alfred_Aho">Alfred Aho's</a> <a href="https://en.wikipedia.org/wiki/Special:BookSources/0139145567"><underline>The Theory of Parsing, Translating, and Compiling (Volume I: Parsing)</underline></a>
+(<a href="http://www.amazon.com/dp/0139145567/">Amazon link</a>)</li>
+<li>There is, of course, a good <a href="https://en.wikipedia.org/wiki/Set_(mathematics">wikipedia article</a>.</li>
+</ul>
+
+
+<h2>Reviewers</h2>
+
+<p>I'd like to thank the following people for reviewing this:</p>
+
+<ul>
+<li><a href="https://www.twitter.com/imwally">Wally Jones</a></li>
+<li><a href="https://saolsen.github.com/">Stephen Olsen</a></li>
+<li><a href="https://www.twitter.com/qb1t">Aaron Bieber</a></li>
+<li><a href="https://twitter.com/#!/Slaughterhut">Jason Barbier</a></li>
+<li><a href="http://shawnmeier.com/">Shawn Meier</a></li>
+<li>Matt Sowers</li>
+</ul>
+
+
+<h2>Code Samples</h2>
+
+<p>The complete python source code, which you can save to a file and run directly:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (set_theory.py)</span> <a href='/downloads/code/set_theory/set_theory.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="c">#!/usr/bin/env python</span>
+</span><span class='line'><span class="c"># -*- coding: utf-8 -*-</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># author: kyle isom &lt;coder@kyleisom.net&gt;</span>
+</span><span class='line'><span class="c"># date: 2012-01-23</span>
+</span><span class='line'><span class="c"># license: ISC / public domain (brokenlcd.net/license.txt)</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">Python illustrations for blog article &quot;Basic Set Theory&quot;</span>
+</span><span class='line'><span class="sd">    (see http://kisom.github.com/blog/2012/01/23/basic-set-theory/)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">Note that this is slightly tweaked from the examples in the article:</span>
+</span><span class='line'><span class="sd">    1. PEP8 dictates that all globals be in all caps; as all the variables</span>
+</span><span class='line'><span class="sd">    in this illustration are globals, they have been modified to be all caps.</span>
+</span><span class='line'><span class="sd">    2. There is a little extra output to explain what is going on; namely,</span>
+</span><span class='line'><span class="sd">    tabs are added before printing books and there is an output line showing</span>
+</span><span class='line'><span class="sd">    which example the book set is associated with.</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># variables are in all caps because they are globals, and PEP8 dictates</span>
+</span><span class='line'><span class="c"># that globals be in caps.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># the superset</span>
+</span><span class='line'><span class="n">LIBRARY</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Learning OpenCV&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span> <span class="s">&#39;Mastering Algorithms with C&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;Algorithms In A Nutshell&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;Network Security With OpenSSL&#39;</span><span class="p">,</span> <span class="s">&#39;RADIUS&#39;</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># the subsets</span>
+</span><span class='line'><span class="n">MOBI</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span>
+</span><span class='line'>           <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">])</span>
+</span><span class='line'><span class="n">EPUB</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&#39;Code Complete&#39;</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] list all the books in a mobile format (union example):&#39;</span>
+</span><span class='line'><span class="n">MOBILE</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">MOBILE</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] list all the books in both mobile formats (intersection example)&#39;</span>
+</span><span class='line'><span class="n">BOTH_FORMATS</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">BOTH_FORMATS</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ONLY_MOBI</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] books only in mobi format:&#39;</span>
+</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">ONLY_MOBI</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ONLY_EPUB</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">EPUB</span><span class="p">,</span> <span class="n">MOBI</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] books only in epub format:&#39;</span>
+</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">ONLY_EPUB</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You'll want to run this with <code>python set_theory.py</code> (or whatever you choose to
+name the file, obviously).</p>
+
+<p>The complete Clojure source code, which you can likewise save and run:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (set-theory.clj)</span> <a href='/downloads/code/set_theory/set-theory.clj'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class='clj'><span class='line'><span class="c1">;; set-theory.clj</span>
+</span><span class='line'><span class="c1">;; author: kyle isom &lt;coder@kyleisom.net&gt;</span>
+</span><span class='line'><span class="c1">;; date: 2012-01-23</span>
+</span><span class='line'><span class="c1">;; license: ISC / public domain (brokenlcd.net/license.txt)</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; code examples for blog post &quot;Basic Set Theory&quot;</span>
+</span><span class='line'><span class="c1">;;     http://kisom.github.com/blog/2012/01/23/basic-set-theory/</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nf">require</span> <span class="ss">&#39;clojure.set</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; the superset</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">library</span> <span class="o">#</span><span class="p">{</span> <span class="s">&quot;Natural Language Processing with Python&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Learning OpenCV&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Code Complete&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Mastering Algorithms with C&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;The Joy of Clojure&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Mining the Social Web&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Algorithms In A Nutshell&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Introduction to Information Retrieval&quot;</span>
+</span><span class='line'>                <span class="s">&quot;Network Security With OpenSSL&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;RADIUS&quot;</span> <span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; the subsets</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobi</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;Natural Language Processing with Python&quot;</span>, <span class="s">&quot;Code Complete&quot;</span>,
+</span><span class='line'>           <span class="s">&quot;Introduction to Information Retrieval&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">epub</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;The Joy of Clojure&quot;</span>, <span class="s">&quot;Mining the Social Web&quot;</span>, <span class="s">&quot;Code Complete&quot;</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; union illustration</span>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;union illustration (books in either mobile format)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobile</span> <span class="p">(</span><span class="nf">clojure.set/union</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">mobile</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; intersection illustration</span>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;intersection illustration (books in both mobile formats)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">both-formats</span> <span class="p">(</span><span class="nf">clojure.set/intersection</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">both-formats</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in mobi format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only-mobi</span> <span class="p">(</span><span class="nf">clojure.set/difference</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-mobi</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in epub format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only-epub</span> <span class="p">(</span><span class="nf">clojure.set/difference</span> <span class="nv">epub</span> <span class="nv">mobi</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-epub</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; complement illustration</span>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books not in mobi format, using the library superset:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">not-mobi</span> <span class="p">(</span><span class="nf">clojure.set/difference</span> <span class="nv">library</span> <span class="nv">mobi</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">not-mobi</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You'll want to run this with <code>clj set-theory.py</code> - I've deliberately chosen
+not to make this a lein project in order to make it easier to share, but I did
+<a href="/downloads/set_theory.tar.gz">upload a lein project</a>.
+You should be able to just run <code>lein deps, test, run</code>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[suddenly enlightenment]]></title>
+    <link href="http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment/"/>
+    <updated>2011-12-03T00:00:00-07:00</updated>
+    <id>http://kisom.github.com/blog/2011/12/03/suddenly-enlightenment</id>
+    <content type="html"><![CDATA[<p>It's been almost 28 hours since I last slept, so I apologise if this
+post contains a few spelling or grammatical errors. As soon as I
+become aware of them, rest assured I will quickly put them to right.</p>
+
+<p><a href="http://www.kyleisom.net/blog/2011/11/35-dot_emacs">Today's git commit</a> occurred
+while I was working on getting a web development test VM / environment working. The
+goal was to update a CGI script when I pushed to the dev vm. The commit log:
+Liquid error: undefined method `join' for #<String:0x007ffd7a5e0ea0></p>
+
+<!-- more -->
+
+
+<p>It took a while for me to grok what was happening with the hook, but finally it clicked.
+I did a lot of reading online, and was greatly helped by the <a href="https://www.ora.com">O'Reilly</a>
+book <a href="https://shop.oreilly.com/product/9780596620137.do">Version Control with Git</a>
+and the <code>githooks(5)</code> man page.</p>
+
+<p>My remote repository was a bare git repo (one initialised with <code>git init --bare</code> that I
+pushed my local changes to. I created a staging directory (<code>${HOME}/stage/cgitest</code>)
+and created the following hook:</p>
+
+<pre><code>kyle@www-dev:~/code/cgitest/hooks$ cat post-update
+#!/bin/sh
+export GIT_DIR=/home/kyle/code/zipcgi
+export GIT_WORK_TREE=/home/kyle/stage/zipcgi
+git reset --hard
+git checkout -f
+cp ${GIT_WORK_TREE}/zipcgi.py ~/bin/cgi/
+</code></pre>
+
+<p>As a side note, make sure the script is <code>chmod +x</code>'d.</p>
+
+<p>The reason why we have to specify the git dir is that by default,
+because this is in the bare repository, git will assume the git
+directory is the repository directory. The problem is, that directory
+doesn't have a working tree. A working tree is required to checkout
+the repository - i.e. so we have a named file to work with. To work
+around this, I explicitly specify a working tree . Then I copy the CGI
+script to my CGI directory.</p>
+
+<p>Why not just symlink the file? Well, symlinks work on inodes. This
+allows multiple names to refer to the same file, but it does mean that
+even though the file is in the same directory and shares the same
+name, it is not guaranteed the same inode number. The git checkout
+can, in essence, unlink the old file and create a completely new
+file. The end result is that your symlink will likely be broken,
+pointing to a now non-existent inode. The safest method is just to
+copy the new version on top of the old one.</p>
+
+<p>Why do we have to manipulate the environment variables
+<code>GIT_DIR</code> (which points to the directory containing the actual git
+repository, more on that in a second) and <code>GIT_WORK_TREE</code>, which
+represents the working tree. To really understand this, you need to
+understand the difference between the working tree and the
+repository. You could take the long route and read the excellent book
+I mentioned above and wade through man pages (which are pretty well
+written, but there is a lot of information to keep track of). An
+alternative is to buckle in and keep reading for my crash course.</p>
+
+<p>Still here? Buckled in? Let's do this. A git repository is basically a
+filesystem-based database that uses hashes for identification and
+great success. If you poke around in your git repository (which in a
+standard local repository is in <code>${PROJECT}/.git</code>), particularly under
+objects, you will see what I mean. Everything is stored as a hash
+object. Git uses <a href="https://en.wikipedia.org/wiki/SHA-1">SHA-1</a>, and
+under <code>.git/objects</code> you will see a list of subdirectorys. These
+subdirectories (with the exception of <code>pack</code> and <code>info</code>) named after
+the first byte of the SHA-1 hash (which is two bytes when stored as a
+semi-human readable hex digest). Under these subdirectories, git
+stores the objects as the remaining 19 bytes (again, 38 bytes when
+stored as a hex digest) of the hash. The file is
+zlib-compressed. Don't believe me? If you clone my
+<a href="https://github.com/kisom/woofs">woofs project</a> and look up</p>
+
+<p><code>.git/objects/bf/2f7383ca7343f85f1308fc6dc3c34dbd047d90</code>.</p>
+
+<p>Try the following python code:</p>
+
+<pre><code>import zlib
+print zlib.decompress(open('2f7383ca7343f85f1308fc6dc3c34dbd047d90').read())
+</code></pre>
+
+<p>You should see a working version of the script (and the latest version
+as of this writing). This is how git sees everything. (If you want to
+see what git sees a file as, use <code>git hash-object &lt;FILE&gt;</code>.)</p>
+
+<p>The working directory is where you, the developer or end user,
+interact with the contents of the database. This is where things can
+be staged to be committed, and in a bare repo (typically found
+on remote repos), there won't be a working directory because you
+aren't working directly on that copy of the repo. Try this:</p>
+
+<pre><code>mkdir -p ~/tmp/stage/woofs_working
+export GIT_DIR=~/Code/woofs/.git 
+export GIT_WORK_TREE=~/tmp/stage/woofs_working
+cd ~
+git reset --hard
+ls ~/tmp/stage/woofs_working
+</code></pre>
+
+<p>Voilà! You should see the contents of the repo there. (I'd recommend
+either closing out that terminal session or running</p>
+
+<pre><code>unset GIT_DIR GIT_WORK_TREE
+</code></pre>
+
+<p>to prevent problems later on. Also, while I'm using a repo I chose at
+random from my <code>~/Code</code> directory, you could (and should) be trying
+with a repo of your own.</p>
+
+<p>It should be clear now why I had to explicitly specify the two. The
+next two commands just reset the working directory to the lastest
+commit (i.e. the one that was just pushed) and check out a fresh copy,
+to make sure everything that should be present is present.</p>
+
+<p>This turned out to be a longer post than I had expected, but my hope
+is that it helps other people quickly get their hooks operational. The
+cool thing about hooks is they are just executable shells scripts,
+which means:</p>
+
+<ol>
+<li>the script's <code>${PWD}</code> is the hooks directory in the git repo.</li>
+<li>the <code>${GIT_DIR}</code> is by default '.' and is the repo directory. for
+example, if we had a bare woofs repo, it would be something like
+<code>/home/kyle/code/woofs</code>, while in a local repo it would be
+<code>/home/kyle/code/woofs/.git</code>.</li>
+<li>because it's just a shell script, you can use any language you can
+use a shebang for.</li>
+</ol>
+
+
+<p>Git hooks are a powerful tool and can greatly boost your productivity,
+automatically deploy code, and help us fight SkyNet. You should
+consider using them in your next project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[add .emacs.d/init.el]]></title>
+    <link href="http://kisom.github.com/blog/2011/11/28/add-emacsd/"/>
+    <updated>2011-11-28T00:00:00-07:00</updated>
+    <id>http://kisom.github.com/blog/2011/11/28/add-emacsd</id>
+    <content type="html"><![CDATA[<p>In the spirit of many of my online profiles which proudly declare "my
+commit log is my blog," I've decided to start using that in my posts.
+Here is the first such attempt.</p>
+
+<pre><code> commit 40bbc533313a43192506b682fe546304d8603d11 
+ Author: Kyle Isom &lt;coder@kyleisom.net&gt;
+ Date:   Mon Nov 28 17:34:30 2011 +0300
+
+    add .emacs.d/init.el
+</code></pre>
+
+<p>I've started using emacs, which is an act of such great blasphemy for
+a red-blooded stalwart vim-wielding hacker such as myself that I find
+it difficult to come to grips with sometimes. But there is a method to
+my madness, and it isn't just that my morals are so comprised right
+now in this nadir of my life that I've even started learning
+javascript (a running joke).</p>
+
+<!-- more -->
+
+
+<p>Due to my current work situation, and the prospect of traveling to and
+spending several months in a region with little to no network
+connectivity, I've purchased a new 11" Macbook Air. I chose the 11"
+model solely for price reasons; I would much prefer a larger
+laptop. I've previously owned two EeePCs (the 7"
+<a href="http://en.wikipedia.org/wiki/ASUS_Eee_PC#Eee_700_series">Eee PC 701</a>
+and the 11"
+<a href="http://en.wikipedia.org/wiki/ASUS_Eee_PC#Specifications">Eee PC 1101HAB</a>),
+so I'm familiar with the smaller form-factor, and not a huge fan to be
+honest.</p>
+
+<p>Enter emacs - I can do all my work on emacs, with an integrated python
+development environment incorporating a shell, pdb (with a pane that
+shows the current line of the file being executed as you're stepping
+through code). I'll still have the OS X desktop,
+<a href="http://www.iterm2.com/">iterm2</a>,
+<a href="http://tmux.sourceforge.net/">tmux</a>, and
+<a href="http://code.google.com/p/macvim/">macvim</a>. But for getting things
+done, I think that emacs is going to help out a lot.</p>
+
+<p>Plus it's backed by a Lisp flavour.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[generating patchfiles with git and hg]]></title>
+    <link href="http://kisom.github.com/blog/2011/09/28/generating-patchfiles-with-git-and-hg/"/>
+    <updated>2011-09-28T00:00:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2011/09/28/generating-patchfiles-with-git-and-hg</id>
+    <content type="html"><![CDATA[<p>UPDATE: originally this post was only about doing this in git. Since I use
+mercurial almost as much as I use git, I decided to look into how to do it
+with mercurial too.</p>
+
+<p>I recently was explaining to someone that as a coder, I do (or should do)
+a lot more than just code. I figured since I hadn't written anything here in
+a while, I'd put my thoughts down here.</p>
+
+<p>i found myself needing to generate a patchfile today from a git repo. it turns
+out to be a very easy task.</p>
+
+<!-- more -->
+
+
+<ul>
+<li><p>first, commit to a clean working directory. i'll asume you are on the
+'master' (git) or 'tip' (hg) branch, but s/master/$branch/ as appropriate.</p></li>
+<li><p>if you have only one commit between you and the commit you need to diff
+against:
+Liquid error: undefined method `join' for "\ngit format-patch master^ --stdout > my.patch`\n":String
+or
+Liquid error: undefined method `join' for "\nhg export tip > my.patch  <br/>\n":String</p></li>
+<li><p>otherwise, substitute in the appropriate commit</p></li>
+<li><p>to apply the patch, it's
+Liquid error: undefined method `join' for "\ngit apply --stat my.patch\n":String
+or
+Liquid error: undefined method `join' for "\nhg patch my.patch\n":String</p></li>
+</ul>
+
+
+<p>I did say it was a very easy task... You'll notice mercurial makes this easier
+(or at least I think so) than git.</p>
+]]></content>
+  </entry>
+  
+</feed>

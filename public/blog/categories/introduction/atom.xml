@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: introduction | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/introduction/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Basic Set Theory]]></title>
+    <link href="http://kisom.github.com/blog/2012/01/23/basic-set-theory/"/>
+    <updated>2012-01-23T17:44:00-07:00</updated>
+    <id>http://kisom.github.com/blog/2012/01/23/basic-set-theory</id>
+    <content type="html"><![CDATA[<p>Recently, I was explaining to someone the basics of set theory and how the
+various basic operations translate to the real world. I used the example of the
+project I'm currently working on, which is a web front end to my ebook library.
+This is a very quick introduction aimed at people with a programming background
+but who don't have a strong math background; the goal is to help you to learn
+to use them without having to delve deep into the math behind them.</p>
+
+<!-- more -->
+
+
+<h2>Basic Properties of Sets</h2>
+
+<p>The first thing we have to do is to explain what is meant by a <em>set</em> -</p>
+
+<blockquote><p>definition: set<br>
+A set is any collection of items where each item is unique and the order of
+items in the collection is not important.</p></blockquote>
+
+<p>The uniqueness property is very important to sets: there are no duplicates in
+a set.</p>
+
+<p>So what does a set look like? In my database, I have a list of all the books
+I have electronic copies of. Each book comes in at least one of three formats:
+PDF, epub, or mobi. We'll call the <em>superset</em> (the universal set of all the items
+under consideration) the list of all the books in the library. We'll call this
+set 'L' (for Library). Part of the set might look like:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5c0a8></p>
+
+<p>We use <code>'{}'</code> to denote the members of a set. The order of books in the library
+doesn't matter here, and it doesn't make sense to have more than one entry for
+a book in the library.</p>
+
+<p>Building a set in Python is very easy:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad5bba8></p>
+
+<p>Clojure has set notation built in using the <code>#{ }</code> syntax, and any collection
+can be turned into a set with <code>(set coll)</code>:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad5b5e0></p>
+
+<p>So now we need to build some subsets.</p>
+
+<blockquote><p>definition: subset<br>
+A subset is some part of a set.</p>
+
+<p>definition: proper subset<br>
+A proper subset is some part of a set, but is not the whole set.</p></blockquote>
+
+<p>For example, we'll create a subset of books P that are on or in Python. We'll also create a subset of books E that are in the English language. For my library,
+because not all of my books are in or about Python, the number of members of P
+is smaller than the number of elements in L. However, all of my books are in
+English, so the number of elements in E is the same as the number of elements in
+L. Therefore P is a proper subset, while E is not.</p>
+
+<h2>The Basic Set Operations</h2>
+
+<p>Now let's consider two proper subsets of the library to explain some of the basic
+set operations: M is the subset of ebooks that I have in mobi format, and we'll
+redefine E to be the list of ebooks in epub format. For the sake of the rest of
+this article, let's note the following:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5b0e0></p>
+
+<p>In practical terms, this means in my library I have copies of:</p>
+
+<ul>
+<li>"Natural Language Processing with Python," "Introduction to Information
+Retrieval," and "Code Complete" in mobi format</li>
+<li>"The Joy of Clojure," "Mining the Social Web," and "Code Complete" in epub
+format.</li>
+</ul>
+
+
+<p>In Python:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad62bd8></p>
+
+<p>In Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad626d8></p>
+
+<h3>Union</h3>
+
+<p>A union is the set of members that appear in either set - if it's in at least
+one of the sets, it will appear in a union of the two sets. So we could define
+a subset of L that contains all the books I have in a mobile format, which for
+our purposes means copies exist in epub or mobi format. In Python, you can
+use the <code>set.union</code> method, and in Clojure you can use the functions in the
+<code>clojure.set</code> namespace.</p>
+
+<p>In Python:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad621d8></p>
+
+<p>which yields the output:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad61cd8></p>
+
+<p>Remember that one of the properties of sets is that order is irrelevant, so you
+might get the books in a different order (this applies to Clojure as well).</p>
+
+<p>The same thing, in Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad617d8></p>
+
+<p>You would see a similar output to the Python example.</p>
+
+<p>Again, the practical result of this is a set of all the books I have in my
+library in a mobile format.</p>
+
+<h3>Intersection</h3>
+
+<p>The intersection of two sets is a list of all the members that only appear in
+both sets. In the library example, taking the intersection of the mobi and epub
+sets gives me a set of my books that I have in both epub and mobi format. The
+<code>intersection</code> function gives me this result.</p>
+
+<p>The Python example:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad612d8></p>
+
+<p>And in Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad60dd8></p>
+
+<p>For either example, the output should be just one book, given the sample sets:
+Liquid error: undefined method `join' for "\nCode Complete\n":String</p>
+
+<p>I could use this result to know which books I can use on any mobile device.</p>
+
+<h3>Difference</h3>
+
+<p>The difference of one set from another is a list of all the members in the first
+set that are not in the second set. This operation is a bit different from the
+first two; the first two operations are
+<a href="http://en.wikipedia.org/wiki/Commutative_property">commutative</a>,
+but the result of a difference is dependent on the order of the sets. I'll
+illustrate this with some code examples:</p>
+
+<p>In Python:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad603d8></p>
+
+<p>In Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad5fed8></p>
+
+<p>As the output messages show, this gives us the set of books that are only
+in mobi and the set of books that are only in epub. The output should look
+something like:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5f9d8></p>
+
+<h3>Complements</h3>
+
+<p>When discussing complements, we do so when considering a subset and it's
+superset. The complement of a subset is the difference of subset from the
+superset; i.e., the set of all members in the superset that are not in the
+subset. For example, if I wanted to check my library for all ebooks I have
+that are not in mobi format, I would use the superset <code>library</code> and take the
+difference of mobi from library:</p>
+
+<p>In Python:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad5f4b0></p>
+
+<p>and in Clojure:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad5efb0></p>
+
+<p>This gives us the output:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad66a58></p>
+
+<h2>Conclusion</h2>
+
+<p>This has been a very basic look at set theory and what it means in practise.
+There is a lot more to set theory (see the references) but this should help
+get you started. There are a lot of applications for set theory, such as in
+data mining and natural language processing; it is a powerful tool that is
+worth spending some time to get to know.</p>
+
+<p>Stay tuned for the next post, which will be on how to use sets in your code.
+We'll develop the library idea a bit more.</p>
+
+<p><em>UPDATE</em>: The <a href="http://kyleisom.net/blog/2012/02/01/using-set-theory/">next post</a> is up!</p>
+
+<h2>References</h2>
+
+<ul>
+<li>I've been reading <a href="https://en.wikipedia.org/wiki/Alfred_Aho">Alfred Aho's</a> <a href="https://en.wikipedia.org/wiki/Special:BookSources/0139145567"><underline>The Theory of Parsing, Translating, and Compiling (Volume I: Parsing)</underline></a>
+(<a href="http://www.amazon.com/dp/0139145567/">Amazon link</a>)</li>
+<li>There is, of course, a good <a href="https://en.wikipedia.org/wiki/Set_(mathematics">wikipedia article</a>.</li>
+</ul>
+
+
+<h2>Reviewers</h2>
+
+<p>I'd like to thank the following people for reviewing this:</p>
+
+<ul>
+<li><a href="https://www.twitter.com/imwally">Wally Jones</a></li>
+<li><a href="https://saolsen.github.com/">Stephen Olsen</a></li>
+<li><a href="https://www.twitter.com/qb1t">Aaron Bieber</a></li>
+<li><a href="https://twitter.com/#!/Slaughterhut">Jason Barbier</a></li>
+<li><a href="http://shawnmeier.com/">Shawn Meier</a></li>
+<li>Matt Sowers</li>
+</ul>
+
+
+<h2>Code Samples</h2>
+
+<p>The complete python source code, which you can save to a file and run directly:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (set_theory.py)</span> <a href='/downloads/code/set_theory/set_theory.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="c">#!/usr/bin/env python</span>
+</span><span class='line'><span class="c"># -*- coding: utf-8 -*-</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># author: kyle isom &lt;coder@kyleisom.net&gt;</span>
+</span><span class='line'><span class="c"># date: 2012-01-23</span>
+</span><span class='line'><span class="c"># license: ISC / public domain (brokenlcd.net/license.txt)</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">Python illustrations for blog article &quot;Basic Set Theory&quot;</span>
+</span><span class='line'><span class="sd">    (see http://kisom.github.com/blog/2012/01/23/basic-set-theory/)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">Note that this is slightly tweaked from the examples in the article:</span>
+</span><span class='line'><span class="sd">    1. PEP8 dictates that all globals be in all caps; as all the variables</span>
+</span><span class='line'><span class="sd">    in this illustration are globals, they have been modified to be all caps.</span>
+</span><span class='line'><span class="sd">    2. There is a little extra output to explain what is going on; namely,</span>
+</span><span class='line'><span class="sd">    tabs are added before printing books and there is an output line showing</span>
+</span><span class='line'><span class="sd">    which example the book set is associated with.</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># variables are in all caps because they are globals, and PEP8 dictates</span>
+</span><span class='line'><span class="c"># that globals be in caps.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># the superset</span>
+</span><span class='line'><span class="n">LIBRARY</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Learning OpenCV&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span> <span class="s">&#39;Mastering Algorithms with C&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;Algorithms In A Nutshell&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">,</span>
+</span><span class='line'>               <span class="s">&#39;Network Security With OpenSSL&#39;</span><span class="p">,</span> <span class="s">&#39;RADIUS&#39;</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># the subsets</span>
+</span><span class='line'><span class="n">MOBI</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span>
+</span><span class='line'>           <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">])</span>
+</span><span class='line'><span class="n">EPUB</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&#39;Code Complete&#39;</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] list all the books in a mobile format (union example):&#39;</span>
+</span><span class='line'><span class="n">MOBILE</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">MOBILE</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] list all the books in both mobile formats (intersection example)&#39;</span>
+</span><span class='line'><span class="n">BOTH_FORMATS</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">BOTH_FORMATS</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ONLY_MOBI</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] books only in mobi format:&#39;</span>
+</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">ONLY_MOBI</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ONLY_EPUB</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">EPUB</span><span class="p">,</span> <span class="n">MOBI</span><span class="p">)</span>
+</span><span class='line'><span class="k">print</span> <span class="s">&#39;[+] books only in epub format:&#39;</span>
+</span><span class='line'><span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">ONLY_EPUB</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You'll want to run this with <code>python set_theory.py</code> (or whatever you choose to
+name the file, obviously).</p>
+
+<p>The complete Clojure source code, which you can likewise save and run:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (set-theory.clj)</span> <a href='/downloads/code/set_theory/set-theory.clj'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class='clj'><span class='line'><span class="c1">;; set-theory.clj</span>
+</span><span class='line'><span class="c1">;; author: kyle isom &lt;coder@kyleisom.net&gt;</span>
+</span><span class='line'><span class="c1">;; date: 2012-01-23</span>
+</span><span class='line'><span class="c1">;; license: ISC / public domain (brokenlcd.net/license.txt)</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'><span class="c1">;; code examples for blog post &quot;Basic Set Theory&quot;</span>
+</span><span class='line'><span class="c1">;;     http://kisom.github.com/blog/2012/01/23/basic-set-theory/</span>
+</span><span class='line'><span class="c1">;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nf">require</span> <span class="ss">&#39;clojure.set</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; the superset</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">library</span> <span class="o">#</span><span class="p">{</span> <span class="s">&quot;Natural Language Processing with Python&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Learning OpenCV&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Code Complete&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Mastering Algorithms with C&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;The Joy of Clojure&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Mining the Social Web&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Algorithms In A Nutshell&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;Introduction to Information Retrieval&quot;</span>
+</span><span class='line'>                <span class="s">&quot;Network Security With OpenSSL&quot;</span>,
+</span><span class='line'>                <span class="s">&quot;RADIUS&quot;</span> <span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; the subsets</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobi</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;Natural Language Processing with Python&quot;</span>, <span class="s">&quot;Code Complete&quot;</span>,
+</span><span class='line'>           <span class="s">&quot;Introduction to Information Retrieval&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">epub</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;The Joy of Clojure&quot;</span>, <span class="s">&quot;Mining the Social Web&quot;</span>, <span class="s">&quot;Code Complete&quot;</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; union illustration</span>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;union illustration (books in either mobile format)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">mobile</span> <span class="p">(</span><span class="nf">clojure.set/union</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">mobile</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; intersection illustration</span>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;intersection illustration (books in both mobile formats)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">both-formats</span> <span class="p">(</span><span class="nf">clojure.set/intersection</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">both-formats</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in mobi format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only-mobi</span> <span class="p">(</span><span class="nf">clojure.set/difference</span> <span class="nv">mobi</span> <span class="nv">epub</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-mobi</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books only in epub format:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">only-epub</span> <span class="p">(</span><span class="nf">clojure.set/difference</span> <span class="nv">epub</span> <span class="nv">mobi</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">only-epub</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">; complement illustration</span>
+</span><span class='line'><span class="p">(</span><span class="nb">println </span><span class="s">&quot;books not in mobi format, using the library superset:&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">not-mobi</span> <span class="p">(</span><span class="nf">clojure.set/difference</span> <span class="nv">library</span> <span class="nv">mobi</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">book</span> <span class="nv">not-mobi</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">println </span><span class="s">&quot;\t&quot;</span> <span class="nv">book</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>You'll want to run this with <code>clj set-theory.py</code> - I've deliberately chosen
+not to make this a lein project in order to make it easier to share, but I did
+<a href="/downloads/set_theory.tar.gz">upload a lein project</a>.
+You should be able to just run <code>lein deps, test, run</code>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Working Introduction to Crypto with PyCrypto]]></title>
+    <link href="http://kisom.github.com/blog/2011/06/17/intro-to-crypto/"/>
+    <updated>2011-06-17T16:15:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2011/06/17/intro-to-crypto</id>
+    <content type="html"><![CDATA[<h2>Preface</h2>
+
+<p>This document was originally a LaTeX document; I've taken the pains to
+convert it by hand to markdown. There are some points where the fact
+that I don't have footnotes in here makes some of the sentences a bit
+awkward; one day I'll clean them up, I promise.</p>
+
+<p>I've put up a <a href="/downloads/crypto_intro.pdf">PDF version</a> here, and updates
+are posted at the <a href="https://github.com/kisom/crypto_intro">github repo</a>.</p>
+
+<p>If you see any LaTeX artifacts (or other errors) lurking, feel free to
+let me know!</p>
+
+<h2>Introduction</h2>
+
+<p>Recently at work I have been using the
+<a href="https://www.dlitz.net/software/pycrypto/">PyCrypto</a> libraries quite a bit.
+The documentation is pretty good, but there are a few areas that took me a bit
+to figure out. In this post, I'll be writing up a quick overview of the
+PyCrypto library and cover some general things to know when writing
+cryptographic code in general. I'll go over symmetric, public-key, hybrid,
+and message authentication codes. Keep in mind this is a quick introduction and
+a lot of gross simplifications are made. For a more complete introduction to
+cryptography, take a look at the references at the end of this article. This
+article is just an appetite-whetter - if you have a real need for information
+security you should hire an expert. Real data security goes beyond this quick
+introduction (you wouldn't trust the design and engineering of a bridge to
+a student with a quick introduction to civil engineering, would you?)</p>
+
+<!-- more -->
+
+
+<p>Some quick terminology: for those unfamiliar, I introduce the following terms:</p>
+
+<ul>
+<li><strong>plaintext</strong>: the original message</li>
+<li><strong>ciphertext</strong>: the message after cryptographic transformations are applied
+to obscure the original message.</li>
+<li><strong>encrypt</strong>: producing ciphertext by applying cryptographic transformations
+to plaintext.</li>
+<li><strong>decrypt</strong>: producing plaintext by applying cryptographic transformations to
+ciphertext.</li>
+<li><strong>cipher</strong>: a particular set of cryptographic transformations providing means
+of both encryption and decryption.</li>
+<li><strong>ciphersystem</strong>: a set of cryptographic transformations that take a large input and
+transform it to a unique (typically fixed-size) output. For hashes to be
+cryptographically secure, collisions should be practically nonexistent. It
+should be practically impossible to determine the input from the output.</li>
+</ul>
+
+
+<p>Cryptography is an often misunderstood component of information security, so
+an overview of what it is and what role it plays is in order. There are four
+major roles that cryptography plays:</p>
+
+<ul>
+<li><strong>confidentiality</strong>: ensuring that only the intended recipients receive the
+plaintext of the message.</li>
+<li><strong>data integrity</strong>: the plaintext message arrives unaltered.</li>
+<li><strong>entity authentication</strong>: the identity of the sender is verified. An entity
+may be a person or a machine.</li>
+<li><strong>message authentication</strong>: the message is verified as having been
+unaltered.</li>
+</ul>
+
+
+<p>Note that cryptography is used to obscure the contents of a message and verify
+its contents and source. It will <strong>not</strong> hide the fact that two entities are
+communicating.</p>
+
+<p>There are two basic types of ciphers: symmetric and public-key ciphers. A
+symmetric key cipher employs the use of shared secret keys. They also tend to
+be much faster than public-key ciphers. A public-key cipher is so-called because
+each key consists of a private key which is used to generate a public key. Like
+their names imply, the private key is kept secret while the public key is
+passed around. First, I'll take a look at a specific type of symmetric ciphers:
+block ciphers.</p>
+
+<h2>Block Ciphers</h2>
+
+<p>There are two further types of symmetric keys: stream and block ciphers. Stream
+ciphers operate on data streams, i.e. one byte at a time. Block ciphers operate
+on blocks of data, typically 16 bytes at a time. The most common block cipher
+and the standard one you should use unless you have a very good reason to use
+another one is the <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Advanced_Encryption_Standard">AES</a>
+block cipher, also documented in <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">FIPS PUB 197</a>.
+AES is a specific subset of the Rijndael cipher. AES uses block size of
+128-bits (16 bytes); data should be padded out to fit the block size - the
+length of the data block must be multiple of the block size. For example,
+given an input of <code>ABCDABCDABCDABCD ABCDABCDABCDABCD</code> no padding would
+need to be done. However, given <code>ABCDABCDABCDABCD ABCDABCDABCD</code> an
+additional 4 bytes of padding would need to be added. A common padding scheme
+is to use <code>0x80</code> as the first byte of padding, with <code>{0x00</code> bytes
+filling out the rest of the padding. With padding, the previous example would
+look like: <code>ABCDABCDABCDABCD ABCDABCDABCD\x80\x00\x00\x00</code>.</p>
+
+<p>Writing a padding function is pretty easy: <br/>
+Liquid error: undefined method `join' for #<String:0x007ffd7ad725b0></p>
+
+<p>Similarly, removing padding is also easy:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad720b0></p>
+
+<p>I've included these functions in the <a href="http://kisom.github.com/downloads/crypto_intro_example.tar.gz">example code</a>
+for this tutorial.</p>
+
+<p>Encryption with a block cipher requires selecting a
+<a href="https://secure.wikimedia.org/wikipedia/en/wiki/Block_cipher_modes_of_operation">block mode</a>.
+By far the most common mode used is <strong>cipher block chaining</strong> or
+<em>CBC</em> mode. Other modes include <strong>counter (CTR)</strong>,
+<strong>cipher feedback (CFB)</strong>, and the extremely insecure
+<strong>electronic codebook (ECB)</strong>. CBC mode is the standard and is
+well-vetted, so I will stick to that in this tutorial. Cipher block chaining
+works by XORing the previous block of ciphertext with the current block. You
+might recognise that the first block has nothing to be XOR'd with; enter the
+<em><a href="https://secure.wikimedia.org/wikipedia/en/wiki/Initialization_vector">initialisation vector</a></em>.
+This comprises a number of randomly-generated bytes of data the same
+size as the cipher's block size. This initialisation vector should random
+enough that it cannot be recovered; one manner of doing this is to combine a
+standard UNIX timestamp with a block-size group of random data, using a standard
+hashing algorithm such as MD5 to make it unique.</p>
+
+<p>One of the most critical components to encryption is properly generating
+random data. Fortunately, most of this is handled by the PyCrypto library's
+<code>Crypto.Random.OSRNG module</code>. You should know that the more entropy sources
+available (such as network traffic and disk activity), the faster the system
+can generate cryptographically-secure random data. I've written a function that
+can generate a <em><a href="https://secure.wikimedia.org/wikipedia/en/wiki/Cryptographic_nonce">nonce</a></em>
+suitable for use as an initialisation vector. This will work on a UNIX machine;
+the comments note how easy it is to adapt it to a Windows machine. This
+function requires a version of PyCrypto at least 2.1.0 or higher.
+Liquid error: undefined method `join' for #<String:0x007ffd7ad71bb0></p>
+
+<p>I will note here that the python <code>random</code> module is completely unsuitable for
+cryptography (as it is completely deterministic). You shouldn't use it for
+cryptographic code.</p>
+
+<p>Symmetric ciphers are so-named because the key is shared across any entities.
+There are three key sizes for AES: 128-bit, 192-bit, and 256-bit, aka 16-byte,
+24-byte, and 32-byte key sizes. If you want to use a passphrase, you
+should use a digest algorithm that produces an appropriately sized digest, and
+hash that passphrase. For example, for AES-256, you would want to use SHA-256.
+Here is a sample function to generate an AES-256 key from a passphrase:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad716b0></p>
+
+<p>We could include this a set of AES encryption and decryption functions:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad711b0></p>
+
+<p>Notice how the data is padded before being encrypted and unpadded after
+decryption - the decryption process will not remove the padding on its own.</p>
+
+<p>Unless you are you doing interactive encryption passphrase encryption won't be
+terribly useful. Instead, we just need to generate 32 random bytes (and make
+sure we keep track of it) and use that as the key:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad70cb0></p>
+
+<p>We can use this key directly in the AES transformations:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad707b0></p>
+
+<p>That should cover the basics of block cipher encryption. We've gone over key
+generation, padding, and encryption / decryption. AES-256 isn't the only
+block cipher provided by the PyCrypto package, but again: it is the standard
+and well vetted.</p>
+
+<h2>ASCII-Armouring</h2>
+
+<p>I'm going to take a quick detour and talk about ASCII armouring. If you've
+played with the crypto functions above, you'll notice they produce an annoying
+dump of binary data that can be a hassle to deal with. One common technique for
+making the data a little bit easier to deal with is to encode it with
+<a href="https://secure.wikimedia.org/wikipedia/en/wiki/Base64">base64</a>. There
+are a few ways to incorporate this into python:</p>
+
+<h3>Absolute Base64 Encoding</h3>
+
+<p>The easiest way is to just base64 encode everything in the encrypt function.
+Everything that goes into the decrypt function should be in base64 - if it's
+not, the <code>base64</code> module will throw an error: you could catch this and
+then try to decode it as binary data.</p>
+
+<h3>A Simple Header</h3>
+
+<p>A slightly more complex option, and the one I adopt in this article, is to use
+a <code>x00</code> as the first byte of the ciphertext for binary data, and to use
+<code>\x41</code> (an ASCII "<code>A</code>'') for ASCII encoded data. This will increase
+the complexity of the encryption and decryption functions slightly. We'll also
+pack the initialisation vector at the beginning of the file as well. Given now
+that the <code>iv</code> argument might be <code>None</code> in the decrypt function, I
+will have to rearrange the arguments a bit; for consistency, I will move it in
+both functions. I leave adding it into the <code>passphrase_encrypt</code> and
+<code>passphrase_decrypt</code> functions as an exercise for the reader. My modified
+functions look like this now:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad702b0></p>
+
+<h3>A More Complex Container</h3>
+
+<p>There are more complex ways to do it (and you'll see it with the public keys
+in the next section) that involve putting the base64 into a container of sorts
+that contains additional information about the key.</p>
+
+<h2>Public Key Cryptography</h2>
+
+<p>Now it is time to take a look at public-key cryptography. Public-key
+cryptography, or PKC, involves the use of two-part keys. The private key is
+the sensitive key that should be kept private by the owning entity, whereas the
+public key (which is generated from the private key) is meant to be distributed
+to any entities which must communicate securely with the entity owning the
+private key. Confusing? Let's look at this using the venerable Alice and Bob,
+patron saints of cryptography.</p>
+
+<p>Alice wants to talk to Bob, but doesn't want Eve to know the contents of the
+message. Both Alice and Bob generate a set of private keys. From those private
+keys, they both generate public keys. Let's say they post their public keys on
+their websites. Alice wants to send a private message to Bob, so she looks up
+Bob's public key from his site. (In fact, there is a way to distribute keys via
+a central site or entity; this is called a public key infrastructure (PKI). The
+public key can be used as the key to encrypt a message with PKC. The resulting
+ciphertext can only be decrypted using Bob's private key. Alice sends Bob the
+resulting ciphertext, which Eve cannot decrypt without Bob's private key.
+Hopefully this is a little less confusing.</p>
+
+<p>One of the most common PKC systems is RSA (which is an acronym for the last
+names of the designers of the algorithm). Generally, RSA keys are 1024-bit,
+2048-bit, or 4096-bits long. The keys are most often in
+<a href="https://secure.wikimedia.org/wikipedia/en/wiki/Privacy-enhanced_Electronic_Mail">PEM</a>
+or
+<a href="https://secure.wikimedia.org/wikipedia/en/wiki/Distinguished_Encoding_Rules">DER</a>
+format. Generating RSA keys with PyCrypto is extremely easy:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad6fdb0></p>
+
+<p>The <code>key</code> that is returned isn't like the keys we used with the block ciphers:
+it is an RSA object and comes with several useful built-in methods. One of
+these is the <code>size()</code> method, which returns the size of the key in bits minus
+one. For example:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad6f888></p></blockquote></blockquote></blockquote>
+
+<p>A quick note: I will use 1024-bit keys in this tutorial because they are
+faster to generate, but in practice you should be using at least 2048-bit
+keys. The key also includes encryption and decryption methods in the class:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad6f388></p></blockquote></blockquote></blockquote>
+
+<p>The <code>None</code> that is passed into the encryption function is part of the
+PyCrypto API for those publickey ciphers requiring an additional random number
+function to be passed in. It returns a tuple containing only the encrypted
+message. In order to pass this to the decryption function, we need to pass only
+the encrypted message as a string:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad6ee88></p></blockquote></blockquote></blockquote>
+
+<p>While these are simple enough, we could put them into a pair of functions that
+also include ASCII-armouring:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad76980></p>
+
+<p>These two functions present a common API that will simplify encryption and
+decryption and make it a little easier to read. Assuming we still have the same
+<code>message</code> definition as before:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad76480></p></blockquote></blockquote></blockquote>
+
+<p>Now, what if we want to export this generated key and read it in later? The key
+comes with the method <code>exportKey()</code>. If the key is a private key, it will
+export the private key; if it is a public key, it will export the public key.
+We can write functions to backup our private key (which <strong>absolutely</strong>
+needs to be kept secure) and a function to export our public key, suitable for
+uploading to our web page or to a PKI keystore:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad75f80></p>
+
+<p>Importing a key is done using the <code>RSA.importKey</code> function:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad75a80></p>
+
+<p>We can take a look at the difference between the public and private keys:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad75558></p></blockquote></blockquote></blockquote>
+
+<p>Using the <code>export_pubkey()</code> function, you can pass that file
+around to people to encrypt messages to you. Often, you wil want to generate a
+keypair to give to people. One convention is to name the secret key
+<code>keyname.prv</code> (prv for private, and sometimes <code>keyname.key</code>) and the
+public key <code>keyname.pub</code>. We will
+follow that convention in an <code>export_keypair()</code> function:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad75058></p>
+
+<p>For example, Bob generates a keypair and emails the public key to Alice:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad74b58></p></blockquote></blockquote></blockquote>
+
+<p>Then, Assuming Bob gave Alice <code>bob.pub</code>:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad74658></p></blockquote></blockquote></blockquote>
+
+<p>The ASCII-armoured format makes it convenient for Alice to paste the encrypted
+message to Bob, so she does, and now Bob has it on his computer. To read it, he
+does something similar:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad74158></p></blockquote></blockquote></blockquote>
+
+<p>At this point, Bob can't be sure that the message came from Alice but he can
+read the message. We'll cover entity authentication in a later section, but
+first, there's something else I'd to point out:</p>
+
+<p>You might have noticed at this point that public key cryptography appears to
+be a lot simpler than symmetric key cryptography. The key distribution problem
+is certainly easier, especially with a proper PKI. Why would anyone choose to
+use symmetric key cryptography over public key cryptography? The answer is
+performance: if you compare the block cipher test code (if you don't have a
+copy of this code, you can get it at the tutorial's
+<a href="https://www.github.com/kisom/crypto_tutorial">github page</a> or from
+<a href="http://kisom.github.com/downloads/crypto_intro_example.tar.gz">this tarball</a> with the public
+key test code, you will notice that the block cipher code is orders of magnitude
+faster - and it generates far more keys than the public key code. There is a
+solution to this problem: hybrid cryptosystems.</p>
+
+<p>Hybrid cryptosystems use public key cryptography to establish a symmetric
+session key. Both <strong><a href="https://secure.wikimedia.org/wikipedia/en/wiki/Transport_Layer_Security">TLS</a></strong>
+(Transport Layer Security), and its predecessor <strong>SSL</strong> (Secure Sockets
+Layer), most often used to secure HTTP transactions, use a hybrid cryptosystem
+to speed up establishing a secure session. PGP (and hence GnuPG) also uses
+hybrid crypto.</p>
+
+<p>Let's say Alice and Bob wish to use hybrid crypto; if Alice initiates the
+session, she should be the one to generate the session key. For example,
+Liquid error: undefined method `join' for #<String:0x007ffd7ad73c30></p></blockquote></blockquote></blockquote>
+
+<p>At this point, Alice should send Bob the <code>encrypted_session_key</code>; she
+should retain a copy as well. They can then use this key to communicate using
+the much-faster AES256.</p>
+
+<p>In communicating, it might be wise to create a message format that packs in
+the session key into a header, and encrypts the rest of the body with the
+session key. This is a subject beyond the realm of a quick tutorial - again,
+consult with the people who do this on a regular basis.</p>
+
+<h2>Digital Signatures</h2>
+
+<p>In all of the previous examples, we assumed that the identity of the sender
+wasn't a question. For a symmetric key, that's less of a stretch - there's no
+differentiation between owners. Public keys, however, are supposed to be
+associated with an entity. How can we prove the identity of the user? Without
+delving into too much into social sciences and trust metrics and a huge
+philosophical argument, let's look at the basics of signatures.</p>
+
+<p>A signature works similarly to encryption, but it in reverse, and it is slightly
+different: a hash of the message is 'encrypted' by the private key to the
+public key. The public key is used to 'decrypt' this ciphertext. Contrast this
+to actual public key encryption: the entire message is encrypted to the private
+key by the public key, and the private key is used to decrypt the ciphertext.
+With signatures, the 'encrypted' hash of the message is called the signature,
+and the act of 'encryption' is termed 'signing'. Similarly, the 'decryption'
+is known as verification or verifying the signature.</p>
+
+<p>PyCrypto's PublicKey implementations already come with signatures and
+verification methods for keys using <code>sign()</code> and <code>verify()</code>. The signature
+is a long in a tuple:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad73730></p></blockquote></blockquote></blockquote>
+
+<p>We can write our own functions to wrap around these two functions and perform
+ASCII-armouring if desired. Our signature function should take a key and a
+message (and optionally a flag to ASCII armour the signature), and sign a
+digest of the message:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad73230></p>
+
+<p>The signature is converted to a string to make it easier to pack it into
+structures and also to give us consistent input to the verify() function.</p>
+
+<p>Verifying the signature requires that we determine if the signature is ASCII-
+armoured or not, then comparing a digest of the message to the signature:
+Liquid error: undefined method `join' for #<String:0x007ffd7ad72d30></p>
+
+<p>The <code>sign()</code> function returns a signature and the <code>verify()</code> function returns a
+boolean. Now, Alice can sign her message to Bob, and Bob knows the key belongs
+to Alice. She sends Bob the signature and the encrypted message. Bob then makes
+sure Alice's key properly verifies the signature to the encrypted message.</p>
+
+<h2>Key Exchange</h2>
+
+<p>So how does Bob know the key actually belongs to Alice? There are two main
+schools of thought regarding the authentication of key ownership: centralised
+and decentralised. TLS/SSL follow the centralised school: a root
+certificate (a certificate is a public key encoded with X.509 and which
+can have additional informational attributes attached, such as organisation
+name and country) authority (CA) signs intermediary CA keys, which then sign
+user keys. For example, if Bob runs Foo Widgets, LLC, he can generate an SSL
+keypair. From this, he generates a certificate signing request, and sends this
+to the CA. The CA, usually after taking some money and ostensibly actually
+verifying Bob's identity (the extent to which this actually happens
+varies widely based on the different CAs), then signs Bob's certificate. Bob
+sets up his webserver to use his SSL certificate for all secure traffic, and
+Alice sees that the CA did in fact sign his certificate. This relies on trusted
+central authorities, like VeriSign (there is some question as to whether
+VeriSign can actually be trusted, but that is another discussion for another
+day...) Alice's web browser would ship with a keystore of select trusted CA
+public keys (like VeriSign's) that she could use to verify signatures on the
+certificates from various sites. This system is called a public key
+infrastructure.</p>
+
+<p>The other school of thought is followed by PGP (and GnuPG) - the
+decentralised model. In PGP, this is manifested as the <a href="http://www.rubin.ch/pgp/weboftrust.en.html">Web of Trust</a>.
+For example, if Carol now wants to talk to Bob and gives Bob her public key,
+Bob can check to see if Carol's key has been signed by anyone else. We'll also
+say that Bob knows for a fact that Alice's key belongs to Alice, and he trusts
+her&mdash;it is quite often important to distinguish between
+<em>I know this key belongs to that user</em> and <em>I trust that user</em>, which
+is especially important with key signatures - if Bob cannot trust
+Alice to properly check identities, she might sign a key for an identity she hasn't
+checked&mdash;and that Alice has signed Carol's key. Bob sees Alice's signature on
+Carol's key and then can be reasonably sure that Carol is who she says it was.
+If we repeat the process with Dave, whose key was signed by Carol (whose key
+was signed by Alice), Bob might be able to be more certain that the key belongs
+to Dave, but maybe he doesn't really trust Carol to properly verify identities.
+In PGP, Bob can mark keys as having various trust levels, and from this a web
+of trust emerges: a picture of how well you can trust that a given key belongs
+to a given user.</p>
+
+<p>The key distribution problem is not a quick and easy problem to solve; a lot of
+very smart people have spent a lot of time coming up with solutions to the
+problem. There are key exchange protocols (such as the
+<a href="http://is.gd/Tr0zLP">Diffie-Hellman key exchange</a>
+and <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Internet_Key_Exchange">IKE</a>
+(which uses Diffie-Hellman) that provide alternatives to the web of trust and
+public key infrastructures.</p>
+
+<h2>References</h2>
+
+<ul>
+<li>A. J. Menezes, P. C. van Oorschot, and S. A. Vanstone. <em>The Handbook of Applied Cryptography</em>, CRC Press, 5th printing, October 1996.</li>
+<li>B. Schneier. <em>Applied Cryptography, Second Edition</em>, John Wiley and Sons, 1996.</li>
+<li><a href="https://www.dlitz.net/software/pycrypto/apidoc/">PyCrypto API Documentation</a>.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

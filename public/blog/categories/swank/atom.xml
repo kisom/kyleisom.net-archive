@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: swank | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/swank/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Clojure Development on OpenBSD]]></title>
+    <link href="http://kisom.github.com/blog/2012/06/11/clojure-development-on-openbsd/"/>
+    <updated>2012-06-11T18:24:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/06/11/clojure-development-on-openbsd</id>
+    <content type="html"><![CDATA[<p>I was trying to get <a href="http://www.gnu.org/software/emacs/">emacs24</a> installed on
+my <a href="http://www.openbsd.org">OpenBSD</a> box to work on some
+<a href="http://www.clojure.org">Clojure</a>. Here's a quick rundown on getting started.</p>
+
+<!-- more -->
+
+
+<h2>Dependencies, or gathering provisions for the journey</h2>
+
+<p>As with dealing with most of the GNU software packages, you'll want to install
+devel/autoconf and textproc/textutils. Clojure requires java, so install the
+JDK and JRE:</p>
+
+<p><code>pkg_add -vi jdk jre autoconf textutils</code></p>
+
+<h2>Installing emacs24, or taming the beast</h2>
+
+<p>First things first, you'll want to download the emacs24 tarball. I had to tweak
+the autoconf source, so after you apply the
+<a href="/downloads/patch/emacs24-openbsd-configure.patch">patch</a> (i.e., if the
+emacs source is in ~/src/emacs-src, you'll need to
+<code>cd src &amp;&amp; patch -p1 &lt; emacs24-openbsd-configure.patch</code>) run autoconf on the
+directory (<code>cd /path/to/emacs-source &amp;&amp; autoconf</code>). If you get a warning about
+needing to provide an AUTOCONF_VERSION variable, then
+<code>ls /usr/local/bin/autoconf-*</code> and <code>export AUTOCONF_VERSION=NN</code> where NN is
+the highest number listed.</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ac7d768></p>
+
+<p>Emacs may be built with the standard <code>./configure &amp;&amp; make &amp;&amp; make install</code> to
+install to /usr/local.</p>
+
+<h2>leiningen and clojure, or whereupon the wizards are summoned forth</h2>
+
+<p>This takes a while, so while you are building emacs, go ahead and install
+clojure via <a href="https://github.com/technomancy/leiningen">leiningen</a>:</p>
+
+<p><code>curl https://raw.github.com/technomancy/leiningen/stable/bin/lein &gt; lein</code></p>
+
+<p>Copy lein somewhere on your path (e.g. ~/bin/lein) and make it executable
+ - <code>chmod +x ~/bin/lein</code>.</p>
+
+<p>You'll want to install <a href="https://gihub.com/technomancy/swank-clojure">swank</a>.
+As of this writing, the latest versions of clojure and swank-clojure are
+1.4.0 and 1.4.2, respectively.</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ac7d268></p>
+
+<p>Once lein has finished, let's create a temporary project to test swank and
+slime:</p>
+
+<p><code>cd ~/tmp &amp;&amp; lein new testproject</code></p>
+
+<p>Once emacs has finished installing, I recommend using bbatsov's
+<a href="https://github.com/bbatsov/prelude">prelude</a> - if you have git, you only
+need to run</p>
+
+<p><code>curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh</code></p>
+
+<p>Otherwise, you'll need to install package.el - see
+<a href="http://tromey.com/elpa/">ELPA</a>. I use
+<a href="http://www.marmalade-repo.org">marmalade</a> instead of the vanilla ELPA install;
+either way you will need to install
+<a href="https://github.com/technomancy/clojure-mode/">clojure-mode</a>.</p>
+
+<h2>Putting it to good use, or wherein the rubber meets the road</h2>
+
+<p>Now fire up emacs. If you have the package manager installed (i.e. via prelude
+or ELPA), check the list of available packages (<code>M-x package-list-packages</code>)
+and install clojure-mode. Pull up ~/tmp/testproject/src/testproject/core.clj
+and create a quick test function:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ac7cd68></p>
+
+<p>Fire up swank via <code>M-x clojure-jack-in</code>. If you get a long list of errors
+with the last couple lines contains "NPT ERROR: Cannot open library", you
+need to fix your jdk install:</p>
+
+<p><code>ln -s /usr/local/jdk-1.7.0/jre/lib/amd64/libnpt.so /usr/local/lib/libnpt.so</code></p>
+
+<p>You may need to change the jdk-1.7.0 directory above to the one relevant to
+your system. (Thanks to Beau Holton for helping me to figure this one out!)</p>
+
+<p>Once swank loads, invoke the SLIME compiler on the core.clj buffer via
+<code>C-c C-k</code>. Once you see</p>
+
+<p><code>user&gt;</code></p>
+
+<p>run <code>(testproject.core/test-swank)</code>:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ac7c868></p>
+
+<p>It may be useful to peruse the
+<a href="http://common-lisp.net/project/slime/doc/html/">SLIME manual</a>.</p>
+
+<p>Happy hacking!</p>
+
+<p>Screenshots for the interested:</p>
+
+<p><a href="/images/clojure-openbsd.png"><img src="/images/clojure-openbsd_thumb.png" alt="Clojure + SLIME in emacs24 on OpenBSD" /></a></p>
+]]></content>
+  </entry>
+  
+</feed>

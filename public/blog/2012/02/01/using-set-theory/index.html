@@ -1,0 +1,594 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using Set Theory - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="In the last post, we took a look at the
+basics of set theory. Now, I&#8217;d like to take a look at how to actually make use
+of it in your code. One &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/2012/02/01/using-set-theory">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Using Set Theory</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-01T20:45:00-07:00" pubdate data-updated="true">Feb 1<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In the <a href="/blog/2012/01/23/basic-set-theory/">last post</a>, we took a look at the
+basics of set theory. Now, I&#8217;d like to take a look at how to actually make use
+of it in your code.</p>
+
+<p>One of the issues with practically using the code in the last post is that the
+initial subsets were defined arbitrarily and not derived from the superset. In
+this post, all the examples are derived from the superset. We&#8217;ll use a couple
+techniques for doing this illustrate some of the various ways to do it.</p>
+
+<p>In Python, we&#8217;ll use an object-oriented approach, creating a few classes and
+working on Book objects. In Clojure, we&#8217;ll use records. Though we&#8217;ll approach
+language a little differently, I  hope they still bring clarity to the subject.</p>
+
+<!-- more -->
+
+
+<h2>Foundation: A Collection of Books</h2>
+
+<p>The first thing we need to do in a useful system is determine what we mean by
+book. The last post represented each book as a string denoting the title; while
+that worked for a brief introduction, in practise it gives us very limited
+options for building subsets. What we need to do is identify more information,
+called attributes or fields, that give us the information we need to build our
+subsets.</p>
+
+<h3>Python</h3>
+
+<p>In Python, we&#8217;ll approach this using a class. I&#8217;ve saved them in <code>library.py</code>
+in the <a href="/downloads/code/using-set-theory/py_example.tar.gz">Python example code</a></p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5fb250></p>
+
+<p>We&#8217;ll also want a <code>BookCollection</code> class to store a set of books and provide
+some utility methods for dealing with the collection:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5fad00>
+These two classes are very short (and we&#8217;ll extend them later to make them
+more useful) but provide a solid foundation to begin building on. You&#8217;ll want
+to load the books in the class.</p>
+
+<p>To load an example book, you would do use code similar to this:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5fa710></p>
+
+<p>Manually entering all these details is tedious. Fortunately for you, I put up
+with the tedium to create a sample dataset in <code>sample_library.py</code>. You use the
+function <code>get_library()</code> from the file to use it.</p>
+
+<h3>Clojure</h3>
+
+<p>In Clojure, we&#8217;ll use a record to define a book:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5fa0a8></p>
+
+<p>We&#8217;re not using objects, so we don&#8217;t need a record to store a collection.
+(If we wanted to validate formats, we could do it using a Ref and a
+:validator argument - that&#8217;s left as an exercise for the reader). I have,
+however, defined a few helper functions.</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f9a18></p>
+
+<p>Adding books is a simple affair:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f9518></p>
+
+<p>I&#8217;ve loaded a sample dataset into the <code>sample_library.clj</code> source file, available
+from the <a href="/downloads/code/using-set-theory/clj-example.tar.gz">Clojure example code</a>.</p>
+
+<h2>Building Subsets</h2>
+
+<p>Now that we have a way to represent a book (with more useful information than
+simply the title), we can start to build some subsets. Let&#8217;s start by
+looking at <em>set notation</em> (aka how to write a set both mathematically and
+in code), and then continue on to recreate the two subsets in the previous
+article, <code>epub</code> and <code>mobi</code>.</p>
+
+<h3>Set Notation</h3>
+
+<p>In <a href="https://en.wikipedia.org/wiki/Set_notation">set notation</a>, we denote
+a set by writing:</p>
+
+<blockquote><p>A = { x | x ∈ N, x &lt; 10 }</p></blockquote>
+
+<p>which means the set of numbers that are members of (∈ means <em>&#8216;element of&#8217;</em>)
+the set of positive integers and are less than 10. You might generalise this
+as such:</p>
+
+<blockquote><p>given the universal set S, which defines all the elements under
+consideration, and some predicate P which is a function that returns either
+true if the element satisfies the predicate (and thus should be included
+in the set):<br>
+{ x | x ∈ S, P(x) }</p></blockquote>
+
+<p>We would express this set as:</p>
+
+<blockquote><p>A = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }</p></blockquote>
+
+<p>In Python, this is easily expressed with a
+<a href="http://www.python.org/dev/peps/pep-0202/">list comprehension</a> (see also
+the <a href="http://docs.python.org/reference/expressions.html#list-displays">Python documentation</a>:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f9018></p>
+
+<p>And in Clojure, we could use something similar:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f8b18></p>
+
+<h3>Building the Subsets</h3>
+
+<p>As mentioned earlier, I have already built sample datasets for both Python
+and Clojure, so be sure to use those and save yourself from having to build
+your own just yet!</p>
+
+<h4>Python</h4>
+
+<p>In Python, we can use the built-in <code>filter</code> function to build a list. It will
+serve as our predicate function.</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f85f0></p>
+
+<p>This gives me the output:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f80f0></p>
+
+<p>If you recall the definition of <code>BookCollection</code>, the filter method is
+called as <code>filter(predicate, collection)</code>. In the case of the <code>mobi</code>
+subset, it filters out anything that fails the test
+<code>'mobi' in book.formats</code>. We might write this as</p>
+
+<blockquote><p>{ book | book ∈ <code>my_library</code>, <code>is_mobi(book)</code> }</p></blockquote>
+
+<p>in set notation. I&#8217;ve predefined some filters in the file <code>formats.py</code>
+which is again in the <a href="/downloads/code/using-set-theory/py_example.tar.gz">example code</a>.</p>
+
+<h4>Clojure</h4>
+
+<p>Likewise, Clojure has a built-in filter function, in the form
+<code>(filter pred coll)</code>. We&#8217;ll use two
+<a href="http://clojuredocs.org/clojure_core/clojure.core/fn">anonymous functions</a>
+to do our filtering:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f7ab0></p>
+
+<p>In the repl, this gives me:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f7560></p>
+
+<p>I&#8217;ve put these filters in the <code>filters.clj</code> source file, along with definitions
+for <code>epub-books</code> and <code>mobi-books</code>:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f6ed0></p>
+
+<h2>Parallels with SQL</h2>
+
+<p>This introduction of filters might remind you of SQL, and for good reason.
+<a href="https://en.wikipedia.org/wiki/Edgar_F._Codd">Edgar Codd</a> designed SQL with
+set theory in mind. You can think of tables as sets (provided, of course,
+proper data preparation is done to ensure there are no duplicates in the
+database), and operations like <code>SELECT</code> return subsets. For example, if we
+were storing the books in a library, we would write something like</p>
+
+<p>Liquid error: undefined method `join&#8217; for &#8220;\nSELECT * FROM books WHERE has_epub = TRUE;\n&#8221;:String</p>
+
+<h2>Moving On</h2>
+
+<p>Now that we have a programmatic way to build subsets, we can automate the entire
+set of sequences in the <a href="/blog/2012/01/23/basic-set-theory/">last post</a>:</p>
+
+<h3>Python</h3>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f6200></p>
+
+<p>which gives me the results:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f5c60></p>
+
+<h3>Clojure</h3>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f55f8></p>
+
+<p>In the Clojure REPL, I get the following output:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f4f90></p>
+
+<h2>Sets v. Lists</h2>
+
+<p>Remember that one of the key attributes of a set is that each member is distinct.
+Let&#8217;s compare a set with a list; we&#8217;ll do this with an intersection.</p>
+
+<h3>Python</h3>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f4978></p>
+
+<p>The result:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f4388></p>
+
+<h3>Clojure</h3>
+
+<p>In Clojure, we&#8217;ll use the vector type, which is like a list but the first
+element isn&#8217;t evaluated:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f3d70></p>
+
+<p>Which yields:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f3780></p>
+
+<h3>So what?</h3>
+
+<p>You&#8217;ll notice &#8220;Code Complete&#8221; shows up twice in the list. The advantage of sets
+here is that only unique items are returned. A union is actually the list of
+elements in both sets, <em>minus</em> the list of items that are in both
+sets.</p>
+
+<h3>A Second Stab: Python</h3>
+
+<p>Implementing the set operations:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f3208></p>
+
+<p>Applying this to our lists:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f2bc8></p>
+
+<h3>A Second Stab: Clojure</h3>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f24c0></p>
+
+<p>Applying this:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a5f1d18></p>
+
+<h2>Applications</h2>
+
+<p>This has been just a quick introduction to the topic, but hopefully you
+can see the relevance to areas like data mining. Coincidentally, datasets
+tend to conform to the mathematical idea of sets, and typically with some
+data massaging (i.e. to filter out duplicates), those that don&#8217;t can
+be made more like mathemtical sets. Once appropriately represented in the
+computer, they can be acted upon with the basic set operations.</p>
+
+<p>I&#8217;ve created an additional example: a web service providing a rest API to
+the book collection. As with the code in this post, there is an example in
+<a href="https://bitbucket.org/kisom/py_web_service/get/release-1.0.2.tar.gz">Python</a>
+and in
+<a href="https://github.com/kisom/clj_web_service/tarball/release-1.0.2">Clojure</a>. The
+README in either example explains what dependencies are required. You can also
+view the <a href="https://bitbucket.org/kisom/py_web_service/">Bitbucket repo</a> for the
+Python example, or the <a href="https://github.com/kisom/clj_web_service">GitHub repo</a>
+for the Clojure example.</p>
+
+<h2>Acknowledgements</h2>
+
+<p><a href="https://www.github.com/saolsen">Stephen Olsen</a> reviewed many iterations of this
+article and helped me to properly articulate the important points (like illustrating
+that unions require the subtraction of the intersection). I originally wrote
+the bulk of this article on the 25th, but it took me until the 28th to finish
+writing the API example code, until the 31st to add in the additional union
+explanation, and until the 1st to polish it up.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-01T20:45:00-07:00" pubdate data-updated="true">Feb 1<span>st</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/clojure/'>clojure</a>, <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/math/'>math</a>, <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/02/01/using-set-theory/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/02/01/using-set-theory/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/01/28/noir-v-flask/" title="Previous Post: Noir v. Flask">&laquo; Noir v. Flask</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/02/02/setting-up-aquamacs-for-clojure/" title="next Post: Setting Up Aquamacs for Clojure">Setting Up Aquamacs for Clojure &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

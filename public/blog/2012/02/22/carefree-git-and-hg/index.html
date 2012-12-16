@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>carefree git and hg - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="I was at an Appsterdam lunch meetup today, and
+before the presentation I was talking with some people about source control.
+They worked for Atlassian &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/2012/02/22/carefree-git-and-hg">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Carefree Git and Hg</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-22T16:52:00-07:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I was at an <a href="http://www.appsterdam.rs">Appsterdam</a> lunch meetup today, and
+before the presentation I was talking with some people about source control.
+They worked for Atlassian, and so of course bitbucket v. github came up.
+(It didn&#8217;t help that I was wearing a GitHub shirt. Atlassian - I want to give
+you money to get a bitbucket shirt but I don&#8217;t see any for sale. Why?)
+Regardless of why I typically use github more, or what my usage profiles are
+for the two, they were interested to hear my solution to a problem I had:
+how to simplify working in various source control systems, particularly in
+both mercurial and git.</p>
+
+<!-- more -->
+
+
+<p>For a long time, I used mostly git and far less mercurial. I wrote a bunch
+of aliases in my <code>.zprofile</code> that looked something like:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a577d88></p>
+
+<p>For mercurial, I just entered everything normally. However, as I started to
+use mercurial more, I wanted to use those aliases for both systems. I ended
+up writing a bunch of shell functions to do this. They are all strict POSIX
+compatible, so they work under at least <code>zsh</code>, <code>ksh</code>, and <code>bash</code>. I haven&#8217;t
+tested any others, so your mileage may vary. The latest version of this is
+available at my <a href="https://github.com/kisom/dotconf">dotconf github repo</a>, you
+can view it <a href="https://github.com/kisom/dotconf/blob/master/.sourcecon.zsh">here</a></p>
+
+<p>The core of the code is the pair of functions:
+Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a577658></p>
+
+<p><code>get_repo_type</code> does exactly what it says it does: it outputs a number that
+identifies what type of source control the repo uses. The <code>not-a_repo</code>
+simple provides a shortcut for displaying the error message. All of the
+commands use these two functions. The commands are implemented in a similar
+style, so let&#8217;s take a look at the first defined function, <code>pull</code>:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a576fc8></p>
+
+<p>Unfortunately, shell scripting isn&#8217;t a terribly advanced programming language,
+so there&#8217;s a lot of redundancy in the code; in fact all of the commands use the
+same basic template of</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a576898></p>
+
+<p>I thought of some other ways to do this, but they all ended up being far more
+complex and time-consuming than just knocking it out like this. This style is
+also POSIX-compatible, meaning it can be used with really any shell.</p>
+
+<p>Another feature of note is that I&#8217;ve ensured to pass through the shell variable
+<code>$@</code>, which means any arguments are passed directly to the command; this lets
+you still enable the full use of the specialised commands without having to
+mentally switch context between just typing the shortened command and the full
+one.</p>
+
+<p>So, let&#8217;s look at what commands are supported (use <code>vcshelp</code> to list them):</p>
+
+<ul>
+<li>commit</li>
+<li>add</li>
+<li>pull</li>
+<li>push</li>
+<li>checkout</li>
+<li>fetch</li>
+<li>clog</li>
+<li>which_dvcs</li>
+<li>vcdiff</li>
+</ul>
+
+
+<p>For the most part, they are wrappers around the $scm version of the command,
+passing through any arguments as before. The last three aren&#8217;t (but do pass
+through any command line options as appropriate):</p>
+
+<ul>
+<li><code>clog</code> is a shortcut for &#8216;commit log&#8217;, and shows the $scm log. For mercurial,
+it will pipe it to less (by default, hg doesn&#8217;t).</li>
+<li><code>which_dvcs</code> is a wrapper around get_repo_type to print the name of the SCM
+instead of the numeric value used in the functions.</li>
+<li><code>vcdiff</code> is a version control diff; like <code>clog</code>, it will pipe hg diff to less.</li>
+</ul>
+
+
+<p>There are a few commands that aren&#8217;t documented in <code>vcshelp</code>:
+* <code>co</code> is an alias for <code>checkout</code>
+* <code>st</code> is a variant of status that shows only tracked files</p>
+
+<p>I&#8217;ve found this system to work out pretty well for me, mostly because it
+requires less mental power to handle the basic SCM workflow. It also satisfies
+my coder&#8217;s itch to remove unnecessary code (i.e. always having to prefix <code>git</code>
+or <code>hg</code> to source control commands) by making the shell &#8220;aware&#8221; of which SCM
+I&#8217;m using at the time.</p>
+
+<p>There is, of course the caveat that <a href="http://jrick.devio.us">Josh Rickmar</a>
+pointed out. I&#8217;ve come to grow used to a lot of the specifics of working
+with the different SCMs. Two common idioms I use a lot with this setup are
+<code>commit -a</code> in a git repo and <code>pull -u</code> in a mercurial repo. If you are using
+an SCM, you should definitely get to know it before using it for serious
+work. Of course, you can also take my code and tweak it so that it behaves
+differently. The code is yours.</p>
+
+<p>Thanks go to Chris LePetit, who suggested I write the article.
+<a href="http://samuelgoodwin.tumblr.com">Samuel Goodwin</a> and
+<a href="https://twitter.com/imwally">Wally Jones</a> proofread it for me.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-22T16:52:00-07:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/development/'>development</a>, <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/mercurial/'>mercurial</a>, <a class='category' href='/blog/categories/shell/'>shell</a>, <a class='category' href='/blog/categories/tools/'>tools</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/02/22/carefree-git-and-hg/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/02/22/carefree-git-and-hg/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/21/analytics-win/" title="Previous Post: Analytics Win">&laquo; Analytics Win</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/02/26/autonomous-vehicle/" title="next Post: Autonomous Vehicles">Autonomous Vehicles &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

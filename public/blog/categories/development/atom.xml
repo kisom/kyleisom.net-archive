@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: development | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/development/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[:syntax off]]></title>
+    <link href="http://kisom.github.com/blog/2012/10/17/syntax-off/"/>
+    <updated>2012-10-17T02:02:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/10/17/syntax-off</id>
+    <content type="html"><![CDATA[<p>Recently, I made a major change to my <code>.vimrc</code>: I turned syntax off. I
+struggled with this choice, since I used to rather enjoy the shininess
+of a well-done vim colour scheme. It's been about two weeks now, and I
+have no regrets. How did I end up here?</p>
+
+<!-- more -->
+
+
+<p>It started when I gave the <a href="https://research.swtch.com/acme">acme</a> editor
+a try. The acme editor uses no syntax highlighting, as per Rob Pike's
+preferences. I spent a few days playing with acme, mostly hacking on some
+<a href="http://golang.org">Go</a> code. The lack of syntax highlighting was a bit of
+a shock at first, but I found over a day or two that I began to get used
+to it. I found that I began to focus more on the code and less on the colours.
+Syntax highlighting had, for me, been somewhat of a crutch. I was relying on
+it to immediately highlight code errors. I found that I began to read the
+code closer, to hold the program in my head, and to write more judicious
+code.</p>
+
+<p>The best way I can describe it is to compare it to reading a book. When I
+read a book, I don't want parts of speech highlighted in different colours.
+What I want to do is to read the book, to take in the information. I find
+that writing code is much the same for me. I don't want to focus on syntactic
+elements; not relying on colouring not only makes me write more careful and
+considered code, but it also forces me to pay more attention to the program.
+When reading source, a similar effect is had - I pay attention to what the
+code is doing rather than the individual elements.</p>
+
+<p>I've had quite a few discussions on this subject in IRC, and there have been
+several interesting points about this. Before I look at some of the ideas
+thrown around, I'd like to note that the conclusion I've come to is that
+this is definitely not for everyone. I happen to be at a point in my coding
+career where syntax isn't a concern for me, but other developers that I
+respect and are quite talented find syntax highlighting to be useful.  To
+each their own; I have just found an alternate system that works for me.
+Part of my background is not always coding on a computer; there have been
+several points in my life where I wasn't always able to have access to a
+computer, and therefore wrote code on legal pads or read through printouts
+of code. In my generation this appears to be quite rare, and so you have a
+lot of people who aren't used to spending a lot of time reading and writing
+code without the aid of syntax highlighting.</p>
+
+<p>One of the points that was brought up is that reading and writing code is
+not like reading and writing in natural languages. I can definitely understand
+this viewpoint, but I treat computer langauges internally very similar to
+spoken languages. Another point was that highlighting strings is useful, as
+they tend to be in a different (i.e. natural) language as opposed to the rest
+of the program. I think this is definitely an interesting idea that I would
+like to pursue. I'd imagine it might be more useful to use an italicised face
+for character strings. This will require some time spent learning the vim
+theme syntax, which shouldn't be difficult -- it is rather a question of time.</p>
+
+<p>Coincidentally, shortly after turning off syntax highlighting, I revamped my
+<code>.vimrc</code>, based heavily on the one from <a href="https://www.conformal.com">Conformal's</a>
+<a href="https://opensource.conformal.com/wiki/vim">wiki vim page</a>. Between these two
+changes, I've had a very productive past two weeks writing mostly C with a
+smattering of Go.</p>
+
+<p>If you made it this far, I'd be interested to hear what your thoughts on the
+subject are - feel free to email me at kyle at tyrfingr dot is.</p>
+
+<p>I'd like to thank Jeremy for proofreading this for me ahead of time.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Thread-Safe Counters in Go]]></title>
+    <link href="http://kisom.github.com/blog/2012/09/06/threadsafe-counters/"/>
+    <updated>2012-09-06T18:10:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/09/06/threadsafe-counters</id>
+    <content type="html"><![CDATA[<p>One of my current projects requires a counter that delivers a monotonically
+increasing sequence number to a number of threads; this counter has the
+following properties:</p>
+
+<ol>
+<li><p>the packets that consume counter values must receive the packets in
+a monotonically increasing order; the end user rejects any sequence
+number that is lower than the last highest received sequence number.</p></li>
+<li><p>packets are generated by several threads.</p></li>
+<li><p>the sequence number is shared across all threads.</p></li>
+</ol>
+
+
+<p>The sequence number is particularly critical in this project; it is a library
+for interfacing with and controlling a UAV (a microdrone, in fact). If the
+are sent in the wrong order (resulting in the drone rejecting potentially
+critical commands or executing them out of sequence), it could enter an
+"unstable flight pattern" (which usually results in the drone establishing an
+"inverted resting position").</p>
+
+<!-- more -->
+
+
+<p>In most languages, this sequence number would be a mutex-protected resource. For
+example, in <a href="#note_1">Python</a> it would look something like:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad615a8></p>
+
+<p>When this runs, you will see the numbers from 1 to 12 printed out in order,
+guaranteeing that sequence numbers will be generated properly.</p>
+
+<h2>The Go Way</h2>
+
+<p>In Go, we use goroutines and channels to share memory by communicating (over
+channels) as opposed to the more traditional communicating by sharing memory
+(which requires locking and other tricks to guarantee that mutable data
+maintains its integrity. What does this look like here? Let's take a look at a
+code example, and then I'll walk through it. In the library, there is a struct
+called <code>Drone</code> with a number of methods that operate on that struct. The
+relevant part of the struct is:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad61080></p>
+
+<p>We use the <code>sequencer</code> function as the sequence generator, and specify that the
+channel is write-only:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad60b80></p>
+
+<p>In the initialisation code, we create the channel and launch the sequencer (the
+docs for the API the library is targeted to specifically state that the
+sequence number starts at one every time the drone is reset):</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad60680></p>
+
+<p><code>go</code> launches the function that follows it in a <em>goroutine</em>, which is
+essentially a lightweight thread. The function that runs in the
+goroutine can be called with arguments as normal, however it won't return
+until the code exits or the gocode returns. Like most threads, you'll want
+some sort of delay. In this case, the delay is caused by the blocking action
+on channel sends. In other cases, we can use time.Sleep (which sleeps for
+the given number of nanoseconds); a delay of a second would be accomplished
+with <code>time.Sleep(1000 * time.Millisecond)</code>.</p>
+
+<p>Lastly we need a way to access the sequence numbers:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad60180></p>
+
+<p>How does this work? The core of this solution is our channel, which
+stores <a href="#note_2">32-bit</a> integer values. When we create it, using
+<code>make</code>, we give it a capacity of 1. The for loop in the <code>sequencer</code> function
+loads new values into the channel as soon as they can be consumed; a
+capacity of one means that only value is buffered into the channel at a time,
+guaranteeing sequential numbering. Note that a send on the channel will block
+until the channel has room for more elements, so in effect, this function will
+send a value onto the channel and wait for it to be consumed. Channel receives
+will similarly block until a value is read. This means our sequencer will
+send the new counter value and wait for it to be consumed, and clients that
+require sequence numbers will wait until one is ready.</p>
+
+<p>All together, this might look like:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5fc58></p>
+
+<h3>Notes:</h3>
+
+<p><a id="note_1"></a> <br/>
+1. note that the Python multiprocessing library won't work
+properly here: it creates entirely new processes.</p>
+
+<p><a id="note_2"></a>  <br/>
+2. Typically, Go programs specify an <code>int</code> instead
+of an integer of a specific width. However, the specification for this
+API specifically requires 32 bits to be sent on the wire; Go expects
+to use <code>int</code> internally, but provdes <code>int&lt;n&gt;</code> for interfacing with the
+outside world.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Building Lisp Command Line Programs Using SBCL]]></title>
+    <link href="http://kisom.github.com/blog/2012/08/17/lisp-cli/"/>
+    <updated>2012-08-17T18:11:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/08/17/lisp-cli</id>
+    <content type="html"><![CDATA[<p>One of the challenges I had with Common Lisp initially was using it write
+standalone programs. I've gotten a chance now to build several, and I'll
+share some of the stuff I've learned. I'm still fairly new to Lisp, and
+I'm certain there are a number of drawbacks, but this helped make Lisp more
+useful to me and there to start using it more. This does assume you have a
+Quicklisp-enabled Common Lisp environment.</p>
+
+<!-- more -->
+
+
+<p>The first step is to write in the code to parse command line options.
+Fortunately, There is a Lisp implementation of <a href="getopt!">Getopt</a>
+available via Quicklisp (or via it's author).</p>
+
+<p>Just as with the C and Python versions of the library (and possibly
+others), the Getopt library provides the <code>getopt</code> function. The first
+thing you probably want to do is define your options. The flag
+definition is a little different and is a list of lists; each sublist
+has two elements, '(flag argument-specifier. These specifiers are one of:</p>
+
+<ul>
+<li><code>:none</code> - the option takes no arguments</li>
+<li><code>:optional</code> - the option may take an argument</li>
+<li><code>:required</code> - option requires an argument</li>
+</ul>
+
+
+<p>Note that if an option requires an argument, and one isn't passed, the
+option is ignored. For example, if we had <code>'("f" :required)</code> in our
+options, and the program was called with <code>/path/to/foo -f</code>, the <code>f</code> would
+just be ignored and skipped over.</p>
+
+<p>As an example, let's write a program that fetches a web page, similar
+to <a href="http://curl.haxx.se/">curl</a> or
+<a href="http://www.gnu.org/software/wget/">wget</a>. We'll use the options <code>-h</code>
+to print a help message and <code>-o &lt;filename&gt;</code> to write the url to a
+file. For simplicity's sake, we'll only accept the first argument as
+the url to download.</p>
+
+<p>A typical session might look like this:</p>
+
+<pre><code>&lt;onosendai: ~&gt; $ url-fetch -o macro.lisp http://weitz.de/macros.lisp
+&lt;onosendai: ~&gt; $ ls macros.lisp
+macros.lisp
+</code></pre>
+
+<p>This is a very basic version to highlight building a CLI, so it
+doesn't do anything fancy like change 'weitz.de/macros.lisp' to
+'http://weitz.de/macros.lisp' (drakma requires the protocol to be
+specified), and the sample code doesn't handle errors well: it will
+just dump to the debugger. The topic of error handling is best
+described <a href="http://gigamonkeys.com/book/beyond-exception-handling-conditions-and-restarts.html">elsewhere</a>,
+and this example program is just the bare minimum to illustrate the
+point. With those caveats, let's look at an example <code>main</code> function to
+handle command line arguments:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5f730></p>
+
+<p>Setting <code>argv</code> to everything after the first argument will skip the
+program name; this is just for convenience and isn't strictly
+required. It does, however, make the car of the argument list the
+first argument passed in. As <code>getopt</code> returns multiple values, we'll
+want to use <code>multiple-value-bind</code> to get at the opts and args. Note
+that <code>args</code> is a list of strings containing the arguments, and <code>opts</code>
+is an assoc list. For example, a typical return might be:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5f230></p>
+
+<p>If no args are passed in, a help message is printed (which also
+exits):</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5ed30></p>
+
+<p>This function is fairly standard, except possibly for the last
+line. <code>sb-ext</code> is a package containing SBCL's extensions. We saw this
+package earlier with <code>sb-ext:*posix-argv*</code>, which is simply a list of
+all the arguments passed in. In this case, <code>sb-ext:quit</code> exits from the
+image; the <code>unix-status</code> keyword sets the standard UNIX return
+value. You can use this to safely terminate the image.</p>
+
+<p>I've elided the actual download components, but assuming they are in
+place (using the function names in the main function), we can build
+our image. The relevant function is
+<a href="http://www.sbcl.org/manual/Saving-a-Core-Image.html"><code>sb-ext:save-lisp-and-die</code></a>,
+and it's usage is fairly simple:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5e7e0></p>
+
+<p>The <code>executable</code> keyword creates a standalone executable when
+true, and the <code>toplevel</code> keyword specifies the function to run
+when the image starts up.</p>
+
+<p>We can write a utility function to take a list of
+<a href="http://www.quicklisp.org/">Quicklisp</a> packages, an image name, and a
+toplevel function and use that to build an image.</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5e2e0></p>
+
+<p>This is a fairly rough guide, but it should help to get you
+started. The example code is
+<a href="https://bitbucket.org/kisom/url-fetch/">available on Bitbucket</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A System of Useful Output]]></title>
+    <link href="http://kisom.github.com/blog/2012/08/16/system-of-output/"/>
+    <updated>2012-08-16T06:30:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/08/16/system-of-output</id>
+    <content type="html"><![CDATA[<p>In a SILC channel I frequent, I was showing <a href="http://saolsen.tumblr.com">Steve Olsen</a>
+some output from a daemon I have running. His question to me was,</p>
+
+<blockquote><p>"whats with the [+] in your logs?"</p></blockquote>
+
+<p>A fair question, as every line of the output I sent him had that before it.
+So, I'd like to present my system for displaying output. Maybe you'll find it
+useful.</p>
+
+<!-- more -->
+
+
+<p>In my code, I tend to preface every line with one of a few triglyphs:</p>
+
+<p>Liquid error: undefined method `join' for "\n[+]\n[!]\n[-]\n[*]\n":String</p>
+
+<p>For example, running my <a href="https://gist.github.com/3277707">HSTS check</a> utility:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5d8b8></p>
+
+<p>In theory, all output should start with <code>[+]</code> - this is the symbol I use for
+nominal output messages, i.e. typical LOG_NOTICE output. It is just an
+informational message letting me know what my code is doing. Sometimes, during
+the debug process, the <code>[-]</code> triglyph is used:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5d3b8></p>
+
+<p>These are just debug messages that don't need to be in the production code
+but are useful during development. They are particularly important because
+I tend to debug using output messages as much as I can, without having to
+resort to using gdb/pdb/... (although I still use both heavily, particularly
+when the debug messages aren't quite giving me what I need or I want to step
+through code).</p>
+
+<p>For itemised lists, I use the <code>[*]</code> triglyph:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5ceb8></p>
+
+<p>Lastly, I denote errors with <code>[!]</code>:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5c9b8></p>
+
+<p>In summary:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5c4b8></p>
+
+<p>This system lets me glance at a log file or terminal output and by scanning
+the left-hand column, immediately get a sense for what the code is doing.
+I used to just output similar to:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad5bf90></p>
+
+<p>However, I've found my current system is more succinct and just as greppable.</p>
+
+<p>I'd be interested to hear what other people use for similar effects, if they're
+using anything at all.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA['Just Ship It' v. 'Proudifying' Code]]></title>
+    <link href="http://kisom.github.com/blog/2012/08/15/just-ship-it-v-proudifying-code/"/>
+    <updated>2012-08-15T18:17:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/08/15/just-ship-it-v-proudifying-code</id>
+    <content type="html"><![CDATA[<h2>Just Ship It v. Proudifying Code</h2>
+
+<p>I was recently working on a <a href="http://kisom.github.com/lobsterpie">project</a>
+that highlighted some software development concepts that have been on my
+mind lately. Specifically, the balance between writing the code you know
+you should be writing and writing the code you want want to be writing
+(in this case, I'm referring to writing code for the same end state and
+looking at how to get there). This might also be considered the balance
+(clash) between a "just ship it" mentality and "proudifying" code (I'll
+explain that in a minute). I'll develop these ideas through the discussion
+of my work flow in developing the afore-mentioned project.</p>
+
+<!-- more -->
+
+
+<p>Lately, I've been using <a href="https://lobste.rs">lobste.rs</a> as my main news
+aggregator site, as I find it has a very high signal-to-noise ratio.
+However, I still follow a bot on Twitter that posts links from the
+infamous <a href="http://news.ycombinator.com">Hacker News</a>, and I wanted to
+write something similar for <a href="https://lobste.rs">lobste.rs</a> because the
+site has a low user count now and news stories are sometimes few and far
+between, relatively speaking; I don't always remember to check the site
+regularly. At the same time, I've been trying to pick Common Lisp back up,
+a language I've been fond of but for practical reasons, I've been using
+mostly Python and C (due to work). I'd been writing a lot of Clojure as
+well, but the JVM has turned into a showstopper for me. Clojure did,
+however, reawaken a desire to do more in Lisp - hence my turning to CL.</p>
+
+<p>As I started trying to write the bot, I managed to get most of the bot
+done except for one critical component: posting to twitter. It turns
+out none of the available Twitter or OAuth libraries were working for me,
+and I started trying to write my own OAuth code. This, by the way, is
+fiendishly hard to do right, especially in a language you aren't terribly
+familiar with. In addition to trying to get the OAuth side working, I was
+trying to learn more syntax in the language and become familiar with some
+of the available tools. While I did learn quite a bit, and had a generally
+good time writing the rest of the bot, the OAuth component turned out to
+be maddeningly difficult for me. I was getting very close, including
+being able to duplicate the components in the Twitter authentication example
+page and the data from the OAuth tool page. I spent close to 15 hours just
+working on the OAuth part alone, and felt like I was getting nowhere. With
+apologies to the author of the infamous
+<a href="http://stackoverflow.com/a/1732454">Stack Overflow post</a> post,
+my mental state could be summed up as:</p>
+
+<blockquote><p>he comes he comes do not fi​ght he com̡e̶s, ̕h̵i​s un̨ho͞ly radiańcé
+destro҉ying all enli̍̈́̂̈́ghtenment, auth tokens lea͠ki̧n͘g fr̶ǫm ̡yo​͟ur eye͢s̸ ̛l̕ik͏e
+liq​uid pain, the song of oauth he̸aders and HM​AC signatures will
+exti​nguish the voices of mor​tal man from the sp​here I
+can see it can you see ̲͚̖͔̙î̩́t̲͎̩̱͔́̋̀ it is beautiful t​he final snuffing of the
+lies of Man ALL IS LOŚ͖̩͇̗̪̏̈́T ALL I​S LOST the pon̷y he comes he c̶̮omes
+he comes the ich​or permeates all MY FACE MY FACE ᵒh god no NO
+NOO̼O​O NΘ stop the an​*̶͑̾̾​̅ͫ͏̙̤g͇̫͛͆̾ͫ̑͆l͖͉̗̩̳̟̍ͫͥͨe̠̅s ͎a̧͈͖r̽̾̈́͒͑e n​ot rè̑ͧ̌aͨl̘̝̙̃ͤ͂̾̆ ZA̡͊͠͝LGΌ
+ISͮ̂҉̯͈͕̹̘̱ TO͇̹̺ͅƝ̴ȳ̳ TH̘Ë͖́̉ ͠P̯͍̭O̚​N̐Y̡ H̸̡̪̯ͨ͊̽̅̾̎Ȩ̬̩̾͛ͪ̈́̀́͘ ̶̧̨̱̹̭̯ͧ̾ͬC̷̙̲̝͖ͭ̏ͥͮ͟Oͮ͏̮̪̝͍M̲̖͊̒ͪͩͬ̚̚͜Ȇ̴̟̟͙̞ͩ͌͝S̨̥̫͎̭ͯ̿̔̀ͅ</p></blockquote>
+
+<p>Finally, sometime after midnight on a sleepless night, I turned to Python.
+Python is my workhorse language (I have a large number of Python projects
+on both Github and Bitbucket). In about forty-five minutes, I was able to
+get a working (albeit somewhat kludgy) version of the bot working. Much of
+this was due to the confusion caused when I originally installed the
+<code>twitter</code> module instead of the <code>python-twitter</code> module: both use the same
+name but they have different interfaces. I posted the link to the bot's
+<a href="https://www.twitter.com/lobsternews">Twitter account</a> and decided to clean
+up the code before I made the <a href="https://bitbucket.org/kisom/lobsterpie">repository</a>
+public. As it was now after one o'clock in the morning, I put that off until
+the bus ride to work.</p>
+
+<p>To be fair, there are a couple of reasons for the fact that, starting from
+scratch, I was able to get a working version of the bot in Python:</p>
+
+<ol>
+<li>I am well-versed in the ways of Python,</li>
+<li>I've written feed parsing, Twitter interaction, and database code
+in Python before,</li>
+<li>There are a number of well-documented libraries for performing these
+tasks,</li>
+<li>I knew both of the existence of and how to use the libraries before I'd
+started writing the bot, and</li>
+<li>I wrote the first draft with only minor regard to style.</li>
+</ol>
+
+
+<p>As an example of the hackish, "just ship it" mentality of the first draft,
+I had several functions I never ended up using that I removed in the
+cleanup stage.</p>
+
+<p>On the bus the next morning, I gave the code proper the proper attention,
+running it through the Python <a href="http://www.python.org/dev/peps/pep-0008/">pep8</a>
+code formatting tool and the <a href="http://www.logilab.org/857">pylint</a>
+utility, added documentation and useful output, and made the code a bit
+more resilient and robust. Again, familiarity with the language and the
+Way of Python, this was a fairly quick process. In another hour, I had
+the code cleaned up and wrote a database tool specific to the project to
+faciliate testing and migrating the code to another machine.</p>
+
+<p>I do take pride in my work, so both source files are 100% PEP8 compliant
+and score 10.00/10.00 in pylint. Here's the crux of the concepts central
+to this post: I used "just ship it" to get a working version that was good
+enough to last through the morning, but I made my first priority once the
+code was live to get it cleaned. The benefits of clean code are many,
+not the least of which is maintainability, so the question is: what is
+the transition point? It would also be prudent to devise a strategy for
+cleaning up the codebase in most applications: lobsterpie is just under
+one hundred lines of actual code at this point, so it's all well and
+good to utilise an immediate, clean-the-entire-codebase (the all of one
+file that comprises the project). Real-world projects are considerably
+larger and more pragmatically messy; that is, they tend to suffer from
+the get-it-done mentality out of a practical necessity for working code.
+At what point do you transition mentalities, or does one mentality take
+precedent? What sorts of strategies can be employed?</p>
+
+<p>In the past, I've rotated sections of projects between "development" mode
+and "maintenance" mode. The difference being that code under development
+is an area I am focusing new features on. Code that is under maintenance
+is being cleaned up, possibly refactored. I find this provides a
+side-benfit: when I run into road blocks on the development code, I can
+put the problem on the back burner and mull over it while carrying out
+the typically more mundane task of cleaning up code. It also gives me work
+to do while trying to solve the complex problems of my code while improving
+code quality.</p>
+
+<p>There is also a balance to be had between developing your skills in a new
+language and using the language(s) you know best. While I learned a lot of
+relevant Common Lisp skills, including not only the language and library
+but general workflow, at the end of the day I still didn't have working
+code. I'd set a goal for myself: if by the deadline, I wasn't making
+progress (and progress had more or less halted on the OAuth part), I forced
+myself to switch over to Python. It is hard, sometimes, to determine where
+this switchover point should be. This is often exacerbated  on side
+projects, where there isn't a hard deadline for the code to be finished
+and no client / manager pushing for it to get done. For this, I don't
+have any easy answers and even fewer examples as I have a predisposition
+towards a bullheaded nature of stubbornly trying to slog through things.
+This sometimes works in my favour, in terms of things learned. Quite
+often, it kills projects.</p>
+
+<p>At the end of the day, I want to have working, proudifying code. I said
+I'd explain that word; my friend <a href="http://www.ryaniam.com">Ryan</a> was
+trying to help me figure out the word I was looking for in its place,
+and our conversation led his neologism. It essentially means, code that
+instills or evokes a sense of pride. Code that I don't mind showing people,
+as opposed to code I don't mind showing people the façade of. For example,
+showing people the repository and not just showing them the cool application
+or website the code powers.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: robotics | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/robotics/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Autonomous Vehicles]]></title>
+    <link href="http://kisom.github.com/blog/2012/02/26/autonomous-vehicle/"/>
+    <updated>2012-02-26T17:33:00-07:00</updated>
+    <id>http://kisom.github.com/blog/2012/02/26/autonomous-vehicle</id>
+    <content type="html"><![CDATA[<p>I just finished up the first unit of <a href="http://www.udacity.com">Udacity's</a>
+<a href="">CS373 (Programming a Robotic Car)</a>.
+It's been a lot of fun, and reminds me of why I love Python so
+much. In this post, I'm just going to go over what the end result of
+the first week has been.</p>
+
+<!-- more -->
+
+
+<p><a href="http://xkcd.com/353/"><img src="http://imgs.xkcd.com/comics/python.png" alt="Obligatory XKCD" /></a></p>
+
+<p>(Obligatory xkcd...)</p>
+
+<p>This unit was all Monte Carlo localisation, which generates
+probability distributions as to where the robot is in the world. This,
+of course, is all very simplified but it is still quite a fascinating
+learning experience.</p>
+
+<p>The final homework question has us determining a probability
+distribution (i.e. a matrix of probabilities guessing where the robot
+is in the world) based on sensor readings and movements in a world of
+red / green cells. For example, one of the first the worlds we're
+given in the examples looks like this:</p>
+
+<p><img src="/images/cs373/unit1/simple_world.png" alt="simple world example" /></p>
+
+<p>You can see each cell in the world has a colour, and the robot's
+worldview consists of a 2D matrix of probabilities.</p>
+
+<p>Given a list of sensor readings, i.e. <code>['green', 'red']</code> and a list
+of corresponding motions in the form [y, x] such that <code>[1, 0]</code> is a
+movement downwards and <code>[0, 1]</code> is a movement right, the robot should
+be able to figure out where in the world it is. All the example code
+in the class is done as simple functions operating in the <code>'__main__'</code>
+namespace, but I used a Robot class to simulate everything. Testing
+was painful, because I had to hand-type in most of the reference
+probability distributions. Then,
+<a href="https://bitbucket.org/kisom/cs373/changeset/70b3d80194ee">early Sunday morning</a>
+(actually late Saturday night), I discovered the
+<a href="http://pypi.python.org/pypi/colorama"><code>colorama</code></a> module, which
+faciliates pretty terminal outputs (i.e. colors, bolding, etc...) I
+was able to write a method to print out the map (aka the <code>.showmap()</code>
+method in the screenshots) that made testing where the robot was a lot
+more fun.</p>
+
+<p>The red/green world felt very contrived. I had a pretty good unit
+testing framework set up, so I decided to test my code using a road
+test: I built a world with three lanes that used black to represent
+the asphalt, yellow to indicate lane markers, and white to indicate
+the shoulder marker. I simulated having the robot start at the
+shoulder, drive forward and then switch to the middle lane. I expected
+the robot should believe itself to be somewhere in the middle
+lane.</p>
+
+<p>The world looks something like this:</p>
+
+<p><img src="/images/cs373/unit1/road_test_world.png" alt="road test world" /></p>
+
+<p>With that in mind, I wrote the road test:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5a70d8></p>
+
+<p>The <code>translate_drive</code> function maps the <code>motions</code> and <code>measurements</code>
+into a pretty output form to make it more intuitive as to what's being
+simulated:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7a5a66b0></p>
+
+<p>Here's an example of the road test in action:</p>
+
+<p><img src="/images/cs373/unit1/road_test.png" alt="road test screenshot" /></p>
+
+<p>As expected, the robot thinks it is somewhere in the middle lane.</p>
+
+<p>Next week, we start learning
+<a href="https://en.wikipedia.org/wiki/Particle_filter">particle filters</a>
+and <a href="https://en.wikipedia.org/wiki/Kalman_filter">kalman filters</a>.</p>
+
+<p>I'm actively working to develop a physical AGV (autonomous ground
+vehicle). The objective is to develop a platform I can use to build
+later, more practical robots on; the AGV platform will be focused on
+navigation. As part of this task, I'm also working to translate the
+Python code to C++ (suitable for the Arduino, for example).</p>
+
+<p>Stay tuned!</p>
+
+<h3>References:</h3>
+
+<ul>
+<li><a href="http://robots.stanford.edu/papers/thrun.robust-mcl.html">Robust Monte Carlo Localization for Mobile Robots</a></li>
+<li><a href="https://bitbucket.org/kisom/cs373">Python versions of the repo)</a> (private until the 28th)</li>
+<li><a href="https://github.com/kisom/cs373">C++ version</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

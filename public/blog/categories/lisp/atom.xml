@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: lisp | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/lisp/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Building Lisp Command Line Programs Using SBCL]]></title>
+    <link href="http://kisom.github.com/blog/2012/08/17/lisp-cli/"/>
+    <updated>2012-08-17T18:11:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/08/17/lisp-cli</id>
+    <content type="html"><![CDATA[<p>One of the challenges I had with Common Lisp initially was using it write
+standalone programs. I've gotten a chance now to build several, and I'll
+share some of the stuff I've learned. I'm still fairly new to Lisp, and
+I'm certain there are a number of drawbacks, but this helped make Lisp more
+useful to me and there to start using it more. This does assume you have a
+Quicklisp-enabled Common Lisp environment.</p>
+
+<!-- more -->
+
+
+<p>The first step is to write in the code to parse command line options.
+Fortunately, There is a Lisp implementation of <a href="getopt!">Getopt</a>
+available via Quicklisp (or via it's author).</p>
+
+<p>Just as with the C and Python versions of the library (and possibly
+others), the Getopt library provides the <code>getopt</code> function. The first
+thing you probably want to do is define your options. The flag
+definition is a little different and is a list of lists; each sublist
+has two elements, '(flag argument-specifier. These specifiers are one of:</p>
+
+<ul>
+<li><code>:none</code> - the option takes no arguments</li>
+<li><code>:optional</code> - the option may take an argument</li>
+<li><code>:required</code> - option requires an argument</li>
+</ul>
+
+
+<p>Note that if an option requires an argument, and one isn't passed, the
+option is ignored. For example, if we had <code>'("f" :required)</code> in our
+options, and the program was called with <code>/path/to/foo -f</code>, the <code>f</code> would
+just be ignored and skipped over.</p>
+
+<p>As an example, let's write a program that fetches a web page, similar
+to <a href="http://curl.haxx.se/">curl</a> or
+<a href="http://www.gnu.org/software/wget/">wget</a>. We'll use the options <code>-h</code>
+to print a help message and <code>-o &lt;filename&gt;</code> to write the url to a
+file. For simplicity's sake, we'll only accept the first argument as
+the url to download.</p>
+
+<p>A typical session might look like this:</p>
+
+<pre><code>&lt;onosendai: ~&gt; $ url-fetch -o macro.lisp http://weitz.de/macros.lisp
+&lt;onosendai: ~&gt; $ ls macros.lisp
+macros.lisp
+</code></pre>
+
+<p>This is a very basic version to highlight building a CLI, so it
+doesn't do anything fancy like change 'weitz.de/macros.lisp' to
+'http://weitz.de/macros.lisp' (drakma requires the protocol to be
+specified), and the sample code doesn't handle errors well: it will
+just dump to the debugger. The topic of error handling is best
+described <a href="http://gigamonkeys.com/book/beyond-exception-handling-conditions-and-restarts.html">elsewhere</a>,
+and this example program is just the bare minimum to illustrate the
+point. With those caveats, let's look at an example <code>main</code> function to
+handle command line arguments:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad6cf98></p>
+
+<p>Setting <code>argv</code> to everything after the first argument will skip the
+program name; this is just for convenience and isn't strictly
+required. It does, however, make the car of the argument list the
+first argument passed in. As <code>getopt</code> returns multiple values, we'll
+want to use <code>multiple-value-bind</code> to get at the opts and args. Note
+that <code>args</code> is a list of strings containing the arguments, and <code>opts</code>
+is an assoc list. For example, a typical return might be:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad6ca70></p>
+
+<p>If no args are passed in, a help message is printed (which also
+exits):</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad6c570></p>
+
+<p>This function is fairly standard, except possibly for the last
+line. <code>sb-ext</code> is a package containing SBCL's extensions. We saw this
+package earlier with <code>sb-ext:*posix-argv*</code>, which is simply a list of
+all the arguments passed in. In this case, <code>sb-ext:quit</code> exits from the
+image; the <code>unix-status</code> keyword sets the standard UNIX return
+value. You can use this to safely terminate the image.</p>
+
+<p>I've elided the actual download components, but assuming they are in
+place (using the function names in the main function), we can build
+our image. The relevant function is
+<a href="http://www.sbcl.org/manual/Saving-a-Core-Image.html"><code>sb-ext:save-lisp-and-die</code></a>,
+and it's usage is fairly simple:</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad6c070></p>
+
+<p>The <code>executable</code> keyword creates a standalone executable when
+true, and the <code>toplevel</code> keyword specifies the function to run
+when the image starts up.</p>
+
+<p>We can write a utility function to take a list of
+<a href="http://www.quicklisp.org/">Quicklisp</a> packages, an image name, and a
+toplevel function and use that to build an image.</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad6bb70></p>
+
+<p>This is a fairly rough guide, but it should help to get you
+started. The example code is
+<a href="https://bitbucket.org/kisom/url-fetch/">available on Bitbucket</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Undefined symbol errors in Lisp]]></title>
+    <link href="http://kisom.github.com/blog/2012/07/18/undefined-symbol-errors-in-lisp/"/>
+    <updated>2012-07-18T19:50:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/07/18/undefined-symbol-errors-in-lisp</id>
+    <content type="html"><![CDATA[<p>The other day, I got a strange error while writing a macro (actually,
+<code>deftest</code> from <a href="http://www.gigamonkeys.com">Peter Seibel's</a>
+<a href="http://www.gigamonkeys.com/book/">Practical Common Lisp</a>). My
+<code>defmacro</code> looked like this:</p>
+
+<p><code>``common-lisp
+(defmacro deftest (name parameters &amp;body body)
+ </code>(defun ,name ,parameters</p>
+
+<pre><code> (let ((*test-name* ,name))
+   ,@body)))
+</code></pre>
+
+<p>```</p>
+
+<p>At first glance, it looks fine. So, I defined a few tests with it
+(<code>check</code> is another macro for reporting test results) and ran into a
+bug:</p>
+
+<p><code>
+CL-USER&gt; (deftest test-fn () (format t "testing~%"))
+; in: DEFTEST TEST-+
+;     (LET ((*TEST-NAME* TEST-+))
+;       (FORMAT T "ohai~%"))
+;
+; caught WARNING:
+;   undefined variable: TEST-FN
+;
+; compilation unit finished
+;   Undefined variable:
+;     TEST-FN
+;   caught 1 WARNING condition
+TEST-FN
+CL-USER&gt;
+</code></p>
+
+<p>I racked my brain trying to figure it out. Here's the <code>macroexpand-1</code>
+of that definition:</p>
+
+<p>```
+(DEFUN TEST-FN ()
+  (LET ((<em>TEST-NAME</em> TEST-FN))</p>
+
+<pre><code>(FORMAT T "testing~%")))
+</code></pre>
+
+<p>T
+```</p>
+
+<p>Still being new to Lisp, I didn't see what was wrong with it. However,
+the <code>LET</code> gives it away:</p>
+
+<p><code>common-lisp
+  (LET ((*TEST-NAME* TEST-FN))
+</code></p>
+
+<p>It tries to evaluate the symbol TEST-FN, which we haven't defined yet
+(we're still building the function; as Paul Graham writes in
+<a href="http://paulgraham.com/onlisp.html">On Lisp</a>, "building a function and
+associating it with a certain name are two separate operations." (page
+13)). Let's take a look back at the original <code>defmacro</code>: you'll notice
+that we're evaluating <code>name</code> in the LET:</p>
+
+<p>```common-lisp</p>
+
+<pre><code> (let ((*test-name* ,name))
+</code></pre>
+
+<p>```</p>
+
+<p>What I really wanted to do was to quote the value of name:</p>
+
+<p>```common-lisp</p>
+
+<pre><code> (let ((*test-name* ',name))
+</code></pre>
+
+<p>```</p>
+
+<p>With that, the testing suite works.</p>
+
+<p>This is one reason I'm hand typing all the examples. It's bugs like
+this one that give me the best education and help me recognise when
+things go sideways later.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[back to lisp]]></title>
+    <link href="http://kisom.github.com/blog/2012/01/02/back-to-lisp/"/>
+    <updated>2012-01-02T00:00:00-07:00</updated>
+    <id>http://kisom.github.com/blog/2012/01/02/back-to-lisp</id>
+    <content type="html"><![CDATA[<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad6b670>
+A brief stint playing with clojure made me miss common lisp, so I'm working
+through <a href="http://www.paulgraham.com">Paul Graham's</a>
+<a href="http://paulgraham.com/acl.html">ANSI Common Lisp</a> with a copy of
+<a href="http://paulgraham.com/onlisp.html">On Lisp</a>. My last foray, I learned
+from <a href="http://www.cs.cmu.edu/~dst/">David Touretzky's</a>
+<a href="http://www.cs.cmu.edu/~dst/LispBook/index.html">A Gentle Introduction to Symbolic Computation</a>,
+so this time I'm trying PG's book. So far I've done more useful things,
+mostly by actually reading a bit more of the <a href="http://www.sbcl.org">sbcl</a>
+<a href="http://www.sbcl.org/manual/">user manual</a> (from which I learned some
+useful things such as <code>sb-ext:*posix-argv*</code> and <code>sb-ext:save-lisp-and-die</code>)
+and by the immensely useful site
+<a href="http://rosettacode.org/wiki/Rosetta_Code">Rosetta Code</a>, from which I
+learned about the <a href="http://www.weitz.de/drakma/">DRAKMA</a> HTTP client
+library. I've also been aided quite a bit by
+<a href="http://xach.com">Zach Beane's</a> <a href="http://www.quicklisp.org/">quicklisp</a>;
+in fact, one of the things I've done is to write a short
+<a href="https://gist.github.com/1548276">script</a> to build an sbcl image with
+quicklisp and my most commonly used libraries built-in.</p>
+
+<!-- more -->
+
+
+<script src="https://gist.github.com/1548276.js?file=build-image.lisp"></script>
+
+
+<p>One of the things I love about functional programming is the idea that
+instead of relying on a lot of variables, you use functions as sort of
+"organic variables" that provide immutable data based on some input. The
+ability to build what feels more organic, less static. I think
+<a href="https://en.wikipedia.org/wiki/Steve_Yegge">Steve Yegge's</a>
+blog post <a href="http://steve-yegge.blogspot.com/2006/03/execution-in-kingdom-of-nouns.html">Execution in the Kingdom of Nouns</a>
+is spot on.</p>
+
+<p>I anticipate this to be the year of Lisp for me, as I delve into
+Common Lisp, Scheme, and Clojure.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Building Lisp Command Line Programs Using SBCL - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="One of the challenges I had with Common Lisp initially was using it write
+standalone programs. I&#8217;ve gotten a chance now to build several, and I &hellip;">
+  <meta name="keywords" content="developmentlispcommand linesbclcommon lispquicklisp">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/2012/08/17/lisp-cli">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Building Lisp Command Line Programs Using SBCL</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-17T18:11:00-06:00" pubdate data-updated="true">Aug 17<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>One of the challenges I had with Common Lisp initially was using it write
+standalone programs. I&#8217;ve gotten a chance now to build several, and I&#8217;ll
+share some of the stuff I&#8217;ve learned. I&#8217;m still fairly new to Lisp, and
+I&#8217;m certain there are a number of drawbacks, but this helped make Lisp more
+useful to me and there to start using it more. This does assume you have a
+Quicklisp-enabled Common Lisp environment.</p>
+
+<!-- more -->
+
+
+<p>The first step is to write in the code to parse command line options.
+Fortunately, There is a Lisp implementation of <a href="getopt!">Getopt</a>
+available via Quicklisp (or via it&#8217;s author).</p>
+
+<p>Just as with the C and Python versions of the library (and possibly
+others), the Getopt library provides the <code>getopt</code> function. The first
+thing you probably want to do is define your options. The flag
+definition is a little different and is a list of lists; each sublist
+has two elements, &#8216;(flag argument-specifier. These specifiers are one of:</p>
+
+<ul>
+<li><code>:none</code> - the option takes no arguments</li>
+<li><code>:optional</code> - the option may take an argument</li>
+<li><code>:required</code> - option requires an argument</li>
+</ul>
+
+
+<p>Note that if an option requires an argument, and one isn&#8217;t passed, the
+option is ignored. For example, if we had <code>'("f" :required)</code> in our
+options, and the program was called with <code>/path/to/foo -f</code>, the <code>f</code> would
+just be ignored and skipped over.</p>
+
+<p>As an example, let&#8217;s write a program that fetches a web page, similar
+to <a href="http://curl.haxx.se/">curl</a> or
+<a href="http://www.gnu.org/software/wget/">wget</a>. We&#8217;ll use the options <code>-h</code>
+to print a help message and <code>-o &lt;filename&gt;</code> to write the url to a
+file. For simplicity&#8217;s sake, we&#8217;ll only accept the first argument as
+the url to download.</p>
+
+<p>A typical session might look like this:</p>
+
+<pre><code>&lt;onosendai: ~&gt; $ url-fetch -o macro.lisp http://weitz.de/macros.lisp
+&lt;onosendai: ~&gt; $ ls macros.lisp
+macros.lisp
+</code></pre>
+
+<p>This is a very basic version to highlight building a CLI, so it
+doesn&#8217;t do anything fancy like change &#8216;weitz.de/macros.lisp&#8217; to
+&#8216;http://weitz.de/macros.lisp&#8217; (drakma requires the protocol to be
+specified), and the sample code doesn&#8217;t handle errors well: it will
+just dump to the debugger. The topic of error handling is best
+described <a href="http://gigamonkeys.com/book/beyond-exception-handling-conditions-and-restarts.html">elsewhere</a>,
+and this example program is just the bare minimum to illustrate the
+point. With those caveats, let&#8217;s look at an example <code>main</code> function to
+handle command line arguments:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7c120940></p>
+
+<p>Setting <code>argv</code> to everything after the first argument will skip the
+program name; this is just for convenience and isn&#8217;t strictly
+required. It does, however, make the car of the argument list the
+first argument passed in. As <code>getopt</code> returns multiple values, we&#8217;ll
+want to use <code>multiple-value-bind</code> to get at the opts and args. Note
+that <code>args</code> is a list of strings containing the arguments, and <code>opts</code>
+is an assoc list. For example, a typical return might be:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7c11f400></p>
+
+<p>If no args are passed in, a help message is printed (which also
+exits):</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7c114730></p>
+
+<p>This function is fairly standard, except possibly for the last
+line. <code>sb-ext</code> is a package containing SBCL&#8217;s extensions. We saw this
+package earlier with <code>sb-ext:*posix-argv*</code>, which is simply a list of
+all the arguments passed in. In this case, <code>sb-ext:quit</code> exits from the
+image; the <code>unix-status</code> keyword sets the standard UNIX return
+value. You can use this to safely terminate the image.</p>
+
+<p>I&#8217;ve elided the actual download components, but assuming they are in
+place (using the function names in the main function), we can build
+our image. The relevant function is
+<a href="http://www.sbcl.org/manual/Saving-a-Core-Image.html"><code>sb-ext:save-lisp-and-die</code></a>,
+and it&#8217;s usage is fairly simple:</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7c1124a8></p>
+
+<p>The <code>executable</code> keyword creates a standalone executable when
+true, and the <code>toplevel</code> keyword specifies the function to run
+when the image starts up.</p>
+
+<p>We can write a utility function to take a list of
+<a href="http://www.quicklisp.org/">Quicklisp</a> packages, an image name, and a
+toplevel function and use that to build an image.</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7c0dcec0></p>
+
+<p>This is a fairly rough guide, but it should help to get you
+started. The example code is
+<a href="https://bitbucket.org/kisom/url-fetch/">available on Bitbucket</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-17T18:11:00-06:00" pubdate data-updated="true">Aug 17<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/development/'>development</a>, <a class='category' href='/blog/categories/lisp/'>lisp</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/08/17/lisp-cli/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/08/17/lisp-cli/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/16/system-of-output/" title="Previous Post: A System of Useful Output">&laquo; A System of Useful Output</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/09/06/threadsafe-counters/" title="next Post: Thread-Safe Counters in Go">Thread-Safe Counters in Go &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

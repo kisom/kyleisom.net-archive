@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: musings | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/musings/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[on SOPA and PIPA]]></title>
+    <link href="http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa/"/>
+    <updated>2012-01-18T00:00:00-07:00</updated>
+    <id>http://kisom.github.com/blog/2012/01/18/on-sopa-and-pipa</id>
+    <content type="html"><![CDATA[<p>Imagine you are the owner of a small restaurant. The neighbourhood is of mixed
+quality, but this is where you live so you try to make do anyways. One day,
+new laws are passed such that if anyone in your restaurant conducts any sort of
+illegal activity (like a drug deal), the police blockade your restaurant and
+force everyone out. Furthermore, this new law isn't clear about how to get your
+restaurant back. The politicans who made this law have absolutely no experience
+in the restaurant industry, but still expect you to continually monitor all your
+patrons and do the work of the police and law enforcement for them. At any time,
+one of your patrons can call the police and claim something happened in your
+restaurant and you get shutdown. On top of all this, there are people actively
+looking for anything untoward happening so as to shut you down. What do you
+do? You can't really afford to hire more waiters and waitresses or security
+personnel to monitor (and don't really want to establish that kind of atmosphere
+in your business anyhow); CCTV and other technical measures have too long of a
+delay (or require you to suspect something happened so you can check the tapes).
+Really, the only thing you can do is to move out of town.</p>
+
+<!-- more -->
+
+
+<p>Of course I'm talking about <a href="http://www.govtrack.us/congress/bill.xpd?bill=s112-968">PIPA</a>
+and <a href="http://www.govtrack.us/congress/bill.xpd?bill=h112-3261">SOPA</a>. The story I
+told isn't entirely <a href="http://en.wikipedia.org/wiki/G%C3%B6del%2C_Escher%2C_Bach">isomorphic</a>
+to the current situation, but it gets the idea across. The
+politicians enacting this legislation have admittedly no technical knowledge, despite the
+fact that the vast majority of the people working in the tech industry have decried this
+as a universally uneducated and ineffective decision that will do more to hurt the innocent
+than to accomplish its stated objectives.</p>
+
+<p>This is the exact reason why I would not start a tech business in the US anymore.
+Starting a business is hard enough with everything else; worrying about the legal
+environment is too much and there are plenty of places where law enforcement does
+its job instead of placing the burden on you.</p>
+
+<p>Unfortunately, just leaving the country isn't going to let me just dodge the
+effects. What happens when you lose a large part of your market share (i.e. the
+US market)? <a href="http://www.arstechnica.com">Ars Technica</a> has a
+<a href="http://arstechnica.com/tech-policy/news/2012/01/what-does-sopa-mean-for-us-foreigners.ars">good writeup</a>
+on how SOPA/PIPA affect foreign users.</p>
+
+<p>So what could the government do instead?</p>
+
+<ul>
+<li>work on improving the technical skills of their workforce (not driving away the people with these skills with the government's current overwhelming ineptitude would be a good start)</li>
+<li>being far more transparent about the process of taking down a site</li>
+</ul>
+
+
+<p>Unfortunately, I don't have enough money to pay the government to listen to me.</p>
+
+<p>Further reading:</p>
+
+<ol>
+<li>The EFF has a good <a href="https://www.eff.org/takedowns">Takedown Wall of Shame</a>
+if you don't believe the government would possibly abuse or misuse their
+takedown powers.</li>
+<li>The EFF also has a <a href="https://www.eff.org/deeplinks/2012/01/how-pipa-and-sopa-violate-white-house-principles-supporting-free-speech">good writeup</a> on SOPA.</li>
+<li><a href="http://americancensorship.org/">Stop American Censorship</a></li>
+<li>Fight For the Future has a <a href="http://fightforthefuture.org/pipa">good video</a></li>
+</ol>
+
+
+<p>Thanks to <a href="http://samuelgoodwin.tumblr.com">Samuel Goodwin</a>, Beau Holton,
+<a href="https://twitter.com/#!/Slaughterhut">Jason Barbier</a>,
+<a href="http://twitter.com/qb1t">Aaron Bieber</a>,
+and <a href="http://twitter.com/imwally">Wally Jones</a> for reviewing this.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[on the police response to the occupy movement]]></title>
+    <link href="http://kisom.github.com/blog/2011/10/29/on-the-police-response-to-the-occupy-movement/"/>
+    <updated>2011-10-29T00:00:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2011/10/29/on-the-police-response-to-the-occupy-movement</id>
+    <content type="html"><![CDATA[<p>(Originally written on 2011-10-29 and an unusual departure from the usual technical content.)</p>
+
+<p>TL;DR One more combat veteran is disgusted and appalled by the actions of a few police officers during the course of the Occupy movement.</p>
+
+<!-- more -->
+
+
+<p>I just got done watching <a href="http://www.youtube.com/watch?v=WmEHcOc0Sys">this video</a>, and the outrage I feel towards those peace officers who disrespect the freedoms that I, and many better man than I, have ostensibly fought to protect, welled up in my chest like a Midwest thunderstorm. While we were told that our actions in Iraq were in the name of freedom, while many people back home who supported us with letters and care packages were told we were defending freedom, the basic rights of <strong>American citizens</strong> are being trampled on by a few officers and police departments.</p>
+
+<p>Right up front: I don't have anything against police officers. Yes, they do unpopular things. I understand that. When I came home, there were times when anti-war protesters took their protests to a personal level. As a 19 or 20 year old to return home from war, having seen friends and brothers killed, having experienced the trauma of being having your vehicle hit by an IED, and having had to make decision whether to take another man's life or not (despite not being considered old enough to be responsible enough to consume alcohol), to have people tell you that you are a baby killer is a fairly difficult and emotionally trying experience. I took several of my best years out of my life to serve my country and gave up quite a number of opportunities in order to do so. I understand many of the feelings that I am sure many police officers feel when ordinary citizens harass and rail on them for actions they take that are unpopular. I get it. I know that as despicable as resorting to violence is, the fact of the matter is that humanity forces the need. Would that we were all enlightened, instead of being little more than clever apes with Facebook, but I understand that is not the case. Trust me.</p>
+
+<p>But as a fighting man in an actual war zone - and despite the so-called "threat of terror" that supposedly "looms" here, America is not a war zone - had I fired even non-lethal rounds at unarmed civilians unprovoked because I felt scared due to the loud noises they were making, I would have faced military punishments. Many soldiers were punished for less. As a professional soldier, I am trained and expected to make reliable snap shoot/no-shoot judgements. During the surge in Iraq, when I was in a very kinetic (military word for an area of active fighting) environment, we still were held accountable for our actions. If use of force was justified (and it was on many occasions), there is no issue.</p>
+
+<p>So to see American police officers engaging American citizens who are not wielding weapons is aggravating in no small way. As I mentioned in the opening paragraph, rage is a much better term for the emotion. It isn't all the police officers, but just as a few soldiers cast shame over the entire US military, a few idiot police officers are casting shame over their departments and the governments they represent. If those officers were in my platoon, in addition to military judgement they would be taken out back and beaten.</p>
+
+<p>I don't want to rant, I don't want to say anything stupid, and I don't want to end up resorting to ad-hominem attacks. Suffice it to say that many of us in the military, regardless of our agreement (or lack thereof) with the protesters' cause, stood up and defended the right of those protesters to have their voice heard. It is a sad day when the populace needs protection from the very police officers whose job is allegedly to protect that self-same populace. Let us not forget who pays the salary of those police officers.</p>
+
+<p>For those police officers who maintain their calm and professional bearing, I applaud you. I understand the desire to smash stupid people in the face for saying and thinking stupid things. Unfortunately, as a police officer, you are bound to protect those people. I have been in similar situations in the military, and I understand the frustration. If you feel so strongly about it, do it the old-fashioned way - go on your own, out of uniform, and throw down. If it's a departmental policy to carry out those types of actions, then the government no longer serves its people and no longer upholds the Constitution, and it's time for you to be replaced.</p>
+]]></content>
+  </entry>
+  
+</feed>

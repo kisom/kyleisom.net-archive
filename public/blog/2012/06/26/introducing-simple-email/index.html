@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Introducing simple-email - EDOOFUS</title>
+  <meta name="author" content="Kyle Isom">
+
+  
+  <meta name="description" content="Recently, I was planning out a new Clojure project,
+and one of the desiderata was the ability to email out alerts. After doing a
+bit of searching, I &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kisom.github.com/blog/2012/06/26/introducing-simple-email">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="EDOOFUS" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=IM+Fell+English' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29320669-1']);
+  _gaq.push(['_setDomainName', 'kyleisom.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">EDOOFUS</a></h1>
+  
+    <h2>my commit log as a blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kisom.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/code">Code</a></li>
+  <li><a href="/book/">Book</a></li>
+  <li><a href="/resume/">Resumé</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Introducing Simple-email</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-26T20:04:00-06:00" pubdate data-updated="true">Jun 26<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Recently, I was planning out a new <a href="http://www.clojure.org">Clojure</a> project,
+and one of the desiderata was the ability to email out alerts. After doing a
+bit of searching, I couldn&#8217;t find any suitable libraries. They either didn&#8217;t
+work, or maintained global state (which I wanted to avoid for just firing
+off simple emails). However, I did run across <a href="http://will.groppe.us/post/406065542/sending-email-from-clojure">a post</a>
+talking about the
+<a href="http://commons.apache.org/">Apache Commons</a> <a href="http://commons.apache.org/email/">Email</a>
+library. I have no Java background and I&#8217;m fairly new to Clojure, so figuring out
+how to do some of the things I wanted was a bit interesting.</p>
+
+<p>What I set out to write was a simple email client that could offer a few basic features:</p>
+
+<ul>
+<li>a programmatic way to send emails to one or a list of recipients</li>
+<li>a way to avoid keeping shared state</li>
+<li>the ability to both synchronously and asynchronously send email</li>
+<li>sending plaintext emails (I personally hate HTML email)</li>
+</ul>
+
+
+<p>The result is <code>simple-email</code>; it is available via
+<a href="https://github.com/kisom/simple-email">Github</a> and
+<a href="https://clojars.org/simple-email">Clojars</a>.</p>
+
+<p>One of the central ideas to my planning was that an exception should not nuke
+the entire code. In this case, I think exceptions have been abused. Failure to
+send email is not an exceptional condition, at least not in my book. That is a
+routine and easily recoverable situation. Therefore, in this library all exceptions
+are caught, with the message and cause being sent back in the results.</p>
+
+<p>I&#8217;ve avoided keeping state by using a closure; when you want to send an email
+the values used to set up the mail server are applied each time. State is
+essentially simulated this way.</p>
+
+<p>Now that we&#8217;ve gone over the background, let&#8217;s take a look at how to use the
+library.</p>
+
+<p>At the time I wrote this, the current version of <code>simple-email</code> is <code>1.0.2</code> so
+in your <code>project.clj</code>, add <code>[simple-email "1.0.2"]</code> to your <code>:dependencies</code>. Then,
+in your code, you can <code>(:require [simple-email.core])</code>.</p>
+
+<p>The first step is to set up a mail server. The syntax for this is</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a2c8c18></p>
+
+<p>It is designed to be used in a <code>def</code>, i.e.</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a2c8380></p>
+
+<p>Alternatively, you can store this information in environment variables. The
+function <code>mail-server-from-env</code> will do this. The relevant environment variables
+are</p>
+
+<p>Liquid error: undefined method `join&#8217; for #&lt;String:0x007ffd7a2c7c50></p>
+
+<p><code>mail-server-from-env</code> will attempt to make sense of whatever is in the
+<code>MAIL_SSL</code> variable; &#8220;YES&#8221;, &#8216;yes&#8221;, &#8220;TRUE&#8221;, &#8220;true&#8221;, and 1 are all parsed
+as true; everything else is false. <code>mail-server-from-env</code> takes an optional
+argument that specifies the prefix to use for those variables, i.e. calling
+<code>(mail-server-from-env "MY_MAIL")</code> will search for <code>MY_MAIL_MAIL_HOST</code> etc&#8230;</p>
+
+<p>As mentioned before, the result is a closure that should now be passed to
+the relevant functions. There are four forms:</p>
+
+<ul>
+<li><code>send-to</code> and <code>send-to-async</code> are the forms for sending an email to a single
+recipient.</li>
+<li><code>send-mail</code> and <code>send-mail-async</code> are the forms for sending an email to
+multiple recipients.</li>
+</ul>
+
+
+<p>All four forms take the mail server returned from <code>mail-server</code> (or
+<code>mail-server-from-env</code>) as the first argument.</p>
+
+<p><code>send-to</code> and <code>send-to-async</code> take three additional string arguments:
+the recipient address, the subject, and the message.</p>
+
+<p><code>send-mail</code> and <code>send-mail-async</code> additionally take a vector or list argument
+specifying a collection of strings identifying recipient email addresses, and
+two string arguments specifying the subject and message.</p>
+
+<p><code>send-to</code> and <code>send-mail</code> are synchronous and will block until the mail is
+sent; they return a hash-map with the following keys:</p>
+
+<ul>
+<li><code>:ok</code>: true if the mail was successfully sent or false if there was an exception</li>
+<li><code>:message</code>: the message from the exception on error, nil on success</li>
+<li><code>:cause</code>: the cause of the exception on error, nil on success</li>
+</ul>
+
+
+<p>For example, if the mail was sent successfully, they would return something like</p>
+
+<p>Liquid error: undefined method `join&#8217; for &#8220;\n{ :ok true :message nil :cause nil }\n&#8221;:String</p>
+
+<p>Note that the call will fail if SSL is being used and the SSL certificate cannot be
+verified; I&#8217;m working on understanding the underlying Java behind this to identify
+a solution but I don&#8217;t have one at this time.</p>
+
+<p>The asynchronous forms use Clojure agents to send the email asynchronously,
+and return those agents for you to query at your leisure.</p>
+
+<p>This is the first library I&#8217;ve submitted to Clojars and feedback is definitely welcome.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kyle Isom</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-26T20:04:00-06:00" pubdate data-updated="true">Jun 26<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/clojure-development/'>clojure development</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://kisom.github.com/blog/2012/06/26/introducing-simple-email/" data-via="kyleisom" data-counturl="http://kisom.github.com/blog/2012/06/26/introducing-simple-email/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/06/11/clojure-development-on-openbsd/" title="Previous Post: Clojure Development on OpenBSD">&laquo; Clojure Development on OpenBSD</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/07/18/undefined-symbol-errors-in-lisp/" title="next Post: Undefined symbol errors in Lisp">Undefined symbol errors in Lisp &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/17/syntax-off/">:syntax off</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/06/threadsafe-counters/">Thread-Safe Counters in Go</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/17/lisp-cli/">Building Lisp Command Line Programs Using SBCL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/16/system-of-output/">A System of Useful Output</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/15/just-ship-it-v-proudifying-code/">'Just Ship It' v. 'Proudifying' Code</a>
+      </li>
+    
+  </ul>
+</section>
+<!-- 
+    from http://mizzy.org/blog/2012/01/13/coderwall-badges-on-the-sidebar/
+    tweaked by kisom
+-->
+
+<section>
+<h1>Coderwall <a href='http://coderwall.com/kisom'><img src='http://api.coderwall.com/kisom/endorse.png' /></a></h1>
+  <p>
+  <script type="text/javascript">
+    function display_coderwall(args) {
+        var badges = args["data"]["badges"];
+        for ( var i = 0; i < badges.length; i++ ) {
+            var alt = badges[i]["name"] + ': ' + badges[i]["description"];
+            var img = '<img src="' + badges[i]["badge"] + '"';
+            img = img + ' width="48" height="48" title="' + alt + '" />';
+            document.write(img);
+        }
+    }
+  </script>
+  <script src="http://coderwall.com/kisom.json?callback=display_coderwall"></script>
+  </p>
+<p style="text-align: right;">
+<a href="http://coderwall.com/kisom">Powered by coderwall.com</a>
+</p>
+</section>
+
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/kisom">@kisom</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kisom',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("kyleisom", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/kyleisom" class="twitter-follow-button" data-show-count="false">Follow @kyleisom</a>
+  
+</section>
+
+
+<section>
+  <h1>My Pinboard</h1>
+  <ul id="pinboard_linkroll">Fetching linkroll...</ul>
+  <p><a href="http://pinboard.in/u:kyleisom">My Pinboard Bookmarks &raquo;</a></p>
+</section>
+<script type="text/javascript">
+  var linkroll = 'pinboard_linkroll'; //id target for pinboard list
+  var pinboard_user = "kyleisom"; //id target for pinboard list
+  var pinboard_count = 3; //id target for pinboard list
+  (function(){
+    var pinboardInit = document.createElement('script');
+    pinboardInit.type = 'text/javascript';
+    pinboardInit.async = true;
+    pinboardInit.src = '/javascripts/pinboard.js';
+    document.getElementsByTagName('head')[0].appendChild(pinboardInit);
+  })();
+</script>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>Copyright &copy; 2012 - Kyle Isom -
+  <span class="credit">Powered by <a
+  href="http://octopress.org">Octopress</a></span> | <a
+href="http://feedburner.google.com/fb/a/mailverify?uri=conshacklife&amp">
+Subscribe to (cons 'hack *life*) by Email</a></p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '4f46fe1ecb25bc2de6000022');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+
+</body>
+</html>

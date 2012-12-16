@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tmux | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/tmux/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[tmux as an IDE]]></title>
+    <link href="http://kisom.github.com/blog/2010/06/22/tmux-as-an-IDE/"/>
+    <updated>2010-06-22T11:59:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2010/06/22/tmux-as-an-IDE</id>
+    <content type="html"><![CDATA[<p>It may not sound feasible, but I currently use tmux as my IDE. Getting it
+running under Fedora wasn't as simple as <code>sudo yum install tmux</code>, but it was
+almost that easy. Instead, install <code>libevent-devel</code>, download the
+<a href="http://tmux.sourceforge.net/">tmux source code</a>, and build it normally.</p>
+
+<p>I found <a href="http://www.dayid.org/os/notes/tm.html">dayid's tmux cheat sheet</a>
+pretty handy for getting everything set up.</p>
+
+<p>Basically, I start a new tmux session, split the screen vertically, and then
+split one of the panes horizontally. My set up looks like this:
+<a href="/images/tmuxide.png"><img src="/images/tmuxide.t.png" alt="tmux IDE screenshot" /></a></p>
+
+<p>The vertical pane on the left serves as my code editing window. I have my keys
+remapped in vim such that <code>^p</code> and <code>^n</code> cycle through the files I have open
+when I open multiple files. The top right pane is my git (or other version
+control) window, and the bottom right pane is my make / code testing window.
+Sometimes I flip sides, i.e. the vim session is on the right instead. <code>^b o</code>
+cycles through sessions.</p>
+]]></content>
+  </entry>
+  
+</feed>

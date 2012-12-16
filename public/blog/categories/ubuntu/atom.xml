@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ubuntu | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Compiling Source Navigator in Ubuntu 10.04]]></title>
+    <link href="http://kisom.github.com/blog/2010/07/22/compiling-source-navigator-in-ubuntu-10-dot-04/"/>
+    <updated>2010-07-22T13:21:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2010/07/22/compiling-source-navigator-in-ubuntu-10-dot-04</id>
+    <content type="html"><![CDATA[<p>Compiling source navigator under Ubuntu 10.04 is fairly easy once you
+get the dependencies down. Grab the source from
+<a href="http://sourcenav.sourceforge.net/">the sourceforge page</a>.
+The dependencies you need are:</p>
+
+<pre><code>tk tklib libx11-dev libxmu-dev libxmu-headers libxt-dev libtool
+</code></pre>
+
+<p>Of course you also need <code>build-essential</code>. Then a quick
+<code>bash
+./configure --prefix=/opt/source-nav
+make
+sudo make install
+</code></p>
+
+<p>should do the trick.</p>
+]]></content>
+  </entry>
+  
+</feed>

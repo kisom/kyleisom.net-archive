@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: clojure development | EDOOFUS]]></title>
+  <link href="http://kisom.github.com/blog/categories/clojure-development/atom.xml" rel="self"/>
+  <link href="http://kisom.github.com/"/>
+  <updated>2012-11-21T22:57:32-07:00</updated>
+  <id>http://kisom.github.com/</id>
+  <author>
+    <name><![CDATA[Kyle Isom]]></name>
+    <email><![CDATA[coder@kyleisom.net]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Introducing simple-email]]></title>
+    <link href="http://kisom.github.com/blog/2012/06/26/introducing-simple-email/"/>
+    <updated>2012-06-26T20:04:00-06:00</updated>
+    <id>http://kisom.github.com/blog/2012/06/26/introducing-simple-email</id>
+    <content type="html"><![CDATA[<p>Recently, I was planning out a new <a href="http://www.clojure.org">Clojure</a> project,
+and one of the desiderata was the ability to email out alerts. After doing a
+bit of searching, I couldn't find any suitable libraries. They either didn't
+work, or maintained global state (which I wanted to avoid for just firing
+off simple emails). However, I did run across <a href="http://will.groppe.us/post/406065542/sending-email-from-clojure">a post</a>
+talking about the
+<a href="http://commons.apache.org/">Apache Commons</a> <a href="http://commons.apache.org/email/">Email</a>
+library. I have no Java background and I'm fairly new to Clojure, so figuring out
+how to do some of the things I wanted was a bit interesting.</p>
+
+<p>What I set out to write was a simple email client that could offer a few basic features:</p>
+
+<ul>
+<li>a programmatic way to send emails to one or a list of recipients</li>
+<li>a way to avoid keeping shared state</li>
+<li>the ability to both synchronously and asynchronously send email</li>
+<li>sending plaintext emails (I personally hate HTML email)</li>
+</ul>
+
+
+<p>The result is <code>simple-email</code>; it is available via
+<a href="https://github.com/kisom/simple-email">Github</a> and
+<a href="https://clojars.org/simple-email">Clojars</a>.</p>
+
+<p>One of the central ideas to my planning was that an exception should not nuke
+the entire code. In this case, I think exceptions have been abused. Failure to
+send email is not an exceptional condition, at least not in my book. That is a
+routine and easily recoverable situation. Therefore, in this library all exceptions
+are caught, with the message and cause being sent back in the results.</p>
+
+<p>I've avoided keeping state by using a closure; when you want to send an email
+the values used to set up the mail server are applied each time. State is
+essentially simulated this way.</p>
+
+<p>Now that we've gone over the background, let's take a look at how to use the
+library.</p>
+
+<p>At the time I wrote this, the current version of <code>simple-email</code> is <code>1.0.2</code> so
+in your <code>project.clj</code>, add <code>[simple-email "1.0.2"]</code> to your <code>:dependencies</code>. Then,
+in your code, you can <code>(:require [simple-email.core])</code>.</p>
+
+<p>The first step is to set up a mail server. The syntax for this is</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad4e598></p>
+
+<p>It is designed to be used in a <code>def</code>, i.e.</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad4e098></p>
+
+<p>Alternatively, you can store this information in environment variables. The
+function <code>mail-server-from-env</code> will do this. The relevant environment variables
+are</p>
+
+<p>Liquid error: undefined method `join' for #<String:0x007ffd7ad4db98></p>
+
+<p><code>mail-server-from-env</code> will attempt to make sense of whatever is in the
+<code>MAIL_SSL</code> variable; "YES", 'yes", "TRUE", "true", and 1 are all parsed
+as true; everything else is false. <code>mail-server-from-env</code> takes an optional
+argument that specifies the prefix to use for those variables, i.e. calling
+<code>(mail-server-from-env "MY_MAIL")</code> will search for <code>MY_MAIL_MAIL_HOST</code> etc...</p>
+
+<p>As mentioned before, the result is a closure that should now be passed to
+the relevant functions. There are four forms:</p>
+
+<ul>
+<li><code>send-to</code> and <code>send-to-async</code> are the forms for sending an email to a single
+recipient.</li>
+<li><code>send-mail</code> and <code>send-mail-async</code> are the forms for sending an email to
+multiple recipients.</li>
+</ul>
+
+
+<p>All four forms take the mail server returned from <code>mail-server</code> (or
+<code>mail-server-from-env</code>) as the first argument.</p>
+
+<p><code>send-to</code> and <code>send-to-async</code> take three additional string arguments:
+the recipient address, the subject, and the message.</p>
+
+<p><code>send-mail</code> and <code>send-mail-async</code> additionally take a vector or list argument
+specifying a collection of strings identifying recipient email addresses, and
+two string arguments specifying the subject and message.</p>
+
+<p><code>send-to</code> and <code>send-mail</code> are synchronous and will block until the mail is
+sent; they return a hash-map with the following keys:</p>
+
+<ul>
+<li><code>:ok</code>: true if the mail was successfully sent or false if there was an exception</li>
+<li><code>:message</code>: the message from the exception on error, nil on success</li>
+<li><code>:cause</code>: the cause of the exception on error, nil on success</li>
+</ul>
+
+
+<p>For example, if the mail was sent successfully, they would return something like</p>
+
+<p>Liquid error: undefined method `join' for "\n{ :ok true :message nil :cause nil }\n":String</p>
+
+<p>Note that the call will fail if SSL is being used and the SSL certificate cannot be
+verified; I'm working on understanding the underlying Java behind this to identify
+a solution but I don't have one at this time.</p>
+
+<p>The asynchronous forms use Clojure agents to send the email asynchronously,
+and return those agents for you to query at your leisure.</p>
+
+<p>This is the first library I've submitted to Clojars and feedback is definitely welcome.</p>
+]]></content>
+  </entry>
+  
+</feed>

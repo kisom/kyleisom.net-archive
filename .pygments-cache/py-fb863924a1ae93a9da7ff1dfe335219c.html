@@ -1,0 +1,58 @@
+<div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c">#</span>
+<span class="c"># author: kyle isom &lt;coder@kyleisom.net&gt;</span>
+<span class="c"># date: 2012-01-23</span>
+<span class="c"># license: ISC / public domain (brokenlcd.net/license.txt)</span>
+<span class="c">#</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Python illustrations for blog article &quot;Basic Set Theory&quot;</span>
+<span class="sd">    (see http://kisom.github.com/blog/2012/01/23/basic-set-theory/)</span>
+
+<span class="sd">Note that this is slightly tweaked from the examples in the article:</span>
+<span class="sd">    1. PEP8 dictates that all globals be in all caps; as all the variables</span>
+<span class="sd">    in this illustration are globals, they have been modified to be all caps.</span>
+<span class="sd">    2. There is a little extra output to explain what is going on; namely,</span>
+<span class="sd">    tabs are added before printing books and there is an output line showing</span>
+<span class="sd">    which example the book set is associated with.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c"># variables are in all caps because they are globals, and PEP8 dictates</span>
+<span class="c"># that globals be in caps.</span>
+
+<span class="c"># the superset</span>
+<span class="n">LIBRARY</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Learning OpenCV&#39;</span><span class="p">,</span>
+               <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span> <span class="s">&#39;Mastering Algorithms with C&#39;</span><span class="p">,</span>
+               <span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
+               <span class="s">&#39;Algorithms In A Nutshell&#39;</span><span class="p">,</span>
+               <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">,</span>
+               <span class="s">&#39;Network Security With OpenSSL&#39;</span><span class="p">,</span> <span class="s">&#39;RADIUS&#39;</span><span class="p">])</span>
+
+<span class="c"># the subsets</span>
+<span class="n">MOBI</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;Natural Language Processing with Python&#39;</span><span class="p">,</span> <span class="s">&#39;Code Complete&#39;</span><span class="p">,</span>
+           <span class="s">&#39;Introduction to Information Retrieval&#39;</span><span class="p">])</span>
+<span class="n">EPUB</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;The Joy of Clojure&#39;</span><span class="p">,</span> <span class="s">&#39;Mining the Social Web&#39;</span><span class="p">,</span>
+            <span class="s">&#39;Code Complete&#39;</span><span class="p">])</span>
+
+
+<span class="k">print</span> <span class="s">&#39;[+] list all the books in a mobile format (union example):&#39;</span>
+<span class="n">MOBILE</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">MOBILE</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+
+<span class="k">print</span> <span class="s">&#39;[+] list all the books in both mobile formats (intersection example)&#39;</span>
+<span class="n">BOTH_FORMATS</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">BOTH_FORMATS</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+
+<span class="n">ONLY_MOBI</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">MOBI</span><span class="p">,</span> <span class="n">EPUB</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&#39;[+] books only in mobi format:&#39;</span>
+<span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">ONLY_MOBI</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+
+<span class="n">ONLY_EPUB</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">EPUB</span><span class="p">,</span> <span class="n">MOBI</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&#39;[+] books only in epub format:&#39;</span>
+<span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">ONLY_EPUB</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">book</span>
+</pre>
+</div>

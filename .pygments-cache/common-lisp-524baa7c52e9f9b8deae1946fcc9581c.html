@@ -1,0 +1,16 @@
+<div class="highlight"><pre><span class="nv">CL-USER&gt;</span> <span class="p">(</span><span class="nv">deftest</span> <span class="nv">test-fn</span> <span class="p">()</span> <span class="p">(</span><span class="nb">format</span> <span class="no">t</span> <span class="s">&quot;testing~%&quot;</span><span class="p">))</span>
+<span class="c1">; in: DEFTEST TEST-+</span>
+<span class="c1">;     (LET ((*TEST-NAME* TEST-+))</span>
+<span class="c1">;       (FORMAT T &quot;ohai~%&quot;))</span>
+<span class="c1">; </span>
+<span class="c1">; caught WARNING:</span>
+<span class="c1">;   undefined variable: TEST-FN</span>
+<span class="c1">; </span>
+<span class="c1">; compilation unit finished</span>
+<span class="c1">;   Undefined variable:</span>
+<span class="c1">;     TEST-FN</span>
+<span class="c1">;   caught 1 WARNING condition</span>
+<span class="nv">TEST-FN</span>
+<span class="nv">CL-USER&gt;</span> 
+</pre>
+</div>
